@@ -2003,12 +2003,14 @@
             totalSeconds = (((parseInt(config#id#.battery.soc.state) - config#id#.battery.soc.shutdown) / 100) * config#id#.battery.energy) / 1 * 60 * 60;
           } else if (config#id#.battery.power_state > 0) {
             if (debug#id#) console.log('| power_state > 0')
-            totalSeconds = (((parseInt(config#id#.battery.soc.state) - battery_capacity) / 100) * config#id#.battery.energy) / config#id#.battery.power_state * 60 * 60;
-            if (debug#id#) console.log('| energie restante = ' + ((parseInt(config#id#.battery.soc.state) - battery_capacity) / 100) * config#id#.battery.energy)
+            //totalSeconds = (((parseInt(config#id#.battery.soc.state) - battery_capacity) / 100) * config#id#.battery.energy) / config#id#.battery.power_state * 60 * 60;
+            totalSeconds = (((config#id#.battery.soc.state - battery_capacity) / 100) * config#id#.battery.energy) / config#id#.battery.power_state * 60 * 60;
+            if (debug#id#) console.log('| energie restante = ' + ((config#id#.battery.soc.state - battery_capacity) / 100) * config#id#.battery.energy)
           } else if (config#id#.battery.power_state < 0) {
             if (debug#id#) console.log('| power_state < 0')
-            totalSeconds = ((((battery_capacity - parseInt(config#id#.battery.soc.state)) / 100) * config#id#.battery.energy) / config#id#.battery.power_state) * 60 * 60 * -1;
-            if (debug#id#) console.log('| energie restante = ' + ((battery_capacity - parseInt(config#id#.battery.soc.state)) / 100) * config#id#.battery.energy)
+            //totalSeconds = ((((battery_capacity - parseInt(config#id#.battery.soc.state)) / 100) * config#id#.battery.energy) / config#id#.battery.power_state) * 60 * 60 * -1;
+            totalSeconds = ((((battery_capacity - config#id#.battery.soc.state) / 100) * config#id#.battery.energy) / config#id#.battery.power_state) * 60 * 60 * -1;
+            if (debug#id#) console.log('| energie restante = ' + ((battery_capacity - config#id#.battery.soc.state) / 100) * config#id#.battery.energy)
           }
           if (debug#id#) console.log('| totalSeconds = ' + totalSeconds)
           
