@@ -2051,13 +2051,13 @@
           }
           if(timer_in#id# === false) {
             if (debug#id#) console.log('| initialisation de la tempo')
-            timer_in#id# = setInterval(calculateBattery#id#, 30000, 'timer_in')
+            timer_in#id# = setInterval(calculateBattery#id#, 60000, 'timer_in')
           }
           else {
             if (debug#id#) console.log('| delete de la tempo & reinitialisation')
             clearInterval(timer_in#id#)
             timer_in#id# === false
-            timer_in#id# = setInterval(calculateBattery#id#, 30000, 'timer_in')
+            timer_in#id# = setInterval(calculateBattery#id#, 60000, 'timer_in')
           }
         }
       } // ElDomExist
