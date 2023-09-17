@@ -3,7 +3,7 @@
   Widget name : cmd.info.string.distribution_onduleur
   Author : Phpvarious
   Inspiration : https://github.com/slipx06/sunsynk-power-flow-card/tree/master
-  Last Uptade : 2023/09/12 15h30 - Phpvarious
+  Last Uptade : 2023/09/17 16h00 - Phpvarious
 
   ###### TODO ######
 -->
@@ -19,55 +19,31 @@
       --background#id#: transparent;
       --no_grid_colour#id#: #db041c;
     }
-    .widget#id#{
-    /* position: absolute; */
-    width: 100%;
-    }
+    .widget#id#{width: 100%;}
     .container#id# {
-    /* display: flex; */
-    /* flex-direction: column;*/
-    /*align-items: center;*/
-    justify-content: center;
-    height: 100%;
-    width: 100%;
-    /*padding: 5px;*/
+      justify-content: center;
+      height: 100%;
+      width: 100%;
     }
-    .card#id# {
-    /*border-radius: var(--ha-card-border-radius, 10px);
-    box-shadow: var(--ha-card-box-shadow, 0px 0px 0px 1px rgba(0, 0, 0, 0.12), 0px 0px 0px 0px rgba(0, 0, 0, 0.12), 0px 0px 0px 0px rgba(0, 0, 0, 0.12));*/
-    background: var(--background#id#, transparent);
-    /*border-width: var(--ha-card-border-width);*/
-    /*padding: 0px;*/
-    }
+    .card#id# {background: var(--background#id#, transparent);}
     .left-align#id# {text-anchor: start;}
     .right-align#id# {text-anchor: end;}
     .center-align#id# {text-anchor: middle;}
-    /* .st1{fill:#ff9b30;} */
-    /* .st2{fill:#f3b3ca;} */
-    .st3#id#{font-size:9px;}
-    .st4#id#{font-size:14px;}
-    /* .st5{fill:#969696;} */
-    /* .st6{fill:#5fb6ad;} */
-    /* .st7{fill:#5490c2;} */
-    .st8#id#{font-weight:500}
-    /* .st9{fill:#959595;} */
-    .st10#id#{font-size:16px;}
-    /*.st11{fill:transparent;}*/
-    .st12#id#{display:none;}
-    .st13#id#{font-size:22px;}
-    .st14#id#{font-size:12px;}
-    .st13#id#{font-size:18px;}
-    
-    .essload-icon#id# {
-      color: var(--load_colour#id#) !important;
-          /* --mdc-icon-size: 32px; */
-    }
+    .ft8-#id#{font-size:8px;}
+    .ft9-#id#{font-size:9px;}
+    .ft12-#id#{font-size:12px;}
+    .ft14-#id#{font-size:14px;}
+    .ft16-#id#{font-size:16px;}
+    .ft18-#id#{font-size:18px;}
+    .ft22-#id#{font-size:22px;}
+    .ftw-#id#{font-weight:500}
+    .hidden-#id#{display:none;}
   </style>
   <script>
     var debug#id# = ('#debug#' == 1) ? true : false;
     var fullJs#id# = false
     var jeedomVersion#id# = 4.4
-    var versionWidget#id# = '12/09/2023 15h30'
+    var versionWidget#id# = '17/09/2023 16h00'
     
     if (debug#id#) console.log('┌─────────────────── Widget Distribution Onduleur [#id#] Compatibilité V4.3 V4.4 [' + versionWidget#id# + '] ───────────────')
     /* Compatibilité V4.2 V4.3 V4.4 */
@@ -169,19 +145,19 @@
       if (debug#id#) console.log('|| load = ' +  load)
       let svg = ''
       if(icone === 'oven'){
-        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="368" y="' + ((load === 1) ? '113' : '287') +'" width="36" height="36" viewBox="0 0 32 32" opacity="1"><path fill="var(--load_colour#id#)" d="M3 7.5A4.5 4.5 0 0 1 7.5 3h17A4.5 4.5 0 0 1 29 7.5v17a4.5 4.5 0 0 1-4.5 4.5h-17A4.5 4.5 0 0 1 3 24.5v-17Zm24 0A2.5 2.5 0 0 0 24.5 5h-17A2.5 2.5 0 0 0 5 7.5V11h22V7.5Zm0 17V13H5v11.5A2.5 2.5 0 0 0 7.5 27h17a2.5 2.5 0 0 0 2.5-2.5Zm-17-15a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3Zm6 0a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3ZM23.5 8a1.5 1.5 0 1 1-3 0a1.5 1.5 0 0 1 3 0ZM9 23v-6h14v6H9Zm-.5-8A1.5 1.5 0 0 0 7 16.5v7A1.5 1.5 0 0 0 8.5 25h15a1.5 1.5 0 0 0 1.5-1.5v-7a1.5 1.5 0 0 0-1.5-1.5h-15Z"/></svg>' // 113 // 287
+        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="' + ((load === 3 || load === 4) ? '484' : '404') +'" y="' + ((load === 1 || load === 3) ? '160' : '269') +'" width="30" height="30" viewBox="0 0 32 32" opacity="1"><path fill="var(--load_colour#id#)" d="M3 7.5A4.5 4.5 0 0 1 7.5 3h17A4.5 4.5 0 0 1 29 7.5v17a4.5 4.5 0 0 1-4.5 4.5h-17A4.5 4.5 0 0 1 3 24.5v-17Zm24 0A2.5 2.5 0 0 0 24.5 5h-17A2.5 2.5 0 0 0 5 7.5V11h22V7.5Zm0 17V13H5v11.5A2.5 2.5 0 0 0 7.5 27h17a2.5 2.5 0 0 0 2.5-2.5Zm-17-15a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3Zm6 0a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3ZM23.5 8a1.5 1.5 0 1 1-3 0a1.5 1.5 0 0 1 3 0ZM9 23v-6h14v6H9Zm-.5-8A1.5 1.5 0 0 0 7 16.5v7A1.5 1.5 0 0 0 8.5 25h15a1.5 1.5 0 0 0 1.5-1.5v-7a1.5 1.5 0 0 0-1.5-1.5h-15Z"/></svg>' // 113 // 287
       }
       else if(icone === 'pump'){
-        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="368" y="' + ((load === 1) ? '113' : '287') +'" width="36" height="36" viewBox="0 0 24 24" opacity="1"><path fill="var(--load_colour#id#)" d="M3 17h4.1q-.425-.425-.787-.925T5.675 15H3v2Zm9 0q2.075 0 3.538-1.463T17 12q0-2.075-1.463-3.538T12 7Q9.925 7 8.462 8.463T7 12q0 2.075 1.463 3.538T12 17Zm6.325-8H21V7h-4.1q.425.425.788.925T18.325 9ZM1 20v-8h2v1h2.075q-.05-.25-.063-.488T5 12q0-2.925 2.038-4.963T12 5h9V4h2v8h-2v-1h-2.075q.05.25.063.488T19 12q0 2.925-2.038 4.963T12 19H3v1H1Zm2-3v-2v2Zm18-8V7v2Zm-9 3Zm0 3q-.825 0-1.413-.588T10 13q0-.575.238-1.137t.912-1.613L12 9l.85 1.25q.675 1.05.913 1.613T14 13q0 .825-.588 1.413T12 15Z"/></svg>'
+        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="' + ((load === 3 || load === 4) ? '484' : '404') +'" y="' + ((load === 1 || load === 3) ? '160' : '269') +'" width="30" height="30" viewBox="0 0 24 24" opacity="1"><path fill="var(--load_colour#id#)" d="M3 17h4.1q-.425-.425-.787-.925T5.675 15H3v2Zm9 0q2.075 0 3.538-1.463T17 12q0-2.075-1.463-3.538T12 7Q9.925 7 8.462 8.463T7 12q0 2.075 1.463 3.538T12 17Zm6.325-8H21V7h-4.1q.425.425.788.925T18.325 9ZM1 20v-8h2v1h2.075q-.05-.25-.063-.488T5 12q0-2.925 2.038-4.963T12 5h9V4h2v8h-2v-1h-2.075q.05.25.063.488T19 12q0 2.925-2.038 4.963T12 19H3v1H1Zm2-3v-2v2Zm18-8V7v2Zm-9 3Zm0 3q-.825 0-1.413-.588T10 13q0-.575.238-1.137t.912-1.613L12 9l.85 1.25q.675 1.05.913 1.613T14 13q0 .825-.588 1.413T12 15Z"/></svg>'
       }
       else if(icone === 'aircon'){
-        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="374" y="' + ((load === 1) ? '118' : '291') +'" width="28" height="28" viewBox="0 0 24 24" opacity="1"><path fill="var(--load_colour#id#)" d="M6.59.66c2.34-1.81 4.88.4 5.45 3.84c.43 0 .85.12 1.23.34c.52-.6.98-1.42.8-2.34c-.42-2.15 1.99-3.89 4.28-.92c1.81 2.34-.4 4.88-3.85 5.45c0 .43-.11.86-.34 1.24c.6.51 1.42.97 2.34.79c2.13-.42 3.88 1.98.91 4.28c-2.34 1.81-4.88-.4-5.45-3.84c-.43 0-.85-.13-1.22-.35c-.52.6-.99 1.43-.81 2.35c.42 2.14-1.99 3.89-4.28.92c-1.82-2.35.4-4.89 3.85-5.45c0-.43.13-.85.35-1.23c-.6-.51-1.42-.98-2.35-.8c-2.13.42-3.88-1.98-.91-4.28M5 16h2a2 2 0 0 1 2 2v6H7v-2H5v2H3v-6a2 2 0 0 1 2-2m0 2v2h2v-2H5m7.93-2H15l-2.93 8H10l2.93-8M18 16h3v2h-3v4h3v2h-3a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2Z"/></svg>'
+        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="' + ((load === 3 || load === 4) ? '484' : '404') +'" y="' + ((load === 1 || load === 3) ? '162' : '269') +'" width="25" height="25" viewBox="0 0 24 24" opacity="1"><path fill="var(--load_colour#id#)" d="M6.59.66c2.34-1.81 4.88.4 5.45 3.84c.43 0 .85.12 1.23.34c.52-.6.98-1.42.8-2.34c-.42-2.15 1.99-3.89 4.28-.92c1.81 2.34-.4 4.88-3.85 5.45c0 .43-.11.86-.34 1.24c.6.51 1.42.97 2.34.79c2.13-.42 3.88 1.98.91 4.28c-2.34 1.81-4.88-.4-5.45-3.84c-.43 0-.85-.13-1.22-.35c-.52.6-.99 1.43-.81 2.35c.42 2.14-1.99 3.89-4.28.92c-1.82-2.35.4-4.89 3.85-5.45c0-.43.13-.85.35-1.23c-.6-.51-1.42-.98-2.35-.8c-2.13.42-3.88-1.98-.91-4.28M5 16h2a2 2 0 0 1 2 2v6H7v-2H5v2H3v-6a2 2 0 0 1 2-2m0 2v2h2v-2H5m7.93-2H15l-2.93 8H10l2.93-8M18 16h3v2h-3v4h3v2h-3a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2Z"/></svg>'
       }
       else if(icone === 'boiler'){
-        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="371" y="' + ((load === 1) ? '115' : '289') +'" width="34" height="34" viewBox="0 0 24 24" opacity="1"><path fill="var(--load_colour#id#)" d="M9.3 10.775q0 .475.163.925t.462.825q.05-.3.2-.588t.375-.487L12 10l1.475 1.475q.225.2.375.475t.2.575q.275-.375.487-.8t.213-.9q0-.475-.15-.913t-.45-.812q-.275.125-.563.2T13 9.375q-.75 0-1.375-.425t-.95-1.125q-.3.3-.55.637t-.438.713Q9.5 9.55 9.4 9.95t-.1.825ZM12 12.1l-.425.425q-.1.1-.138.2t-.037.225q0 .25.175.4t.425.15q.25 0 .425-.15t.175-.4q0-.125-.037-.225t-.138-.2L12 12.1ZM12 5v1.9q0 .425.3.713t.725.287q.275 0 .5-.162t.4-.388l.175-.25q1.025.575 1.588 1.563t.562 2.162q0 1.75-1.25 2.963T12 15q-1.75 0-2.975-1.225T7.8 10.8q0-1.925 1.225-3.425T12 5ZM6 22q-.825 0-1.413-.588T4 20V6q0-1.65 1.175-2.825T8 2h8q1.65 0 2.825 1.175T20 6v14q0 .825-.588 1.413T18 22H6Zm0-4v2h12v-2q-.75 0-1.2.5T15 19q-1.35 0-1.763-.5T12 18q-.825 0-1.238.5T9 19q-1.35 0-1.763-.5T6 18Zm3-1q.825 0 1.238-.5T12 16q1.35 0 1.8.5t1.2.5q.75 0 1.2-.5T18 16V6q0-.825-.588-1.413T16 4H8q-.825 0-1.413.588T6 6v10q1.35 0 1.763.5T9 17Z"/></svg>'
+        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="' + ((load === 3 || load === 4) ? '484' : '404') +'" y="' + ((load === 1 || load === 3) ? '160' : '269') +'" width="30" height="30" viewBox="0 0 24 24" opacity="1"><path fill="var(--load_colour#id#)" d="M9.3 10.775q0 .475.163.925t.462.825q.05-.3.2-.588t.375-.487L12 10l1.475 1.475q.225.2.375.475t.2.575q.275-.375.487-.8t.213-.9q0-.475-.15-.913t-.45-.812q-.275.125-.563.2T13 9.375q-.75 0-1.375-.425t-.95-1.125q-.3.3-.55.637t-.438.713Q9.5 9.55 9.4 9.95t-.1.825ZM12 12.1l-.425.425q-.1.1-.138.2t-.037.225q0 .25.175.4t.425.15q.25 0 .425-.15t.175-.4q0-.125-.037-.225t-.138-.2L12 12.1ZM12 5v1.9q0 .425.3.713t.725.287q.275 0 .5-.162t.4-.388l.175-.25q1.025.575 1.588 1.563t.562 2.162q0 1.75-1.25 2.963T12 15q-1.75 0-2.975-1.225T7.8 10.8q0-1.925 1.225-3.425T12 5ZM6 22q-.825 0-1.413-.588T4 20V6q0-1.65 1.175-2.825T8 2h8q1.65 0 2.825 1.175T20 6v14q0 .825-.588 1.413T18 22H6Zm0-4v2h12v-2q-.75 0-1.2.5T15 19q-1.35 0-1.763-.5T12 18q-.825 0-1.238.5T9 19q-1.35 0-1.763-.5T6 18Zm3-1q.825 0 1.238-.5T12 16q1.35 0 1.8.5t1.2.5q.75 0 1.2-.5T18 16V6q0-.825-.588-1.413T16 4H8q-.825 0-1.413.588T6 6v10q1.35 0 1.763.5T9 17Z"/></svg>'
       }
       else if(icone === 'charging'){
-        svg = '<svg xmlns="http://www.w3.org/2000/svg" id=""iconLoad' + load + '#id#" x="371" y="' + ((load === 1) ? '118' : '292') +'" width="28" height="28" viewBox="0 0 24 24" opacity="1"><path fill="var(--load_colour#id#)" d="M22,2V4H20V2H18V6a2,2,0,0,0,2,2V18a1,1,0,0,1-1,1H16V11H13V9h3V3a3,3,0,0,0-3-3H3A3,3,0,0,0,0,3V9H3v2H0V24H16V21h3a3,3,0,0,0,3-3V8a2,2,0,0,0,2-2V2ZM10.772,11.426,9.008,14.959l-1.789-.893L8.75,11H6.615A1.614,1.614,0,0,1,5.07,8.917L7.293,4.756l1.76.949L7.275,9H9.4a1.6,1.6,0,0,1,1.376,2.426Z"/></svg>'
+        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="' + ((load === 3 || load === 4) ? '489' : '409') +'" y="' + ((load === 1 || load === 3) ? '162' : '271') +'" width="25" height="25" viewBox="0 0 24 24" opacity="1"><path fill="var(--load_colour#id#)" d="M22,2V4H20V2H18V6a2,2,0,0,0,2,2V18a1,1,0,0,1-1,1H16V11H13V9h3V3a3,3,0,0,0-3-3H3A3,3,0,0,0,0,3V9H3v2H0V24H16V21h3a3,3,0,0,0,3-3V8a2,2,0,0,0,2-2V2ZM10.772,11.426,9.008,14.959l-1.789-.893L8.75,11H6.615A1.614,1.614,0,0,1,5.07,8.917L7.293,4.756l1.76.949L7.275,9H9.4a1.6,1.6,0,0,1,1.376,2.426Z"/></svg>'
       }
       if (debug#id#) console.log('|└────────────────────────────────────')
       return svg
@@ -215,16 +191,16 @@
         ratio_text:'Ratio', // affiché si autarky != no
         model: 'sunsynk',
         voltage_state: false,
-        voltage_unite: 'V',
+        voltage_unit: 'V',
         frequency_state: false,
-        frequency_unite: 'Hz',
+        frequency_unit: 'Hz',
         current_state: false,
-        current_unite: 'A',
+        current_unit: 'A',
         temp:{
           ac_state: false,
-          ac_unite: '',
+          ac_unit: '',
           dc_state: false,
-          dc_unite: ''
+          dc_unit: ''
         },
         prog: { //--------------- Todo
           show: false,
@@ -237,18 +213,18 @@
         animation_speed: 5,
         energy: false, 
         voltage_state: false,
-        voltage_unite: 'V',
+        voltage_unit: 'V',
         current_state: false,
-        current_unite: 'A',
+        current_unit: 'A',
         power_state: 0,
-        power_unite: 'W',
+        power_unit: 'W',
         daily: {
           show_charge: false,
           show_discharge: false,
           charge_state: 0,
           discharge_state: 0,
-          charge_unite: '',
-          discharge_unite: '',
+          charge_unit: '',
+          discharge_unit: '',
           text_charge: 'CHARGE JOUR',
           text_discharge: 'DECHARGE JOUR',
         },
@@ -262,7 +238,7 @@
         temp: {
           show: false,
           state: 0,
-          unite: '°'
+          unit: '°'
         }
       },
       solar: {
@@ -271,57 +247,67 @@
         daily: {
           show: false,
           state: 0,
-          unite: '',
+          unit: '',
           text: 'PROD JOUR',
           text_left: 'DAILY SOLAR / LEFT TODAY',
           remaining_show: false,
           remaining_state: 0,
-          remaining_unite: 'T'
+          remaining_unit: 'T'
         },
         mppts: 0,
         pv1: {
           name: '',
           power: 0,
+          energy: false,
+          energy_unit: '',
           voltage: false,
-          voltage_unite: 'A',
+          voltage_unit: 'A',
           current: false,
-          current_unite: 0
+          current_unit: 0
         },
         pv2: {
           name: '',
           power: 0,
+          energy: false,
+          energy_unit: '',
           voltage: false,
-          voltage_unite: 'A',
+          voltage_unit: 'A',
           current: false,
-          current_unite: 0
+          current_unit: 0
         },
         pv3: {
           name: '',
           power: 0,
+          energy: false,
+          energy_unit: '',
           voltage: false,
-          voltage_unite: 'A',
+          voltage_unit: 'A',
           current: false,
-          current_unite: 0
+          current_unit: 0
         },
         pv4: {
           name: '',
           power: 0,
+          energy: false,
+          energy_unit: '',
           voltage: false,
-          voltage_unite: 'A',
+          voltage_unit: 'A',
           current: false,
-          current_unite: 0
+          current_unit: 0
         },
-        unite: 'W',
+        unit: 'W',
         sell: false, // on, off, 1, 0, undefined // Todo        
       },
       load: {
         animation_speed: 5,
         max_power: false,
+        power: 0,
+        unit: 'W',
         daily:{
           show: false,
           text: 'CONSO JOUR',
           state: 0,
-          unite: '',
+          unit: '',
         },
         additional_loads: 0,
         aux: {
@@ -334,17 +320,41 @@
           //aux_load1_name: '',
           //aux_load2_name: '',
         },
+        load1: {
+          power: 0,
+          power_unit: 'W',
+          icon: false, //oven, pump, aircon, boiler, charging
+          name: false,
+          energy: false,
+        },
+        load2: {
+          power: 0,
+          power_unit: 'W',
+          icon: false, //oven, pump, aircon, boiler, charging
+          name: false,
+          energy: false,
+          energy_unit: '',
+        },
+        load3: {
+          power: 0,
+          power_unit: 'W',
+          icon: false, //oven, pump, aircon, boiler, charging
+          name: false,
+          energy: false,
+          energy_unit: '',
+        },
+        load4: {
+          power: 0,
+          power_unit: 'W',
+          icon: false, //oven, pump, aircon, boiler, charging
+          name: false,
+          energy: false,
+          energy_unit: '',
+        },
         has_load_power: false,
-        load_state: 0,
-        load_unite: 'W',
-        load1_state: 0,
-        load1_unite: 'W',
-        load1_icon: false, //oven, pump, aircon, boiler, charging
-        load1_name: false,
-        load2_state: 0,
-        load2_unite: 'W',
-        load2_icon: false, //oven, pump, aircon, boiler
-        load2_name: false,
+        animate_load_enable: true,
+        //load_state: 0,
+        //load_unite: 'W'
       },
       grid: {
         animation_speed: 5,
@@ -353,15 +363,15 @@
           show_sell: false,
           show_buy: false,
           buy_state: 0,
-          buy_unite: '',
+          buy_unit: '',
           sell_state: 0,
-          sell_unite: '',
+          sell_unit: '',
           text_sell: 'VENTE JOUR',
           text_buy: 'ACHAT JOUR'
         },
         energy_cost: false,
         power_state: 0,
-        power_unite:'W',
+        power_unit:'W',
         status: 1, // on, off, '0', 0, '1', 1
         noness: {
           //show_nonessential: true,
@@ -386,10 +396,15 @@
     if ("#pv4Name#" != '#'+'pv4Name#') config#id#.solar.pv4.name = "#pv4Name#"
     if (is_numeric('#pvMaxPower#')) config#id#.solar.max_power = '#pvMaxPower#'
     if ("#dailySolarText#" != '#'+'dailySolarText#') config#id#.solar.daily.text = "#dailySolarText#"
-    if ("#load1Name#" != '#'+'load1Name#') config#id#.load.load1_name = "#load1Name#"
-    if ("#load1Icon#" != '#'+'load1Icon#') config#id#.load.load1_icon = "#load1Icon#"
-    if ("#load2Name#" != '#'+'load2Name#') config#id#.load.load2_name = "#load2Name#"
-    if ("#load2Icon#" != '#'+'load2Icon#') config#id#.load.load2_icon = "#load2Icon#"
+    if ("#load1Name#" != '#'+'load1Name#') config#id#.load.load1.name = "#load1Name#"
+    if ("#load1Icon#" != '#'+'load1Icon#') config#id#.load.load1.icon = "#load1Icon#"
+    if ("#load2Name#" != '#'+'load2Name#') config#id#.load.load2.name = "#load2Name#"
+    if ("#load2Icon#" != '#'+'load2Icon#') config#id#.load.load2.icon = "#load2Icon#"
+    if ("#load3Name#" != '#'+'load3Name#') config#id#.load.load3.name = "#load3Name#"
+    if ("#load3Icon#" != '#'+'load3Icon#') config#id#.load.load3.icon = "#load3Icon#"
+    if ("#load4Name#" != '#'+'load4Name#') config#id#.load.load4.name = "#load4Name#"
+    if ("#load4Icon#" != '#'+'load4Icon#') config#id#.load.load4.icon = "#load4Icon#"
+    if ("#loadAnimate#" != '#'+'loadAnimate#' && "#loadAnimate#" == '0') config#id#.load.animate_load_enable = 0
     if ("#dailyLoadText#" != '#'+'dailyLoadText#') config#id#.load.daily.text = "#dailyLoadText#"
     if (is_numeric('#loadMaxPower#')) config#id#.load.max_power = '#loadMaxPower#'
     if ("#dailyGridSellText#" != '#'+'dailyGridSellText#') config#id#.grid.daily.text_sell = "#dailyGridSellText#"
@@ -416,13 +431,10 @@
       id: '#eqLogic_id#',
       async: false,
       success: function (cmds) {
-        //console.table(cmds)
         for (j in cmds) {
-          
           cmds[j].name = cmds[j].name.toLowerCase();
           cmds[j].name = cmds[j].name.replace(/é/g, 'e');
           cmds[j].name = cmds[j].name.replace(/_/g, ' ');
-          //if (debug#id# == 1) console.log('| ' + cmds[j].id + ' - ' + cmds[j].type+" - "+cmds[j].name+" - Min:"+cmds[j].configuration.minValue+" - Max:"+cmds[j].configuration.maxValue);
           let id_eql = cmds[j].id;
           let name = cmds[j].name
           ///////////////////////////////////////////////////////////////////////
@@ -437,7 +449,9 @@
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + pv1Value)
                 config#id#.show_solar = true
                 config#id#.solar.mppts = 1
-                config#id#.solar.pv1.power = parseFloat(pv1Value)
+                if (typeof pv1Value === "number") {
+                  config#id#.solar.pv1.power = parseFloat(pv1Value)
+                }
               }
             })
             jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
@@ -445,7 +459,7 @@
               if (_options.value != undefined) 
               {
                 config#id#.solar.pv1.power = parseFloat(_options.value)
-                document.getElementById("pv1_power_state#id#").innerHTML = trunc#id#(config#id#.solar.pv1.power, 1) + ' ' + config#id#.solar.unite
+                document.getElementById("pv1_power_state#id#").innerHTML = trunc#id#(config#id#.solar.pv1.power, 1) + ' ' + config#id#.solar.unit
                 calculatePv#id#('pv1_power')
               }
             })
@@ -471,7 +485,7 @@
               if (_options.value != undefined) 
               {
                 config#id#.solar.pv2.power = parseFloat(_options.value)
-                document.getElementById("pv2_power_state#id#").innerHTML = trunc#id#(config#id#.solar.pv2.power, 1) + ' ' + config#id#.solar.unite
+                document.getElementById("pv2_power_state#id#").innerHTML = trunc#id#(config#id#.solar.pv2.power, 1) + ' ' + config#id#.solar.unit
                 calculatePv#id#('pv2_power')
               }
             })
@@ -488,7 +502,6 @@
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + pv3Value)
                 config#id#.solar.mppts = 3
                 if (typeof pv3Value === "number") {
-                  //config#id#.show_solar = true
                   config#id#.solar.pv3.power = parseFloat(pv3Value)
                 }
               }
@@ -498,7 +511,7 @@
               if (_options.value != undefined) 
               {
                 config#id#.solar.pv3.power = parseFloat(_options.value)
-                document.getElementById("pv3_power_state#id#").innerHTML = trunc#id#(config#id#.solar.pv3.power, 1) + ' ' + config#id#.solar.unite
+                document.getElementById("pv3_power_state#id#").innerHTML = trunc#id#(config#id#.solar.pv3.power, 1) + ' ' + config#id#.solar.unit
                 calculatePv#id#('pv3_power')
               }
             })
@@ -515,8 +528,6 @@
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + pv4Value)
                 config#id#.solar.mppts = 4
                 if (typeof pv4Value === "number") {
-                  //config#id#.show_solar = true
-                  config#id#.solar.mppts = 4
                   config#id#.solar.pv4.power = parseFloat(pv4Value)
                 }
               }
@@ -526,7 +537,7 @@
               if (_options.value != undefined) 
               {
                 config#id#.solar.pv4.power = parseFloat(_options.value)
-                document.getElementById("pv4_power_state#id#").innerHTML = trunc#id#(config#id#.solar.pv4.power, 1) + ' ' + config#id#.solar.unite
+                document.getElementById("pv4_power_state#id#").innerHTML = trunc#id#(config#id#.solar.pv4.power, 1) + ' ' + config#id#.solar.unit
                 calculatePv#id#('pv4_power')
               }
             })
@@ -541,8 +552,8 @@
               async: false,
               success:  function(pv1Voltage) {
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + pv1Voltage)
-                config#id#.solar.pv1.voltage_unite = cmds[j].unite
-                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.solar.pv1.voltage_unite)
+                config#id#.solar.pv1.voltage_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.solar.pv1.voltage_unit)
                 if (typeof pv1Voltage === "number") {
                   config#id#.solar.pv1.voltage = trunc#id#(parseFloat(pv1Voltage), 1)
                 } else config#id#.solar.pv1.voltage = 0
@@ -550,7 +561,7 @@
             })
             jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
               if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
-              if (_options.value != undefined) document.getElementById("pv1_voltage#id#").innerHTML = trunc#id#(parseFloat(_options.value), 1) + ' ' + config#id#.solar.pv1.voltage_unite
+              if (_options.value != undefined) document.getElementById("pv1_voltage#id#").innerHTML = trunc#id#(parseFloat(_options.value), 1) + ' ' + config#id#.solar.pv1.voltage_unit
             })
           }
           ///////////////////////////////////////////////////////////////////////
@@ -563,8 +574,8 @@
               async: false,
               success:  function(pv2Voltage) {
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + pv2Voltage)
-                config#id#.solar.pv2.voltage_unite = cmds[j].unite
-                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.solar.pv2.voltage_unite)
+                config#id#.solar.pv2.voltage_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.solar.pv2.voltage_unit)
                 if (typeof pv2Voltage === "number") {
                   config#id#.solar.pv2.voltage = trunc#id#(parseFloat(pv2Voltage), 1)
                 } else config#id#.solar.pv2.voltage = 0
@@ -572,7 +583,7 @@
             })
             jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
               if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
-              if (_options.value != undefined) document.getElementById("pv2_voltage#id#").innerHTML = trunc#id#(parseFloat(_options.value), 1) + ' ' + config#id#.solar.pv2.voltage_unite
+              if (_options.value != undefined) document.getElementById("pv2_voltage#id#").innerHTML = trunc#id#(parseFloat(_options.value), 1) + ' ' + config#id#.solar.pv2.voltage_unit
             })
           }
           ///////////////////////////////////////////////////////////////////////
@@ -585,8 +596,8 @@
               async: false,
               success:  function(pv3Voltage) {
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + pv3Voltage)
-                config#id#.solar.pv3.voltage_unite = cmds[j].unite
-                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.solar.pv3.voltage_unite)
+                config#id#.solar.pv3.voltage_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.solar.pv3.voltage_unit)
                 if (typeof pv3Voltage === "number") {
                   config#id#.solar.pv3.voltage = trunc#id#(parseFloat(pv3Voltage), 1)
                 } else config#id#.solar.pv3.voltage = 0
@@ -594,7 +605,7 @@
             })
             jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
               if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
-              if (_options.value != undefined) document.getElementById("pv3_voltage#id#").innerHTML = trunc#id#(parseFloat(_options.value), 1) + ' ' + config#id#.solar.pv3.voltage_unite
+              if (_options.value != undefined) document.getElementById("pv3_voltage#id#").innerHTML = trunc#id#(parseFloat(_options.value), 1) + ' ' + config#id#.solar.pv3.voltage_unit
             })
           }
           ///////////////////////////////////////////////////////////////////////
@@ -607,8 +618,8 @@
               async: false,
               success:  function(pv4Voltage) {
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + pv4Voltage)
-                config#id#.solar.pv4.voltage_unite = cmds[j].unite
-                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.solar.pv4.voltage_unite)
+                config#id#.solar.pv4.voltage_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.solar.pv4.voltage_unit)
                 if (typeof pv4Voltage === "number") {
                   config#id#.solar.pv4.voltage = trunc#id#(parseFloat(pv4Voltage), 1)
                 } else config#id#.solar.pv4.voltage = 0
@@ -616,7 +627,7 @@
             })
             jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
               if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
-              if (_options.value != undefined) document.getElementById("pv4_voltage#id#").innerHTML = trunc#id#(parseFloat(_options.value), 1) + ' ' + config#id#.solar.pv4.voltage_unite
+              if (_options.value != undefined) document.getElementById("pv4_voltage#id#").innerHTML = trunc#id#(parseFloat(_options.value), 1) + ' ' + config#id#.solar.pv4.voltage_unit
             })
           }
           ///////////////////////////////////////////////////////////////////////
@@ -629,8 +640,8 @@
               async: false,
               success:  function(pv1Current) {
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + pv1Current)
-                config#id#.solar.pv1.current_unite = cmds[j].unite
-                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.solar.pv1.current_unite)
+                config#id#.solar.pv1.current_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.solar.pv1.current_unit)
                 if (typeof pv1Current === "number") {
                   config#id#.solar.pv1.current = trunc#id#(parseFloat(pv1Current), 1)
                 } else config#id#.solar.pv1.current = 0
@@ -638,7 +649,7 @@
             })
             jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
               if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
-              if (_options.value != undefined) document.getElementById("pv1_current#id#").innerHTML = trunc#id#(parseFloat(_options.value), 1) + ' ' + config#id#.solar.pv1.current_unite
+              if (_options.value != undefined) document.getElementById("pv1_current#id#").innerHTML = trunc#id#(parseFloat(_options.value), 1) + ' ' + config#id#.solar.pv1.current_unit
             })
           }
           ///////////////////////////////////////////////////////////////////////
@@ -651,8 +662,8 @@
               async: false,
               success:  function(pv2Current) {
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + pv2Current)
-                config#id#.solar.pv2.current_unite = cmds[j].unite
-                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.solar.pv2.current_unite)
+                config#id#.solar.pv2.current_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.solar.pv2.current_unit)
                 if (typeof pv2Current === "number") {
                   config#id#.solar.pv2.current = trunc#id#(parseFloat(pv2Current), 1)
                 } else config#id#.solar.pv2.current = 0
@@ -660,7 +671,7 @@
             })
             jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
               if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
-              if (_options.value != undefined) document.getElementById("pv2_current#id#").innerHTML = trunc#id#(parseFloat(_options.value), 1) + ' ' + config#id#.solar.pv2.current_unite
+              if (_options.value != undefined) document.getElementById("pv2_current#id#").innerHTML = trunc#id#(parseFloat(_options.value), 1) + ' ' + config#id#.solar.pv2.current_unit
             })
           }
           ///////////////////////////////////////////////////////////////////////
@@ -673,8 +684,8 @@
               async: false,
               success:  function(pv3Current) {
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + pv3Current)
-                config#id#.solar.pv3.current_unite = cmds[j].unite
-                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.solar.pv3.current_unite)
+                config#id#.solar.pv3.current_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.solar.pv3.current_unit)
                 if (typeof pv3Current === "number") {
                   config#id#.solar.pv3.current = trunc#id#(parseFloat(pv3Current), 1)
                 } else config#id#.solar.pv3.current = 0
@@ -682,7 +693,7 @@
             })
             jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
               if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
-              if (_options.value != undefined) document.getElementById("pv3_current#id#").innerHTML = trunc#id#(parseFloat(_options.value), 1) + ' ' + config#id#.solar.pv3.current_unite
+              if (_options.value != undefined) document.getElementById("pv3_current#id#").innerHTML = trunc#id#(parseFloat(_options.value), 1) + ' ' + config#id#.solar.pv3.current_unit
             })
           }
           ///////////////////////////////////////////////////////////////////////
@@ -695,8 +706,8 @@
               async: false,
               success:  function(pv4Current) {
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + pv4Current)
-                config#id#.solar.pv4.current_unite = cmds[j].unite
-                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.solar.pv4.current_unite)
+                config#id#.solar.pv4.current_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.solar.pv4.current_unit)
                 if (typeof pv4Current === "number") {
                   config#id#.solar.pv4.current = trunc#id#(parseFloat(pv4Current), 1)
                 } else config#id#.solar.pv4.current = 0
@@ -704,7 +715,119 @@
             })
             jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
               if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
-              if (_options.value != undefined) document.getElementById("pv4_current#id#").innerHTML = trunc#id#(parseFloat(_options.value), 1) + ' ' + config#id#.solar.pv4.current_unite
+              if (_options.value != undefined) document.getElementById("pv4_current#id#").innerHTML = trunc#id#(parseFloat(_options.value), 1) + ' ' + config#id#.solar.pv4.current_unit
+            })
+          }
+          ///////////////////////////////////////////////////////////////////////
+          ///////////////////////////////  pv1 Energy ///////////////////////////
+          ///////////////////////////////////////////////////////////////////////
+          else if (cmds[j].name == 'pv1 energy'){
+            //config#id#.solar.daily.show = true
+            if (debug#id# == 1) console.log('| pv1 energy')
+            jeedom.cmd.execute({
+              id: id_eql,
+              async: false,
+              success:  function(pv1Energy) {
+                if (debug#id# == 1) console.log('|    └> cmd.execute : ' + pv1Energy)
+                config#id#.solar.pv1.energy_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.solar.pv1.energy_unit)
+                if (typeof pv1Energy === "number") {
+                  config#id#.solar.pv1.energy = parseFloat(pv1Energy)
+                }
+                else config#id#.solar.pv1.energy = 0
+              }
+            })
+            jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
+              if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
+              if (_options.value != undefined) 
+              {
+                let pv1Energy = autoValueArray#id#(parseFloat(_options.value),config#id#.solar.pv1.energy_unit)
+                document.getElementById("pv1_energy#id#").innerHTML = trunc#id#(pv1Energy.value, 3, 1) + ' ' + pv1Energy.unit
+              }
+            })
+          }
+          ///////////////////////////////////////////////////////////////////////
+          ///////////////////////////////  pv2 Energy ///////////////////////////
+          ///////////////////////////////////////////////////////////////////////
+          else if (cmds[j].name == 'pv2 energy'){
+            //config#id#.solar.daily.show = true
+            if (debug#id# == 1) console.log('| pv2 energy')
+            jeedom.cmd.execute({
+              id: id_eql,
+              async: false,
+              success:  function(pv2Energy) {
+                if (debug#id# == 1) console.log('|    └> cmd.execute : ' + pv2Energy)
+                config#id#.solar.pv2.energy_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.solar.pv2.energy_unit)
+                if (typeof pv2Energy === "number") {
+                  config#id#.solar.pv2.energy = parseFloat(pv2Energy)
+                }
+                else config#id#.solar.pv2.energy = 0
+              }
+            })
+            jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
+              if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
+              if (_options.value != undefined) 
+              {
+                let pv2Energy = autoValueArray#id#(parseFloat(_options.value),config#id#.solar.pv2.energy_unit)
+                document.getElementById("pv2_energy#id#").innerHTML = trunc#id#(pv2Energy.value, 3, 1) + ' ' + pv2Energy.unit
+              }
+            })
+          }
+          ///////////////////////////////////////////////////////////////////////
+          ///////////////////////////////  pv3 Energy ///////////////////////////
+          ///////////////////////////////////////////////////////////////////////
+          else if (cmds[j].name == 'pv3 energy'){
+            //config#id#.solar.daily.show = true
+            if (debug#id# == 1) console.log('| pv3 energy')
+            jeedom.cmd.execute({
+              id: id_eql,
+              async: false,
+              success:  function(pv3Energy) {
+                if (debug#id# == 1) console.log('|    └> cmd.execute : ' + pv3Energy)
+                config#id#.solar.pv3.energy_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.solar.pv3.energy_unit)
+                if (typeof pv3Energy === "number") {
+                  config#id#.solar.pv3.energy = parseFloat(pv3Energy)
+                }
+                else config#id#.solar.pv3.energy = 0
+              }
+            })
+            jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
+              if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
+              if (_options.value != undefined) 
+              {
+                let pv3Energy = autoValueArray#id#(parseFloat(_options.value),config#id#.solar.pv3.energy_unit)
+                document.getElementById("pv3_energy#id#").innerHTML = trunc#id#(pv3Energy.value, 3, 1) + ' ' + pv3Energy.unit
+              }
+            })
+          }
+          ///////////////////////////////////////////////////////////////////////
+          ///////////////////////////////  pv4 Energy ///////////////////////////
+          ///////////////////////////////////////////////////////////////////////
+          else if (cmds[j].name == 'pv4 energy'){
+            //config#id#.solar.daily.show = true
+            if (debug#id# == 1) console.log('| pv4 energy')
+            jeedom.cmd.execute({
+              id: id_eql,
+              async: false,
+              success:  function(pv4Energy) {
+                if (debug#id# == 1) console.log('|    └> cmd.execute : ' + pv4Energy)
+                config#id#.solar.pv4.energy_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.solar.pv4.energy_unit)
+                if (typeof pv4Energy === "number") {
+                  config#id#.solar.pv4.energy = parseFloat(pv4Energy)
+                }
+                else config#id#.solar.pv4.energy = 0
+              }
+            })
+            jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
+              if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
+              if (_options.value != undefined) 
+              {
+                let pv4Energy = autoValueArray#id#(parseFloat(_options.value),config#id#.solar.pv4.energy_unit)
+                document.getElementById("pv4_energy#id#").innerHTML = trunc#id#(pv4Energy.value, 3, 1) + ' ' + pv4Energy.unit
+              }
             })
           }
           ///////////////////////////////////////////////////////////////////////
@@ -718,8 +841,8 @@
               async: false,
               success:  function(dailySolarValue) {
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + dailySolarValue)
-                config#id#.solar.daily.unite = cmds[j].unite
-                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.solar.daily.unite)
+                config#id#.solar.daily.unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.solar.daily.unit)
                 if (typeof dailySolarValue === "number") {
                   config#id#.solar.daily.state = parseFloat(dailySolarValue)
                 }
@@ -729,7 +852,7 @@
               if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
               if (_options.value != undefined) 
               {
-                let dailySolar = autoValueArray#id#(parseFloat(_options.value),config#id#.solar.daily.unite)
+                let dailySolar = autoValueArray#id#(parseFloat(_options.value),config#id#.solar.daily.unit)
                 document.getElementById("daily_solar_value#id#").innerHTML = trunc#id#(dailySolar.value, 3, 1) + ' ' + dailySolar.unit
               }
             })
@@ -769,11 +892,10 @@
               async: false,
               success:  function(batteryTempValue) {
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + batteryTempValue)
-                if (cmds[j].unite != '') config#id#.battery.temp.unite = cmds[j].unite
-                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.battery.temp.unite)
+                if (cmds[j].unite != '') config#id#.battery.temp.unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.battery.temp.unit)
                 if (typeof batteryTempValue === "number") {
                   config#id#.battery.temp.show = true
-                  //config#id#.battery.temp.state = batteryTempValue.toFixed(1)
                   config#id#.battery.temp.state = trunc#id#(parseFloat(batteryTempValue),1)
                 }
               }
@@ -782,8 +904,7 @@
               if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
               if (_options.value != undefined) 
               {
-                //document.getElementById("icon_bat#id#").innerHTML = getBatteryIcon#id#(_options.value, config#id#.battery.full_capacity, config#id#.battery.empty_capacity)
-                document.getElementById("battery_temp#id#").innerHTML = trunc#id#(parseFloat(_options.value),1) + '' + config#id#.battery.temp.unite
+                document.getElementById("battery_temp#id#").innerHTML = trunc#id#(parseFloat(_options.value),1) + '' + config#id#.battery.temp.unit
               }
             })
           }
@@ -798,8 +919,8 @@
               async: false,
               success:  function(dailyBatteryChargeValue) {
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + dailyBatteryChargeValue)
-                config#id#.battery.daily.charge_unite = cmds[j].unite
-                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.battery.daily.charge_unite)
+                config#id#.battery.daily.charge_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.battery.daily.charge_unit)
                 if (typeof dailyBatteryChargeValue === "number") {
                   config#id#.battery.daily.charge_state = parseFloat(dailyBatteryChargeValue)
                 }
@@ -809,7 +930,7 @@
               if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
               if (_options.value != undefined) 
               {
-                let dailyBatteryCharge = autoValueArray#id#(parseFloat(_options.value),config#id#.battery.daily.charge_unite)
+                let dailyBatteryCharge = autoValueArray#id#(parseFloat(_options.value),config#id#.battery.daily.charge_unit)
                 document.getElementById("daily_bat_charge_value#id#").innerHTML = trunc#id#(dailyBatteryCharge.value, 3, 1) + ' ' + dailyBatteryCharge.unit
               }
             })
@@ -825,8 +946,8 @@
               async: false,
               success:  function(dailyBatteryDischargeValue) {
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + dailyBatteryDischargeValue)
-                config#id#.battery.daily.discharge_unite = cmds[j].unite
-                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.battery.daily.discharge_unite)
+                config#id#.battery.daily.discharge_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.battery.daily.discharge_unit)
                 if (typeof dailyBatteryDischargeValue === "number") {
                   config#id#.battery.daily.discharge_state = parseFloat(dailyBatteryDischargeValue)
                 }
@@ -836,7 +957,7 @@
               if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
               if (_options.value != undefined) 
               {
-                let dailyBatteryDischarge = autoValueArray#id#(parseFloat(_options.value),config#id#.battery.daily.discharge_unite)
+                let dailyBatteryDischarge = autoValueArray#id#(parseFloat(_options.value),config#id#.battery.daily.discharge_unit)
                 document.getElementById("daily_bat_discharge_value#id#").innerHTML = trunc#id#(dailyBatteryDischarge.value, 3, 1) + ' ' + dailyBatteryDischarge.unit
               }
             })
@@ -851,17 +972,16 @@
               async: false,
               success:  function(batteryVoltage) {
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + batteryVoltage)
-                config#id#.battery.voltage_unite = cmds[j].unite
-                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.battery.voltage_unite)
+                config#id#.battery.voltage_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.battery.voltage_unit)
                 if (typeof batteryVoltage === "number") {
-                  //config#id#.battery.voltage_state = batteryVoltage.toFixed(1)
                   config#id#.battery.voltage_state = trunc#id#(parseFloat(batteryVoltage), 1)
                 }
               }
             })
             jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
               if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
-              if (_options.value != undefined) document.getElementById("battery_voltage#id#").innerHTML = trunc#id#(parseFloat(_options.value), 1) + ' ' + config#id#.battery.voltage_unite
+              if (_options.value != undefined) document.getElementById("battery_voltage#id#").innerHTML = trunc#id#(parseFloat(_options.value), 1) + ' ' + config#id#.battery.voltage_unit
             })
           }
           ///////////////////////////////////////////////////////////////////////
@@ -874,8 +994,8 @@
               async: false,
               success:  function(batteryCurrent) {
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + batteryCurrent)
-                config#id#.battery.current_unite = cmds[j].unite
-                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.battery.current_unite)
+                config#id#.battery.current_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.battery.current_unit)
                 if (typeof batteryCurrent === "number") {
                   config#id#.battery.current_state = trunc#id#(parseFloat(batteryCurrent), 1)
                 }
@@ -883,7 +1003,7 @@
             })
             jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
               if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
-              if (_options.value != undefined) document.getElementById("battery_current#id#").innerHTML = trunc#id#(parseFloat(_options.value), 1) + ' ' + config#id#.battery.current_unite
+              if (_options.value != undefined) document.getElementById("battery_current#id#").innerHTML = trunc#id#(parseFloat(_options.value), 1) + ' ' + config#id#.battery.current_unit
             })
           }
           ///////////////////////////////////////////////////////////////////////
@@ -896,8 +1016,8 @@
               async: false,
               success:  function(batteryPower) {
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + batteryPower)
-                config#id#.battery.power_unite = cmds[j].unite
-                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.battery.power_unite)
+                config#id#.battery.power_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.battery.power_unit)
                 if (typeof batteryPower === "number") {
                   config#id#.battery.power_state = trunc#id#(parseFloat(batteryPower), 1)
                 }
@@ -908,7 +1028,7 @@
               if (_options.value != undefined) 
               {
                 let batteryPower = (_options.value > 0) ? _options.value : (_options.value < 0) ? (_options.value * -1) : _options.value
-                document.getElementById("battery_power#id#").innerHTML = trunc#id#(parseFloat(batteryPower), 1) + ' ' + config#id#.battery.power_unite
+                document.getElementById("battery_power#id#").innerHTML = trunc#id#(parseFloat(batteryPower), 1) + ' ' + config#id#.battery.power_unit
                 if(trunc#id#(parseFloat(_options.value), 1) > 0) {
                   document.getElementById("power-dot-charge#id#").setAttribute("fill", "var(--battery_colour#id#)");
                   document.getElementById("power-dot-discharge#id#").setAttribute("fill", "transparent");
@@ -937,8 +1057,8 @@
               async: false,
               success:  function(dailyGridBuy) {
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + dailyGridBuy)
-                config#id#.grid.daily.buy_unite = cmds[j].unite
-                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.grid.daily.buy_unite)
+                config#id#.grid.daily.buy_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.grid.daily.buy_unit)
                 if (typeof dailyGridBuy === "number") {
                   config#id#.grid.daily.buy_state = parseFloat(dailyGridBuy)
                 }
@@ -948,7 +1068,7 @@
               if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
               if (_options.value != undefined) 
               {
-                let dailyGridBuy = autoValueArray#id#(_options.value,config#id#.grid.daily.buy_unite)
+                let dailyGridBuy = autoValueArray#id#(_options.value,config#id#.grid.daily.buy_unit)
                 document.getElementById("daily_grid_buy_value#id#").innerHTML = trunc#id#(dailyGridBuy.value, 3, 1) + ' ' + dailyGridBuy.unit
               }
             })
@@ -964,8 +1084,8 @@
               async: false,
               success:  function(dailyGridSell) {
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + dailyGridSell)
-                config#id#.grid.daily.sell_unite = cmds[j].unite
-                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.grid.daily.sell_unite)
+                config#id#.grid.daily.sell_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.grid.daily.sell_unit)
                 if (typeof dailyGridSell === "number") {
                   config#id#.grid.daily.sell_state = parseFloat(dailyGridSell)
                 }
@@ -975,7 +1095,7 @@
               if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
               if (_options.value != undefined) 
               {
-                let dailySellBuy = autoValueArray#id#(_options.value,config#id#.grid.daily.sell_unite)
+                let dailySellBuy = autoValueArray#id#(_options.value,config#id#.grid.daily.sell_unit)
                 document.getElementById("daily_grid_sell_value#id#").innerHTML = trunc#id#(dailySellBuy.value, 3, 1) + ' ' + dailySellBuy.unit
               }
             })
@@ -990,8 +1110,8 @@
               async: false,
               success:  function(gridPowerValue) {
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + gridPowerValue)
-                config#id#.grid.power_unite = cmds[j].unite
-                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.grid.power_unite)
+                config#id#.grid.power_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.grid.power_unit)
                 if (typeof gridPowerValue === "number") {
                   config#id#.grid.power_state = trunc#id#(parseFloat(gridPowerValue) ,1)
                 }
@@ -1004,7 +1124,7 @@
                 
                 let gridPowerTrunc = trunc#id#(_options.value, 1)
                 let gridPower = (gridPowerTrunc > 0) ? gridPowerTrunc : (gridPowerTrunc < 0) ? (gridPowerTrunc * -1) : gridPowerTrunc
-                document.getElementById("grid_power#id#").innerHTML = gridPower + ' ' + config#id#.grid.power_unite
+                document.getElementById("grid_power#id#").innerHTML = gridPower + ' ' + config#id#.grid.power_unit
                 if(gridPowerTrunc > 0) {
                   document.getElementById("grid-dot-buy#id#").setAttribute("fill", "var(--grid_colour#id#)");
                   document.getElementById("grid-dot1-buy#id#").setAttribute("fill", "var(--grid_colour#id#)");
@@ -1069,12 +1189,12 @@
             jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
               if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
               if (_options.value === 0 || _options.value === '0' || _options.value === 'off') {
-                document.getElementById("transmission_on#id#").querySelector('path').classList.add("st12#id#");
-                document.getElementById("transmission_off#id#").querySelector('path').classList.remove("st12#id#");
+                document.getElementById("transmission_on#id#").querySelector('path').classList.add("hidden-#id#");
+                document.getElementById("transmission_off#id#").querySelector('path').classList.remove("hidden-#id#");
               }
               else {
-                document.getElementById("transmission_on#id#").querySelector('path').classList.remove("st12#id#");
-                document.getElementById("transmission_off#id#").querySelector('path').classList.add("st12#id#");
+                document.getElementById("transmission_on#id#").querySelector('path').classList.remove("hidden-#id#");
+                document.getElementById("transmission_off#id#").querySelector('path').classList.add("hidden-#id#");
               }
             })
           }
@@ -1088,8 +1208,8 @@
               async: false,
               success:  function(acTemp) {
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + acTemp)
-                config#id#.inverter.temp.ac_unite = cmds[j].unite
-                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.inverter.temp.ac_unite)
+                config#id#.inverter.temp.ac_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.inverter.temp.ac_unit)
                 if (typeof acTemp === "number") {
                   config#id#.inverter.temp.ac_state = trunc#id#(parseFloat(acTemp), 1)
                 }
@@ -1098,7 +1218,7 @@
             })
             jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
               if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
-              document.getElementById("ac_temp#id#").innerHTML = 'AC: ' + trunc#id#(parseFloat(_options.value), 1) + ' ' + config#id#.inverter.temp.ac_unite
+              document.getElementById("ac_temp#id#").innerHTML = 'AC: ' + trunc#id#(parseFloat(_options.value), 1) + ' ' + config#id#.inverter.temp.ac_unit
             })
           }
           ///////////////////////////////////////////////////////////////////////
@@ -1111,8 +1231,8 @@
               async: false,
               success:  function(dcTemp) {
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + dcTemp)
-                config#id#.inverter.temp.dc_unite = cmds[j].unite
-                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.inverter.temp.dc_unite)
+                config#id#.inverter.temp.dc_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.inverter.temp.dc_unit)
                 if (typeof dcTemp === "number") {
                   config#id#.inverter.temp.dc_state = trunc#id#(parseFloat(dcTemp), 1)
                 }
@@ -1121,7 +1241,7 @@
             })
             jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
               if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
-              document.getElementById("dc_temp#id#").innerHTML = 'DC: ' + trunc#id#(parseFloat(_options.value), 1) + ' ' + config#id#.inverter.temp.dc_unite
+              document.getElementById("dc_temp#id#").innerHTML = 'DC: ' + trunc#id#(parseFloat(_options.value), 1) + ' ' + config#id#.inverter.temp.dc_unit
             })
           }
           ///////////////////////////////////////////////////////////////////////
@@ -1134,8 +1254,8 @@
               async: false,
               success:  function(voltage) {
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + voltage)
-                if (cmds[j].unite != '') config#id#.inverter.voltage_unite = cmds[j].unite
-                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.inverter.voltage_unite)
+                if (cmds[j].unite != '') config#id#.inverter.voltage_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.inverter.voltage_unit)
                 if (typeof voltage === "number") {
                   config#id#.inverter.voltage_state = trunc#id#(parseFloat(voltage), 1)
                 }
@@ -1144,7 +1264,7 @@
             })
             jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
               if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
-              document.getElementById("inverter_voltage#id#").innerHTML = trunc#id#(parseFloat(_options.value), 1) + ' ' + config#id#.inverter.voltage_unite
+              document.getElementById("inverter_voltage#id#").innerHTML = trunc#id#(parseFloat(_options.value), 1) + ' ' + config#id#.inverter.voltage_unit
             })
           }
           ///////////////////////////////////////////////////////////////////////
@@ -1157,8 +1277,8 @@
               async: false,
               success:  function(frequency) {
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + frequency)
-                if (cmds[j].unite != '') config#id#.inverter.frequency_unite = cmds[j].unite
-                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.inverter.frequency_unite)
+                if (cmds[j].unite != '') config#id#.inverter.frequency_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.inverter.frequency_unit)
                 if (typeof frequency === "number") {
                   config#id#.inverter.frequency_state = trunc#id#(parseFloat(frequency), 1)
                 }
@@ -1167,7 +1287,7 @@
             })
             jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
               if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
-              document.getElementById("inverter_frequency#id#").innerHTML = trunc#id#(parseFloat(_options.value), 1) + ' ' + config#id#.inverter.frequency_unite
+              document.getElementById("inverter_frequency#id#").innerHTML = trunc#id#(parseFloat(_options.value), 1) + ' ' + config#id#.inverter.frequency_unit
             })
           }
           ///////////////////////////////////////////////////////////////////////
@@ -1180,8 +1300,8 @@
               async: false,
               success:  function(current) {
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + current)
-                if (cmds[j].unite != '') config#id#.inverter.current_unite = cmds[j].unite
-                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.inverter.current_unite)
+                if (cmds[j].unite != '') config#id#.inverter.current_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.inverter.current_unit)
                 if (typeof current === "number") {
                   config#id#.inverter.current_state = trunc#id#(parseFloat(current), 1)
                 }
@@ -1190,7 +1310,7 @@
             })
             jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
               if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
-              document.getElementById("inverter_current#id#").innerHTML = trunc#id#(parseFloat(_options.value), 1) + ' ' + config#id#.inverter.current_unite
+              document.getElementById("inverter_current#id#").innerHTML = trunc#id#(parseFloat(_options.value), 1) + ' ' + config#id#.inverter.current_unit
             })
           }
           ///////////////////////////////////////////////////////////////////////
@@ -1204,18 +1324,18 @@
               async: false,
               success:  function(loadState) {
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + loadState)
-                if (cmds[j].unite != '') config#id#.load.load_unite = cmds[j].unite
-                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.load.load_unite)
+                if (cmds[j].unite != '') config#id#.load.unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.load.unit)
                 if (typeof loadState === "number") {
-                  config#id#.load.load_state = trunc#id#(parseFloat(loadState), 1)
+                  config#id#.load.power = trunc#id#(parseFloat(loadState), 1)
                 }
-                else config#id#.load.load_state = 0
+                else config#id#.load.power = 0
               }
             })
             jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
               if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
-              config#id#.load.load_state = trunc#id#(parseFloat(_options.value), 1)
-              document.getElementById("ess_power#id#").innerHTML = config#id#.load.load_state + ' ' + config#id#.load.load_unite
+              config#id#.load.power = trunc#id#(parseFloat(_options.value), 1)
+              document.getElementById("ess_power#id#").innerHTML = config#id#.load.power + ' ' + config#id#.load.unit
               calculateLoad#id#('load state')
             })
           }
@@ -1224,25 +1344,32 @@
           ///////////////////////////////////////////////////////////////////////
           else if (cmds[j].name == 'load1 state'){
             if (debug#id# == 1) console.log('| load1 state')
-            config#id#.load.additional_loads = 1
+            config#id#.load.additional_loads++
             jeedom.cmd.execute({
               id: id_eql,
               async: false,
               success:  function(load1State) {
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + load1State)
-                if (cmds[j].unite != '') config#id#.load.load1_unite = cmds[j].unite
-                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.load.load1_unite)
+                if (cmds[j].unite != '') config#id#.load.load1.power_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.load.load1.power_unit)
                 if (typeof load1State === "number") {
-                  config#id#.load.load1_state = trunc#id#(parseFloat(load1State), 1)
+                  config#id#.load.load1.power = trunc#id#(parseFloat(load1State), 1)
                 }
-                else config#id#.load.load1_state = 0
+                else config#id#.load.load1.power = 0
               }
             })
             jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
               if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
-              config#id#.load.load1_state = trunc#id#(parseFloat(_options.value), 1)
-              document.getElementById("ess_load1#id#").innerHTML = config#id#.load.load1_state + ' ' + config#id#.load.load1_unite
+              config#id#.load.load1.power = trunc#id#(parseFloat(_options.value), 1)
+              document.getElementById("ess_load1#id#").innerHTML = config#id#.load.load1.power + ' ' + config#id#.load.load1.power_unit
               if (config#id#.load.has_load_power === false) calculateLoad#id#('load1 state')
+              
+              if (config#id#.load.load1.power > 0) {
+                document.getElementById("es-dot1-#id#").setAttribute("fill", "var(--load_colour#id#)");
+              }
+              else {
+                document.getElementById("es-dot1-#id#").setAttribute("fill", "transparent");
+              }
             })
           }
           ///////////////////////////////////////////////////////////////////////
@@ -1250,25 +1377,206 @@
           ///////////////////////////////////////////////////////////////////////
           else if (cmds[j].name == 'load2 state'){
             if (debug#id# == 1) console.log('| load2 state')
-            config#id#.load.additional_loads = 2
+            config#id#.load.additional_loads++
             jeedom.cmd.execute({
               id: id_eql,
               async: false,
               success:  function(load2State) {
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + load2State)
-                if (cmds[j].unite != '') config#id#.load.load2_unite = cmds[j].unite
-                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.load.load2_unite)
+                if (cmds[j].unite != '') config#id#.load.load2.power_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.load.load2.power_unit)
                 if (typeof load2State === "number") {
-                  config#id#.load.load2_state = trunc#id#(parseFloat(load2State), 1)
+                  config#id#.load.load2.power = trunc#id#(parseFloat(load2State), 1)
                 }
-                else config#id#.load.load2_state = 0
+                else config#id#.load.load2.power = 0
               }
             })
             jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
               if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
-              config#id#.load.load2_state = trunc#id#(parseFloat(_options.value), 1)
-              document.getElementById("ess_load2#id#").innerHTML = config#id#.load.load2_state + ' ' + config#id#.load.load2_unite
+              config#id#.load.load2.power = trunc#id#(parseFloat(_options.value), 1)
+              document.getElementById("ess_load2#id#").innerHTML = config#id#.load.load2.power + ' ' + config#id#.load.load2.power_unit
               if (config#id#.load.has_load_power === false) calculateLoad#id#('load2 state')
+              
+              if (config#id#.load.load2.power > 0) {
+                document.getElementById("es-dot2-#id#").setAttribute("fill", "var(--load_colour#id#)");
+              }
+              else {
+                document.getElementById("es-dot2-#id#").setAttribute("fill", "transparent");
+              }
+            })
+          }
+          ///////////////////////////////////////////////////////////////////////
+          //////////////////////////  Load 3 State //////////////////////////////
+          ///////////////////////////////////////////////////////////////////////
+          else if (cmds[j].name == 'load3 state'){
+            if (debug#id# == 1) console.log('| load3 state')
+            config#id#.load.additional_loads++
+            jeedom.cmd.execute({
+              id: id_eql,
+              async: false,
+              success:  function(load3State) {
+                if (debug#id# == 1) console.log('|    └> cmd.execute : ' + load3State)
+                if (cmds[j].unite != '') config#id#.load.load3.power_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.load.load3.power_unit)
+                if (typeof load3State === "number") {
+                  config#id#.load.load3.power = trunc#id#(parseFloat(load3State), 1)
+                }
+                else config#id#.load.load3.power = 0
+              }
+            })
+            jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
+              if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
+              config#id#.load.load3.power = trunc#id#(parseFloat(_options.value), 1)
+              document.getElementById("ess_load3#id#").innerHTML = config#id#.load.load3.power + ' ' + config#id#.load.load3.power_unit
+              if (config#id#.load.has_load_power === false) calculateLoad#id#('load3 state')
+              
+              if (config#id#.load.load3.power > 0) {
+                document.getElementById("es-dot3-#id#").setAttribute("fill", "var(--load_colour#id#)");
+              }
+              else {
+                document.getElementById("es-dot3-#id#").setAttribute("fill", "transparent");
+              }
+            })
+          }
+          ///////////////////////////////////////////////////////////////////////
+          //////////////////////////  Load 4 State //////////////////////////////
+          ///////////////////////////////////////////////////////////////////////
+          else if (cmds[j].name == 'load4 state'){
+            if (debug#id# == 1) console.log('| load4 state')
+            config#id#.load.additional_loads++
+            jeedom.cmd.execute({
+              id: id_eql,
+              async: false,
+              success:  function(load4State) {
+                if (debug#id# == 1) console.log('|    └> cmd.execute : ' + load4State)
+                if (cmds[j].unite != '') config#id#.load.load4.power_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.load.load4.power_unit)
+                if (typeof load4State === "number") {
+                  config#id#.load.load4.power = trunc#id#(parseFloat(load4State), 1)
+                }
+                else config#id#.load.load4.power = 0
+              }
+            })
+            jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
+              if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
+              config#id#.load.load4.power = trunc#id#(parseFloat(_options.value), 1)
+              document.getElementById("ess_load4#id#").innerHTML = config#id#.load.load4.power + ' ' + config#id#.load.load4.power_unit
+              if (config#id#.load.has_load_power === false) calculateLoad#id#('load4 state')
+              
+              if (config#id#.load.load4.power > 0) {
+                document.getElementById("es-dot4-#id#").setAttribute("fill", "var(--load_colour#id#)");
+              }
+              else {
+                document.getElementById("es-dot4-#id#").setAttribute("fill", "transparent");
+              }
+            })
+          }
+          ///////////////////////////////////////////////////////////////////////
+          /////////////////////////////  load1 Energy ///////////////////////////
+          ///////////////////////////////////////////////////////////////////////
+          else if (cmds[j].name == 'load1 energy'){
+            if (debug#id# == 1) console.log('| load1 energy')
+            jeedom.cmd.execute({
+              id: id_eql,
+              async: false,
+              success:  function(load1Energy) {
+                if (debug#id# == 1) console.log('|    └> cmd.execute : ' + load1Energy)
+                config#id#.load.load1.energy_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.load.load1.energy_unit)
+                if (typeof load1Energy === "number") {
+                  config#id#.load.load1.energy = parseFloat(load1Energy)
+                }
+                else config#id#.load.load1.energy = 0
+              }
+            })
+            jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
+              if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
+              if (_options.value != undefined) 
+              {
+                let load1Energy = autoValueArray#id#(parseFloat(_options.value),config#id#.load.load1.energy_unit)
+                document.getElementById("load1_energy#id#").innerHTML = trunc#id#(load1Energy.value, 3, 1) + ' ' + load1Energy.unit
+              }
+            })
+          }
+          ///////////////////////////////////////////////////////////////////////
+          /////////////////////////////  load2 Energy ///////////////////////////
+          ///////////////////////////////////////////////////////////////////////
+          else if (cmds[j].name == 'load2 energy'){
+            if (debug#id# == 1) console.log('| load2 energy')
+            jeedom.cmd.execute({
+              id: id_eql,
+              async: false,
+              success:  function(load2Energy) {
+                if (debug#id# == 1) console.log('|    └> cmd.execute : ' + load2Energy)
+                config#id#.load.load2.energy_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.load.load2.energy_unit)
+                if (typeof load2Energy === "number") {
+                  config#id#.load.load2.energy = parseFloat(load2Energy)
+                }
+                else config#id#.load.load2.energy = 0
+              }
+            })
+            jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
+              if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
+              if (_options.value != undefined) 
+              {
+                let load2Energy = autoValueArray#id#(parseFloat(_options.value),config#id#.load.load2.energy_unit)
+                document.getElementById("load2_energy#id#").innerHTML = trunc#id#(load2Energy.value, 3, 1) + ' ' + load2Energy.unit
+              }
+            })
+          }
+          ///////////////////////////////////////////////////////////////////////
+          /////////////////////////////  load3 Energy ///////////////////////////
+          ///////////////////////////////////////////////////////////////////////
+          else if (cmds[j].name == 'load3 energy'){
+            if (debug#id# == 1) console.log('| load3 energy')
+            jeedom.cmd.execute({
+              id: id_eql,
+              async: false,
+              success:  function(load3Energy) {
+                if (debug#id# == 1) console.log('|    └> cmd.execute : ' + load3Energy)
+                config#id#.load.load3.energy_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.load.load3.energy_unit)
+                if (typeof load3Energy === "number") {
+                  config#id#.load.load3.energy = parseFloat(load3Energy)
+                }
+                else config#id#.load.load3.energy = 0
+              }
+            })
+            jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
+              if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
+              if (_options.value != undefined) 
+              {
+                let load3Energy = autoValueArray#id#(parseFloat(_options.value),config#id#.load.load3.energy_unit)
+                document.getElementById("load3_energy#id#").innerHTML = trunc#id#(load3Energy.value, 3, 1) + ' ' + load3Energy.unit
+              }
+            })
+          }
+          ///////////////////////////////////////////////////////////////////////
+          /////////////////////////////  load4 Energy ///////////////////////////
+          ///////////////////////////////////////////////////////////////////////
+          else if (cmds[j].name == 'load4 energy'){
+            if (debug#id# == 1) console.log('| load4 energy')
+            jeedom.cmd.execute({
+              id: id_eql,
+              async: false,
+              success:  function(load4Energy) {
+                if (debug#id# == 1) console.log('|    └> cmd.execute : ' + load4Energy)
+                config#id#.load.load4.energy_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.load.load4.energy_unit)
+                if (typeof load4Energy === "number") {
+                  config#id#.load.load4.energy = parseFloat(load4Energy)
+                }
+                else config#id#.load.load4.energy = 0
+              }
+            })
+            jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
+              if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
+              if (_options.value != undefined) 
+              {
+                let load4Energy = autoValueArray#id#(parseFloat(_options.value),config#id#.load.load4.energy_unit)
+                document.getElementById("load4_energy#id#").innerHTML = trunc#id#(load4Energy.value, 3, 1) + ' ' + load4Energy.unit
+              }
             })
           }
           ///////////////////////////////////////////////////////////////////////
@@ -1282,8 +1590,8 @@
               async: false,
               success:  function(dailyloadValue) {
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + dailyloadValue)
-                config#id#.load.daily.unite = cmds[j].unite
-                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.load.daily.unite)
+                config#id#.load.daily.unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.load.daily.unit)
                 if (typeof dailyloadValue === "number") {
                   config#id#.load.daily.state = dailyloadValue
                 }
@@ -1294,7 +1602,7 @@
               if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
               if (_options.value != undefined) 
               {
-                let dailyload = autoValueArray#id#(_options.value,config#id#.load.daily.unite)
+                let dailyload = autoValueArray#id#(_options.value,config#id#.load.daily.unit)
                 document.getElementById("daily_load_value#id#").innerHTML = trunc#id#(dailyload.value, 3, 1) + ' ' + dailyload.unit
               }
             })
@@ -1325,7 +1633,10 @@
           html += '<svg viewBox="-0.5'
           if (config#id#.show_solar === false) html += ' 145.33'
           else html += ' -0.5'
-          html += ' 483'
+          
+          if (config#id#.load.additional_loads >= 3 && config#id#.show_solar === true) html += ' 560'
+          else html += ' 483'
+          
           if (config#id#.show_solar === false) html += ' 270.67'
           else html += ' 406'
           html += '" preserveAspectRatio="xMidYMid meet" height="'
@@ -1337,259 +1648,39 @@
           } else if (config#id#.show_solar === false) html += '75%'
           else html += '100%'
           html += '" width="100%"  xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">'
-    
-          <!-- -->
-          html += '<rect x="204" y="300" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--battery_colour#id#)" pointer-events="all"></rect>'
-          <!-- -->      
-          html += '<rect x="304" y="203.5" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--load_colour#id#)" pointer-events="all"/>'
-          html += '<rect x="205" y="116.5" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--solar_colour#id#)" pointer-events="all" class="'
-          if (config#id#.show_solar === false || config#id#.solar.mppts == 1) html += 'st12#id#'
+          ///////////////////////////////////////////////////////
+          /////////////////////// PV ////////////////////////////
+          ///////////////////////////////////////////////////////
+          html += '<!-- PV -->'
+          html += '<rect x="205" y="128.5" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--solar_colour#id#)" pointer-events="all" class="'
+          if (config#id#.show_solar === false || config#id#.solar.mppts == 1) html += 'hidden-#id#'
           html += '"/>'
           
-          html += '<rect x="103" y="203.5" width="70" height="29.5" rx="4.42" ry="4.42" fill="none" stroke="var(--grid_colour#id#)" pointer-events="all"/>'
-          
-          // PV1
-          html += '<rect id="pv1#id# "x="' + ((config#id#.solar.mppts == 1) ? '205' : '154') + '" y="64.5" width="70" height="' + ((config#id#.solar.mppts == 1) ? '30' : '20') + '" rx="4.5" ry="4.5" fill="none" stroke="var(--solar_colour#id#)" pointer-events="all" class="'
-          if (config#id#.show_solar === false) html += 'st12#id#'
-          html += '"/>'
-          
-          // PV2
-          html += '<rect id="pv2#id#" x="254" y="64.5" width="70" height="20" rx="4.5" ry="4.5" fill="none" stroke="var(--solar_colour#id#)" pointer-events="all" class="'
-          html += (config#id#.show_solar === false || config#id#.solar.mppts === 1) ? 'st12#id#' : ''
-          html += '"/>'
-    
-          // PV3
-          html += '<rect id="pv3#id#" x="78" y="64.5" width="70" height="20" rx="4.5" ry="4.5" fill="none" stroke="var(--solar_colour#id#)" pointer-events="all" class="'
-          html += (config#id#.show_solar === false || config#id#.solar.mppts === 1 || config#id#.solar.mppts === 2) ? 'st12#id#' : ''
-          html += '"/>'
-    
-          // PV4
-          html += '<rect id="pv4#id#" x="330" y="64.5" width="70" height="20" rx="4.5" ry="4.5" fill="none" stroke="var(--solar_colour#id#)" pointer-events="all" class="'
-          html += (config#id#.show_solar === false || config#id#.solar.mppts === 1 || config#id#.solar.mppts === 2 || config#id#.solar.mppts === 3) ? 'st12#id#' : ''
-          html += '"/>'
-    
-          html += '<rect id="es-load1#id#" x="406" y="116.5" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--load_colour#id#)" pointer-events="all" display="'
-          html += ((config#id#.load.additional_loads === 1 || config#id#.load.additional_loads === 2) && config#id#.show_solar !== false) ? '' : 'none'
-          html += '"/>'
-    
-          html += '<rect id="es-load2#id#" x="406" y="290" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--load_colour#id#)" pointer-events="all" display="'
-          html += (config#id#.load.additional_loads === 2 && config#id#.show_solar !== false) ? '' : 'none'
-          html += '"/>'
-    
-          html += '<text id="duration#id#" x="270" y="377.5" class="' + ((config#id#.large_font !== true) ? 'st14#id#' : 'st4#id#') + ' left-align#id#" fill="'
-          html += (config#id#.battery.energy == 0 || !config#id#.battery.energy) ? 'transparent' : 'var(--battery_colour#id#)'
-          html += '" ></text>'
-          
-          html += '<text id="duration_text_etat#id#" x="270" y="393.7" class="st3#id# left-align#id#" fill="'
-          html += (config#id#.battery.energy == 0 || !config#id#.battery.energy || config#id#.battery.power_state === 0 || float === true) ? 'transparent' : 'var(--battery_colour#id#)'
-          html += '" ></text>'
-    
-          html += '<text id="daily_bat_charge#id#" x="135" y="357.2" class="st3#id# left-align#id#"  fill="' + ((config#id#.battery.daily.show_charge !== true) ? 'transparent' : 'var(--battery_colour#id#)')
-          html += '" >' + config#id#.battery.daily.text_charge + '</text>'
-          html += '<text id="daily_bat_discharge#id#" x="135" y="393.7" class="st3#id# left-align#id#"  fill="' + ((config#id#.battery.daily.show_discharge !== true) ? 'transparent' : 'var(--battery_colour#id#)')
-          html += '" >' + config#id#.battery.daily.text_discharge + '</text>'
-    
-          html += '<text id="daily_load#id#" x="' + ((config#id#.load.additional_loads === 2 && config#id#.show_solar === true) ? '365' : '400.4') + '" y="' + ((config#id#.load.additional_loads === 2 && config#id#.show_solar === true) ? '182.2' : '282.1')
-          html += '" class="st3#id# left-align#id#" fill="' + ((config#id#.load.daily.show === false) ? 'transparent' : 'var(--load_colour#id#)') + '" >' + config#id#.load.daily.text + '</text>'
-    
-          html += '<text id="daily_grid_buy#id#" x="5" y="282.1" class="st3#id# left-align#id#" fill="' + ((config#id#.grid.daily.show_buy !== true) ? 'transparent' : 'var(--grid_colour#id#)') + '" >' + config#id#.grid.daily.text_buy + '</text>'
-    
-          html += '<text id="daily_grid_sell#id#" x="5" y="179" class="st3#id# left-align#id#" fill="' + ((config#id#.grid.daily.show_sell !== true) ? 'transparent' : 'var(--grid_colour#id#)') + '" >' + config#id#.grid.daily.text_sell + '</text>'
-    
-          html += '<text id="daily_solar#id#" x="226" y="40" class="st3#id# left-align#id#" fill="' + ((config#id#.solar.daily.show !== true || config#id#.show_solar === false || config#id#.solar.daily.remaining_show != false) ? 'transparent' : 'var(--solar_colour#id#)') + '">' + config#id#.solar.daily.text + '</text>'
-    
-          html += '<text id="remaining_solar#id#" x="226" y="40" class="st3#id#" fill="' + ((config#id#.solar.daily.show !== true || config#id#.show_solar === false || config#id#.solar.daily.remaining_show === false) ? 'transparent' : 'var(--solar_colour#id#)') + '" >' + config#id#.solar.daily.text_left + '</text>'
-          
-          html += '<text x="' + ((config#id#.solar.mppts == 1) ? '240' : '187') + '" y="60" class="st3#id# st8#id# center-align#id#" display="' + ((config#id#.show_solar === false) ? 'none' : '') + '" fill="var(--solar_colour#id#)">' + config#id#.solar.pv1.name + '</text>'
-          
-          html += '<text x="288" y="60" class="st3#id# st8#id# center-align#id#" display="' + ((config#id#.show_solar === false || config#id#.solar.mppts === 1) ? 'none' : '') + '" fill="var(--solar_colour#id#)">' + config#id#.solar.pv2.name + '</text>'
-          
-          html += '<text x="112" y="60" class="st3#id# st8#id# center-align#id#" display="' + ((config#id#.show_solar === false || config#id#.solar.mppts === 1 || config#id#.solar.mppts === 2) ? 'none' : '') + '" fill="var(--solar_colour#id#)">' + config#id#.solar.pv3.name + '</text>'
-          
-          html += '<text x="364" y="60" class="st3#id# st8#id# center-align#id#" display="' + ((config#id#.show_solar === false || config#id#.solar.mppts === 1 || config#id#.solar.mppts === 2 || config#id#.solar.mppts === 3) ? 'none' : '') + '" fill="var(--solar_colour#id#)">' + config#id#.solar.pv4.name + '</text>'
-          
-          html += '<text id="autarkye_value#id#" x="130" y="260" display="' + ((config#id#.inverter.autarky === "no") ? 'none' : '') + '" class="' + ((config#id#.inverter.autarky === 'energy') ? 'st4#id# st8#id# left-align#id#' : 'st12#id#') + '" fill="var(--inverter_colour#id#)" >' + config#id#.inverter.autarky_state + '%</text>'
-          
-          /*
-          html += '<text id="ratioe_value#id#" x="173" y="260" display="'
-          html += (config#id#.inverter.autarky === "no") ? 'none' : ''
-          html += '" class="'
-          html += (config#id#.inverter.autarky === 'energy') ? 'st4#id# st8#id# left-align#id#' : 'st12#id#'
-          html += '" fill="var(--inverter_colour#id#)" >' + config#id#.inverter.ratio_state + '%</text>'
-    
-          html += '<text id="autarkyp_value#id#" x="130" y="260" display="'
-          html += (config#id#.inverter.autarky === "no") ? 'none' : ''
-          html += '" class="'
-          html += (config#id#.inverter.autarky === 'power') ? 'st4#id# st8#id# left-align#id#' : 'st12#id#'
-          html += '" fill="var(--inverter_colour#id#)" >' + config#id#.inverter.autarkyp_state + '%</text>'
-    
-          html += '<text id="ratiop_value#id#" x="173" y="260" display="'
-          html += (config#id#.inverter.autarky === "no") ? 'none' : ''
-          html += '" class="'
-          html += (config#id#.inverter.autarky === 'power') ? 'st4#id# st8#id# left-align#id#' : 'st12#id#'
-          html += '" fill="var(--inverter_colour#id#)" >'  + config#id#.inverter.ratiop_state + '%</text>'
-    
-          html += '<text id="autarky#id#" x="130" y="273" display="'
-          html += (config#id#.inverter.autarky === "no") ? 'none' : ''
-          html += '" class="st3#id# left-align#id#" fill="var(--inverter_colour#id#)" >' + config#id#.inverter.autarky_text + '</text>'
-    
-          html += '<text id="ratio#id#" x="173" y="273" display="'
-          html += (config#id#.inverter.autarky === "no") ? 'none' : ''
-          html += '" class="st3#id# left-align#id#" fill="var(--inverter_colour#id#)" >' + config#id#.inverter.ratio_text + '</text>'
-          */
-    
-          html += '<text id="es-load1-name#id#" x="400" y="110" class="st3#id# left-align#id#" display="'
-          html += ((config#id#.load.additional_loads === 1 || config#id#.load.additional_loads === 2) && config#id#.show_solar !== false) ? '' : 'none'
-          html += '" fill="var(--load_colour#id#)" >' + ((config#id#.load.load1_name) ? config#id#.load.load1_name : '') + '</text>'
-    
-          html += '<text id="es-load2-name#id#" x="400" y="330.5" class="st3#id# left-align#id#" display="'
-          html += (config#id#.load.additional_loads === 2 && config#id#.show_solar !== false) ? '' : 'none'
-          html += '" fill="var(--load_colour#id#)" >' + ((config#id#.load.load2_name) ? config#id#.load.load2_name : '') + '</text>'
-          
-          // html += '<circle id="standby#id#" cx="220" cy="260" r="3.5" fill="var(--inverterStateColour#id#)"/>' /////////////// Todo
-    
-          html += '<path id="pv1-line#id#" d="M 187 84 L 187 122 Q 187 132 195 132 L 205 132.03" class="' + ((config#id#.show_solar === false || config#id#.solar.mppts === 1) ? 'st12#id#' : '') + '" fill="none" stroke="var(--solar_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
-          html += '<circle id="pv1-dot#id#" cx="0" cy="0" r="3" class="' + ((config#id#.show_solar === false || config#id#.solar.mppts === 1) ? 'st12#id#' : '') + '" fill="transparent">'
-          html += '<animateMotion id="anim_pv1#id#" dur="' + config#id#.solar.animation_speed + 's" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#pv1-line#id#"/></animateMotion></circle>'
-    
-          html += '<path id="pv2-line#id#" d="M 289 84.5 L 289 125 Q 289 132 282 132 L 275 132" class="' + ((config#id#.show_solar === false || config#id#.solar.mppts === 1) ? 'st12#id#' : '') + '" fill="none" stroke="var(--solar_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
-          html += '<circle id="pv2-dot#id#" cx="0" cy="0" r="3" class="' + ((config#id#.show_solar === false || config#id#.solar.mppts === 1) ? 'st12#id#' : '') + '" fill="transparent">'
-          html += '<animateMotion id="anim_pv2#id#" dur="' + config#id#.solar.animation_speed + 's" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#pv2-line#id#"/></animateMotion></circle>'
-    
-          html += '<path id="pv3-line#id#" d="M 113 84 L 113 125 Q 113 132 120 132 L 205 132.03" class="' + ((config#id#.show_solar === false || config#id#.solar.mppts === 1 || config#id#.solar.mppts === 2) ? 'st12#id#' : '') + '" fill="none" stroke="var(--solar_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
-          html += '<circle id="pv3-dot#id#" cx="0" cy="0" r="3" class="' + ((config#id#.show_solar === false || config#id#.solar.mppts === 1 || config#id#.solar.mppts === 2) ? 'st12#id#' : '') + '" fill="' + ((parseInt(config#id#.solar.pv3.power) <= 0) ? 'transparent' : 'var(--solar_colour#id#)') + '">'
-          html += '<animateMotion id="anim_pv3#id#" dur="' + config#id#.solar.animation_speed + 's" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#pv3-line#id#"/></animateMotion></circle>'
-    
-          html += '<path id="pv4-line#id#" d="M 365 85 L 365 125 Q 365 132 358 132 L 275 132" class="' + ((config#id#.show_solar === false || config#id#.solar.mppts === 1 || config#id#.solar.mppts === 2 || config#id#.solar.mppts === 3) ? 'st12#id#' : '') + '" fill="none" stroke="var(--solar_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
-          html += '<circle id="pv4-dot#id#" cx="0" cy="0" r="3" class="' + ((config#id#.show_solar === false || config#id#.solar.mppts === 1 || config#id#.solar.mppts === 2 || config#id#.solar.mppts === 3) ? 'st12#id#' : '') + '" fill="' + ((parseInt(config#id#.solar.pv4.power) <= 0) ? 'transparent' : 'var(--solar_colour#id#)') + '">'
-    html += '<animateMotion id="anim_pv4#id#" dur="' + config#id#.solar.animation_speed + 's" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#pv4-line#id#"/></animateMotion></circle>'
-          
-          // LINE BATTERY
-          html += '<path id="bat-line#id#" d="M 239.23 250 L 239.23 300" fill="none" stroke="var(--battery_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
-          
-          html += '<circle id="power-dot-charge#id#" cx="0" cy="0" r="3" fill="' + ((config#id#.battery.power_state < 0 || config#id#.battery.power_state == 0 || !config#id#.battery.power_state) ? 'transparent' : 'var(--battery_colour#id#)') + '">'
-          html += '<animateMotion id="anim_battery-charge#id#" dur="' + config#id#.battery.animation_speed + 's" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear">'
-          html += '<mpath xlink:href="#bat-line#id#"/></animateMotion></circle>'
-          
-          html += '<circle id="power-dot-discharge#id#" cx="0" cy="0" r="3" fill="' + ((config#id#.battery.power_state > 0 || config#id#.battery.power_state == 0 || !config#id#.battery.power_state) ? 'transparent' : 'var(--battery_colour#id#)') + '">'
-          html += '<animateMotion id="anim_battery-discharge#id#"  dur="' + config#id#.battery.animation_speed + 's" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear">'
-          html += '<mpath xlink:href="#bat-line#id#"/></animateMotion></circle>'
-          
-          // LINE SOLAR
-          html += '<path id="so-line#id#" d="' + ((config#id#.solar.mppts === 1) ? 'M 239.23 190 L 239.23 94' : 'M 239.23 190 L 239.22 174.02 Q 239.21 168.03 239.1 158.04 L 239 147') + '" class="' + ((config#id#.show_solar === false) ? 'st12#id#' : '') + '" fill="none" stroke="var(--solar_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
-          html += '<circle id="so-dot#id#" cx="0" cy="0" r="3" class="' + ((config#id#.show_solar === false) ? 'st12#id#' : '') + '" fill="transparent">'
+          html += '<text id="pvtotal_power#id#" x="238.8" y="148" class="'
+          html += (config#id#.large_font !== true) ? 'ft12-#id#' : 'ft14-#id#'
+          html += ' ftw-#id# center-align#id#" display="'
+          html += (config#id#.show_solar === false || config#id#.solar.mppts == 1) ? 'none' : ''
+          html += '" fill="var(--solar_colour#id#)"></text>'
+          // LINE
+          html += '<path id="so-line#id#" d="' + ((config#id#.solar.mppts === 1) ? 'M 239 196 L 239 95' : 'M 239 196 L 239 158') + '" class="' + ((config#id#.show_solar === false) ? 'hidden-#id#' : '') + '" fill="none" stroke="var(--solar_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
+          html += '<circle id="so-dot#id#" cx="0" cy="0" r="3" class="' + ((config#id#.show_solar === false) ? 'hidden-#id#' : '') + '" fill="transparent">'
           html += '<animateMotion id="anim_pv#id#" dur="' + config#id#.solar.animation_speed + 's" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear">'
           html += '<mpath xlink:href="#so-line#id#"/></animateMotion></circle>'
-    
-          // LINE GRID
-          html += '<path id="grid-line#id#" d="M 173 218.25 L 214 218" fill="none" stroke="var(--grid_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
-          
-          html += '<circle id="grid-dot-buy#id#" cx="0" cy="0" r="3" fill="' + ((config#id#.grid.power_state < 0 || config#id#.grid.power_state === 0) ? 'transparent' : 'var(--grid_colour#id#)') + '">'
-          html += '<animateMotion id="anim_grid_buy#id#" dur="' + config#id#.grid.animation_speed + 's" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear">'
-          html += '<mpath xlink:href="#grid-line#id#"/></animateMotion></circle>'
-    
-          html += '<circle id="grid-dot-sell#id#" cx="0" cy="0" r="3" fill="' + ((config#id#.grid.power_state > 0 || config#id#.grid.power_state === 0) ? 'transparent' : 'var(--grid_colour#id#)') + '">'
-          html += '<animateMotion id="anim_grid_sell#id#" dur="' + config#id#.grid.animation_speed + 's" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear">'
-          html += '<mpath xlink:href="#grid-line#id#"/></animateMotion></circle>'
-    
-          html += '<path id="grid-line1#id#" d="M 103 218.25 L 64.5 218.25" fill="none" stroke="var(--grid_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
-          
-          html += '<circle id="grid-dot1-buy#id#" cx="0" cy="0" r="3" fill="' + ((config#id#.grid.power_state < 0 || config#id#.grid.power_state === 0) ? 'transparent' : 'var(--grid_colour#id#)') + '">'
-          html += '<animateMotion id="anim_grid_buy1#id#" dur="' + config#id#.grid.animation_speed + 's" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear">'
-          html += '<mpath xlink:href="#grid-line1#id#"/></animateMotion></circle>'
-    
-          html += '<circle id="grid-dot1-sell#id#" cx="0" cy="0" r="3" fill="' + ((config#id#.grid.power_state > 0 || config#id#.grid.power_state === 0) ? 'transparent' : 'var(--grid_colour#id#)') + '">'
-          html += '<animateMotion id="anim_grid_sell1#id#" dur="' + config#id#.grid.animation_speed + 's" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear">'
-          html += '<mpath xlink:href="#grid-line1#id#"/></animateMotion></circle>'
-    
-          // LINE LOAD
-          html += '<path id="es-line#id#" d="M 304 218.5 L 264.7 218.48" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
-          html += '<circle id="es-dot1#id#" cx="0" cy="0" r="3" fill="transparent">'
-          html += '<animateMotion id="anim_load1#id#" dur="' + config#id#.load.animation_speed + 's" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear">'
-          html += '<mpath xlink:href="#es-line#id#"/></animateMotion></circle>'
-    
-          html += '<path id="es-line1#id#" d="M 374 218.5 L 402.38 218.52" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
-          html += '<circle id="es-dot#id#" cx="0" cy="0" r="3" fill="transparent">'
-          html += '<animateMotion id="anim_load#id#" dur="' + config#id#.load.animation_speed + 's" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear">'
-          html += '<mpath xlink:href="#es-line1#id#"/></animateMotion></circle>'
-    
-          html += '<path id="es-load1path#id#" d="M 441 180 L 441 147" class="' + (((config#id#.load.additional_loads === 1 || config#id#.load.additional_loads === 2) && config#id#.show_solar !== false) ? '' : 'st12#id#') + '" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
-          
-          html += '<path id="es-load2path#id#" d="M 441 290 L 441 257" class="' + ((config#id#.load.additional_loads === 2 && config#id#.show_solar !== false) ? '' : 'st12#id#') + '" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
-          
-          // ICON LOAD
-          if ((config#id#.load.additional_loads === 1 || config#id#.load.additional_loads === 2) && config#id#.show_solar !== false && config#id#.load.load1_icon !== false) html += getSvgIcon(config#id#.load.load1_icon, 1)
-          if (config#id#.load.additional_loads === 2 && config#id#.show_solar !== false && config#id#.load.load2_icon !== false) html += getSvgIcon(config#id#.load.load2_icon, 2)
-          
-          // ICON SUN
+          // ICON
           html += '<svg xmlns="http://www.w3.org/2000/svg" id="icon_sun#id#" x="' + ((config#id#.solar.daily.show === false) ? '220' : '180') + '" y="10" width="40" height="40" viewBox="0 0 24 24"><path class="'          
-          html += (config#id#.show_solar === false) ? 'st12#id#' : ''
+          html += (config#id#.show_solar === false) ? 'hidden-#id#' : ''
           html += '" fill="var(--solar_colour#id#)" d="M11.45 2v3.55L15 3.77L11.45 2m-1 6L8 10.46l3.75 1.25L10.45 8M2 11.45L3.77 15l1.78-3.55H2M10 2H2v8c.57.17 1.17.25 1.77.25c3.58.01 6.49-2.9 6.5-6.5c-.01-.59-.1-1.18-.27-1.75m7 20v-6h-3l5-9v6h3l-5 9Z"/></svg>'
+          // entities.day_pv_energy_108
+          let dailySolar = autoValueArray#id#(config#id#.solar.daily.state,config#id#.solar.daily.unit)
+          html += '<text id="daily_solar_value#id#" x="226" y="26" class="ft16-#id# left-align#id#" display="'
+          html += (config#id#.solar.daily.show !== true || config#id#.show_solar === false || config#id#.solar.daily.remaining_show != false) ? 'none' : ''
+          html += '" fill="var(--solar_colour#id#)">'
+          html += trunc#id#(dailySolar.value, 3, 1) + ' ' + dailySolar.unit
+          html += '</text>'
           
-          // ICON BATTERY
-          html += '<svg xmlns="http://www.w3.org/2000/svg" id="icon_bat#id#" x="213" y="325.5" width="78.75" height="78.75" preserveAspectRatio="none" opacity="1" viewBox="0 0 24 24">'
-          html += getBatteryIcon#id#(config#id#.battery.soc.state, config#id#.battery.full_capacity, config#id#.battery.empty_capacity)
-          html += '</svg>'
-          
-          // ICON GRID
-          // grid_connected_status_194
-          html += '<svg xmlns="http://www.w3.org/2000/svg" id="transmission_on#id#" x="-0.5" y="187.5" width="64.5" height="64.5" viewBox="0 0 24 24"><path class="'
-          html += (config#id#.grid.status === 'off' || config#id#.grid.status === '0' || config#id#.grid.status === 0) ? 'st12#id#' : ''
-          html += '" fill="var(--grid_colour#id#)" d="m8.28 5.45l-1.78-.9L7.76 2h8.47l1.27 2.55l-1.78.89L15 4H9l-.72 1.45M18.62 8h-4.53l-.79-3h-2.6l-.79 3H5.38L4.1 10.55l1.79.89l.73-1.44h10.76l.72 1.45l1.79-.89L18.62 8m-.85 14H15.7l-.24-.9L12 15.9l-3.47 5.2l-.23.9H6.23l2.89-11h2.07l-.36 1.35L12 14.1l1.16-1.75l-.35-1.35h2.07l2.89 11m-6.37-7l-.9-1.35l-1.18 4.48L11.4 15m3.28 3.12l-1.18-4.48l-.9 1.36l2.08 3.12Z"/></svg>'
-    
-          html += '<svg xmlns="http://www.w3.org/2000/svg" id="transmission_off#id#" x="-0.5" y="187.5" width="64.5" height="64.5" viewBox="0 0 24 24"><path class="'
-          html += (config#id#.grid.status === 'on' || config#id#.grid.status === '1' || config#id#.grid.status === 1) ? 'st12#id#' : ''
-          html += '" fill="var(--no_grid_colour#id#)" d="M22.1 21.5L2.4 1.7L1.1 3l5 5h-.7l-1.3 2.5l1.8.9l.7-1.4h1.5l1 1l-2.9 11h2.1l.2-.9l3.5-5.2l3.5 5.2l.2.9h2.1l-.8-3.2l3.9 3.9l1.2-1.2M9.3 18.1l1.2-4.5l.9 1.3l-2.1 3.2m5.4 0L12.6 15l.2-.3l1.3 1.3l.6 2.1m-.5-7.1h.7l.2.9l-.9-.9m-.1-3h4.5l1.3 2.6l-1.8.9l-.7-1.5h-4.2l-3-3l.5-2h2.6l.8 3M8.4 5.2L6.9 3.7L7.8 2h8.5l1.3 2.5l-1.8.9L15 4H9l-.6 1.2Z"/></svg>'
-          
-          // ICON LOAD ESS
-          //html += '<svg xmlns="http://www.w3.org/2000/svg" id="essen#id#" x="402" y="177.5" width="79" height="79" viewBox="0 0 24 24"><path fill="var(--load_colour#id#)" d="M15 9h1V7.5h4V9h1c.55 0 1 .45 1 1v11c0 .55-.45 1-1 1h-6c-.55 0-1-.45-1-1V10c0-.55.45-1 1-1m1 2v3h4v-3h-4m-4-5.31l-5 4.5V18h5v2H5v-8H2l10-9l2.78 2.5H14v1.67l-.24.1L12 5.69Z"/></svg>'
-          
-          // ICON LOAD NONESS
-          html += '<svg xmlns="http://www.w3.org/2000/svg" id="noness#id#" x="402" y="177.5" width="79" height="79" viewBox="0 0 24 24"><path fill="var(--load_colour#id#)" d="m15 13l-4 4v-3H2v-2h9V9l4 4M5 20v-4h2v2h10v-7.81l-5-4.5L7.21 10H4.22L12 3l10 9h-3v8H5Z"></path></svg>'
-    
-          // ICON INVERTER
-          if (config#id#.inverter.model == 'sunsynk') {
-          html += '<svg version="1.0" xmlns="http://www.w3.org/2000/svg" x="213.5" y="179.5" width="54" height="79" viewBox="0 0 74 91"  preserveAspectRatio="xMidYMid meet"> '
-          html += '<g transform="translate(0.000000,91.000000) scale(0.100000,-0.100000)" fill="var(--inverter_colour#id#)" stroke="none"> <path d="M35 887 l-27 -23 0 -404 0 -404 27 -23 c26 -23 28 -23 329 -23 284 0 305 1 327 19 l24 19 0 412 0 412 -24 19 c-22 18 -43 19 -327 19 -301 0 -303 0 -329 -23z m585 -157 l0 -80 -255 0 -255 0 0 80 0 80 255 0 255 0 0 -80z m-242 -229 c44 -34 40 -46 -14 -46 -60 0 -97 -38 -93 -94 5 -64 -23 -80 -35 -20 -9 44 24 113 63 134 35 18 34 15 21 50 -11 29 -14 30 58 -24z m110 -129 c4 -51 -19 -97 -59 -117 -27 -14 -30 -20 -23 -48 l6 -31 -51 43 c-29 24 -49 46 -46 49 3 4 23 5 44 3 58 -4 95 32 97 95 3 60 1 57 17 52 6 -3 13 -23 15 -46z"/> </g> </svg>'
-          }
-          else {
-            html += '<rect x="215" y="190" width="50" height="60" rx="4.5" ry="4.5" fill="none" stroke="var(--inverter_colour92426)" pointer-events="all"></rect>'
-          }
-          
-    
-          ////////////////////// TIMER /////////////////////
-          // entities.use_timer_248
-          html += '<svg xmlns="http://www.w3.org/2000/svg" id="timer#id#" x="267.7" y="243.3" width="18" height="18" viewBox="0 0 24 24"><path display="'
-          html += (config#id#.timer.state == 'on' && config#id#.timer.usetimer !== false) ? '' : 'none'
-          html += '" fill="var(--inverter_colour#id#)" d="M15 1H9v2h6V1zm-4 13h2V8h-2v6zm8.03-6.61l1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42A8.962 8.962 0 0 0 12 4c-4.97 0-9 4.03-9 9s4.02 9 9 9a8.994 8.994 0 0 0 7.03-14.61zM12 20c-3.87 0-7-3.13-7-7s3.13-7 7-7s7 3.13 7 7s-3.13 7-7 7z"/></svg>'
-          html += '<text id="timer_text_on#id#" x="287" y="254.7" class="st3#id# left-align#id#" display="'
-          html += (config#id#.timer.state == 'on' && config#id#.timer.usetimer !== false) ? '' : 'none'
-          html += '" fill="var(--inverter_colour#id#)">' + config#id#.timer.text_off + '</text>'
-          
-          html += '<svg xmlns="http://www.w3.org/2000/svg" id="timer_off#id#" x="267.7" y="243.3" width="18" height="18" viewBox="0 0 24 24"><path display="'
-          html += (config#id#.timer.state == 'off' && config#id#.timer.usetimer !== false) ? '' : 'none'
-          html += '" fill="var(--inverter_colour#id#)" d="m19.95 17.15l-1.5-1.5q.275-.675.413-1.337T19 13q0-2.9-2.05-4.95T12 6q-.6 0-1.275.125t-1.4.4l-1.5-1.5q.95-.5 2.012-.763T12 4q1.5 0 2.938.5t2.712 1.45l1.4-1.4l1.4 1.4l-1.4 1.4q.95 1.275 1.45 2.713T21 13q0 1.05-.263 2.087t-.787 2.063ZM13 10.2V8h-2v.2l2 2Zm6.8 12.4l-2.4-2.4q-1.2.875-2.588 1.338T12 22q-1.85 0-3.488-.713T5.65 19.35q-1.225-1.225-1.938-2.863T3 13q0-1.5.463-2.888T4.8 7.6L1.4 4.2l1.4-1.4l18.4 18.4l-1.4 1.4ZM12 20q1.05 0 2.05-.325t1.875-.925L6.2 9.025q-.6.875-.9 1.875T5 13q0 2.9 2.05 4.95T12 20ZM9 3V1h6v2H9Zm2.075 10.875Zm2.825-2.8Z"/></svg>'
-          html += '<text id="timer_text_off#id#" x="287" y="254.7" class="st3#id# left-align#id#" display="'
-          html += (config#id#.timer.state == 'off' && config#id#.timer.usetimer !== false) ? '' : 'none'
-          html += '" fill="var(--inverter_colour#id#)">' + config#id#.timer.text_off + '</text>'
-    
-    
-          ////////////////////// PRIORITY /////////////////////
-          // priority_load_243
-          html += '<svg xmlns="http://www.w3.org/2000/svg" id="pbat#id#" x="267.7" y="262.5" width="18" height="18" viewBox="0 0 24 24"><path display="'
-          html += (config#id#.priority.state === 'off' && config#id#.priority.usepriority !== false) ? '' : 'none'
-          html += '" fill="var(--inverter_colour#id#)" d="M15.95 21.175L13.1 18.35l1.425-1.4l1.425 1.4l3.525-3.525l1.425 1.4l-4.95 4.95ZM8 22q-.425 0-.713-.288T7 21V5q0-.425.288-.713T8 4h2V2h4v2h2q.425 0 .713.288T17 5v7q-.525 0-1.025.088T15 12.35V6H9v14h2.35q.2.575.488 1.075t.687.925H8Zm1-2h2.35H11h.35H9Z"/></svg>'
-          html += '<text id="priority_text_batt#id#" x="287" y="273" class="st3#id# left-align#id#" display="'
-          html += (config#id#.priority.state === 'off' && config#id#.priority.usepriority !== false) ? '' : 'none'
-          html += '" fill="var(--inverter_colour#id#)">' + config#id#.priority.text_off + '</text>'
-          
-          html += '<svg xmlns="http://www.w3.org/2000/svg" id="pload#id#" x="267.7" y="262.5" width="18" height="18" viewBox="0 0 24 24"><path display="'
-          html += (config#id#.priority.state === 'on' && config#id#.priority.usepriority !== false) ? '' : 'none'
-          html += '" fill="var(--inverter_colour#id#)" d="m15 13l-4 4v-3H2v-2h9V9l4 4M5 20v-4h2v2h10v-7.81l-5-4.5L7.21 10H4.22L12 3l10 9h-3v8H5Z"/></svg>'
-          html += '<text id="priority_text_load#id#" x="287" y="273" class="st3#id# left-align#id#" display="'
-          html += (config#id#.priority.state === 'on' && config#id#.priority.usepriority !== false) ? '' : 'none'
-          html += '" fill="var(--inverter_colour#id#)">' + config#id#.priority.text_on + '</text>'
-    
+          html += '<text id="daily_solar#id#" x="226" y="40" class="ft9-#id# left-align#id#" fill="' + ((config#id#.solar.daily.show !== true || config#id#.show_solar === false || config#id#.solar.daily.remaining_show != false) ? 'transparent' : 'var(--solar_colour#id#)') + '">' + config#id#.solar.daily.text + '</text>'
+          /*
+          //html += '<text id="remaining_solar#id#" x="226" y="40" class="ft9-#id#" fill="' + ((config#id#.solar.daily.show !== true || config#id#.show_solar === false || config#id#.solar.daily.remaining_show === false) ? 'transparent' : 'var(--solar_colour#id#)') + '" >' + config#id#.solar.daily.text_left + '</text>'
           // ICON SOLAR SELL
           // entities.solar_sell_247
           html += '<svg xmlns="http://www.w3.org/2000/svg" id="solar_sell_on#id#" x="245" y="150" width="18" height="18" viewBox="0 0 30 30"><path display="'
@@ -1599,244 +1690,582 @@
           html += '<svg xmlns="http://www.w3.org/2000/svg" id="solar_sell_off#id#" x="243" y="150" width="18" height="18" viewBox="0 0 30 30"><path display="'
           html += (config#id#.solar.sell === 'on' || config#id#.solar.sell === '1' || config#id#.solar.sell === false || config#id#.show_solar === false) ? 'none' : ''
           html += '" fill="var(--solar_colour#id#)" d="M 26 16 L 22 12 L 22 15 L 18 15 L 18 17 L 22 17 L 22 20 L 26 16 Z M 22.1 21.5 L 2.4 1.7 L 1.1 3 L 6.1 8 L 5.4 8 L 4.1 10.5 L 5.9 11.4 L 6.6 10 L 8.1 10 L 9.1 11 L 6.2 22 L 8.3 22 L 8.5 21.1 L 12 15.9 L 15.5 21.1 L 15.7 22 L 17.8 22 L 17 18.8 L 20.9 22.7 L 22.1 21.5 M 9.3 18.1 L 10.5 13.6 L 11.4 14.9 L 9.3 18.1 M 14.7 18.1 L 12.6 15 L 12.8 14.7 L 14.1 16 L 14.7 18.1 M 14.2 11 L 14.9 11 L 15.1 11.9 L 14.2 11 M 14.1 8 L 18.6 8 L 19.9 10.6 L 18.1 11.5 L 17.4 10 L 13.2 10 L 10.2 7 L 10.7 5 L 13.3 5 L 14.1 8 M 8.4 5.2 L 6.9 3.7 L 7.8 2 L 16.3 2 L 17.6 4.5 L 15.8 5.4 L 15 4 L 9 4 L 8.4 5.2 Z"/></svg>'
+          */
+          ///////////////////////////////////////////////////////
+          ////////////////////// PV1 ////////////////////////////
+          ///////////////////////////////////////////////////////
+          html += '<!-- PV1 -->'
+          html += '<text x="' + ((config#id#.solar.mppts == 1) ? '240' : '187') + '" y="60" class="ft9-#id# ftw-#id# center-align#id#" display="' + ((config#id#.show_solar === false) ? 'none' : '') + '" fill="var(--solar_colour#id#)">' + config#id#.solar.pv1.name + '</text>'
           
-          // ICON PRISE ON
-          // inverter_prog.entityID
-          html += '<svg xmlns="http://www.w3.org/2000/svg" id="prog_grid_on#id#" x="323" y="243" width="20" height="18" viewBox="0 0 24 24"><path display="'
-          html += (config#id#.inverter.prog.show === false || config#id#.inverter.prog.grid === 'none') ? 'none' : ''
-          html += '" class="'
-          html += (config#id#.inverter.prog.charge === 'none') ? 'st12#id#' : ''
-          html += '" fill="var(--inverter_colour#id#)" d="M11.5 19h1v-1.85l3.5-3.5V9H8v4.65l3.5 3.5V19Zm-2 2v-3L6 14.5V9q0-.825.588-1.413T8 7h1L8 8V3h2v4h4V3h2v5l-1-1h1q.825 0 1.413.588T18 9v5.5L14.5 18v3h-5Zm2.5-7Z"/></svg>'
-          // ICON PRISE OFF
-          html += '<svg xmlns="http://www.w3.org/2000/svg" id="prog_grid_off#id#" x="323" y="243" width="20" height="18" viewBox="0 0 24 24"><path display="'
-          html += (config#id#.inverter.prog.show === false || config#id#.inverter.prog.grid === 'none') ? 'none' : ''
-          html += '" class="'
-          html += (config#id#.inverter.prog.charge === 'none') ? '' : 'st12#id#'
-          html += '" fill="var(--inverter_colour#id#)" d="M10 3H8v1.88l2 2zm6 6v3.88l1.8 1.8l.2-.2V9c0-1.1-.9-2-2-2V3h-2v4h-3.88l2 2H16zM4.12 3.84L2.71 5.25L6 8.54v5.96L9.5 18v3h5v-3l.48-.48l4.47 4.47l1.41-1.41L4.12 3.84zm8.38 13.33V19h-1v-1.83L8 13.65v-3.11l5.57 5.57l-1.07 1.06z"/></svg>'
+          html += '<rect id="pv1-rect-#id#" x="' + ((config#id#.solar.mppts == 1) ? '205' : '154') + '" y="64.5" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--solar_colour#id#)" pointer-events="all" class="'
+          if (config#id#.show_solar === false) html += 'hidden-#id#'
+          html += '"/>'
           
-          // entities.day_battery_charge_70
-          html += '<text id="daily_bat_charge_value#id#" x="135" y="343" class= "st10#id# left-align#id#" display="' // 77.2
-          html += (config#id#.battery.daily.show_charge !== true) ? 'none' : ''
-          html += '" fill="var(--battery_colour#id#)">'
-          let dailyBatteryCharge = autoValueArray#id#(config#id#.battery.daily.charge_state,config#id#.battery.daily.charge_unite)
-          html += trunc#id#(dailyBatteryCharge.value, 3, 1) + ' ' + dailyBatteryCharge.unit
-          html += '</text>'
-    
-          // entities.day_pv_energy_108
-          let dailySolar = autoValueArray#id#(config#id#.solar.daily.state,config#id#.solar.daily.unite)
-          html += '<text id="daily_solar_value#id#" x="226" y="26" class="st10#id# left-align#id#" display="'
-          html += (config#id#.solar.daily.show !== true || config#id#.show_solar === false || config#id#.solar.daily.remaining_show != false) ? 'none' : ''
+          html += '<text id="pv1_power_state#id#" x="' + ((config#id#.solar.mppts == 1) ? '238.8' : '188.1')
+          html += '" y="' + ((config#id#.solar.pv1.energy === false) ? '84' : '79') + '" class="'
+          html += (config#id#.large_font !== true) ? 'ft12-#id#' : 'ft14-#id#'
+          html += ' ftw-#id# center-align#id#" display="'
+          html += (config#id#.show_solar === false) ? 'none' : ''
+          html += '" fill="var(--solar_colour#id#)">' + trunc#id#(config#id#.solar.pv1.power, 1) + ' ' + config#id#.solar.unit + '</text>'
+          
+          let pv1_energy = autoValueArray#id#((config#id#.solar.pv1.energy || 0),config#id#.solar.pv1.energy_unit)
+          html += '<text id="pv1_energy#id#" x="' + ((config#id#.solar.mppts == 1) ? '238.8' : '188.1')
+          html += '" y="90" class="ft8-#id# center-align#id#" display="'
+          html += (config#id#.show_solar === false || config#id#.solar.pv1.energy === false || config#id#.solar.mppts === 0) ? 'none' : ''
           html += '" fill="var(--solar_colour#id#)">'
-          html += trunc#id#(dailySolar.value, 3, 1) + ' ' + dailySolar.unit
+          html += trunc#id#(pv1_energy.value, 3, 1) + ' ' + pv1_energy.unit
           html += '</text>'
           
-          // entities.day_pv_energy_108
-          let dailyRemainingSolar = autoValueArray#id#(config#id#.solar.daily.remaining_state,config#id#.solar.daily.remaining_unite)
-          html += '<text id="remaining_solar_value#id#" x="200" y="26" class="st10#id# left-align#id#" display="'
-          html += (config#id#.solar.daily.show !== true || config#id#.show_solar === false || config#id#.solar.daily.remaining_show === false) ? 'none' : ''
-          html += '" fill="var(--solar_colour#id#)" >' + trunc#id#(dailySolar.value, 3) + ' ' + dailySolar.unit + ' / '  + trunc#id#(dailyRemainingSolar, 3) + ' ' + dailyRemainingSolar.unit + '</text>'
-          
-          // entities.day_battery_discharge_71
-          let dailyBatteryDischarge = autoValueArray#id#(config#id#.battery.daily.discharge_state,config#id#.battery.daily.discharge_unite)
-          html += '<text id="daily_bat_discharge_value#id#" x="135" y="380.1" class="st10#id# left-align#id#" display="' //77.2
-          html += (config#id#.battery.daily.show_discharge !== true) ? 'none' : ''
-          html += '" fill="var(--battery_colour#id#)" >' + trunc#id#(dailyBatteryDischarge.value, 3, 1) + ' ' + dailyBatteryDischarge.unit + '</text>'
+          // entities.pv1_voltage_109
+          html += '<text id="pv1_voltage#id#" x="' + ((config#id#.solar.mppts == 1) ? '235' : '181') + '" y="'
+          if (config#id#.solar.pv1.current === false) html += '106'//94
+          else  html += '118' //106
+          html += '" class="ft9-#id# right-align#id#" display="'//106"
+          html += (config#id#.show_solar === false || config#id#.solar.pv1.voltage === false) ? 'none' : ''
+          html += '" fill="var(--solar_colour#id#)" >' + config#id#.solar.pv1.voltage + ' ' + config#id#.solar.pv1.voltage_unit + '</text>'
     
+          // entities.pv1_current_110
+          html += '<text id="pv1_current#id#" x="' + ((config#id#.solar.mppts == 1) ? '235' : '181') + '" y="106" class="ft9-#id# right-align#id#" display="'
+          html += (config#id#.show_solar === false || config#id#.solar.pv1.current === false) ? 'none' : ''
+          html += '" fill="var(--solar_colour#id#)" >' + config#id#.solar.pv1.current + ' ' + config#id#.solar.pv1.current_unit + '</text>'
+          
+          html += '<path id="pv1-line#id#" d="M 187 95 L 187 132 Q 187 144 195 144 L 205 144" class="' + ((config#id#.show_solar === false || config#id#.solar.mppts === 1) ? 'hidden-#id#' : '') + '" fill="none" stroke="var(--solar_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
+          html += '<circle id="pv1-dot#id#" cx="0" cy="0" r="3" class="' + ((config#id#.show_solar === false || config#id#.solar.mppts === 1) ? 'hidden-#id#' : '') + '" fill="transparent">'
+          html += '<animateMotion id="anim_pv1#id#" dur="' + config#id#.solar.animation_speed + 's" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#pv1-line#id#"/></animateMotion></circle>'
+
+          
+          ///////////////////////////////////////////////////////
+          ////////////////////// PV2 ////////////////////////////
+          ///////////////////////////////////////////////////////
+          html += '<!-- PV2 -->'
+          html += '<rect id="pv2-rect-#id#" x="254" y="64.5" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--solar_colour#id#)" pointer-events="all" class="'
+          html += (config#id#.show_solar === false || config#id#.solar.mppts === 1) ? 'hidden-#id#' : ''
+          html += '"/>'
+          
+          html += '<text x="288" y="60" class="ft9-#id# ftw-#id# center-align#id#" display="' + ((config#id#.show_solar === false || config#id#.solar.mppts === 1) ? 'none' : '') + '" fill="var(--solar_colour#id#)">' + config#id#.solar.pv2.name + '</text>'
+          
+          html += '<text id="pv2_power_state#id#" x="289.5" y="' + ((config#id#.solar.pv2.energy === false) ? '84' : '79') + '" class="'
+          html += (config#id#.large_font !== true) ? 'ft12-#id#' : 'ft14-#id#'
+          html += ' ftw-#id# center-align#id#" display="'
+          html += (config#id#.show_solar === false || config#id#.solar.mppts === 1) ? 'none' : ''
+          html += '" fill="var(--solar_colour#id#)">' + trunc#id#(config#id#.solar.pv2.power, 1) + ' ' + config#id#.solar.unit + '</text>'
+          
+          let pv2_energy = autoValueArray#id#((config#id#.solar.pv2.energy || 0),config#id#.solar.pv2.energy_unit)
+          html += '<text id="pv2_energy#id#" x="289.5" y="90" class="ft8-#id# center-align#id#" display="'
+          html += (config#id#.show_solar === false || config#id#.solar.pv2.energy === false || config#id#.solar.mppts < 2) ? 'none' : ''
+          html += '" fill="var(--solar_colour#id#)">'
+          html += trunc#id#(pv2_energy.value, 3, 1) + ' ' + pv2_energy.unit
+          html += '</text>'
+          
+          // entities.pv2_voltage_111
+          html += '<text id="pv2_voltage#id#" x="284" y="' + ((config#id#.solar.pv2.current === false) ? '106' : '118') + '" class="ft9-#id# right-align#id#" display="'
+          html += (config#id#.show_solar === false || config#id#.solar.pv2.voltage === false || config#id#.solar.mppts === 1) ? 'none' : ''
+          html += '" fill="var(--solar_colour#id#)" >' + config#id#.solar.pv2.voltage + ' ' + config#id#.solar.pv2.voltage_unit + '</text>'
+    
+          // entities.pv2_current_112
+          html += '<text id="pv2_current#id#" x="284" y="106" class="ft9-#id# right-align#id#" display="'
+          html += (config#id#.show_solar === false || config#id#.solar.pv2.current === false || config#id#.solar.mppts === 1) ? 'none' : ''
+          html += '" fill="var(--solar_colour#id#)" >' + config#id#.solar.pv2.current + ' ' + config#id#.solar.pv2.current_unit + '</text>'
+          
+          html += '<path id="pv2-line#id#" d="M 289 95 L 289 135 Q 289 144 282 144 L 275 144" class="' + ((config#id#.show_solar === false || config#id#.solar.mppts === 1) ? 'hidden-#id#' : '') + '" fill="none" stroke="var(--solar_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
+          html += '<circle id="pv2-dot#id#" cx="0" cy="0" r="3" class="' + ((config#id#.show_solar === false || config#id#.solar.mppts === 1) ? 'hidden-#id#' : '') + '" fill="transparent">'
+          html += '<animateMotion id="anim_pv2#id#" dur="' + config#id#.solar.animation_speed + 's" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#pv2-line#id#"/></animateMotion></circle>'
+          ///////////////////////////////////////////////////////
+          ////////////////////// PV3 ////////////////////////////
+          ///////////////////////////////////////////////////////
+          html += '<!-- PV3 -->'
+          html += '<rect id="pv3-rect-#id#" x="78" y="64.5" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--solar_colour#id#)" pointer-events="all" class="'
+          html += (config#id#.show_solar === false || config#id#.solar.mppts === 1 || config#id#.solar.mppts === 2) ? 'hidden-#id#' : ''
+          html += '"/>'
+          
+          html += '<text x="112" y="60" class="ft9-#id# ftw-#id# center-align#id#" display="' + ((config#id#.show_solar === false || config#id#.solar.mppts === 1 || config#id#.solar.mppts === 2) ? 'none' : '') + '" fill="var(--solar_colour#id#)">' + config#id#.solar.pv3.name + '</text>'
+          
+          html += '<text id="pv3_power_state#id#" x="113" y="' + ((config#id#.solar.pv3.energy === false) ? '84' : '79') + '" class="'
+          html += (config#id#.large_font !== true) ? 'ft12-#id#' : 'ft14-#id#'
+          html += ' ftw-#id# center-align#id#" display="'
+          html += (config#id#.show_solar === false || config#id#.solar.mppts === 1 || config#id#.solar.mppts === 2) ? 'none' : ''
+          html += '" fill="var(--solar_colour#id#)">' + trunc#id#(config#id#.solar.pv3.power, 1) + ' ' + config#id#.solar.unit + '</text>'
+          
+          let pv3_energy = autoValueArray#id#((config#id#.solar.pv3.energy || 0),config#id#.solar.pv3.energy_unit)
+          html += '<text id="pv3_energy#id#" x="113" y="90" class="ft8-#id# center-align#id#" display="'
+          html += (config#id#.show_solar === false || config#id#.solar.pv3.energy === false || config#id#.solar.mppts < 3) ? 'none' : ''
+          html += '" fill="var(--solar_colour#id#)">'
+          html += trunc#id#(pv3_energy.value, 3, 1) + ' ' + pv3_energy.unit
+          html += '</text>'
+          
+          // entities.pv3_voltage_113
+          html += '<text id="pv3_voltage#id#" x="107" y="' + ((config#id#.solar.pv3.current === false) ? '106' : '118') + '" class="ft9-#id# right-align#id#" display="'
+          html += (config#id#.show_solar === false || config#id#.solar.pv3.voltage === false || config#id#.solar.mppts === 1 || config#id#.solar.mppts === 2) ? 'none' : ''
+          html += '" fill="var(--solar_colour#id#)" >' + config#id#.solar.pv3.voltage + ' ' + config#id#.solar.pv3.voltage_unit + '</text>'
+    
+          // entities.pv3_current_114
+          html += '<text id="pv3_current#id#" x="107" y="106" class="ft9-#id# right-align#id#" display="'
+          html += (config#id#.show_solar === false || config#id#.solar.pv3.current === false || config#id#.solar.mppts === 1 || config#id#.solar.mppts === 2) ? 'none' : ''
+          html += '" fill="var(--solar_colour#id#)" >' + config#id#.solar.pv3.current + ' ' + config#id#.solar.pv3.current_unit + '</text>'
+          
+          html += '<path id="pv3-line#id#" d="M 113 95 L 113 135 Q 113 144 120 144 L 205 144" class="' + ((config#id#.show_solar === false || config#id#.solar.mppts === 1 || config#id#.solar.mppts === 2) ? 'hidden-#id#' : '') + '" fill="none" stroke="var(--solar_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
+          html += '<circle id="pv3-dot#id#" cx="0" cy="0" r="3" class="' + ((config#id#.show_solar === false || config#id#.solar.mppts === 1 || config#id#.solar.mppts === 2) ? 'hidden-#id#' : '') + '" fill="' + ((parseInt(config#id#.solar.pv3.power) <= 0) ? 'transparent' : 'var(--solar_colour#id#)') + '">'
+          html += '<animateMotion id="anim_pv3#id#" dur="' + config#id#.solar.animation_speed + 's" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#pv3-line#id#"/></animateMotion></circle>'
+          ///////////////////////////////////////////////////////
+          ////////////////////// PV4 ////////////////////////////
+          ///////////////////////////////////////////////////////
+          html += '<!-- PV4 -->'
+          html += '<rect id="pv4-rect-#id#" x="330" y="64.5" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--solar_colour#id#)" pointer-events="all" class="'
+          html += (config#id#.show_solar === false || config#id#.solar.mppts === 1 || config#id#.solar.mppts === 2 || config#id#.solar.mppts === 3) ? 'hidden-#id#' : ''
+          html += '"/>'
+          
+          html += '<text x="364" y="60" class="ft9-#id# ftw-#id# center-align#id#" display="' + ((config#id#.show_solar === false || config#id#.solar.mppts === 1 || config#id#.solar.mppts === 2 || config#id#.solar.mppts === 3) ? 'none' : '') + '" fill="var(--solar_colour#id#)">' + config#id#.solar.pv4.name + '</text>'
+          
+          html += '<text id="pv4_power_state#id#" x="366" y="' + ((config#id#.solar.pv4.energy === false) ? '84' : '79') + '" class="'
+          html += (config#id#.large_font !== true) ? 'ft12-#id#' : 'ft14-#id#'
+          html += ' ftw-#id# center-align#id#" display="'
+          html += (config#id#.show_solar === false || config#id#.solar.mppts === 1 || config#id#.solar.mppts === 2 || config#id#.solar.mppts === 3) ? 'none' : ''
+          html += '" fill="var(--solar_colour#id#)">' + trunc#id#(config#id#.solar.pv4.power, 1) + ' ' + config#id#.solar.unit + '</text>'
+          
+          let pv4_energy = autoValueArray#id#((config#id#.solar.pv4.energy || 0),config#id#.solar.pv4.energy_unit)
+          html += '<text id="pv4_energy#id#" x="366" y="90" class="ft8-#id# center-align#id#" display="'
+          html += (config#id#.show_solar === false || config#id#.solar.pv4.energy === false  || config#id#.solar.mppts < 4) ? 'none' : ''
+          html += '" fill="var(--solar_colour#id#)">'
+          html += trunc#id#(pv4_energy.value, 3, 1) + ' ' + pv4_energy.unit
+          html += '</text>'
+          
+          // entities.pv4_voltage_115
+          html += '<text id="pv4_voltage#id#" x="360" y="' + ((config#id#.solar.pv4.current === false) ? '106' : '118') + '" class="ft9-#id# right-align#id#" display="'
+          html += (config#id#.show_solar === false || config#id#.solar.pv4.voltage === false || config#id#.solar.mppts === 1 || config#id#.solar.mppts === 2 || config#id#.solar.mppts === 3) ? 'none' : ''
+          html += '" fill="var(--solar_colour#id#)" >' + config#id#.solar.pv4.voltage + ' ' + config#id#.solar.pv4.voltage_unit + '</text>'
+    
+          // entities.pv4_current_116
+          html += '<text id="pv4_current#id#" x="360" y="106" class="ft9-#id# right-align#id#" display="'
+          html += (config#id#.show_solar === false || config#id#.solar.pv4.current === false || config#id#.solar.mppts === 1 || config#id#.solar.mppts === 2 || config#id#.solar.mppts === 3) ? 'none' : ''
+          html += '" fill="var(--solar_colour#id#)" >' + config#id#.solar.pv4.current + ' ' + config#id#.solar.pv4.current_unit + '</text>'
+          
+          html += '<path id="pv4-line#id#" d="M 365 95 L 365 135 Q 365 144 358 144 L 275 144" class="' + ((config#id#.show_solar === false || config#id#.solar.mppts === 1 || config#id#.solar.mppts === 2 || config#id#.solar.mppts === 3) ? 'hidden-#id#' : '') + '" fill="none" stroke="var(--solar_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
+          html += '<circle id="pv4-dot#id#" cx="0" cy="0" r="3" class="' + ((config#id#.show_solar === false || config#id#.solar.mppts === 1 || config#id#.solar.mppts === 2 || config#id#.solar.mppts === 3) ? 'hidden-#id#' : '') + '" fill="' + ((parseInt(config#id#.solar.pv4.power) <= 0) ? 'transparent' : 'var(--solar_colour#id#)') + '">'
+    html += '<animateMotion id="anim_pv4#id#" dur="' + config#id#.solar.animation_speed + 's" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#pv4-line#id#"/></animateMotion></circle>'
+          ///////////////////////////////////////////////////////
+          ////////////////////// Load ///////////////////////////
+          ///////////////////////////////////////////////////////
+          html += '<!-- Load -->'
+          html += '<rect x="304" y="213.5" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--load_colour#id#)" pointer-events="all"/>'
+          
+          html += '<text id="ess_power#id#" x="338.1" y="232.2" class="'
+          html += (config#id#.large_font !== true) ? 'ft12-#id#' : 'ft14-#id#'
+          html += ' ftw-#id# center-align#id#" fill="var(--load_colour#id#)"></text>'
+          // LINE LOAD
+          html += '<path id="es-line#id#" d="M 304 228 L 264.7 228" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
+          html += '<circle id="es-dot1#id#" cx="0" cy="0" r="3" fill="transparent">'
+          html += '<animateMotion id="anim_load1#id#" dur="' + config#id#.load.animation_speed + 's" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear">'
+          html += '<mpath xlink:href="#es-line#id#"/></animateMotion></circle>'
+          html += '<path id="es-line1#id#" d="M 374 228 L 402.38 228" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
+          html += '<circle id="es-dot#id#" cx="0" cy="0" r="3" fill="transparent">'
+          html += '<animateMotion id="anim_load#id#" dur="' + config#id#.load.animation_speed + 's" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear">'
+          html += '<mpath xlink:href="#es-line1#id#"/></animateMotion></circle>'
+          
+          // ICON LOAD ESS
+          //html += '<svg xmlns="http://www.w3.org/2000/svg" id="icon_load#id#" x="402" y="177.5" width="79" height="79" viewBox="0 0 24 24"><path fill="var(--load_colour#id#)" d="M15 9h1V7.5h4V9h1c.55 0 1 .45 1 1v11c0 .55-.45 1-1 1h-6c-.55 0-1-.45-1-1V10c0-.55.45-1 1-1m1 2v3h4v-3h-4m-4-5.31l-5 4.5V18h5v2H5v-8H2l10-9l2.78 2.5H14v1.67l-.24.1L12 5.69Z"/></svg>'
+          // ICON LOAD NONESS
+          html += '<svg xmlns="http://www.w3.org/2000/svg" id="icon_load#id#" x="400" y="190.5" width="79" height="79" viewBox="0 0 24 24"><path fill="var(--load_colour#id#)" d="m15 13l-4 4v-3H2v-2h9V9l4 4M5 20v-4h2v2h10v-7.81l-5-4.5L7.21 10H4.22L12 3l10 9h-3v8H5Z"></path></svg>'
+          
           // entities.day_load_energy_84
-          let dailyLoad = autoValueArray#id#(config#id#.load.daily.state,config#id#.load.daily.unite)
+          let dailyLoad = autoValueArray#id#(config#id#.load.daily.state,config#id#.load.daily.unit)
           html += '<text id="daily_load_value#id#" x="'
-          html += (config#id#.load.additional_loads === 2 && config#id#.show_solar === true) ? '365' : '400.4'
+          html += ((config#id#.load.additional_loads == 4 || config#id#.load.additional_loads == 2) && config#id#.show_solar === true) ? '335' : (config#id#.load.additional_loads == 3) ? '483.4' : '400.4'
           html += '" y="'
-          html += (config#id#.load.additional_loads === 2 && config#id#.show_solar === true) ? '168' : '267.9'
-          html += '" class="st10#id# left-align#id#" display="'
+          html += ((config#id#.load.additional_loads == 4 || config#id#.load.additional_loads == 2) && config#id#.show_solar === true) ? '178' : '277.9'
+          html += '" class="ft16-#id# left-align#id#" display="'
           html += (config#id#.load.daily.show === false) ? 'none' : ''
           html += '" fill="var(--load_colour#id#)">' + trunc#id#(dailyLoad.value, 3, 1) + ' ' + dailyLoad.unit + '</text>'
+          
+          html += '<text id="daily_load#id#" x="'
+          html += ((config#id#.load.additional_loads == 4 || config#id#.load.additional_loads == 2)  && config#id#.show_solar === true) ? '335' : (config#id#.load.additional_loads == 3) ? '483.4' : '400.4'
+          html += '" y="'
+          html += ((config#id#.load.additional_loads == 4 || config#id#.load.additional_loads == 2)  && config#id#.show_solar === true) ? '192.2' : '292.1'
+          html += '" class="ft9-#id# left-align#id#" fill="' + ((config#id#.load.daily.show === false) ? 'transparent' : 'var(--load_colour#id#)') + '" >' + config#id#.load.daily.text + '</text>'
+          ///////////////////////////////////////////////////////
+          //////////////////// Load 1 ///////////////////////////
+          ///////////////////////////////////////////////////////
+          html += '<!-- Load 1 -->'
+          html += '<rect id="load1-rect-#id#" x="406" y="128.5" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--load_colour#id#)" pointer-events="all" display="'
+          html += ((config#id#.load.additional_loads >= 1) && config#id#.show_solar !== false) ? '' : 'none'
+          html += '"/>'
+          
+          html += '<text id="ess_load1#id#" x="440" y="' + ((config#id#.load.load1.energy === false) ? '148' : '143') + '" display="'
+          html += ((config#id#.load.additional_loads >= 1) && config#id#.show_solar !== false) ? '' : 'none'
+          html += '" class="'
+          html += (config#id#.large_font !== true) ? 'ft12-#id#' : 'ft14-#id#'
+          html += ' ftw-#id# center-align#id#" fill="var(--load_colour#id#)">' + config#id#.load.load1.power + ' ' + config#id#.load.load1.power_unit + '</text>'
+          
+          let load1_energy = autoValueArray#id#((config#id#.load.load1.energy || 0),config#id#.load.load1.energy_unit)
+          html += '<text id="load1_energy#id#" x="440" y="154" class="ft8-#id# center-align#id#" display="'
+          html += (config#id#.show_solar === false || config#id#.load.load1.energy === false || config#id#.load.additional_loads <= 0) ? 'none' : ''
+          html += '" fill="var(--load_colour#id#)">'
+          html += trunc#id#(load1_energy.value, 3, 1) + ' ' + load1_energy.unit
+          html += '</text>'
+          
+          html += '<text id="es-load1-name#id#" x="440" y="122" class="ft9-#id# center-align#id#" display="'
+          html += ((config#id#.load.additional_loads >= 1) && config#id#.show_solar !== false) ? '' : 'none'
+          html += '" fill="var(--load_colour#id#)" >' + ((config#id#.load.load1.name) ? config#id#.load.load1.name : '') + '</text>'
+          // ICON
+          if ((config#id#.load.additional_loads >= 1) && config#id#.show_solar !== false && config#id#.load.load1.icon !== false) html += getSvgIcon(config#id#.load.load1.icon, 1)
+          // LINE
+          html += '<path id="es-load1path#id#" d="M 441 190 L 441 158" class="' + (((config#id#.load.additional_loads >= 1) && config#id#.show_solar !== false) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
+          html += '<circle id="es-dot1-#id#" cx="0" cy="0" r="3"  class="' + ((config#id#.load.additional_loads >= 1 && config#id#.show_solar !== false && config#id#.load.animate_load_enable === true) ? '' : 'hidden-#id#') + '" fill="' + ((config#id#.load.load1.power == 0) ? 'transparent' : 'var(--load_colour#id#)') + '"><animateMotion id="anim_load1-#id#" dur="3" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#es-load1path#id#"></mpath></animateMotion></circle>'
+          ///////////////////////////////////////////////////////
+          //////////////////// Load 2 ///////////////////////////
+          ///////////////////////////////////////////////////////
+          html += '<!-- Load 2 -->'
+          html += '<rect id="load2-rect-#id#" x="406" y="300" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--load_colour#id#)" pointer-events="all" display="'
+          html += (config#id#.load.additional_loads >= 2 && config#id#.show_solar !== false) ? '' : 'none'
+          html += '"/>'
+          
+          html += '<text id="ess_load2#id#" x="440" y="' + ((config#id#.load.load2.energy === false) ? '319.5' : '314.5') + '" display="'
+          html += (config#id#.load.additional_loads >= 2 && config#id#.show_solar !== false) ? '' : 'none'
+          html += '" class="'
+          html += (config#id#.large_font !== true) ? 'ft12-#id#' : 'ft14-#id#'
+          html += ' ftw-#id# center-align#id#" fill="var(--load_colour#id#)">' + config#id#.load.load2.power + ' ' + config#id#.load.load2.power_unit + '</text>'
+          
+          let load2_energy = autoValueArray#id#((config#id#.load.load2.energy || 0),config#id#.load.load2.energy_unit)
+          html += '<text id="load2_energy#id#" x="440" y="325.5" class="ft8-#id# center-align#id#" display="'
+          html += (config#id#.show_solar === false || config#id#.load.load2.energy === false || config#id#.load.additional_loads <= 1) ? 'none' : ''
+          html += '" fill="var(--load_colour#id#)">'
+          html += trunc#id#(load2_energy.value, 3, 1) + ' ' + load2_energy.unit
+          html += '</text>'
+          
+          html += '<text id="es-load2-name#id#" x="440" y="343" class="ft9-#id# center-align#id#" display="'
+          html += (config#id#.load.additional_loads >= 2 && config#id#.show_solar !== false) ? '' : 'none'
+          html += '" fill="var(--load_colour#id#)" >' + ((config#id#.load.load2.name) ? config#id#.load.load2.name : '') + '</text>'
+          // ICON
+          if (config#id#.load.additional_loads >= 2 && config#id#.show_solar !== false && config#id#.load.load2.icon !== false) html += getSvgIcon(config#id#.load.load2.icon, 2)
+          // LINE
+          html += '<path id="es-load2path#id#" d="M 441 300 L 441 267" class="' + ((config#id#.load.additional_loads >= 2 && config#id#.show_solar !== false) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
+          html += '<circle id="es-dot2-#id#" cx="0" cy="0" r="3"  class="' + ((config#id#.load.additional_loads >= 2 && config#id#.show_solar !== false && config#id#.load.animate_load_enable === true) ? '' : 'hidden-#id#') + '" fill="' + ((config#id#.load.load2.power == 0) ? 'transparent' : 'var(--load_colour#id#)') + '"><animateMotion id="anim_load2-#id#" dur="3" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#es-load2path#id#"></mpath></animateMotion></circle>'
+          ///////////////////////////////////////////////////////
+          //////////////////// Load 3 ///////////////////////////
+          ///////////////////////////////////////////////////////
+          html += '<!-- Load 3 -->'
+          html += '<rect id="load3-rect-#id#" x="485" y="128.5" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--load_colour#id#)" pointer-events="all" display="'
+          html += ((config#id#.load.additional_loads >= 3) && config#id#.show_solar !== false) ? '' : 'none'
+          html += '"/>'
+          
+          html += '<text id="ess_load3#id#" x="520" y="' + ((config#id#.load.load3.energy === false) ? '148' : '143') + '" display="'
+          html += (config#id#.load.additional_loads >= 3 && config#id#.show_solar !== false) ? '' : 'none'
+          html += '" class="'
+          html += (config#id#.large_font !== true) ? 'ft12-#id#' : 'ft14-#id#'
+          html += ' ftw-#id# center-align#id#" fill="var(--load_colour#id#)">' + config#id#.load.load3.power + ' ' + config#id#.load.load3.power_unit + '</text>'
+          
+          let load3_energy = autoValueArray#id#((config#id#.load.load3.energy || 0),config#id#.load.load3.energy_unit)
+          html += '<text id="load3_energy#id#" x="520" y="154" class="ft8-#id# center-align#id#" display="'
+          html += (config#id#.show_solar === false || config#id#.load.load3.energy === false || config#id#.load.additional_loads <= 2) ? 'none' : ''
+          html += '" fill="var(--load_colour#id#)">'
+          html += trunc#id#(load3_energy.value, 3, 1) + ' ' + load3_energy.unit
+          html += '</text>'
+          
+          html += '<text id="es-load3-name#id#" x="520" y="122" class="ft9-#id# center-align#id#" display="'
+          html += (config#id#.load.additional_loads >= 3 && config#id#.show_solar !== false) ? '' : 'none'
+          html += '" fill="var(--load_colour#id#)" >' + ((config#id#.load.load3.name) ? config#id#.load.load3.name : '') + '</text>'
+          // ICON
+          if (config#id#.load.additional_loads >= 3 && config#id#.show_solar !== false && config#id#.load.load3.icon !== false) html += getSvgIcon(config#id#.load.load3.icon, 3)
+          // LINE
+          html += '<path id="es-load3path#id#" d="M 520 158 L 520 205 Q 520 214 512 214 L 475 214" class="' + ((config#id#.load.additional_loads >= 3 && config#id#.show_solar !== false) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
+          html += '<circle id="es-dot3-#id#" cx="0" cy="0" r="3"  class="' + ((config#id#.load.additional_loads >= 3 && config#id#.show_solar !== false && config#id#.load.animate_load_enable === true) ? '' : 'hidden-#id#') + '" fill="' + ((config#id#.load.load3.power == 0) ? 'transparent' : 'var(--load_colour#id#)') + '"><animateMotion id="anim_load3-#id#" dur="3" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#es-load3path#id#"></mpath></animateMotion></circle>'
+          ///////////////////////////////////////////////////////
+          //////////////////// Load 4 ///////////////////////////
+          ///////////////////////////////////////////////////////
+          html += '<!-- Load 4 -->'
+          html += '<rect id="load4-rect-#id#" x="485" y="300" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--load_colour#id#)" pointer-events="all" display="'
+html += ((config#id#.load.additional_loads >= 4) && config#id#.show_solar !== false) ? '' : 'none'
+html += '"/>'
+          
+          html += '<text id="ess_load4#id#" x="520" y="' + ((config#id#.load.load4.energy === false) ? '319.5' : '314.5') + '" display="'
+          html += (config#id#.load.additional_loads >= 4 && config#id#.show_solar !== false) ? '' : 'none'
+          html += '" class="'
+          html += (config#id#.large_font !== true) ? 'ft12-#id#' : 'ft14-#id#'
+          html += ' ftw-#id# center-align#id#" fill="var(--load_colour#id#)">' + config#id#.load.load4.power + ' ' + config#id#.load.load4.power_unit + '</text>'
+          
+          let load4_energy = autoValueArray#id#((config#id#.load.load4.energy || 0),config#id#.load.load4.energy_unit)
+          html += '<text id="load4_energy#id#" x="520" y="325.5" class="ft8-#id# center-align#id#" display="'
+          html += (config#id#.show_solar === false || config#id#.load.load4.energy === false || config#id#.load.additional_loads <= 3) ? 'none' : ''
+          html += '" fill="var(--load_colour#id#)">'
+          html += trunc#id#(load4_energy.value, 3, 1) + ' ' + load4_energy.unit
+          html += '</text>'
+          
+          html += '<text id="es-load4-name#id#" x="520" y="343" class="ft9-#id# center-align#id#" display="'
+          html += (config#id#.load.additional_loads >= 4 && config#id#.show_solar !== false) ? '' : 'none'
+          html += '" fill="var(--load_colour#id#)" >' + ((config#id#.load.load4.name) ? config#id#.load.load4.name : '') + '</text>'
+          // ICON
+          if (config#id#.load.additional_loads >= 4 && config#id#.show_solar !== false && config#id#.load.load4.icon !== false) html += getSvgIcon(config#id#.load.load4.icon, 4)
+          // LINE
+          html += '<path id="es-load4path#id#" d="M 520 300 L 520 252 Q 520 242 512 242 L 475 242" class="' + ((config#id#.load.additional_loads >= 4 && config#id#.show_solar !== false) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10" pointer-events="stroke"></path>'
+          html += '<circle id="es-dot4-#id#" cx="0" cy="0" r="3"  class="' + ((config#id#.load.additional_loads >= 4 && config#id#.show_solar !== false && config#id#.load.animate_load_enable === true) ? '' : 'hidden-#id#') + '" fill="' + ((config#id#.load.load4.power == 0) ? 'transparent' : 'var(--load_colour#id#)') + '"><animateMotion id="anim_load4-#id#" dur="3" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#es-load4path#id#"></mpath></animateMotion></circle>'
+          ///////////////////////////////////////////////////////
+          /////////////////////  Grid ///////////////////////////
+          ///////////////////////////////////////////////////////
+          html += '<!-- Grid -->'
+          // entities.grid_ct_power_172
+          html += '<rect x="103" y="213.5" width="70" height="29.5" rx="4.42" ry="4.42" fill="none" stroke="var(--grid_colour#id#)" pointer-events="all"/>'
+          
+          html += '<text id="grid_power#id#" x="138.1" y="232.2" display="'
+          html += '" class="'
+          html += (config#id#.large_font !== true) ? 'ft12-#id#' : 'ft14-#id#'
+          html += ' ftw-#id# center-align#id#" fill="var(--grid_colour#id#)">'
+          html += (config#id#.grid.power_state < 0) ? config#id#.grid.power_state * -1 : config#id#.grid.power_state
+          //html += config#id#.grid.power_state.toFixed(0)
+          html += ' ' + config#id#.battery.power_unit + '</text>'
+          // LINE GRID
+          html += '<path id="grid-line#id#" d="M 173 228 L 214 228" fill="none" stroke="var(--grid_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
+          html += '<circle id="grid-dot-buy#id#" cx="0" cy="0" r="3" fill="' + ((config#id#.grid.power_state < 0 || config#id#.grid.power_state === 0) ? 'transparent' : 'var(--grid_colour#id#)') + '">'
+          html += '<animateMotion id="anim_grid_buy#id#" dur="' + config#id#.grid.animation_speed + 's" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear">'
+          html += '<mpath xlink:href="#grid-line#id#"/></animateMotion></circle>'
+          html += '<circle id="grid-dot-sell#id#" cx="0" cy="0" r="3" fill="' + ((config#id#.grid.power_state > 0 || config#id#.grid.power_state === 0) ? 'transparent' : 'var(--grid_colour#id#)') + '">'
+          html += '<animateMotion id="anim_grid_sell#id#" dur="' + config#id#.grid.animation_speed + 's" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear">'
+          html += '<mpath xlink:href="#grid-line#id#"/></animateMotion></circle>'
     
+          html += '<path id="grid-line1#id#" d="M 103 228 L 64.5 228" fill="none" stroke="var(--grid_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
+          html += '<circle id="grid-dot1-buy#id#" cx="0" cy="0" r="3" fill="' + ((config#id#.grid.power_state < 0 || config#id#.grid.power_state === 0) ? 'transparent' : 'var(--grid_colour#id#)') + '">'
+          html += '<animateMotion id="anim_grid_buy1#id#" dur="' + config#id#.grid.animation_speed + 's" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear">'
+          html += '<mpath xlink:href="#grid-line1#id#"/></animateMotion></circle>'
+          html += '<circle id="grid-dot1-sell#id#" cx="0" cy="0" r="3" fill="' + ((config#id#.grid.power_state > 0 || config#id#.grid.power_state === 0) ? 'transparent' : 'var(--grid_colour#id#)') + '">'
+          html += '<animateMotion id="anim_grid_sell1#id#" dur="' + config#id#.grid.animation_speed + 's" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear">'
+          html += '<mpath xlink:href="#grid-line1#id#"/></animateMotion></circle>'
+          // ICON
+          // grid_connected_status_194
+          html += '<svg xmlns="http://www.w3.org/2000/svg" id="transmission_on#id#" x="-0.5" y="197.5" width="64.5" height="64.5" viewBox="0 0 24 24"><path class="'
+          html += (config#id#.grid.status === 'off' || config#id#.grid.status === '0' || config#id#.grid.status === 0) ? 'hidden-#id#' : ''
+          html += '" fill="var(--grid_colour#id#)" d="m8.28 5.45l-1.78-.9L7.76 2h8.47l1.27 2.55l-1.78.89L15 4H9l-.72 1.45M18.62 8h-4.53l-.79-3h-2.6l-.79 3H5.38L4.1 10.55l1.79.89l.73-1.44h10.76l.72 1.45l1.79-.89L18.62 8m-.85 14H15.7l-.24-.9L12 15.9l-3.47 5.2l-.23.9H6.23l2.89-11h2.07l-.36 1.35L12 14.1l1.16-1.75l-.35-1.35h2.07l2.89 11m-6.37-7l-.9-1.35l-1.18 4.48L11.4 15m3.28 3.12l-1.18-4.48l-.9 1.36l2.08 3.12Z"/></svg>'
+    
+          html += '<svg xmlns="http://www.w3.org/2000/svg" id="transmission_off#id#" x="-0.5" y="197.5" width="64.5" height="64.5" viewBox="0 0 24 24"><path class="'
+          html += (config#id#.grid.status === 'on' || config#id#.grid.status === '1' || config#id#.grid.status === 1) ? 'hidden-#id#' : ''
+          html += '" fill="var(--no_grid_colour#id#)" d="M22.1 21.5L2.4 1.7L1.1 3l5 5h-.7l-1.3 2.5l1.8.9l.7-1.4h1.5l1 1l-2.9 11h2.1l.2-.9l3.5-5.2l3.5 5.2l.2.9h2.1l-.8-3.2l3.9 3.9l1.2-1.2M9.3 18.1l1.2-4.5l.9 1.3l-2.1 3.2m5.4 0L12.6 15l.2-.3l1.3 1.3l.6 2.1m-.5-7.1h.7l.2.9l-.9-.9m-.1-3h4.5l1.3 2.6l-1.8.9l-.7-1.5h-4.2l-3-3l.5-2h2.6l.8 3M8.4 5.2L6.9 3.7L7.8 2h8.5l1.3 2.5l-1.8.9L15 4H9l-.6 1.2Z"/></svg>'
+          
+          html += '<text id="daily_grid_buy#id#" x="5" y="292.1" class="ft9-#id# left-align#id#" fill="' + ((config#id#.grid.daily.show_buy !== true) ? 'transparent' : 'var(--grid_colour#id#)') + '" >' + config#id#.grid.daily.text_buy + '</text>'
+          html += '<text id="daily_grid_sell#id#" x="5" y="189" class="ft9-#id# left-align#id#" fill="' + ((config#id#.grid.daily.show_sell !== true) ? 'transparent' : 'var(--grid_colour#id#)') + '" >' + config#id#.grid.daily.text_sell + '</text>'
           // entities.day_grid_import_76
-          let dailyGridBuy = autoValueArray#id#(config#id#.grid.daily.buy_state,config#id#.grid.daily.buy_unite)
-          html += '<text id="daily_grid_buy_value#id#" x="5" y="267.9" class="st10#id# left-align#id#" display="'
+          let dailyGridBuy = autoValueArray#id#(config#id#.grid.daily.buy_state,config#id#.grid.daily.buy_unit)
+          html += '<text id="daily_grid_buy_value#id#" x="5" y="277.9" class="ft16-#id# left-align#id#" display="'
           html += (config#id#.grid.daily.show_buy !== true) ? 'none' : ''
           html += '" fill="var(--grid_colour#id#)">' + trunc#id#(dailyGridBuy.value, 3, 1) + ' ' + dailyGridBuy.unit + '</text>'
-    
           // entities.day_grid_export_77
-          let dailyGridSell = autoValueArray#id#(config#id#.grid.daily.sell_state,config#id#.grid.daily.sell_unite)
-          html += '<text id="daily_grid_sell_value#id#" x="5" y="165" class="st10#id# left-align#id#" display="'
+          let dailyGridSell = autoValueArray#id#(config#id#.grid.daily.sell_state,config#id#.grid.daily.sell_unit)
+          html += '<text id="daily_grid_sell_value#id#" x="5" y="175" class="ft16-#id# left-align#id#" display="'
           html += (config#id#.grid.daily.show_sell !== true) ? 'none' : ''
           html += '" fill="var(--grid_colour#id#)" >' + trunc#id#(dailyGridSell.value,3 , 1) + ' ' + dailyGridSell.unit + '</text>'
-    
-          // entities.inverter_voltage_154
-          html += '<text id="inverter_voltage#id#" x="270.2" y="168.2" display="'
-          html += (config#id#.inverter.voltage_state === false) ? 'none' : ''
-          html += '" class="st3#id# left-align#id#" fill="var(--inverter_colour#id#)" >' + config#id#.inverter.voltage_state + ' ' + config#id#.inverter.voltage_unite + '</text>'
-    
-          // entities.load_frequency_192
-          html += '<text id="inverter_frequency#id#" x="270.2" y="' + ((config#id#.inverter.voltage_state === false) ? '168.2' : '180.4') + '" display="' //180.4
-          html += (config#id#.inverter.frequency_state === false) ? 'none' : ''
-          html += '" class="st3#id# left-align#id#" fill="var(--inverter_colour#id#)">' + config#id#.inverter.frequency_state + ' ' + config#id#.inverter.frequency_unite + '</text>'
-    
-          // entities.inverter_current_164
-          html += '<text id="inverter_current#id#" x="270.2" y="' + ((config#id#.inverter.voltage_state === false && config#id#.inverter.frequency_state === false) ? '168.2' : (config#id#.inverter.voltage_state !== false && config#id#.inverter.frequency_state !== false) ? '192.6' : '180.4') + '" display="' //192.6
-          html += (config#id#.inverter.current_state === false) ? 'none' : ''
-          html += '" class="st3#id# left-align#id#" fill="var(--inverter_colour#id#)">' + config#id#.inverter.current_state + ' ' + config#id#.inverter.current_unite + '</text>'
           
-          // entities.battery_voltage_183
-          html += '<text id="battery_voltage#id#" x="232" y="' + ((!config#id#.battery.current_state) ? '295' : '285') + '" display="' // 193 346
-          html += (!config#id#.battery.voltage_state) ? 'none' : ''
-          html += '" fill=var(--battery_colour#id#) class="st3#id# right-align#id#" >' + config#id#.battery.voltage_state + ' ' + config#id#.battery.voltage_unite + '</text>'
-          
-          //  entities.battery_soc_184
-          html += '<text id="battery_soc#id#" x="270" y="360" display="' //290 358
-          html += (config#id#.battery.soc.show === false) ? 'none' : ''
-          html += '" fill=var(--battery_colour#id#) class="st13#id# st8#id# left-align#id#"></text>'
-    
-
-          /*
-          // entities.battery_soc_184
-          html += '<text id="battery_soc2#id#" x="355" y="358" fill=var(--battery_colour#id#) class="st13#id# st8#id# left-align#id#" display="'
-          html += (config#id#.inverter.prog.show === false || config#id#.battery.soc.state === 'none') ? 'none' : ''
-          //html += '"> | ' + inverter_prog.capacity || 0 %</text>
-          html += '"> | ' + config#id#.inverter.prog.capacity + ' %</text>'
-          */
+          ///////////////////////////////////////////////////////
+          ////////////////////// Battery ////////////////////////
+          ///////////////////////////////////////////////////////
+          html += '<!-- Battery -->'
+          html += '<rect x="204" y="300" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--battery_colour#id#)" pointer-events="all"></rect>'
           
           // entities.battery_power_190
           html += '<text id="battery_power#id#" x="238.8" y="320" display="' // 193 386
           html += '" fill=var(--battery_colour#id#) class="'
-          html += (config#id#.large_font !== true) ? 'st14#id#' : 'st4#id#'
-          html += ' st8#id# center-align#id#">'
+          html += (config#id#.large_font !== true) ? 'ft12-#id#' : 'ft14-#id#'
+          html += ' ftw-#id# center-align#id#">'
           html += (config#id#.battery.power_state < 0) ? config#id#.battery.power_state * -1 : config#id#.battery.power_state
-          html += ' ' + config#id#.battery.power_unite + '</text>'
+          html += ' ' + config#id#.battery.power_unit + '</text>'
     
           //entities.battery_current_191
           html += '<text id="battery_current#id#" x="232" y="295" display="' // 305 380
           html += (!config#id#.battery.current_state) ? 'none' : ''
           html += '" fill=var(--battery_colour#id#) class="'
-          html += ' st3#id# right-align#id#">' + config#id#.battery.current_state + ' ' + config#id#.battery.current_unite + '</text>'
+          html += ' ft9-#id# right-align#id#">' + config#id#.battery.current_state + ' ' + config#id#.battery.current_unit + '</text>'
           
-          // entities.grid_ct_power_172
-          html += '<text id="grid_power#id#" x="138.1" y="222.2" display="'
-          html += '" class="'
-          html += (config#id#.large_font !== true) ? 'st14#id#' : 'st4#id#'
-          html += ' st8#id# center-align#id#" fill="var(--grid_colour#id#)">'
-          html += (config#id#.grid.power_state < 0) ? config#id#.grid.power_state * -1 : config#id#.grid.power_state
-          //html += config#id#.grid.power_state.toFixed(0)
-          html += ' ' + config#id#.battery.power_unite + '</text>'
+          // entities.battery_voltage_183
+          html += '<text id="battery_voltage#id#" x="232" y="' + ((!config#id#.battery.current_state) ? '295' : '285') + '" display="' // 193 346
+          html += (!config#id#.battery.voltage_state) ? 'none' : ''
+          html += '" fill=var(--battery_colour#id#) class="ft9-#id# right-align#id#" >' + config#id#.battery.voltage_state + ' ' + config#id#.battery.voltage_unit + '</text>'
           
-          // entities.pv1_voltage_109
-          html += '<text id="pv1_voltage#id#" x="' + ((config#id#.solar.mppts == 1) ? '235' : '181') + '" y="'
-           if(config#id#.solar.mppts == 1) {
-            if (config#id#.solar.pv1.current === false) html += '106'
-            else html += '118'
+          // entities.battery_temp_182
+          html += '<text id="battery_temp#id#" x="245" y="295" class="ft9-#id# left-align#id#" fill="var(--battery_colour#id#)" display="'
+          html += (config#id#.battery.temp.show !== false) ? '' : 'none'
+          html += '" >' + config#id#.battery.temp.state + '' + config#id#.battery.temp.unit + '</text>'
+          
+          // entities.day_battery_charge_70
+          html += '<text id="daily_bat_charge_value#id#" x="135" y="343" class= "ft16-#id# left-align#id#" display="' // 77.2
+          html += (config#id#.battery.daily.show_charge !== true) ? 'none' : ''
+          html += '" fill="var(--battery_colour#id#)">'
+          let dailyBatteryCharge = autoValueArray#id#(config#id#.battery.daily.charge_state,config#id#.battery.daily.charge_unit)
+          html += trunc#id#(dailyBatteryCharge.value, 3, 1) + ' ' + dailyBatteryCharge.unit
+          html += '</text>'
+          
+          // entities.day_pv_energy_108
+          let dailyRemainingSolar = autoValueArray#id#(config#id#.solar.daily.remaining_state,config#id#.solar.daily.remaining_unit)
+          html += '<text id="remaining_solar_value#id#" x="200" y="26" class="ft16-#id# left-align#id#" display="'
+          html += (config#id#.solar.daily.show !== true || config#id#.show_solar === false || config#id#.solar.daily.remaining_show === false) ? 'none' : ''
+          html += '" fill="var(--solar_colour#id#)" >' + trunc#id#(dailySolar.value, 3) + ' ' + dailySolar.unit + ' / '  + trunc#id#(dailyRemainingSolar, 3) + ' ' + dailyRemainingSolar.unit + '</text>'
+          
+          // entities.day_battery_discharge_71
+          let dailyBatteryDischarge = autoValueArray#id#(config#id#.battery.daily.discharge_state,config#id#.battery.daily.discharge_unit)
+          html += '<text id="daily_bat_discharge_value#id#" x="135" y="380.1" class="ft16-#id# left-align#id#" display="' //77.2
+          html += (config#id#.battery.daily.show_discharge !== true) ? 'none' : ''
+          html += '" fill="var(--battery_colour#id#)" >' + trunc#id#(dailyBatteryDischarge.value, 3, 1) + ' ' + dailyBatteryDischarge.unit + '</text>'
+          
+          html += '<text id="duration#id#" x="270" y="377.5" class="' + ((config#id#.large_font !== true) ? 'ft12-#id#' : 'ft14-#id#') + ' left-align#id#" fill="'
+          html += (config#id#.battery.energy == 0 || !config#id#.battery.energy) ? 'transparent' : 'var(--battery_colour#id#)'
+          html += '" ></text>'
+          
+          html += '<text id="duration_text_etat#id#" x="270" y="393.7" class="ft9-#id# left-align#id#" fill="'
+          html += (config#id#.battery.energy == 0 || !config#id#.battery.energy || config#id#.battery.power_state === 0 || float === true) ? 'transparent' : 'var(--battery_colour#id#)'
+          html += '" ></text>'
+    
+          html += '<text id="daily_bat_charge#id#" x="135" y="357.2" class="ft9-#id# left-align#id#"  fill="' + ((config#id#.battery.daily.show_charge !== true) ? 'transparent' : 'var(--battery_colour#id#)')
+          html += '" >' + config#id#.battery.daily.text_charge + '</text>'
+          html += '<text id="daily_bat_discharge#id#" x="135" y="393.7" class="ft9-#id# left-align#id#"  fill="' + ((config#id#.battery.daily.show_discharge !== true) ? 'transparent' : 'var(--battery_colour#id#)')
+          html += '" >' + config#id#.battery.daily.text_discharge + '</text>'
+          
+          //  entities.battery_soc_184
+          html += '<text id="battery_soc#id#" x="270" y="360" display="' //290 358
+          html += (config#id#.battery.soc.show === false) ? 'none' : ''
+          html += '" fill=var(--battery_colour#id#) class="ft18-#id# ftw-#id# left-align#id#"></text>'
+          /*
+          // entities.battery_soc_184
+          html += '<text id="battery_soc2#id#" x="355" y="358" fill=var(--battery_colour#id#) class="ft18-#id# ftw-#id# left-align#id#" display="'
+          html += (config#id#.inverter.prog.show === false || config#id#.battery.soc.state === 'none') ? 'none' : ''
+          //html += '"> | ' + inverter_prog.capacity || 0 %</text>
+          html += '"> | ' + config#id#.inverter.prog.capacity + ' %</text>'
+          */
+          // ICON BATTERY
+          html += '<svg xmlns="http://www.w3.org/2000/svg" id="icon_bat#id#" x="213" y="325.5" width="78.75" height="78.75" preserveAspectRatio="none" opacity="1" viewBox="0 0 24 24">'
+          html += getBatteryIcon#id#(config#id#.battery.soc.state, config#id#.battery.full_capacity, config#id#.battery.empty_capacity)
+          html += '</svg>'
+          // LINE BATTERY
+          html += '<path id="bat-line#id#" d="M 239.23 260 L 239.23 300" fill="none" stroke="var(--battery_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
+          
+          html += '<circle id="power-dot-charge#id#" cx="0" cy="0" r="3" fill="' + ((config#id#.battery.power_state < 0 || config#id#.battery.power_state == 0 || !config#id#.battery.power_state) ? 'transparent' : 'var(--battery_colour#id#)') + '">'
+          html += '<animateMotion id="anim_battery-charge#id#" dur="' + config#id#.battery.animation_speed + 's" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear">'
+          html += '<mpath xlink:href="#bat-line#id#"/></animateMotion></circle>'
+          
+          html += '<circle id="power-dot-discharge#id#" cx="0" cy="0" r="3" fill="' + ((config#id#.battery.power_state > 0 || config#id#.battery.power_state == 0 || !config#id#.battery.power_state) ? 'transparent' : 'var(--battery_colour#id#)') + '">'
+          html += '<animateMotion id="anim_battery-discharge#id#"  dur="' + config#id#.battery.animation_speed + 's" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear">'
+          html += '<mpath xlink:href="#bat-line#id#"/></animateMotion></circle>'
+          ///////////////////////////////////////////////////////
+          ///////////////////// Inverter ////////////////////////
+          ///////////////////////////////////////////////////////
+          html += '<!-- Inverter -->'
+          
+          // ICON INVERTER
+          if (config#id#.inverter.model == 'sunsynk') {
+          html += '<svg version="1.0" xmlns="http://www.w3.org/2000/svg" x="213.5" y="189" width="54" height="79" viewBox="0 0 74 91"  preserveAspectRatio="xMidYMid meet"> '
+          html += '<g transform="translate(0.000000,91.000000) scale(0.100000,-0.100000)" fill="var(--inverter_colour#id#)" stroke="none"> <path d="M35 887 l-27 -23 0 -404 0 -404 27 -23 c26 -23 28 -23 329 -23 284 0 305 1 327 19 l24 19 0 412 0 412 -24 19 c-22 18 -43 19 -327 19 -301 0 -303 0 -329 -23z m585 -157 l0 -80 -255 0 -255 0 0 80 0 80 255 0 255 0 0 -80z m-242 -229 c44 -34 40 -46 -14 -46 -60 0 -97 -38 -93 -94 5 -64 -23 -80 -35 -20 -9 44 24 113 63 134 35 18 34 15 21 50 -11 29 -14 30 58 -24z m110 -129 c4 -51 -19 -97 -59 -117 -27 -14 -30 -20 -23 -48 l6 -31 -51 43 c-29 24 -49 46 -46 49 3 4 23 5 44 3 58 -4 95 32 97 95 3 60 1 57 17 52 6 -3 13 -23 15 -46z"/> </g> </svg>'
           }
           else {
-            if (config#id#.solar.pv1.current === false) html += '94'
-            else  html += '106'
+            html += '<rect x="215" y="190" width="50" height="60" rx="4.5" ry="4.5" fill="none" stroke="var(--inverter_colour92426)" pointer-events="all"></rect>'
           }
-          html += '" class="st3#id# right-align#id#" display="'//106"
-          html += (config#id#.show_solar === false || config#id#.solar.pv1.voltage === false) ? 'none' : ''
-          html += '" fill="var(--solar_colour#id#)" >' + config#id#.solar.pv1.voltage + ' ' + config#id#.solar.pv1.voltage_unite + '</text>'
+          
+          // entities.inverter_voltage_154
+          html += '<text id="inverter_voltage#id#" x="270.2" y="168.2" display="'
+          html += (config#id#.inverter.voltage_state === false) ? 'none' : ''
+          html += '" class="ft9-#id# left-align#id#" fill="var(--inverter_colour#id#)" >' + config#id#.inverter.voltage_state + ' ' + config#id#.inverter.voltage_unit + '</text>'
     
-          // entities.pv1_current_110
-          html += '<text id="pv1_current#id#" x="' + ((config#id#.solar.mppts == 1) ? '235' : '181') + '" y="' + ((config#id#.solar.mppts == 1) ? '106' : '94') + '" class="st3#id# right-align#id#" display="'
-          html += (config#id#.show_solar === false || config#id#.solar.pv1.current === false) ? 'none' : ''
-          html += '" fill="var(--solar_colour#id#)" >' + config#id#.solar.pv1.current + ' ' + config#id#.solar.pv1.current_unite + '</text>'
+          // entities.load_frequency_192
+          html += '<text id="inverter_frequency#id#" x="270.2" y="' + ((config#id#.inverter.voltage_state === false) ? '168.2' : '180.4') + '" display="' //180.4
+          html += (config#id#.inverter.frequency_state === false) ? 'none' : ''
+          html += '" class="ft9-#id# left-align#id#" fill="var(--inverter_colour#id#)">' + config#id#.inverter.frequency_state + ' ' + config#id#.inverter.frequency_unit + '</text>'
     
-          // entities.pv2_voltage_111
-          html += '<text id="pv2_voltage#id#" x="284" y="' + ((config#id#.solar.pv2.current === false) ? '94' : '106') + '" class="st3#id# right-align#id#" display="'
-          html += (config#id#.show_solar === false || config#id#.solar.pv2.voltage === false || config#id#.solar.mppts === 1) ? 'none' : ''
-          html += '" fill="var(--solar_colour#id#)" >' + config#id#.solar.pv2.voltage + ' ' + config#id#.solar.pv2.voltage_unite + '</text>'
-    
-          // entities.pv2_current_112
-          html += '<text id="pv2_current#id#" x="284" y="94" class="st3#id# right-align#id#" display="'
-          html += (config#id#.show_solar === false || config#id#.solar.pv2.current === false || config#id#.solar.mppts === 1) ? 'none' : ''
-          html += '" fill="var(--solar_colour#id#)" >' + config#id#.solar.pv2.current + ' ' + config#id#.solar.pv2.current_unite + '</text>'
-    
-          // entities.pv3_voltage_113
-          html += '<text id="pv3_voltage#id#" x="107" y="' + ((config#id#.solar.pv3.current === false) ? '94' : '106') + '" class="st3#id# right-align#id#" display="'
-          html += (config#id#.show_solar === false || config#id#.solar.pv3.voltage === false || config#id#.solar.mppts === 1 || config#id#.solar.mppts === 2) ? 'none' : ''
-          html += '" fill="var(--solar_colour#id#)" >' + config#id#.solar.pv3.voltage + ' ' + config#id#.solar.pv3.voltage_unite + '</text>'
-    
-          // entities.pv3_current_114
-          html += '<text id="pv3_current#id#" x="107" y="94" class="st3#id# right-align#id#" display="'
-          html += (config#id#.show_solar === false || config#id#.solar.pv3.current === false || config#id#.solar.mppts === 1 || config#id#.solar.mppts === 2) ? 'none' : ''
-          html += '" fill="var(--solar_colour#id#)" >' + config#id#.solar.pv3.current + ' ' + config#id#.solar.pv3.current_unite + '</text>'
-    
-          // entities.pv4_voltage_115
-          html += '<text id="pv4_voltage#id#" x="360" y="' + ((config#id#.solar.pv4.current === false) ? '94' : '106') + '" class="st3#id# right-align#id#" display="'
-          html += (config#id#.show_solar === false || config#id#.solar.pv4.voltage === false || config#id#.solar.mppts === 1 || config#id#.solar.mppts === 2 || config#id#.solar.mppts === 3) ? 'none' : ''
-          html += '" fill="var(--solar_colour#id#)" >' + config#id#.solar.pv4.voltage + ' ' + config#id#.solar.pv4.voltage_unite + '</text>'
-    
-          // entities.pv4_current_116
-          html += '<text id="pv4_current#id#" x="360" y="94" class="st3#id# right-align#id#" display="'
-          html += (config#id#.show_solar === false || config#id#.solar.pv4.current === false || config#id#.solar.mppts === 1 || config#id#.solar.mppts === 2 || config#id#.solar.mppts === 3) ? 'none' : ''
-          html += '" fill="var(--solar_colour#id#)" >' + config#id#.solar.pv4.current + ' ' + config#id#.solar.pv4.current_unite + '</text>'
-    
-          // entities.battery_temp_182
-          html += '<text id="battery_temp#id#" x="245" y="295" class="st3#id# left-align#id#" fill="var(--battery_colour#id#)" display="'
-          html += (config#id#.battery.temp.show !== false) ? '' : 'none'
-          html += '" >' + config#id#.battery.temp.state + '' + config#id#.battery.temp.unite + '</text>'
-    
+          // entities.inverter_current_164
+          html += '<text id="inverter_current#id#" x="270.2" y="' + ((config#id#.inverter.voltage_state === false && config#id#.inverter.frequency_state === false) ? '168.2' : (config#id#.inverter.voltage_state !== false && config#id#.inverter.frequency_state !== false) ? '192.6' : '180.4') + '" display="' //192.6
+          html += (config#id#.inverter.current_state === false) ? 'none' : ''
+          html += '" class="ft9-#id# left-align#id#" fill="var(--inverter_colour#id#)">' + config#id#.inverter.current_state + ' ' + config#id#.inverter.current_unit + '</text>'
+          
           // entities.radiator_temp_91
-          html += '<text id="ac_temp#id#" x="173" y="168.2" class="st3#id# left-align#id#" fill="var(--inverter_colour#id#)" display="'
+          html += '<text id="ac_temp#id#" x="173" y="168.2" class="ft9-#id# left-align#id#" fill="var(--inverter_colour#id#)" display="'
           html += (config#id#.inverter.temp.ac_state !== false) ? '' : 'none'
-          html += '" >AC: ' + parseFloat(config#id#.inverter.temp.ac_state).toFixed(1) + config#id#.inverter.temp.ac_unite + '</text>'
+          html += '" >AC: ' + parseFloat(config#id#.inverter.temp.ac_state).toFixed(1) + config#id#.inverter.temp.ac_unit + '</text>'
     
           // dc_transformer_temp_90
-          html += '<text id="dc_temp#id#" x="173" y="' + ((config#id#.inverter.temp.ac_state !== false) ? '180.4' : '168.2') + '" class="st3#id# left-align#id#" fill="var(--inverter_colour#id#)" display="'
+          html += '<text id="dc_temp#id#" x="173" y="' + ((config#id#.inverter.temp.ac_state !== false) ? '180.4' : '168.2') + '" class="ft9-#id# left-align#id#" fill="var(--inverter_colour#id#)" display="'
           html += (config#id#.inverter.temp.dc_state !== false) ? '' : 'none'
-          html += '" >DC: ' + parseFloat(config#id#.inverter.temp.dc_state).toFixed(1) + config#id#.inverter.temp.dc_unite + '</text>'
-    
+          html += '" >DC: ' + parseFloat(config#id#.inverter.temp.dc_state).toFixed(1) + config#id#.inverter.temp.dc_unit + '</text>'
+          /*
           // entities.energy_cost
-          html += '<text id="energy_cost#id#" x="105" y="195" class="st3#id# left-align#id#" fill="var(--grid_colour#id#)"'
+          html += '<text id="energy_cost#id#" x="105" y="195" class="ft9-#id# left-align#id#" fill="var(--grid_colour#id#)"'
           html += (config#id#.grid.energy_cost === false) ? ' display="none"' : ''
           html += ' >' + config#id#.grid.energy_cost + '€</text>'
-    
-          html += '<text id="pvtotal_power#id#" x="238.8" y="136" class="'
-          html += (config#id#.large_font !== true) ? 'st14#id#' : 'st4#id#'
-          html += ' st8#id# center-align#id#" display="'
-          html += (config#id#.show_solar === false || config#id#.solar.mppts == 1) ? 'none' : ''
-          html += '" fill="var(--solar_colour#id#)"></text>'
-    
-          html += '<text id="pv1_power_state#id#" x="' + ((config#id#.solar.mppts == 1) ? '238.8' : '188.1')
-          html += '" y="' + ((config#id#.solar.mppts == 1) ? '84' : '79') + '" class="'
-          html += (config#id#.large_font !== true) ? 'st14#id#' : 'st4#id#'
-          html += ' st8#id# center-align#id#" display="'
-          html += (config#id#.show_solar === false) ? 'none' : ''
-          html += '" fill="var(--solar_colour#id#)">' + trunc#id#(config#id#.solar.pv1.power, 1) + ' ' + config#id#.solar.unite + '</text>'
-    
-          html += '<text id="pv2_power_state#id#" x="289.5" y="79" class="'
-          html += (config#id#.large_font !== true) ? 'st14#id#' : 'st4#id#'
-          html += ' st8#id# center-align#id#" display="'
-          html += (config#id#.show_solar === false || config#id#.solar.mppts === 1) ? 'none' : ''
-          html += '" fill="var(--solar_colour#id#)">' + trunc#id#(config#id#.solar.pv2.power, 1) + ' ' + config#id#.solar.unite + '</text>'
-    
-          html += '<text id="pv3_power_state#id#" x="113" y="79" class="'
-          html += (config#id#.large_font !== true) ? 'st14#id#' : 'st4#id#'
-          html += ' st8#id# center-align#id#" display="'
-          html += (config#id#.show_solar === false || config#id#.solar.mppts === 1 || config#id#.solar.mppts === 2) ? 'none' : ''
-          html += '" fill="var(--solar_colour#id#)">' + trunc#id#(config#id#.solar.pv3.power, 1) + ' ' + config#id#.solar.unite + '</text>'
-    
-          html += '<text id="pv4_power_state#id#" x="366" y="79" class="'
-          html += (config#id#.large_font !== true) ? 'st14#id#' : 'st4#id#'
-          html += ' st8#id# center-align#id#" display="'
-          html += (config#id#.show_solar === false || config#id#.solar.mppts === 1 || config#id#.solar.mppts === 2 || config#id#.solar.mppts === 3) ? 'none' : ''
-          html += '" fill="var(--solar_colour#id#)">' + trunc#id#(config#id#.solar.pv4.power, 1) + ' ' + config#id#.solar.unite + '</text>'
-    
-          html += '<text id="ess_power#id#" x="338.1" y="222.2" class="'
-          html += (config#id#.large_font !== true) ? 'st14#id#' : 'st4#id#'
-          html += ' st8#id# center-align#id#" fill="var(--load_colour#id#)"></text>'
-    
-          html += '<text id="ess_load1#id#" x="440" y="136" display="'
-          html += ((config#id#.load.additional_loads === 1 || config#id#.load.additional_loads === 2) && config#id#.show_solar !== false) ? '' : 'none'
+          
+          html += '<text id="autarkye_value#id#" x="130" y="260" display="' + ((config#id#.inverter.autarky === "no") ? 'none' : '') + '" class="' + ((config#id#.inverter.autarky === 'energy') ? 'ft14-#id# ftw-#id# left-align#id#' : 'hidden-#id#') + '" fill="var(--inverter_colour#id#)" >' + config#id#.inverter.autarky_state + '%</text>'
+          
+          html += '<text id="ratioe_value#id#" x="173" y="260" display="'
+          html += (config#id#.inverter.autarky === "no") ? 'none' : ''
           html += '" class="'
-          html += (config#id#.large_font !== true) ? 'st14#id#' : 'st4#id#'
-          html += ' st8#id# center-align#id#" fill="var(--load_colour#id#)">' + config#id#.load.load1_state + ' ' + config#id#.load.load1_unite + '</text>'
+          html += (config#id#.inverter.autarky === 'energy') ? 'ft14-#id# ftw-#id# left-align#id#' : 'hidden-#id#'
+          html += '" fill="var(--inverter_colour#id#)" >' + config#id#.inverter.ratio_state + '%</text>'
     
-          html += '<text id="ess_load2#id#" x="440" y="309.5" display="'
-          html += (config#id#.load.additional_loads === 2 && config#id#.show_solar !== false) ? '' : 'none'
+          html += '<text id="autarkyp_value#id#" x="130" y="260" display="'
+          html += (config#id#.inverter.autarky === "no") ? 'none' : ''
           html += '" class="'
-          html += (config#id#.large_font !== true) ? 'st14#id#' : 'st4#id#'
-          html += ' st8#id# center-align#id#" fill="var(--load_colour#id#)">' + config#id#.load.load2_state + ' ' + config#id#.load.load2_unite + '</text>'
-            
+          html += (config#id#.inverter.autarky === 'power') ? 'ft14-#id# ftw-#id# left-align#id#' : 'hidden-#id#'
+          html += '" fill="var(--inverter_colour#id#)" >' + config#id#.inverter.autarkyp_state + '%</text>'
+    
+          html += '<text id="ratiop_value#id#" x="173" y="260" display="'
+          html += (config#id#.inverter.autarky === "no") ? 'none' : ''
+          html += '" class="'
+          html += (config#id#.inverter.autarky === 'power') ? 'ft14-#id# ftw-#id# left-align#id#' : 'hidden-#id#'
+          html += '" fill="var(--inverter_colour#id#)" >'  + config#id#.inverter.ratiop_state + '%</text>'
+    
+          html += '<text id="autarky#id#" x="130" y="273" display="'
+          html += (config#id#.inverter.autarky === "no") ? 'none' : ''
+          html += '" class="ft9-#id# left-align#id#" fill="var(--inverter_colour#id#)" >' + config#id#.inverter.autarky_text + '</text>'
+    
+          html += '<text id="ratio#id#" x="173" y="273" display="'
+          html += (config#id#.inverter.autarky === "no") ? 'none' : ''
+          html += '" class="ft9-#id# left-align#id#" fill="var(--inverter_colour#id#)" >' + config#id#.inverter.ratio_text + '</text>'
+          
+          ////////////////////// PRIORITY /////////////////////
+          // priority_load_243
+          html += '<svg xmlns="http://www.w3.org/2000/svg" id="pbat#id#" x="267.7" y="262.5" width="18" height="18" viewBox="0 0 24 24"><path display="'
+          html += (config#id#.priority.state === 'off' && config#id#.priority.usepriority !== false) ? '' : 'none'
+          html += '" fill="var(--inverter_colour#id#)" d="M15.95 21.175L13.1 18.35l1.425-1.4l1.425 1.4l3.525-3.525l1.425 1.4l-4.95 4.95ZM8 22q-.425 0-.713-.288T7 21V5q0-.425.288-.713T8 4h2V2h4v2h2q.425 0 .713.288T17 5v7q-.525 0-1.025.088T15 12.35V6H9v14h2.35q.2.575.488 1.075t.687.925H8Zm1-2h2.35H11h.35H9Z"/></svg>'
+          html += '<text id="priority_text_batt#id#" x="287" y="273" class="ft9-#id# left-align#id#" display="'
+          html += (config#id#.priority.state === 'off' && config#id#.priority.usepriority !== false) ? '' : 'none'
+          html += '" fill="var(--inverter_colour#id#)">' + config#id#.priority.text_off + '</text>'
+          
+          html += '<svg xmlns="http://www.w3.org/2000/svg" id="pload#id#" x="267.7" y="262.5" width="18" height="18" viewBox="0 0 24 24"><path display="'
+          html += (config#id#.priority.state === 'on' && config#id#.priority.usepriority !== false) ? '' : 'none'
+          html += '" fill="var(--inverter_colour#id#)" d="m15 13l-4 4v-3H2v-2h9V9l4 4M5 20v-4h2v2h10v-7.81l-5-4.5L7.21 10H4.22L12 3l10 9h-3v8H5Z"/></svg>'
+          html += '<text id="priority_text_load#id#" x="287" y="273" class="ft9-#id# left-align#id#" display="'
+          html += (config#id#.priority.state === 'on' && config#id#.priority.usepriority !== false) ? '' : 'none'
+          html += '" fill="var(--inverter_colour#id#)">' + config#id#.priority.text_on + '</text>'
+          ////////////////////// TIMER /////////////////////
+          // entities.use_timer_248
+          html += '<svg xmlns="http://www.w3.org/2000/svg" id="timer#id#" x="267.7" y="243.3" width="18" height="18" viewBox="0 0 24 24"><path display="'
+          html += (config#id#.timer.state == 'on' && config#id#.timer.usetimer !== false) ? '' : 'none'
+          html += '" fill="var(--inverter_colour#id#)" d="M15 1H9v2h6V1zm-4 13h2V8h-2v6zm8.03-6.61l1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42A8.962 8.962 0 0 0 12 4c-4.97 0-9 4.03-9 9s4.02 9 9 9a8.994 8.994 0 0 0 7.03-14.61zM12 20c-3.87 0-7-3.13-7-7s3.13-7 7-7s7 3.13 7 7s-3.13 7-7 7z"/></svg>'
+          html += '<text id="timer_text_on#id#" x="287" y="254.7" class="ft9-#id# left-align#id#" display="'
+          html += (config#id#.timer.state == 'on' && config#id#.timer.usetimer !== false) ? '' : 'none'
+          html += '" fill="var(--inverter_colour#id#)">' + config#id#.timer.text_off + '</text>'
+          
+          html += '<svg xmlns="http://www.w3.org/2000/svg" id="timer_off#id#" x="267.7" y="243.3" width="18" height="18" viewBox="0 0 24 24"><path display="'
+          html += (config#id#.timer.state == 'off' && config#id#.timer.usetimer !== false) ? '' : 'none'
+          html += '" fill="var(--inverter_colour#id#)" d="m19.95 17.15l-1.5-1.5q.275-.675.413-1.337T19 13q0-2.9-2.05-4.95T12 6q-.6 0-1.275.125t-1.4.4l-1.5-1.5q.95-.5 2.012-.763T12 4q1.5 0 2.938.5t2.712 1.45l1.4-1.4l1.4 1.4l-1.4 1.4q.95 1.275 1.45 2.713T21 13q0 1.05-.263 2.087t-.787 2.063ZM13 10.2V8h-2v.2l2 2Zm6.8 12.4l-2.4-2.4q-1.2.875-2.588 1.338T12 22q-1.85 0-3.488-.713T5.65 19.35q-1.225-1.225-1.938-2.863T3 13q0-1.5.463-2.888T4.8 7.6L1.4 4.2l1.4-1.4l18.4 18.4l-1.4 1.4ZM12 20q1.05 0 2.05-.325t1.875-.925L6.2 9.025q-.6.875-.9 1.875T5 13q0 2.9 2.05 4.95T12 20ZM9 3V1h6v2H9Zm2.075 10.875Zm2.825-2.8Z"/></svg>'
+          html += '<text id="timer_text_off#id#" x="287" y="254.7" class="ft9-#id# left-align#id#" display="'
+          html += (config#id#.timer.state == 'off' && config#id#.timer.usetimer !== false) ? '' : 'none'
+          html += '" fill="var(--inverter_colour#id#)">' + config#id#.timer.text_off + '</text>'
+          // ICON PRISE ON
+          // inverter_prog.entityID
+          html += '<svg xmlns="http://www.w3.org/2000/svg" id="prog_grid_on#id#" x="323" y="243" width="20" height="18" viewBox="0 0 24 24"><path display="'
+          html += (config#id#.inverter.prog.show === false || config#id#.inverter.prog.grid === 'none') ? 'none' : ''
+          html += '" class="'
+          html += (config#id#.inverter.prog.charge === 'none') ? 'hidden-#id#' : ''
+          html += '" fill="var(--inverter_colour#id#)" d="M11.5 19h1v-1.85l3.5-3.5V9H8v4.65l3.5 3.5V19Zm-2 2v-3L6 14.5V9q0-.825.588-1.413T8 7h1L8 8V3h2v4h4V3h2v5l-1-1h1q.825 0 1.413.588T18 9v5.5L14.5 18v3h-5Zm2.5-7Z"/></svg>'
+          // ICON PRISE OFF
+          html += '<svg xmlns="http://www.w3.org/2000/svg" id="prog_grid_off#id#" x="323" y="243" width="20" height="18" viewBox="0 0 24 24"><path display="'
+          html += (config#id#.inverter.prog.show === false || config#id#.inverter.prog.grid === 'none') ? 'none' : ''
+          html += '" class="'
+          html += (config#id#.inverter.prog.charge === 'none') ? '' : 'hidden-#id#'
+          html += '" fill="var(--inverter_colour#id#)" d="M10 3H8v1.88l2 2zm6 6v3.88l1.8 1.8l.2-.2V9c0-1.1-.9-2-2-2V3h-2v4h-3.88l2 2H16zM4.12 3.84L2.71 5.25L6 8.54v5.96L9.5 18v3h5v-3l.48-.48l4.47 4.47l1.41-1.41L4.12 3.84zm8.38 13.33V19h-1v-1.83L8 13.65v-3.11l5.57 5.57l-1.07 1.06z"/></svg>'
+          */
+          
+          ///////////////////////////////////////////////////////
+          ///////////////////// Other ////////////////////////
+          ///////////////////////////////////////////////////////
+          html += '<!-- Other -->'
+          // html += '<circle id="standby#id#" cx="220" cy="260" r="3.5" fill="var(--inverterStateColour#id#)"/>' /////////////// Todo
+          
+          //html += '<rect id="es-load5#id#" x="448" y="170" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--load_colour#id#)" pointer-events="all" display="'
+          //html += ((config#id#.load.additional_loads >= 5) && config#id#.show_solar !== false) ? '' : 'none'
+          //html += '"/>'
+          
+          //html += '<path id="es-load5path#id#" d="M 483 228.5 L 483 200" class="' + ((config#id#.load.additional_loads >= 5 && config#id#.show_solar !== false) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10" pointer-events="stroke"></path>'
           html += '</svg></div>'
           
           document.getElementById('widget#id#').innerHTML = html
@@ -1888,7 +2317,7 @@
         if (debug#id#) console.log('| pv1_power = ' + parseFloat(config#id#.solar.pv1.power) + ' (' + config#id#.solar.pv1.power + ')');
         if (debug#id#) console.log('| pv2_power = ' + parseFloat(config#id#.solar.pv2.power) + ' (' + config#id#.solar.pv2.power + ')');
         if (debug#id#) console.log('| total_pv = ' + total_pv);
-        document.getElementById("pvtotal_power#id#").innerHTML = trunc#id#(total_pv, 1) + ' ' + config#id#.solar.unite
+        document.getElementById("pvtotal_power#id#").innerHTML = trunc#id#(total_pv, 1) + ' ' + config#id#.solar.unit
         
         if(config#id#.solar.pv1.power > 0) document.getElementById("pv1-dot#id#").setAttribute("fill", "var(--solar_colour#id#)");
         else document.getElementById("pv1-dot#id#").setAttribute("fill", "transparent");
@@ -1916,26 +2345,28 @@
         if (debug#id#) console.log('| has_load_power ?',config#id#.load.has_load_power);
         
         if (config#id#.load.has_load_power !== false && el == 'init'){
-          document.getElementById("ess_power#id#").innerHTML = config#id#.load.load_state + ' ' + config#id#.load.load_unite
+          document.getElementById("ess_power#id#").innerHTML = config#id#.load.power + ' ' + config#id#.load.unit
         }
         
         if (config#id#.load.has_load_power === false){
-          if (config#id#.load.load_unite == '') {
-            if (config#id#.load.load1_unite != '') config#id#.load.load_unite = config#id#.load.load1_unite
+          if (config#id#.load.unit == '') {
+            if (config#id#.load.load1.power_unit != '') config#id#.load.unit = config#id#.load.load1.power_unit
           }
           
-          if (debug#id#) console.log('| load1_state = ' + config#id#.load.load1_state);
-          if (debug#id#) console.log('| load2_state = ' + config#id#.load.load2_state);
-          if (config#id#.load.load1_unite != config#id#.load.load2_unite) console.log('| /!\\ ------- Attention unité differente entre load1 et load2, calcul impossible !!!')
+          if (debug#id#) console.log('| load1_state = ' + config#id#.load.load1.power);
+          if (debug#id#) console.log('| load2_state = ' + config#id#.load.load2.power);
+          if (debug#id#) console.log('| load3_state = ' + config#id#.load.load3.power);
+          if (debug#id#) console.log('| load4_state = ' + config#id#.load.load4.power);
+          if (config#id#.load.load1.power_unit != config#id#.load.load2.power_unit || config#id#.load.load1.power_unit != config#id#.load.load3.power_unit || config#id#.load.load1.power_unit != config#id#.load.load4.power_unit) console.log('| /!\\ ------- Attention unité differente entre load1, load2, load3 ou load4 calcul impossible !!!')
           else {
-            config#id#.load.load_state = ((config#id#.load.load1_state * 1000) + (config#id#.load.load2_state * 1000)) / 1000
-            document.getElementById("ess_power#id#").innerHTML = config#id#.load.load_state + ' ' + config#id#.load.load_unite
+            config#id#.load.power = ((config#id#.load.load1.power * 1000) + (config#id#.load.load2.power * 1000) + (config#id#.load.load3.power * 1000) + (config#id#.load.load4.power * 1000)) / 1000
+            document.getElementById("ess_power#id#").innerHTML = config#id#.load.power + ' ' + config#id#.load.unit
           }
         }
         
-        if (debug#id#) console.log('| total_load = ' + config#id#.load.load_state);
+        if (debug#id#) console.log('| total_load = ' + config#id#.load.power);
         
-        if(config#id#.load.load_state > 0) {
+        if(config#id#.load.power > 0) {
           document.getElementById("es-dot1#id#").setAttribute("fill", "var(--load_colour#id#)");
           document.getElementById("es-dot#id#").setAttribute("fill", "var(--load_colour#id#)");
         }
@@ -1945,7 +2376,7 @@
         }
         if (debug#id#) console.log('| animation_speed = ' + config#id#.load.animation_speed)
         if (debug#id#) console.log('| max_power = ' + config#id#.load.max_power)
-        let speed = config#id#.load.animation_speed - ((config#id#.load.animation_speed - 1) * (config#id#.load.load_state / (config#id#.load.max_power || config#id#.load.load_state)));
+        let speed = config#id#.load.animation_speed - ((config#id#.load.animation_speed - 1) * (config#id#.load.power / (config#id#.load.max_power || config#id#.load.power)));
         speed = (speed >= 1) ? speed : 1;
         if (debug#id#) console.log('| animation_speed = ' + speed);
         document.getElementById("anim_load#id#")?.setAttribute("dur",speed);
@@ -2104,9 +2535,14 @@
     <div>load1Icon : Afficher Icone. Choix : oven, pump, aircon, boiler, charging</div>
     <div>load2Name : personnalisation du nom du Load2. (Ex: C.E, Clim, ....)</div>
     <div>load2Icon : Afficher Icone. Choix : oven, pump, aircon, boiler, charging</div>
+    <div>load3Name : personnalisation du nom du Load3. (Ex: C.E, Clim, ....)</div>
+    <div>load3Icon : Afficher Icone. Choix : oven, pump, aircon, boiler, charging</div>
+    <div>load4Name : personnalisation du nom du Load4. (Ex: C.E, Clim, ....)</div>
+    <div>load4Icon : Afficher Icone. Choix : oven, pump, aircon, boiler, charging</div>
     <div>dailyLoadText : personnalisation du texte. (défaut : DAILY LOAD)</div>
     <div>loadMaxPower : Puissance max des équipements "Load". (permet la gestion de vitesse de l'animation)</div>
     <div>loadColor : Couleur des éléments de catégorie "load" [ Exemple : #fffff, white]</div>
+    <div>loadAnimate: Pour désactiver l'animation des Load passer ce paramètre a 0</div>
     <div> ------------ Grid ------------</div>
     <div>dailyGridSellText : personnalisation du texte. (défaut : DAILY GRID SELL)</div>
     <div>dailyGridBuyText : personnalisation du texte. (défaut : DAILY GRID BUYL)</div>
