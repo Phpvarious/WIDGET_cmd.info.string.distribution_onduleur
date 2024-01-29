@@ -3,7 +3,7 @@
   Widget name : cmd.info.string.distribution_onduleur
   Author : Phpvarious
   Inspiration : https://github.com/slipx06/sunsynk-power-flow-card/tree/master
-  Last Uptade : 2023/09/21 23h00 - Phpvarious
+  Last Uptade : 2024/01/29 19h30 - Phpvarious
 
   ###### TODO ######
 -->
@@ -45,7 +45,7 @@
     var debug#id# = ('#debug#' == 1) ? true : false;
     var fullJs#id# = false
     var jeedomVersion#id# = 4.4
-    var versionWidget#id# = '21/09/2023 23h00'
+    var versionWidget#id# = '29/01/2024 19h30'
     
     if (debug#id#) console.log('┌─────────────────── Widget Distribution Onduleur [#id#] Compatibilité V4.3 V4.4 [' + versionWidget#id# + '] ───────────────')
     /* Compatibilité V4.2 V4.3 V4.4 */
@@ -128,8 +128,10 @@
       return Array(val, div)
     }
     
-    function getBatteryIcon#id#(value=false, full_capacity=80, empty_capacity=30) {
-        if (debug#id#) console.log('| getBatteryIcon() -> ' + value + ' | ' + full_capacity + ' | ' + empty_capacity)
+    function getBatteryIcon#id#(value=false, full_capacity=80, empty_capacity=30, icon_perso=false) {
+      if (debug#id#) console.log('| getBatteryIcon() -> ' + value + ' | ' + full_capacity + ' | ' + empty_capacity + ' | ' + icon_perso)
+      if (icon_perso) return '<path fill="var(--battery_colour#id#)" d="M1553,402.5l-18.6-18.6c-4-4-10.4-4-14.4,0l-86.1,86.1l-57.2-57.2l86.1-86.1c4-4,4-10.4,0-14.4l-18.6-18.6   c-4-4-10.4-4-14.4,0l-86.1,86.1l-47-47c-48.6,48.6-57.8,121.8-27.5,179.7c-18,17.7-31.6,38.1-40.6,61.2c-2.7,6.8-4.9,13.8-6.7,21   c-39.6-45-74.3-73.2-74.3-73.2c-70.9-60.6-175.6-93.2-303.3-84.3c-190.4,13.3-267.9,98.6-324.4,160.9   c-34.7,38.3-55.9,60.1-87.2,64.8c-225.4,33.4-347,133.2-333.7,273.8c7.5,78.9,30.5,132.6,68.6,159.5c0,0,29.6,17.7,66,17.2h54.9   c27.4,69.8,95.5,119.3,174.9,119.3s147.5-49.5,174.9-119.3h236.9c27.4,69.8,95.5,119.3,174.9,119.3c88.3,0,162.6-61.3,182.6-143.6   c26.9-34.9,88.8-126.1,101.7-225.3c7.3-56.4-10.1-112.6-36.9-162.6c-3.8-12.3-7.4-27.5-8.8-43.8c-3.1-37.3,6.2-67.1,28.3-90.4   c59.9,42.3,143.3,36.6,197-17l-47-47l86.1-86.1C1557,412.9,1557,406.4,1553,402.5z M463.3,1159.8c-63.4,0-114.9-51.6-114.9-114.9   c0-63.4,51.6-114.9,114.9-114.9s114.9,51.6,114.9,114.9C578.2,1108.3,526.7,1159.8,463.3,1159.8z M1050,1159.8   c-63.4,0-114.9-51.6-114.9-114.9c0-63.4,51.6-114.9,114.9-114.9c63.4,0,114.9,51.6,114.9,114.9   C1165,1108.3,1113.4,1159.8,1050,1159.8z M1261.7,870.9c-2.2,38.8-16.9,78-35.1,109.7c-26.3-72.1-95.5-123.6-176.5-123.6   c-102.1,0-185.4,81.9-187.8,183.4H651.1c-2.4-101.5-85.7-183.4-187.8-183.4s-185.4,81.9-187.8,183.4h-45.4c-21,0.3-22.2-5-22.2-5   c-10.7-8.6-29.7-33.7-36.5-105.6c-12.5-132.6,164.9-178.9,271.8-194.8c58.7-8.7,93.6-47.2,130.6-87.9   c53.6-59,114.3-126,275.5-137.2c13.6-1,26.8-1.4,39.5-1.4c87,0,154.7,22,201.6,65.6C1090.3,574.1,1271.1,702.5,1261.7,870.9z"/>'
+      
       if (value < full_capacity && value >= 50) {// 50 a 99
           return '<path fill="var(--battery_colour#id#)" d="M 12 20 H 4 V 6 h 8 L 12 20 m 0.67 -16 H 11 V 2 H 5 v 2 H 3.33 C 2.6 4 2 4.6 2 5.33 v 15.34 C 2 21.4 2.6 22 3.33 22 h 9.34 c 0.74 0 1.33 -0.59 1.33 -1.33 V 5.33 C 14 4.6 13.4 4 12.67 4 M 11 16 H 5 v 3 h 6 v -3 m 0 -4.5 H 5 v 3 h 6 v -3 h -3 h 3"/>'; 
         } else if (value < 50 && value > empty_capacity) { // 1 a 49
@@ -147,19 +149,39 @@
       if (debug#id#) console.log('|| load = ' +  load)
       let svg = ''
       if(icone === 'oven'){
-        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="' + ((load === 3 || load === 4) ? '524' : '444') +'" y="' + ((load === 1 || load === 3) ? '160' : '269') +'" width="30" height="30" viewBox="0 0 32 32" opacity="1"><path fill="var(--load_colour#id#)" d="M3 7.5A4.5 4.5 0 0 1 7.5 3h17A4.5 4.5 0 0 1 29 7.5v17a4.5 4.5 0 0 1-4.5 4.5h-17A4.5 4.5 0 0 1 3 24.5v-17Zm24 0A2.5 2.5 0 0 0 24.5 5h-17A2.5 2.5 0 0 0 5 7.5V11h22V7.5Zm0 17V13H5v11.5A2.5 2.5 0 0 0 7.5 27h17a2.5 2.5 0 0 0 2.5-2.5Zm-17-15a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3Zm6 0a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3ZM23.5 8a1.5 1.5 0 1 1-3 0a1.5 1.5 0 0 1 3 0ZM9 23v-6h14v6H9Zm-.5-8A1.5 1.5 0 0 0 7 16.5v7A1.5 1.5 0 0 0 8.5 25h15a1.5 1.5 0 0 0 1.5-1.5v-7a1.5 1.5 0 0 0-1.5-1.5h-15Z"/></svg>' // 113 // 287
+        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="' + ((load === 7 || load === 8) ? '684' : (load === 5 || load === 6) ? '604' : (load === 3 || load === 4) ? '524' : '444') +'" y="' + ((load === 1 || load === 3 || load === 5 || load === 7) ? '160' : '269') +'" width="30" height="30" viewBox="0 0 32 32" opacity="1"><path fill="var(--load_colour#id#)" d="M3 7.5A4.5 4.5 0 0 1 7.5 3h17A4.5 4.5 0 0 1 29 7.5v17a4.5 4.5 0 0 1-4.5 4.5h-17A4.5 4.5 0 0 1 3 24.5v-17Zm24 0A2.5 2.5 0 0 0 24.5 5h-17A2.5 2.5 0 0 0 5 7.5V11h22V7.5Zm0 17V13H5v11.5A2.5 2.5 0 0 0 7.5 27h17a2.5 2.5 0 0 0 2.5-2.5Zm-17-15a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3Zm6 0a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3ZM23.5 8a1.5 1.5 0 1 1-3 0a1.5 1.5 0 0 1 3 0ZM9 23v-6h14v6H9Zm-.5-8A1.5 1.5 0 0 0 7 16.5v7A1.5 1.5 0 0 0 8.5 25h15a1.5 1.5 0 0 0 1.5-1.5v-7a1.5 1.5 0 0 0-1.5-1.5h-15Z"/></svg>' // 113 // 287
       }
       else if(icone === 'pump'){
-        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="' + ((load === 3 || load === 4) ? '524' : '444') +'" y="' + ((load === 1 || load === 3) ? '160' : '269') +'" width="30" height="30" viewBox="0 0 24 24" opacity="1"><path fill="var(--load_colour#id#)" d="M3 17h4.1q-.425-.425-.787-.925T5.675 15H3v2Zm9 0q2.075 0 3.538-1.463T17 12q0-2.075-1.463-3.538T12 7Q9.925 7 8.462 8.463T7 12q0 2.075 1.463 3.538T12 17Zm6.325-8H21V7h-4.1q.425.425.788.925T18.325 9ZM1 20v-8h2v1h2.075q-.05-.25-.063-.488T5 12q0-2.925 2.038-4.963T12 5h9V4h2v8h-2v-1h-2.075q.05.25.063.488T19 12q0 2.925-2.038 4.963T12 19H3v1H1Zm2-3v-2v2Zm18-8V7v2Zm-9 3Zm0 3q-.825 0-1.413-.588T10 13q0-.575.238-1.137t.912-1.613L12 9l.85 1.25q.675 1.05.913 1.613T14 13q0 .825-.588 1.413T12 15Z"/></svg>'
+        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="' + ((load === 7 || load === 8) ? '684' : (load === 5 || load === 6) ? '604' : (load === 3 || load === 4) ? '524' : '444') +'" y="' + ((load === 1 || load === 3 || load === 5 || load === 7) ? '160' : '269') +'" width="30" height="30" viewBox="0 0 24 24" opacity="1"><path fill="var(--load_colour#id#)" d="M3 17h4.1q-.425-.425-.787-.925T5.675 15H3v2Zm9 0q2.075 0 3.538-1.463T17 12q0-2.075-1.463-3.538T12 7Q9.925 7 8.462 8.463T7 12q0 2.075 1.463 3.538T12 17Zm6.325-8H21V7h-4.1q.425.425.788.925T18.325 9ZM1 20v-8h2v1h2.075q-.05-.25-.063-.488T5 12q0-2.925 2.038-4.963T12 5h9V4h2v8h-2v-1h-2.075q.05.25.063.488T19 12q0 2.925-2.038 4.963T12 19H3v1H1Zm2-3v-2v2Zm18-8V7v2Zm-9 3Zm0 3q-.825 0-1.413-.588T10 13q0-.575.238-1.137t.912-1.613L12 9l.85 1.25q.675 1.05.913 1.613T14 13q0 .825-.588 1.413T12 15Z"/></svg>'
       }
       else if(icone === 'aircon'){
-        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="' + ((load === 3 || load === 4) ? '524' : '444') +'" y="' + ((load === 1 || load === 3) ? '162' : '269') +'" width="25" height="25" viewBox="0 0 24 24" opacity="1"><path fill="var(--load_colour#id#)" d="M6.59.66c2.34-1.81 4.88.4 5.45 3.84c.43 0 .85.12 1.23.34c.52-.6.98-1.42.8-2.34c-.42-2.15 1.99-3.89 4.28-.92c1.81 2.34-.4 4.88-3.85 5.45c0 .43-.11.86-.34 1.24c.6.51 1.42.97 2.34.79c2.13-.42 3.88 1.98.91 4.28c-2.34 1.81-4.88-.4-5.45-3.84c-.43 0-.85-.13-1.22-.35c-.52.6-.99 1.43-.81 2.35c.42 2.14-1.99 3.89-4.28.92c-1.82-2.35.4-4.89 3.85-5.45c0-.43.13-.85.35-1.23c-.6-.51-1.42-.98-2.35-.8c-2.13.42-3.88-1.98-.91-4.28M5 16h2a2 2 0 0 1 2 2v6H7v-2H5v2H3v-6a2 2 0 0 1 2-2m0 2v2h2v-2H5m7.93-2H15l-2.93 8H10l2.93-8M18 16h3v2h-3v4h3v2h-3a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2Z"/></svg>'
+        
+        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="' + ((load === 7 || load === 8) ? '684' : (load === 5 || load === 6) ? '604' : (load === 3 || load === 4) ? '524' : '444') +'" y="' + ((load === 1 || load === 3 || load === 5 || load === 7) ? '162' : '269') +'" width="25" height="25" viewBox="0 0 24 24" opacity="1"><path fill="var(--load_colour#id#)" d="M6.59.66c2.34-1.81 4.88.4 5.45 3.84c.43 0 .85.12 1.23.34c.52-.6.98-1.42.8-2.34c-.42-2.15 1.99-3.89 4.28-.92c1.81 2.34-.4 4.88-3.85 5.45c0 .43-.11.86-.34 1.24c.6.51 1.42.97 2.34.79c2.13-.42 3.88 1.98.91 4.28c-2.34 1.81-4.88-.4-5.45-3.84c-.43 0-.85-.13-1.22-.35c-.52.6-.99 1.43-.81 2.35c.42 2.14-1.99 3.89-4.28.92c-1.82-2.35.4-4.89 3.85-5.45c0-.43.13-.85.35-1.23c-.6-.51-1.42-.98-2.35-.8c-2.13.42-3.88-1.98-.91-4.28M5 16h2a2 2 0 0 1 2 2v6H7v-2H5v2H3v-6a2 2 0 0 1 2-2m0 2v2h2v-2H5m7.93-2H15l-2.93 8H10l2.93-8M18 16h3v2h-3v4h3v2h-3a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2Z"/></svg>'
       }
       else if(icone === 'boiler'){
-        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="' + ((load === 3 || load === 4) ? '524' : '444') +'" y="' + ((load === 1 || load === 3) ? '160' : '269') +'" width="30" height="30" viewBox="0 0 24 24" opacity="1"><path fill="var(--load_colour#id#)" d="M9.3 10.775q0 .475.163.925t.462.825q.05-.3.2-.588t.375-.487L12 10l1.475 1.475q.225.2.375.475t.2.575q.275-.375.487-.8t.213-.9q0-.475-.15-.913t-.45-.812q-.275.125-.563.2T13 9.375q-.75 0-1.375-.425t-.95-1.125q-.3.3-.55.637t-.438.713Q9.5 9.55 9.4 9.95t-.1.825ZM12 12.1l-.425.425q-.1.1-.138.2t-.037.225q0 .25.175.4t.425.15q.25 0 .425-.15t.175-.4q0-.125-.037-.225t-.138-.2L12 12.1ZM12 5v1.9q0 .425.3.713t.725.287q.275 0 .5-.162t.4-.388l.175-.25q1.025.575 1.588 1.563t.562 2.162q0 1.75-1.25 2.963T12 15q-1.75 0-2.975-1.225T7.8 10.8q0-1.925 1.225-3.425T12 5ZM6 22q-.825 0-1.413-.588T4 20V6q0-1.65 1.175-2.825T8 2h8q1.65 0 2.825 1.175T20 6v14q0 .825-.588 1.413T18 22H6Zm0-4v2h12v-2q-.75 0-1.2.5T15 19q-1.35 0-1.763-.5T12 18q-.825 0-1.238.5T9 19q-1.35 0-1.763-.5T6 18Zm3-1q.825 0 1.238-.5T12 16q1.35 0 1.8.5t1.2.5q.75 0 1.2-.5T18 16V6q0-.825-.588-1.413T16 4H8q-.825 0-1.413.588T6 6v10q1.35 0 1.763.5T9 17Z"/></svg>'
+        
+        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="' + ((load === 7 || load === 8) ? '684' : (load === 5 || load === 6) ? '604' : (load === 3 || load === 4) ? '524' : '444') +'" y="' + ((load === 1 || load === 3 || load === 5 || load === 7) ? '160' : '269') +'" width="30" height="30" viewBox="0 0 24 24" opacity="1"><path fill="var(--load_colour#id#)" d="M9.3 10.775q0 .475.163.925t.462.825q.05-.3.2-.588t.375-.487L12 10l1.475 1.475q.225.2.375.475t.2.575q.275-.375.487-.8t.213-.9q0-.475-.15-.913t-.45-.812q-.275.125-.563.2T13 9.375q-.75 0-1.375-.425t-.95-1.125q-.3.3-.55.637t-.438.713Q9.5 9.55 9.4 9.95t-.1.825ZM12 12.1l-.425.425q-.1.1-.138.2t-.037.225q0 .25.175.4t.425.15q.25 0 .425-.15t.175-.4q0-.125-.037-.225t-.138-.2L12 12.1ZM12 5v1.9q0 .425.3.713t.725.287q.275 0 .5-.162t.4-.388l.175-.25q1.025.575 1.588 1.563t.562 2.162q0 1.75-1.25 2.963T12 15q-1.75 0-2.975-1.225T7.8 10.8q0-1.925 1.225-3.425T12 5ZM6 22q-.825 0-1.413-.588T4 20V6q0-1.65 1.175-2.825T8 2h8q1.65 0 2.825 1.175T20 6v14q0 .825-.588 1.413T18 22H6Zm0-4v2h12v-2q-.75 0-1.2.5T15 19q-1.35 0-1.763-.5T12 18q-.825 0-1.238.5T9 19q-1.35 0-1.763-.5T6 18Zm3-1q.825 0 1.238-.5T12 16q1.35 0 1.8.5t1.2.5q.75 0 1.2-.5T18 16V6q0-.825-.588-1.413T16 4H8q-.825 0-1.413.588T6 6v10q1.35 0 1.763.5T9 17Z"/></svg>'
       }
       else if(icone === 'charging'){
-        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="' + ((load === 3 || load === 4) ? '529' : '449') +'" y="' + ((load === 1 || load === 3) ? '162' : '271') +'" width="25" height="25" viewBox="0 0 24 24" opacity="1"><path fill="var(--load_colour#id#)" d="M22,2V4H20V2H18V6a2,2,0,0,0,2,2V18a1,1,0,0,1-1,1H16V11H13V9h3V3a3,3,0,0,0-3-3H3A3,3,0,0,0,0,3V9H3v2H0V24H16V21h3a3,3,0,0,0,3-3V8a2,2,0,0,0,2-2V2ZM10.772,11.426,9.008,14.959l-1.789-.893L8.75,11H6.615A1.614,1.614,0,0,1,5.07,8.917L7.293,4.756l1.76.949L7.275,9H9.4a1.6,1.6,0,0,1,1.376,2.426Z"/></svg>'
+        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="' + ((load === 7 || load === 8) ? '689' : (load === 5 || load === 6) ? '609' : (load === 3 || load === 4) ? '529' : '449') +'" y="' + ((load === 1 || load === 3 || load === 5 || load === 7) ? '162' : '271') +'" width="25" height="25" viewBox="0 0 24 24" opacity="1"><path fill="var(--load_colour#id#)" d="M22,2V4H20V2H18V6a2,2,0,0,0,2,2V18a1,1,0,0,1-1,1H16V11H13V9h3V3a3,3,0,0,0-3-3H3A3,3,0,0,0,0,3V9H3v2H0V24H16V21h3a3,3,0,0,0,3-3V8a2,2,0,0,0,2-2V2ZM10.772,11.426,9.008,14.959l-1.789-.893L8.75,11H6.615A1.614,1.614,0,0,1,5.07,8.917L7.293,4.756l1.76.949L7.275,9H9.4a1.6,1.6,0,0,1,1.376,2.426Z"/></svg>'
+      }
+      else if(icone === 'battery'){
+        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="' + ((load === 7 || load === 8) ? '680' : (load === 5 || load === 6) ? '600' : (load === 3 || load === 4) ? '520' : '443') +'" y="' + ((load === 1 || load === 3 || load === 5 || load === 7) ? '159' : '268') +'" width="30" height="30" viewBox="0 0 24 24" opacity="1"><path fill="var(--load_colour#id#)" d="M13 12h3l-5 7v-5H8l5-7zm-2-6H7v14h10V6h-4V4h-2zM9 4V3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1h3a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/></svg>'
+      }
+      else if(icone == 'plug') {
+        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="' + ((load === 7 || load === 8) ? '682' : (load === 5 || load === 6) ? '602' : (load === 3 || load === 4) ? '522' : '445') +'" y="' + ((load === 1 || load === 3 || load === 5 || load === 7) ? '162' : '271') +'" width="25" height="25" viewBox="0 0 16 16"><path fill="var(--load_colour#id#)" d="M11.89 4.111a5.5 5.5 0 0 0-7.78 0c-2.599 2.6-2.12 5.657-1.06 6.718a.75.75 0 0 0 1.06 0l.925-.925a3.09 3.09 0 0 1-.173-2.843l.547-1.23a1 1 0 0 1 1.62-.302l.19.19l.75-.75A.75.75 0 1 1 9.03 6.03l-.75.75l.94.94l.75-.75a.75.75 0 1 1 1.06 1.06l-.75.75l.19.19a1 1 0 0 1-.3 1.621l-1.231.547a3.089 3.089 0 0 1-2.843-.173l-.924.924a2.25 2.25 0 0 1-3.182 0C.222 10.122-.007 6.107 3.05 3.05a7 7 0 1 1 2.983 11.67a.75.75 0 1 1 .42-1.44a5.5 5.5 0 0 0 5.436-9.168Zm-5.658 3.56l.252-.566l2.411 2.411l-.566.252A1.589 1.589 0 0 1 6.232 7.67Z"/></svg>'
+      }
+      else if(icone == 'pool') {
+        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="' + ((load === 7 || load === 8) ? '680' : (load === 5 || load === 6) ? '600' : (load === 3 || load === 4) ? '520' : '443') +'" y="' + ((load === 1 || load === 3 || load === 5 || load === 7) ? '162' : '271') +'" width="25" height="25" viewBox="0 0 24 24"><path fill="var(--load_colour#id#)" d="M2 15c1.67-.75 3.33-1.5 5-1.83V5a3 3 0 0 1 3-3c1.31 0 2.42.83 2.83 2H10a1 1 0 0 0-1 1v1h5V5a3 3 0 0 1 3-3c1.31 0 2.42.83 2.83 2H17a1 1 0 0 0-1 1v9.94c2-.32 4-1.94 6-1.94v2c-2.22 0-4.44 2-6.67 2c-2.22 0-4.44-2-6.66-2c-2.23 0-4.45 1-6.67 2zm12-7H9v2h5zm0 4H9v1c1.67.16 3.33 1.31 5 1.79zM2 19c2.22-1 4.44-2 6.67-2c2.22 0 4.44 2 6.66 2c2.23 0 4.45-2 6.67-2v2c-2.22 0-4.44 2-6.67 2c-2.22 0-4.44-2-6.66-2c-2.23 0-4.45 1-6.67 2z"/></svg>'
+      }
+      else if(icone == 'dryer') {
+       svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="' + ((load === 7 || load === 8) ? '680' : (load === 5 || load === 6) ? '600' : (load === 3 || load === 4) ? '520' : '443') +'" y="' + ((load === 1 || load === 3 || load === 5 || load === 7) ? '159' : '268') +'" width="30" height="30" viewBox="0 0 24 24"><path fill="var(--load_colour#id#)" d="M6 2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2m1 2a1 1 0 0 0-1 1a1 1 0 0 0 1 1a1 1 0 0 0 1-1a1 1 0 0 0-1-1m3 0a1 1 0 0 0-1 1a1 1 0 0 0 1 1a1 1 0 0 0 1-1a1 1 0 0 0-1-1m2 4a6 6 0 0 0-6 6a6 6 0 0 0 6 6a6 6 0 0 0 6-6a6 6 0 0 0-6-6m-3.89 2.5H10c-.24 1.38 0 2.17.58 2.79c1.1 1.07 1.58 2.42 1.31 4.21H10c.24-1.38 0-2.17-.58-2.79c-1.1-1.07-1.57-2.42-1.31-4.21m4 0H14c-.24 1.38 0 2.17.58 2.79c1.1 1.07 1.58 2.42 1.31 4.21H14c.24-1.38 0-2.17-.58-2.79c-1.1-1.07-1.57-2.42-1.31-4.21"/></svg>' 
+      }
+      else if(icone == 'dishwasher') {
+        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="' + ((load === 7 || load === 8) ? '680' : (load === 5 || load === 6) ? '600' : (load === 3 || load === 4) ? '520' : '443') +'" y="' + ((load === 1 || load === 3 || load === 5 || load === 7) ? '159' : '268') +'"  width="30" height="30" viewBox="0 0 24 24"><path fill="var(--load_colour#id#)" d="M6.25 3A3.25 3.25 0 0 0 3 6.25V10h1.5v-.5h15v8.25a1.75 1.75 0 0 1-1.75 1.75H7v.018c.766.11 1.373.716 1.482 1.482h9.268A3.25 3.25 0 0 0 21 17.75V6.25A3.25 3.25 0 0 0 17.75 3zM19.5 8h-15V6.25c0-.966.784-1.75 1.75-1.75h11.5c.966 0 1.75.784 1.75 1.75zM9 6.25a1 1 0 1 1-2 0a1 1 0 0 1 2 0m3.75-.75a.75.75 0 0 0 0 1.5h3.5a.75.75 0 0 0 0-1.5zM2 11.75a.75.75 0 0 1 .75-.75h5a.75.75 0 0 1 .75.75v2A3.251 3.251 0 0 1 6 16.913V20.5h.75a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1 0-1.5h.75v-3.587A3.251 3.251 0 0 1 2 13.75z"/></svg>'
+      }
+      else if(icone == 'washing') {
+        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="' + ((load === 7 || load === 8) ? '680' : (load === 5 || load === 6) ? '600' : (load === 3 || load === 4) ? '520' : '443') +'" y="' + ((load === 1 || load === 3 || load === 5 || load === 7) ? '162' : '271') +'" width="25" height="25" viewBox="0 0 24 24"><g fill="none" stroke="var(--load_colour#id#)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path fill="var(--load_colour#id#)" d="M3 6h3m11 0h.01"/><rect width="18" height="20" x="3" y="2" rx="2"/><circle cx="12" cy="13" r="5"/><path d="M12 18a2.5 2.5 0 0 0 0-5a2.5 2.5 0 0 1 0-5"/></g></svg>'
       }
       if (debug#id#) console.log('|└────────────────────────────────────')
       return svg
@@ -254,7 +276,8 @@
           show: false,
           state: 0,
           unit: '°'
-        }
+        },
+        icon_perso: false
       },
       solar: {
         animation_speed: 5,
@@ -310,6 +333,8 @@
           current: false,
           current_unit: 0
         },
+        has_pv_power: false,
+        power: 0,
         unit: 'W',
         sell: false, // on, off, 1, 0, undefined // Todo        
       },
@@ -359,6 +384,38 @@
           energy_unit: '',
         },
         load4: {
+          power: 0,
+          power_unit: 'W',
+          icon: false, //oven, pump, aircon, boiler, charging
+          name: false,
+          energy: false,
+          energy_unit: '',
+        },
+        load5: {
+          power: 0,
+          power_unit: 'W',
+          icon: false, //oven, pump, aircon, boiler, charging
+          name: false,
+          energy: false,
+          energy_unit: '',
+        },
+        load6: {
+          power: 0,
+          power_unit: 'W',
+          icon: false, //oven, pump, aircon, boiler, charging
+          name: false,
+          energy: false,
+          energy_unit: '',
+        },
+        load7: {
+          power: 0,
+          power_unit: 'W',
+          icon: false, //oven, pump, aircon, boiler, charging
+          name: false,
+          energy: false,
+          energy_unit: '',
+        },
+        load8: {
           power: 0,
           power_unit: 'W',
           icon: false, //oven, pump, aircon, boiler, charging
@@ -436,6 +493,14 @@
     if ("#load3Icon#" != '#'+'load3Icon#') config#id#.load.load3.icon = "#load3Icon#"
     if ("#load4Name#" != '#'+'load4Name#') config#id#.load.load4.name = "#load4Name#"
     if ("#load4Icon#" != '#'+'load4Icon#') config#id#.load.load4.icon = "#load4Icon#"
+    if ("#load5Name#" != '#'+'load5Name#') config#id#.load.load5.name = "#load5Name#"
+    if ("#load5Icon#" != '#'+'load5Icon#') config#id#.load.load5.icon = "#load5Icon#"
+    if ("#load6Name#" != '#'+'load6Name#') config#id#.load.load6.name = "#load6Name#"
+    if ("#load6Icon#" != '#'+'load6Icon#') config#id#.load.load6.icon = "#load6Icon#"
+    if ("#load7Name#" != '#'+'load7Name#') config#id#.load.load7.name = "#load7Name#"
+    if ("#load7Icon#" != '#'+'load7Icon#') config#id#.load.load7.icon = "#load7Icon#"
+    if ("#load8Name#" != '#'+'load8Name#') config#id#.load.load8.name = "#load8Name#"
+    if ("#load8Icon#" != '#'+'load8Icon#') config#id#.load.load8.icon = "#load8Icon#"
     if ("#loadAnimate#" != '#'+'loadAnimate#' && "#loadAnimate#" == '0') config#id#.load.animate_load_enable = 0
     if ("#dailyLoadText#" != '#'+'dailyLoadText#') config#id#.load.daily.text = "#dailyLoadText#"
     if (is_numeric('#loadMaxPower#')) config#id#.load.max_power = '#loadMaxPower#'
@@ -447,6 +512,7 @@
     if ("#gridColor#" != '#'+'gridColor#') document.documentElement.style.setProperty('--grid_colour#id#', '#gridColor#')
     if ("#noGridColor#" != '#'+'noGridColor#') document.documentElement.style.setProperty('--no_grid_colour#id#', '#noGridColor#')
     ////////////////////////// Battery /////////////////////////
+    if ("#batteryIconeVe#" == '1') config#id#.battery.icon_perso = true
     if ("#dailyBatteryChargeText#" != '#'+'dailyBatteryChargeText#') config#id#.battery.daily.text_charge = "#dailyBatteryChargeText#"
     if ("#dailyBatteryDischargeText#" != '#'+'dailyBatteryDischargeText#') config#id#.battery.daily.text_discharge = "#dailyBatteryDischargeText#"
     if (is_numeric('#batteryMaxPower#')) config#id#.battery.energy = '#batteryMaxPower#'
@@ -472,11 +538,42 @@
       async: false,
       success: function (cmds) {
         for (j in cmds) {
+          //console.table(cmds[j])
           cmds[j].name = cmds[j].name.toLowerCase();
           cmds[j].name = cmds[j].name.replace(/é/g, 'e');
           cmds[j].name = cmds[j].name.replace(/_/g, ' ');
           let id_eql = cmds[j].id;
           let name = cmds[j].name
+          ///////////////////////////////////////////////////////////////////////
+          ////////////////////////////////  pv power ///////////////////////////
+          ///////////////////////////////////////////////////////////////////////
+          if (cmds[j].name == 'pv power'){
+            if (debug#id# == 1) console.log('| pv_power')
+            config#id#.solar.has_pv_power = true
+            jeedom.cmd.execute({
+              id: id_eql,
+              async: false,
+              success:  function(pvValue) {
+                if (debug#id# == 1) console.log('|    └> cmd.execute : ' + pvValue)
+                if (cmds[j].unite != '') config#id#.solar.unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.solar.unit)
+                if (typeof pvValue === "number") {
+                  config#id#.solar.power = parseFloat(pvValue)
+                  //config#id#.solar.power = trunc#id#(parseFloat(_options.value), 1)
+                }
+              }
+            })
+            jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
+              if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
+              if (_options.value != undefined) 
+              {
+                config#id#.solar.power = parseFloat(_options.value)
+                //config#id#.solar.power = trunc#id#(parseFloat(_options.value), 1)
+                //document.getElementById("pv_power_state#id#").innerHTML = config#id#.solar.power + ' ' + config#id#.solar.unit
+                calculatePv#id#('pv_power')
+              }
+            })
+          }
           ///////////////////////////////////////////////////////////////////////
           ////////////////////////////////  pv1 power ///////////////////////////
           ///////////////////////////////////////////////////////////////////////
@@ -500,7 +597,7 @@
               {
                 config#id#.solar.pv1.power = parseFloat(_options.value)
                 document.getElementById("pv1_power_state#id#").innerHTML = trunc#id#(config#id#.solar.pv1.power, 1) + ' ' + config#id#.solar.unit
-                calculatePv#id#('pv1_power')
+                if (config#id#.solar.has_pv_power === false) calculatePv#id#('pv1_power')
               }
             })
           }
@@ -526,7 +623,7 @@
               {
                 config#id#.solar.pv2.power = parseFloat(_options.value)
                 document.getElementById("pv2_power_state#id#").innerHTML = trunc#id#(config#id#.solar.pv2.power, 1) + ' ' + config#id#.solar.unit
-                calculatePv#id#('pv2_power')
+                if (config#id#.solar.has_pv_power === false) calculatePv#id#('pv2_power')
               }
             })
           }
@@ -552,7 +649,7 @@
               {
                 config#id#.solar.pv3.power = parseFloat(_options.value)
                 document.getElementById("pv3_power_state#id#").innerHTML = trunc#id#(config#id#.solar.pv3.power, 1) + ' ' + config#id#.solar.unit
-                calculatePv#id#('pv3_power')
+                if (config#id#.solar.has_pv_power === false) calculatePv#id#('pv3_power')
               }
             })
           }
@@ -578,7 +675,7 @@
               {
                 config#id#.solar.pv4.power = parseFloat(_options.value)
                 document.getElementById("pv4_power_state#id#").innerHTML = trunc#id#(config#id#.solar.pv4.power, 1) + ' ' + config#id#.solar.unit
-                calculatePv#id#('pv4_power')
+                if (config#id#.solar.has_pv_power === false) calculatePv#id#('pv4_power')
               }
             })
           }
@@ -1244,7 +1341,7 @@
                   document.getElementById("grid-dot-sell#id#").setAttribute("fill", "transparent");
                   document.getElementById("grid-dot1-sell#id#").setAttribute("fill", "transparent");
                 }
-                config#id#.grid.power_state = gridPower
+                config#id#.grid.power_state = gridPowerTrunc
                 calculateGrid#id#('grid power')
               }
             })
@@ -1573,6 +1670,138 @@
             })
           }
           ///////////////////////////////////////////////////////////////////////
+          //////////////////////////  Load 5 State //////////////////////////////
+          ///////////////////////////////////////////////////////////////////////
+          else if (cmds[j].name == 'load5 state'){
+            if (debug#id# == 1) console.log('| load5 state')
+            config#id#.load.additional_loads++
+            jeedom.cmd.execute({
+              id: id_eql,
+              async: false,
+              success:  function(load5State) {
+                if (debug#id# == 1) console.log('|    └> cmd.execute : ' + load5State)
+                if (cmds[j].unite != '') config#id#.load.load5.power_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.load.load5.power_unit)
+                if (typeof load5State === "number") {
+                  config#id#.load.load5.power = trunc#id#(parseFloat(load5State), 1)
+                }
+                else config#id#.load.load5.power = 0
+              }
+            })
+            jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
+              if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
+              config#id#.load.load5.power = trunc#id#(parseFloat(_options.value), 1)
+              document.getElementById("ess_load5#id#").innerHTML = config#id#.load.load5.power + ' ' + config#id#.load.load5.power_unit
+              if (config#id#.load.has_load_power === false) calculateLoad#id#('load5 state')
+              
+              if (config#id#.load.load5.power > 0) {
+                document.getElementById("es-dot5-#id#").setAttribute("fill", "var(--load_colour#id#)");
+              }
+              else {
+                document.getElementById("es-dot5-#id#").setAttribute("fill", "transparent");
+              }
+            })
+          }
+          ///////////////////////////////////////////////////////////////////////
+          //////////////////////////  Load 6 State //////////////////////////////
+          ///////////////////////////////////////////////////////////////////////
+          else if (cmds[j].name == 'load6 state'){
+            if (debug#id# == 1) console.log('| load6 state')
+            config#id#.load.additional_loads++
+            jeedom.cmd.execute({
+              id: id_eql,
+              async: false,
+              success:  function(load6State) {
+                if (debug#id# == 1) console.log('|    └> cmd.execute : ' + load6State)
+                if (cmds[j].unite != '') config#id#.load.load6.power_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.load.load6.power_unit)
+                if (typeof load6State === "number") {
+                  config#id#.load.load6.power = trunc#id#(parseFloat(load6State), 1)
+                }
+                else config#id#.load.load6.power = 0
+              }
+            })
+            jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
+              if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
+              config#id#.load.load6.power = trunc#id#(parseFloat(_options.value), 1)
+              document.getElementById("ess_load6#id#").innerHTML = config#id#.load.load6.power + ' ' + config#id#.load.load6.power_unit
+              if (config#id#.load.has_load_power === false) calculateLoad#id#('load6 state')
+              
+              if (config#id#.load.load6.power > 0) {
+                document.getElementById("es-dot6-#id#").setAttribute("fill", "var(--load_colour#id#)");
+              }
+              else {
+                document.getElementById("es-dot6-#id#").setAttribute("fill", "transparent");
+              }
+            })
+          }
+          ///////////////////////////////////////////////////////////////////////
+          //////////////////////////  Load 7 State //////////////////////////////
+          ///////////////////////////////////////////////////////////////////////
+          else if (cmds[j].name == 'load7 state'){
+            if (debug#id# == 1) console.log('| load7 state')
+            config#id#.load.additional_loads++
+            jeedom.cmd.execute({
+              id: id_eql,
+              async: false,
+              success:  function(load7State) {
+                if (debug#id# == 1) console.log('|    └> cmd.execute : ' + load7State)
+                if (cmds[j].unite != '') config#id#.load.load7.power_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.load.load7.power_unit)
+                if (typeof load7State === "number") {
+                  config#id#.load.load7.power = trunc#id#(parseFloat(load7State), 1)
+                }
+                else config#id#.load.load7.power = 0
+              }
+            })
+            jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
+              if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
+              config#id#.load.load7.power = trunc#id#(parseFloat(_options.value), 1)
+              document.getElementById("ess_load7#id#").innerHTML = config#id#.load.load7.power + ' ' + config#id#.load.load7.power_unit
+              if (config#id#.load.has_load_power === false) calculateLoad#id#('load7 state')
+              
+              if (config#id#.load.load7.power > 0) {
+                document.getElementById("es-dot7-#id#").setAttribute("fill", "var(--load_colour#id#)");
+              }
+              else {
+                document.getElementById("es-dot7-#id#").setAttribute("fill", "transparent");
+              }
+            })
+          }
+          ///////////////////////////////////////////////////////////////////////
+          //////////////////////////  Load 8 State //////////////////////////////
+          ///////////////////////////////////////////////////////////////////////
+          else if (cmds[j].name == 'load8 state'){
+            if (debug#id# == 1) console.log('| load8 state')
+            config#id#.load.additional_loads++
+            jeedom.cmd.execute({
+              id: id_eql,
+              async: false,
+              success:  function(load8State) {
+                if (debug#id# == 1) console.log('|    └> cmd.execute : ' + load8State)
+                if (cmds[j].unite != '') config#id#.load.load8.power_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.load.load8.power_unit)
+                if (typeof load8State === "number") {
+                  config#id#.load.load8.power = trunc#id#(parseFloat(load8State), 1)
+                }
+                else config#id#.load.load8.power = 0
+              }
+            })
+            jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
+              if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
+              config#id#.load.load8.power = trunc#id#(parseFloat(_options.value), 1)
+              document.getElementById("ess_load8#id#").innerHTML = config#id#.load.load8.power + ' ' + config#id#.load.load8.power_unit
+              if (config#id#.load.has_load_power === false) calculateLoad#id#('load8 state')
+              
+              if (config#id#.load.load8.power > 0) {
+                document.getElementById("es-dot8-#id#").setAttribute("fill", "var(--load_colour#id#)");
+              }
+              else {
+                document.getElementById("es-dot8-#id#").setAttribute("fill", "transparent");
+              }
+            })
+          }
+          ///////////////////////////////////////////////////////////////////////
           /////////////////////////////  load1 Energy ///////////////////////////
           ///////////////////////////////////////////////////////////////////////
           else if (cmds[j].name == 'load1 energy'){
@@ -1677,6 +1906,114 @@
               {
                 let load4Energy = autoValueArray#id#(parseFloat(_options.value),config#id#.load.load4.energy_unit)
                 document.getElementById("load4_energy#id#").innerHTML = trunc#id#(load4Energy.value, 3, 1) + ' ' + load4Energy.unit
+              }
+            })
+          }
+          ///////////////////////////////////////////////////////////////////////
+          /////////////////////////////  load5 Energy ///////////////////////////
+          ///////////////////////////////////////////////////////////////////////
+          else if (cmds[j].name == 'load5 energy'){
+            if (debug#id# == 1) console.log('| load5 energy')
+            jeedom.cmd.execute({
+              id: id_eql,
+              async: false,
+              success:  function(load5Energy) {
+                if (debug#id# == 1) console.log('|    └> cmd.execute : ' + load5Energy)
+                config#id#.load.load5.energy_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.load.load5.energy_unit)
+                if (typeof load5Energy === "number") {
+                  config#id#.load.load5.energy = parseFloat(load5Energy)
+                }
+                else config#id#.load.load5.energy = 0
+              }
+            })
+            jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
+              if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
+              if (_options.value != undefined) 
+              {
+                let load5Energy = autoValueArray#id#(parseFloat(_options.value),config#id#.load.load5.energy_unit)
+                document.getElementById("load5_energy#id#").innerHTML = trunc#id#(load5Energy.value, 3, 1) + ' ' + load5Energy.unit
+              }
+            })
+          }
+          ///////////////////////////////////////////////////////////////////////
+          /////////////////////////////  load6 Energy ///////////////////////////
+          ///////////////////////////////////////////////////////////////////////
+          else if (cmds[j].name == 'load6 energy'){
+            if (debug#id# == 1) console.log('| load6 energy')
+            jeedom.cmd.execute({
+              id: id_eql,
+              async: false,
+              success:  function(load6Energy) {
+                if (debug#id# == 1) console.log('|    └> cmd.execute : ' + load6Energy)
+                config#id#.load.load6.energy_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.load.load6.energy_unit)
+                if (typeof load6Energy === "number") {
+                  config#id#.load.load6.energy = parseFloat(load6Energy)
+                }
+                else config#id#.load.load6.energy = 0
+              }
+            })
+            jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
+              if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
+              if (_options.value != undefined) 
+              {
+                let load6Energy = autoValueArray#id#(parseFloat(_options.value),config#id#.load.load6.energy_unit)
+                document.getElementById("load6_energy#id#").innerHTML = trunc#id#(load6Energy.value, 3, 1) + ' ' + load6Energy.unit
+              }
+            })
+          }
+          ///////////////////////////////////////////////////////////////////////
+          /////////////////////////////  load7 Energy ///////////////////////////
+          ///////////////////////////////////////////////////////////////////////
+          else if (cmds[j].name == 'load7 energy'){
+            if (debug#id# == 1) console.log('| load7 energy')
+            jeedom.cmd.execute({
+              id: id_eql,
+              async: false,
+              success:  function(load7Energy) {
+                if (debug#id# == 1) console.log('|    └> cmd.execute : ' + load7Energy)
+                config#id#.load.load7.energy_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.load.load7.energy_unit)
+                if (typeof load7Energy === "number") {
+                  config#id#.load.load7.energy = parseFloat(load7Energy)
+                }
+                else config#id#.load.load7.energy = 0
+              }
+            })
+            jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
+              if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
+              if (_options.value != undefined) 
+              {
+                let load7Energy = autoValueArray#id#(parseFloat(_options.value),config#id#.load.load7.energy_unit)
+                document.getElementById("load7_energy#id#").innerHTML = trunc#id#(load7Energy.value, 3, 1) + ' ' + load7Energy.unit
+              }
+            })
+          }
+          ///////////////////////////////////////////////////////////////////////
+          /////////////////////////////  load8 Energy ///////////////////////////
+          ///////////////////////////////////////////////////////////////////////
+          else if (cmds[j].name == 'load8 energy'){
+            if (debug#id# == 1) console.log('| load8 energy')
+            jeedom.cmd.execute({
+              id: id_eql,
+              async: false,
+              success:  function(load8Energy) {
+                if (debug#id# == 1) console.log('|    └> cmd.execute : ' + load8Energy)
+                config#id#.load.load8.energy_unit = cmds[j].unite
+                if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.load.load8.energy_unit)
+                if (typeof load8Energy === "number") {
+                  config#id#.load.load8.energy = parseFloat(load8Energy)
+                }
+                else config#id#.load.load8.energy = 0
+              }
+            })
+            jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
+              if (debug#id# == 1) console.log('event for ' + name + '[' + id_eql + '] -> ' + _options.value)
+              if (_options.value != undefined) 
+              {
+                let load8Energy = autoValueArray#id#(parseFloat(_options.value),config#id#.load.load8.energy_unit)
+                document.getElementById("load8_energy#id#").innerHTML = trunc#id#(load8Energy.value, 3, 1) + ' ' + load8Energy.unit
               }
             })
           }
@@ -1796,8 +2133,13 @@
           var html = '<div class="container#id# card#id#">';
           html += '<svg viewBox="-0.5 ' + ((config#id#.show_solar === false) ? ((config#id#.load.additional_loads >= 1) ? '110' : '145') : ((config#id#.solar.mppts == 1) ? '65' : '-0.5'))
           
+          //if (config#id#.load.additional_loads == 1 || config#id#.load.additional_loads == 2) html += ' 500'
+          //else if (config#id#.load.additional_loads >= 3) html += ' 560'
+          //else html += ' 500'
           if (config#id#.load.additional_loads == 1 || config#id#.load.additional_loads == 2) html += ' 500'
-          else if (config#id#.load.additional_loads >= 3) html += ' 560'
+          else if (config#id#.load.additional_loads == 3 || config#id#.load.additional_loads == 4) html += ' 560'
+          else if (config#id#.load.additional_loads == 5 || config#id#.load.additional_loads == 6) html += ' 650'
+          else if (config#id#.load.additional_loads == 7 || config#id#.load.additional_loads == 8) html += ' 740'
           else html += ' 500'
           
           html += ((config#id#.show_solar === false) ? ((config#id#.load.additional_loads >= 1) ? ' 292' : ' 270') : ((config#id#.solar.mppts == 1) ? ' 340' : ' 406'))
@@ -2067,6 +2409,90 @@
           html += '<path id="es-load4path#id#" d="M 520 300 L 520 252 Q 520 242 512 242 L 475 242" class="' + ((config#id#.load.additional_loads >= 4) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10" pointer-events="stroke"></path>'
           html += '<circle id="es-dot4-#id#" cx="0" cy="0" r="3"  class="' + ((config#id#.load.additional_loads >= 4 && config#id#.load.animate_load_enable === true) ? '' : 'hidden-#id#') + '" fill="' + ((config#id#.load.load4.power == 0) ? 'transparent' : 'var(--load_colour#id#)') + '"><animateMotion id="anim_load4-#id#" dur="3" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#es-load4path#id#"></mpath></animateMotion></circle>'
           ///////////////////////////////////////////////////////
+          //////////////////// Load 5 ///////////////////////////
+          ///////////////////////////////////////////////////////
+          html += '<!-- Load 5 -->'
+          html += '<rect id="load5-rect-#id#" x="564" y="128.5" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--load_colour#id#)" pointer-events="all" display="' + ((config#id#.load.additional_loads >= 5) ? '' : 'none') + '"/>'
+          
+          html += '<text id="ess_load5#id#" x="599" y="' + ((config#id#.load.load5.energy === false) ? '148' : '143') + '" display="' + ((config#id#.load.additional_loads >= 5) ? '' : 'none') + '" class="'
+          html += (config#id#.large_font !== true) ? 'ft12-#id#' : 'ft14-#id#'
+          html += ' ftw-#id# center-align#id#" fill="var(--load_colour#id#)">' + config#id#.load.load5.power + ' ' + config#id#.load.load5.power_unit + '</text>'
+          
+          let load5_energy = autoValueArray#id#((config#id#.load.load5.energy || 0),config#id#.load.load5.energy_unit)
+          html += '<text id="load5_energy#id#" x="599" y="154" class="ft8-#id# center-align#id#" display="' + ((config#id#.load.load5.energy === false || config#id#.load.additional_loads <= 4) ? 'none' : '') + '" fill="var(--load_colour#id#)">'
+          html += trunc#id#(load5_energy.value, 3, 1) + ' ' + load5_energy.unit
+          html += '</text>'
+          
+          html += '<text id="es-load5-name#id#" x="600" y="122" class="ft9-#id# center-align#id#" display="' + ((config#id#.load.additional_loads >= 5) ? '' : 'none') + '" fill="var(--load_colour#id#)" >' + ((config#id#.load.load5.name) ? config#id#.load.load5.name : '') + '</text>'
+          // ICON
+          if (config#id#.load.additional_loads >= 5 && config#id#.load.load5.icon !== false) html += getSvgIcon(config#id#.load.load5.icon, 5)
+          // LINE
+          html += '<path id="es-load5path#id#" d="M 599 158 L 599 205 Q 599 214 591 214 L 475 214" class="' + ((config#id#.load.additional_loads >= 5) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
+          html += '<circle id="es-dot5-#id#" cx="0" cy="0" r="3"  class="' + ((config#id#.load.additional_loads >= 5 && config#id#.load.animate_load_enable === true) ? '' : 'hidden-#id#') + '" fill="' + ((config#id#.load.load5.power == 0) ? 'transparent' : 'var(--load_colour#id#)') + '"><animateMotion id="anim_load5-#id#" dur="3" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#es-load5path#id#"></mpath></animateMotion></circle>'
+          ///////////////////////////////////////////////////////
+          //////////////////// Load 6 ///////////////////////////
+          ///////////////////////////////////////////////////////
+          html += '<!-- Load 6 -->'
+          html += '<rect id="load6-rect-#id#" x="564" y="300" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--load_colour#id#)" pointer-events="all" display="' + ((config#id#.load.additional_loads >= 6) ? '' : 'none') + '"/>'
+          
+          html += '<text id="ess_load6#id#" x="599" y="' + ((config#id#.load.load6.energy === false) ? '319.5' : '314.5') + '" display="' + ((config#id#.load.additional_loads >= 6) ? '' : 'none') + '" class="'
+          html += (config#id#.large_font !== true) ? 'ft12-#id#' : 'ft14-#id#'
+          html += ' ftw-#id# center-align#id#" fill="var(--load_colour#id#)">' + config#id#.load.load6.power + ' ' + config#id#.load.load6.power_unit + '</text>'
+          
+          let load6_energy = autoValueArray#id#((config#id#.load.load6.energy || 0),config#id#.load.load6.energy_unit)
+          html += '<text id="load6_energy#id#" x="599" y="325.5" class="ft8-#id# center-align#id#" display="' + ((config#id#.load.load6.energy === false || config#id#.load.additional_loads <= 5) ? 'none' : '') + '" fill="var(--load_colour#id#)">'
+          html += trunc#id#(load6_energy.value, 3, 1) + ' ' + load6_energy.unit
+          html += '</text>'
+          
+          html += '<text id="es-load6-name#id#" x="600" y="343" class="ft9-#id# center-align#id#" display="' + ((config#id#.load.additional_loads >= 6) ? '' : 'none') + '" fill="var(--load_colour#id#)" >' + ((config#id#.load.load6.name) ? config#id#.load.load6.name : '') + '</text>'
+          // ICON
+          if (config#id#.load.additional_loads >= 6 && config#id#.load.load6.icon !== false) html += getSvgIcon(config#id#.load.load6.icon, 6)
+          // LINE
+          html += '<path id="es-load6path#id#" d="M 599 300 L 599 252 Q 599 242 591 242 L 475 242" class="' + ((config#id#.load.additional_loads >= 6) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10" pointer-events="stroke"></path>'
+          html += '<circle id="es-dot6-#id#" cx="0" cy="0" r="3"  class="' + ((config#id#.load.additional_loads >= 6 && config#id#.load.animate_load_enable === true) ? '' : 'hidden-#id#') + '" fill="' + ((config#id#.load.load6.power == 0) ? 'transparent' : 'var(--load_colour#id#)') + '"><animateMotion id="anim_load6-#id#" dur="3" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#es-load6path#id#"></mpath></animateMotion></circle>'
+          ///////////////////////////////////////////////////////
+          //////////////////// Load 7 ///////////////////////////
+          ///////////////////////////////////////////////////////
+          html += '<!-- Load 7 -->'
+          html += '<rect id="load7-rect-#id#" x="643" y="128.5" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--load_colour#id#)" pointer-events="all" display="' + ((config#id#.load.additional_loads >= 7) ? '' : 'none') + '"/>'
+          
+          html += '<text id="ess_load7#id#" x="678" y="' + ((config#id#.load.load7.energy === false) ? '148' : '143') + '" display="' + ((config#id#.load.additional_loads >= 7) ? '' : 'none') + '" class="'
+          html += (config#id#.large_font !== true) ? 'ft12-#id#' : 'ft14-#id#'
+          html += ' ftw-#id# center-align#id#" fill="var(--load_colour#id#)">' + config#id#.load.load7.power + ' ' + config#id#.load.load7.power_unit + '</text>'
+          
+          let load7_energy = autoValueArray#id#((config#id#.load.load7.energy || 0),config#id#.load.load7.energy_unit)
+          html += '<text id="load7_energy#id#" x="678" y="154" class="ft8-#id# center-align#id#" display="' + ((config#id#.load.load7.energy === false || config#id#.load.additional_loads <= 6) ? 'none' : '') + '" fill="var(--load_colour#id#)">'
+          html += trunc#id#(load7_energy.value, 3, 1) + ' ' + load7_energy.unit
+          html += '</text>'
+          
+          html += '<text id="es-load7-name#id#" x="680" y="122" class="ft9-#id# center-align#id#" display="' + ((config#id#.load.additional_loads >= 7) ? '' : 'none') + '" fill="var(--load_colour#id#)" >' + ((config#id#.load.load7.name) ? config#id#.load.load7.name : '') + '</text>'
+          // ICON
+          if (config#id#.load.additional_loads >= 7 && config#id#.load.load7.icon !== false) html += getSvgIcon(config#id#.load.load7.icon, 7)
+          // LINE
+          html += '<path id="es-load7path#id#" d="M 678 158 L 678 205 Q 678 214 670 214 L 475 214" class="' + ((config#id#.load.additional_loads >= 7) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
+          html += '<circle id="es-dot7-#id#" cx="0" cy="0" r="3"  class="' + ((config#id#.load.additional_loads >= 7 && config#id#.load.animate_load_enable === true) ? '' : 'hidden-#id#') + '" fill="' + ((config#id#.load.load7.power == 0) ? 'transparent' : 'var(--load_colour#id#)') + '"><animateMotion id="anim_load7-#id#" dur="3" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#es-load7path#id#"></mpath></animateMotion></circle>'
+          ///////////////////////////////////////////////////////
+          //////////////////// Load 8 ///////////////////////////
+          ///////////////////////////////////////////////////////
+          html += '<!-- Load 8 -->'
+          html += '<rect id="load8-rect-#id#" x="643" y="300" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--load_colour#id#)" pointer-events="all" display="' + ((config#id#.load.additional_loads >= 8) ? '' : 'none') + '"/>'
+          
+          html += '<text id="ess_load8#id#" x="678" y="' + ((config#id#.load.load8.energy === false) ? '319.5' : '314.5') + '" display="' + ((config#id#.load.additional_loads >= 8) ? '' : 'none') + '" class="'
+          html += (config#id#.large_font !== true) ? 'ft12-#id#' : 'ft14-#id#'
+          html += ' ftw-#id# center-align#id#" fill="var(--load_colour#id#)">' + config#id#.load.load8.power + ' ' + config#id#.load.load8.power_unit + '</text>'
+          
+          let load8_energy = autoValueArray#id#((config#id#.load.load8.energy || 0),config#id#.load.load8.energy_unit)
+          html += '<text id="load8_energy#id#" x="678" y="325.5" class="ft8-#id# center-align#id#" display="' + ((config#id#.load.load8.energy === false || config#id#.load.additional_loads <= 7) ? 'none' : '') + '" fill="var(--load_colour#id#)">'
+          html += trunc#id#(load8_energy.value, 3, 1) + ' ' + load8_energy.unit
+          html += '</text>'
+          
+          html += '<text id="es-load8-name#id#" x="680" y="343" class="ft9-#id# center-align#id#" display="' + ((config#id#.load.additional_loads >= 8) ? '' : 'none') + '" fill="var(--load_colour#id#)" >' + ((config#id#.load.load8.name) ? config#id#.load.load8.name : '') + '</text>'
+          // ICON
+          if (config#id#.load.additional_loads >= 8 && config#id#.load.load6.icon !== false) html += getSvgIcon(config#id#.load.load8.icon, 8)
+          // LINE
+          html += '<path id="es-load8path#id#" d="M 678 300 L 678 252 Q 678 242 670 242 L 475 242" class="' + ((config#id#.load.additional_loads >= 8) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10" pointer-events="stroke"></path>'
+          html += '<circle id="es-dot8-#id#" cx="0" cy="0" r="3"  class="' + ((config#id#.load.additional_loads >= 8 && config#id#.load.animate_load_enable === true) ? '' : 'hidden-#id#') + '" fill="' + ((config#id#.load.load8.power == 0) ? 'transparent' : 'var(--load_colour#id#)') + '"><animateMotion id="anim_load8-#id#" dur="3" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#es-load8path#id#"></mpath></animateMotion></circle>'
+          ///////////////////////////////////////////////////////
           /////////////////////  Grid ///////////////////////////
           ///////////////////////////////////////////////////////
           html += '<!-- Grid -->'
@@ -2163,8 +2589,9 @@
           //  entities.battery_soc_184
           html += '<text id="battery_soc#id#" x="' + ((config#id#.aux.has_aux_power) ? '171' : '270') + '" y="360" display="' + ((config#id#.battery.has_battery === false || config#id#.battery.soc.show === false) ? 'none' : '') + '" fill=var(--battery_colour#id#) class="ft18-#id# ftw-#id# left-align#id#"></text>'
           // ICON BATTERY
-          html += '<svg xmlns="http://www.w3.org/2000/svg" id="icon_bat#id#" class="' + ((config#id#.battery.has_battery === false) ? 'hidden-#id#' : '') + '" x="' + ((config#id#.aux.has_aux_power) ? '114' : '213') + '" y="325.5" width="78.75" height="78.75" preserveAspectRatio="none" opacity="1" viewBox="0 0 24 24">'
-          html += getBatteryIcon#id#(config#id#.battery.soc.state, config#id#.battery.full_capacity, config#id#.battery.empty_capacity)
+          if (!config#id#.battery.icon_perso) html += '<svg xmlns="http://www.w3.org/2000/svg" id="icon_bat#id#" class="' + ((config#id#.battery.has_battery === false) ? 'hidden-#id#' : '') + '" x="' + ((config#id#.aux.has_aux_power) ? '114' : '213') + '" y="325.5" width="78.75" height="78.75" preserveAspectRatio="none" opacity="1" viewBox="0 0 24 24">'
+          else html += '<svg xmlns="http://www.w3.org/2000/svg" id="icon_bat#id#" class="' + ((config#id#.battery.has_battery === false) ? 'hidden-#id#' : '') + '" x="' + ((config#id#.aux.has_aux_power) ? '95' : '194') + '" y="325.5" width="75" height="75" preserveAspectRatio="none" opacity="1" viewBox="0 0 1600 1600">'
+          html += getBatteryIcon#id#(config#id#.battery.soc.state, config#id#.battery.full_capacity, config#id#.battery.empty_capacity, config#id#.battery.icon_perso)
           html += '</svg>'
           // LINE BATTERY
           html += '<path id="bat-line#id#" class="' + ((config#id#.battery.has_battery === false) ? 'hidden-#id#' : '') + '" d="' + ((config#id#.aux.has_aux_power) ? 'M 214 250 L 147 250 Q 139 250 139 258 L 139 300' : 'M 239.23 260 L 239.23 300') + '" fill="none" stroke="var(--battery_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
@@ -2341,7 +2768,7 @@
           html += '</svg></div>'
           
           document.getElementById('widget#id#').innerHTML = html
-        }
+        } // init
         
       } // ElDomExist
       if (debug#id#) console.log('└──────────────────────────────────────────────────────')
@@ -2349,21 +2776,36 @@
       calculateLoad#id#('init');
       calculateBattery#id#('init')
       calculateGrid#id#('init')
+      //calculateGreenValue#id#('init')
     }
     
     function calculatePv#id#(el='') {
       if (debug#id#) console.log('┌─────────────────── Widget Distribution Onduleur [#id#] en debug [calculatePv()] ───────────────')
       var ElDomExist = !!document.getElementById("widget#id#");
+      let total_pv = 0;
       if (debug#id#) console.log("| ElDomExist ?",ElDomExist);
       if (ElDomExist) {  
         if (el != '' && debug#id#) console.log('| launched by ' + el)
-        let total_pv = 
-          (
-            ((config#id#.solar.pv1.power) * 1000) +
-            ((config#id#.solar.pv2.power) * 1000) +
-            ((config#id#.solar.pv3.power) * 1000) +
-            ((config#id#.solar.pv4.power) * 1000)
-          ) / 1000
+        if (debug#id#) console.log('| has_pv_power ?',config#id#.solar.has_pv_power);
+        
+        if (config#id#.solar.has_pv_power !== false){ // && el == 'init'
+          total_pv = config#id#.solar.power
+          //document.getElementById("pvtotal_power#id#").innerHTML = config#id#.solar.power + ' ' + config#id#.solar.unit
+        }
+        
+        if (config#id#.solar.has_pv_power === false){
+          //if (config#id#.solar.unit == '') {
+            //if (config#id#.solar.pv1.power_unit != '') config#id#.solar.unit = config#id#.solar.pv1.power_unit
+            //else config#id#.solar.unit == 'W'
+          //}
+          total_pv = 
+            (
+              ((config#id#.solar.pv1.power) * 1000) +
+              ((config#id#.solar.pv2.power) * 1000) +
+              ((config#id#.solar.pv3.power) * 1000) +
+              ((config#id#.solar.pv4.power) * 1000)
+            ) / 1000
+        }
         
         let solar_animation_speed = config#id#.solar.animation_speed;
         if (debug#id#) console.log('| animation_speed = ' + config#id#.solar.animation_speed)
@@ -2380,8 +2822,12 @@
         
         if (debug#id#) console.log('| pv1_power = ' + parseFloat(config#id#.solar.pv1.power) + ' (' + config#id#.solar.pv1.power + ')');
         if (debug#id#) console.log('| pv2_power = ' + parseFloat(config#id#.solar.pv2.power) + ' (' + config#id#.solar.pv2.power + ')');
+        if (debug#id#) console.log('| pv3_power = ' + parseFloat(config#id#.solar.pv3.power) + ' (' + config#id#.solar.pv3.power + ')');
+        if (debug#id#) console.log('| pv4_power = ' + parseFloat(config#id#.solar.pv4.power) + ' (' + config#id#.solar.pv4.power + ')');
         if (debug#id#) console.log('| total_pv = ' + total_pv);
-        document.getElementById("pvtotal_power#id#").innerHTML = trunc#id#(total_pv, 1) + ' ' + config#id#.solar.unit
+        total_pv = trunc#id#(total_pv, 1)
+        config#id#.solar.power = total_pv
+        document.getElementById("pvtotal_power#id#").innerHTML = total_pv + ' ' + config#id#.solar.unit
         
         if(config#id#.solar.pv1.power > 0) document.getElementById("pv1-dot#id#").setAttribute("fill", "var(--solar_colour#id#)");
         else document.getElementById("pv1-dot#id#").setAttribute("fill", "transparent");
@@ -2396,8 +2842,7 @@
         
       }
       if (debug#id#) console.log('└──────────────────────────────────────────────────────')
-    }
-    
+    }    
     
     function calculateLoad#id#(el='') {
       if (debug#id#) console.log('┌─────────────────── Widget Distribution Onduleur [#id#] en debug [calculateLoad()] ───────────────')
@@ -2421,9 +2866,13 @@
           if (debug#id#) console.log('| load2_state = ' + config#id#.load.load2.power);
           if (debug#id#) console.log('| load3_state = ' + config#id#.load.load3.power);
           if (debug#id#) console.log('| load4_state = ' + config#id#.load.load4.power);
-          if (config#id#.load.load1.power_unit != config#id#.load.load2.power_unit || config#id#.load.load1.power_unit != config#id#.load.load3.power_unit || config#id#.load.load1.power_unit != config#id#.load.load4.power_unit) console.log('| /!\\ ------- Attention unité differente entre load1, load2, load3 ou load4 calcul impossible !!!')
+          if (debug#id#) console.log('| load5_state = ' + config#id#.load.load5.power);
+          if (debug#id#) console.log('| load4_state = ' + config#id#.load.load6.power);
+          if (debug#id#) console.log('| load5_state = ' + config#id#.load.load7.power);
+          if (debug#id#) console.log('| load5_state = ' + config#id#.load.load8.power);
+          if (config#id#.load.load1.power_unit != config#id#.load.load2.power_unit || config#id#.load.load1.power_unit != config#id#.load.load3.power_unit || config#id#.load.load1.power_unit != config#id#.load.load4.power_unit || config#id#.load.load1.power_unit != config#id#.load.load5.power_unit) console.log('| /!\\ ------- Attention unité differente entre load1, load2, load3 ou load4 calcul impossible !!!')
           else {
-            config#id#.load.power = ((config#id#.load.load1.power * 1000) + (config#id#.load.load2.power * 1000) + (config#id#.load.load3.power * 1000) + (config#id#.load.load4.power * 1000)) / 1000
+            config#id#.load.power = ((config#id#.load.load1.power * 1000) + (config#id#.load.load2.power * 1000) + (config#id#.load.load3.power * 1000) + (config#id#.load.load4.power * 1000) + (config#id#.load.load5.power * 1000) + (config#id#.load.load6.power * 1000) + (config#id#.load.load7.power * 1000) + (config#id#.load.load8.power * 1000)) / 1000
             document.getElementById("ess_power#id#").innerHTML = config#id#.load.power + ' ' + config#id#.load.unit
           }
         }
@@ -2475,7 +2924,7 @@
         
         // get Icon of battery
         if (el == 'init' || el == 'battery state'){
-          document.getElementById("icon_bat#id#").innerHTML = getBatteryIcon#id#(config#id#.battery.soc.state, config#id#.battery.full_capacity, config#id#.battery.empty_capacity)
+          if (!config#id#.battery.icon_perso) document.getElementById("icon_bat#id#").innerHTML = getBatteryIcon#id#(config#id#.battery.soc.state, config#id#.battery.full_capacity, config#id#.battery.empty_capacity)
           document.getElementById("battery_soc#id#").innerHTML = trunc#id#(config#id#.battery.soc.state, 1) + '%'
         }
         
@@ -2578,7 +3027,6 @@
       var ElDomExist = !!document.getElementById("widget#id#");
       if (debug#id#) console.log("| ElDomExist ?",ElDomExist);
       if (ElDomExist) {
-        
         if (debug#id#) console.log('| animation_speed = ' + config#id#.grid.animation_speed)
         if (debug#id#) console.log('| max_power = ' + config#id#.grid.max_power)
         if (debug#id#) console.log('| power_state = ' + config#id#.grid.power_state)
@@ -2590,8 +3038,82 @@
         document.getElementById("anim_grid_buy1#id#")?.setAttribute("dur",speed);
         document.getElementById("anim_grid_sell1#id#")?.setAttribute("dur",speed);
         if (debug#id#) console.log('| animation_speed = ' + speed);
+        //calculateGreenValue#id#('calculateGrid()')
       }
       if (debug#id#) console.log('└──────────────────────────────────────────────────────')
+      calculateGreenValue#id#('calculateGrid()')
+    }
+    function calculateGreenValue#id#(el='') {
+      /*
+      console.log('┌─────────────────── Widget Distribution Onduleur [#id#] en debug [calculateGreenValue()] ───────────────')
+      var ElDomExist = !!document.getElementById("widget#id#");
+      console.log("| ElDomExist ?",ElDomExist);
+      if (ElDomExist) {
+        console.log('config#id#.solar.mppts (' + config#id#.solar.mppts + ')')
+        console.log('config#id#.load.additional_loads (' + config#id#.load.additional_loads + ')')
+        console.log('config#id#.grid.power_state (' + config#id#.grid.power_state + ')')
+        console.log('config#id#.battery.power_state (' + config#id#.battery.power_state + ')')
+        console.log('config#id#.solar.power (' + config#id#.solar.power + ')')
+        if(config#id#.solar.mppts > 0 && config#id#.load.additional_loads > 0) {
+          //console.log((config#id#.load.power - config#id#.grid.power_state) * 100 / config#id#.load.power)
+        }
+        
+        
+        if (config#id#.solar.mppts > 0) {
+          let solarConsumption = 0;
+          solarConsumption = config#id#.solar.power - ((config#id#.grid.power_state <= 0) ? Math.abs(config#id#.grid.power_state) : 0) - ((config#id#.battery.power_state <= 0)  ? Math.abs(config#id#.battery.power_state) : 0);
+          console.log('| | solarConsumption = ' + solarConsumption)
+          
+          let batteryFromGrid = 0;
+          let batteryToGrid = 0;
+          if (solarConsumption < 0) {
+            // What we returned to the grid and what went in to the battery is more
+            // than produced, so we have used grid energy to fill the battery or
+            // returned battery energy to the grid
+            if (config#id#.battery.has_battery) {
+              console.log('| | config#id#.battery.has_battery : ' + config#id#.battery.has_battery)
+              batteryFromGrid = Math.abs(solarConsumption); //200
+              console.log('| | batteryFromGrid : ' + batteryFromGrid)
+              console.log('| | config#id#.grid.power_state : ' + ((config#id#.grid.power_state <= 0) ? 0 : Math.abs(config#id#.grid.power_state)))
+              if (batteryFromGrid > ((config#id#.grid.power_state <= 0) ? 0 : Math.abs(config#id#.grid.power_state))) { // totalFromGridNoUnit#id#
+                console.log('| | batteryFromGrid > config#id#.grid.power_state')
+                batteryToGrid = (config#id#.grid.power_state <= 0) ? Math.min((batteryFromGrid - ((config#id#.grid.power_state <= 0) ? 0 : Math.abs(config#id#.grid.power_state))), batteryFromGrid) : 0;
+                //batteryToGrid = Math.min((batteryFromGrid - ((config#id#.grid.power_state <= 0) ? 0 : Math.abs(config#id#.grid.power_state))), batteryFromGrid);
+                batteryFromGrid = ((config#id#.grid.power_state <= 0) ? 0 : Math.abs(config#id#.grid.power_state));
+              } else {
+                batteryToGrid = 0 // add
+                //batteryFromGrid = ((config#id#.grid.power_state <= 0) ? 0 : Math.abs(config#id#.grid.power_state));; // add
+                //batteryToGrid = batteryFromGrid // add
+                //batteryFromGrid = 0; // add
+              } 
+            }
+            solarConsumption = 0;
+            console.log('| | NEW solarConsumption : ' + solarConsumption)
+            
+          }
+          console.log('| | batteryFromGrid : ' + batteryFromGrid)
+          console.log('| | batteryToGrid : ' + batteryToGrid)
+          
+          let gridConsumption = Math.max(((config#id#.grid.power_state >= 0) ? config#id#.grid.power_state : 0) - batteryFromGrid, 0);
+          console.log('| | gridConsumption : ' + gridConsumption)
+          
+          let batteryConsumption = 0;
+          if (config#id#.battery.has_battery) {
+            batteryConsumption = ((config#id#.battery.power_state >= 0) ? config#id#.battery.power_state : 0) - batteryToGrid
+            console.log('| | batteryConsumption : ' + batteryConsumption)
+          }
+          
+          let totalHomeConsumption = Math.max((gridConsumption + solarConsumption + batteryConsumption), 0);
+          console.log('| | totalHomeConsumption : ' + totalHomeConsumption)
+          
+          var greenValue#id# = 0
+          greenValue#id# = (totalHomeConsumption - ((config#id#.grid.power_state >= 0) ? config#id#.grid.power_state : 0)) * 100 / totalHomeConsumption
+          if(isNaN(greenValue#id#) == true) greenValue#id# = 0
+          console.log('| | greenValue : ' + greenValue#id#)
+          
+        }
+      }
+      */
     }
       
   </script>
@@ -2609,14 +3131,23 @@
     <div>pvMaxPower : Puissance max des PV. (permet la gestion de vitesse de l'animation)</div>
     <div>solarColor : Couleur des éléments de catégorie "solaire" [ Exemple : #fffff, white]</div>
     <div> ------------ Load ------------</div>
+    <div> [ Liste des icones possible pour les load : oven, pump, aircon, boiler, charging, battery, plug, pool, dryer, dishwasher, washing ]</div>
     <div>load1Name : personnalisation du nom du Load1. (Ex: C.E, Clim, ...)</div>
-    <div>load1Icon : Afficher Icone. Choix : oven, pump, aircon, boiler, charging</div>
+    <div>load1Icon : Afficher Icone. Choix : Voir liste au dessus.</div>
     <div>load2Name : personnalisation du nom du Load2. (Ex: C.E, Clim, ....)</div>
-    <div>load2Icon : Afficher Icone. Choix : oven, pump, aircon, boiler, charging</div>
+    <div>load2Icon : Afficher Icone. Choix : Voir liste au dessus.</div>
     <div>load3Name : personnalisation du nom du Load3. (Ex: C.E, Clim, ....)</div>
-    <div>load3Icon : Afficher Icone. Choix : oven, pump, aircon, boiler, charging</div>
+    <div>load3Icon : Afficher Icone. Choix : Voir liste au dessus.</div>
     <div>load4Name : personnalisation du nom du Load4. (Ex: C.E, Clim, ....)</div>
-    <div>load4Icon : Afficher Icone. Choix : oven, pump, aircon, boiler, charging</div>
+    <div>load4Icon : Afficher Icone. Choix : Voir liste au dessus.</div>
+    <div>load5Name : personnalisation du nom du Load5. (Ex: C.E, Clim, ....)</div>
+    <div>load5Icon : Afficher Icone. Choix : Voir liste au dessus.</div>
+    <div>load6Name : personnalisation du nom du Load6. (Ex: C.E, Clim, ....)</div>
+    <div>load6Icon : Afficher Icone. Choix : Voir liste au dessus.</div>
+    <div>load7Name : personnalisation du nom du Load7. (Ex: C.E, Clim, ....)</div>
+    <div>load7Icon : Afficher Icone. Choix : Voir liste au dessus.</div>
+    <div>load8Name : personnalisation du nom du Load8. (Ex: C.E, Clim, ....)</div>
+    <div>load8Icon : Afficher Icone. Choix : Voir liste au dessus.</div>
     <div>dailyLoadText : personnalisation du texte. (défaut : DAILY LOAD)</div>
     <div>loadMaxPower : Puissance max des équipements "Load". (permet la gestion de vitesse de l'animation)</div>
     <div>loadColor : Couleur des éléments de catégorie "load" [ Exemple : #fffff, white]</div>
@@ -2633,6 +3164,7 @@
     <div>batterySocShutdown : SOC mini. (defaut: 0)</div>
     <div>mpptName : personnalisation du nom du Chargeur PV.</div>
     <div>batteryColor : Couleur des éléments de catégorie "batterie" [ Exemple : #fffff, white]</div>
+    <div>batteryIconeVe : Remplace l'icone batterie par un icone VE. [ Exemple 1, 0 | defaut : 0 ]</div>
     <div> ------------ Aux ------------</div>
     <div>auxColor :  Couleur des éléments de catégorie "aux" [ Exemple : #fffff, white]</div>
     <div>auxMaxPower : Puissance max des "Aux". (permet la gestion de vitesse de l'animation)</div>
