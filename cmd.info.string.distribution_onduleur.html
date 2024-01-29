@@ -3,7 +3,7 @@
   Widget name : cmd.info.string.distribution_onduleur
   Author : Phpvarious
   Inspiration : https://github.com/slipx06/sunsynk-power-flow-card/tree/master
-  Last Uptade : 2024/01/29 19h30 - Phpvarious
+  Last Uptade : 2024/01/29 21h40 - Phpvarious
 
   ###### TODO ######
 -->
@@ -45,7 +45,7 @@
     var debug#id# = ('#debug#' == 1) ? true : false;
     var fullJs#id# = false
     var jeedomVersion#id# = 4.4
-    var versionWidget#id# = '29/01/2024 19h30'
+    var versionWidget#id# = '29/01/2024 21h40'
     
     if (debug#id#) console.log('┌─────────────────── Widget Distribution Onduleur [#id#] Compatibilité V4.3 V4.4 [' + versionWidget#id# + '] ───────────────')
     /* Compatibilité V4.2 V4.3 V4.4 */
@@ -182,6 +182,21 @@
       }
       else if(icone == 'washing') {
         svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="' + ((load === 7 || load === 8) ? '680' : (load === 5 || load === 6) ? '600' : (load === 3 || load === 4) ? '520' : '443') +'" y="' + ((load === 1 || load === 3 || load === 5 || load === 7) ? '162' : '271') +'" width="25" height="25" viewBox="0 0 24 24"><g fill="none" stroke="var(--load_colour#id#)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path fill="var(--load_colour#id#)" d="M3 6h3m11 0h.01"/><rect width="18" height="20" x="3" y="2" rx="2"/><circle cx="12" cy="13" r="5"/><path d="M12 18a2.5 2.5 0 0 0 0-5a2.5 2.5 0 0 1 0-5"/></g></svg>'
+      }
+      else if(icone == 'microwave') {
+        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="' + ((load === 7 || load === 8) ? '680' : (load === 5 || load === 6) ? '600' : (load === 3 || load === 4) ? '520' : '443') +'" y="' + ((load === 1 || load === 3 || load === 5 || load === 7) ? '159' : '268') +'" width="30" height="30" viewBox="0 0 24 24"><g fill="none" stroke="var(--load_colour#id#)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path fill="none" d="M3 7a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1zm12-1v12m3-6h.01M18 15h.01M18 9h.01"/><path d="M6.5 10.5c1-.667 1.5-.667 2.5 0c.833.347 1.667.926 2.5 0m-5 3c1-.667 1.5-.667 2.5 0c.833.347 1.667.926 2.5 0"/></g></svg>'
+      }
+      else if (icone == 'toaster') {
+        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="' + ((load === 7 || load === 8) ? '680' : (load === 5 || load === 6) ? '600' : (load === 3 || load === 4) ? '520' : '443') +'" y="' + ((load === 1 || load === 3 || load === 5 || load === 7) ? '159' : '268') +'" width="30" height="30" viewBox="0 0 24 24"><path fill="var(--load_colour#id#)" d="M21 11a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2H2v2h1v7h18v-7h1v-2m-5 4a2 2 0 1 1 2-2a2 2 0 0 1-2 2m1-7H6c.33-2.25 2.88-4 6-4s5.63 1.75 6 4"/></svg>'
+      }
+      else if (icone == 'fridge') {
+        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="' + ((load === 7 || load === 8) ? '680' : (load === 5 || load === 6) ? '600' : (load === 3 || load === 4) ? '520' : '443') +'" y="' + ((load === 1 || load === 3 || load === 5 || load === 7) ? '159' : '268') +'" width="30" height="30" viewBox="0 0 24 24"><path fill="var(--load_colour#id#)" d="M9 21v1H7v-1a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v15a2 2 0 0 1-2 2v1h-2v-1zM7 4v5h10V4zm0 15h10v-8H7zm1-7h2v3H8zm0-6h2v2H8z"/></svg>'
+      }
+      else if (icone == 'coffee') {
+        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="' + ((load === 7 || load === 8) ? '680' : (load === 5 || load === 6) ? '600' : (load === 3 || load === 4) ? '520' : '443') +'" y="' + ((load === 1 || load === 3 || load === 5 || load === 7) ? '159' : '268') +'" width="30" height="30" viewBox="0 0 24 24"><path fill="var(--load_colour#id#)" d="M18 6V4h2V2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h14v-2h-4.03A4.966 4.966 0 0 0 18 16v-5H8v5c0 1.64.81 3.09 2.03 4H6V4h2v2c0 .55.45 1 1 1h8c.55 0 1-.45 1-1m-8 10v-3h6v3c0 1.65-1.35 3-3 3s-3-1.35-3-3"/><circle cx="13" cy="9" r="1" fill="currentColor"/></svg>'
+      }
+      else if (icone == 'hood') {
+        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="' + ((load === 7 || load === 8) ? '680' : (load === 5 || load === 6) ? '600' : (load === 3 || load === 4) ? '520' : '443') +'" y="' + ((load === 1 || load === 3 || load === 5 || load === 7) ? '159' : '268') +'" width="30" height="30" viewBox="0 0 24 24"><path fill="var(--load_colour#id#)" d="M4 20q-.825 0-1.412-.587T2 18v-4.2q0-.4.163-.763T2.6 12.4L7 8V3h10v5l4.425 4.425q.275.275.425.638t.15.762V18q0 .825-.587 1.413T20 20zm1.8-8h12.4L15 8.8V5H9v3.8zM4 18h16v-4H4zm6-1.3v-1.5h4v1.5z"/></svg>' 
       }
       if (debug#id#) console.log('|└────────────────────────────────────')
       return svg
@@ -3131,7 +3146,7 @@
     <div>pvMaxPower : Puissance max des PV. (permet la gestion de vitesse de l'animation)</div>
     <div>solarColor : Couleur des éléments de catégorie "solaire" [ Exemple : #fffff, white]</div>
     <div> ------------ Load ------------</div>
-    <div> [ Liste des icones possible pour les load : oven, pump, aircon, boiler, charging, battery, plug, pool, dryer, dishwasher, washing ]</div>
+    <div> [ Liste des icones possible pour les load : oven, pump, aircon, boiler, charging, battery, plug, pool, dryer, dishwasher, washing, microwave, toaster, fridge, coffee, hood ]</div>
     <div>load1Name : personnalisation du nom du Load1. (Ex: C.E, Clim, ...)</div>
     <div>load1Icon : Afficher Icone. Choix : Voir liste au dessus.</div>
     <div>load2Name : personnalisation du nom du Load2. (Ex: C.E, Clim, ....)</div>
