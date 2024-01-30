@@ -3,7 +3,9 @@
   Widget name : cmd.info.string.distribution_onduleur
   Author : Phpvarious
   Inspiration : https://github.com/slipx06/sunsynk-power-flow-card/tree/master
-  Last Uptade : 2024/01/29 21h40 - Phpvarious
+  Last Uptade : 2024/01/30 23h30 - Phpvarious
+
+  Merci @bison pour la partie seuil des puissances ;-)
 
   ###### TODO ######
 -->
@@ -20,6 +22,7 @@
       --inverterStateColour#id#: transparent;
       --background#id#: transparent;
       --no_grid_colour#id#: #db041c;
+      --color_alerte#id#: red;
     }
     .widget#id#{width: 100%;}
     .container#id# {
@@ -40,6 +43,16 @@
     .ft22-#id#{font-size:22px;}
     .ftw-#id#{font-weight:500}
     .hidden-#id#{display:none;}
+    
+    @keyframes blinking#id# {
+      0% { opacity: 1; }
+      100% { opacity: 0.4; }
+    }
+    .blink#id# {
+      -moz-animation: blinking#id# 0.7s linear infinite;
+      -webkit-animation: blinking#id# 0.7s linear infinite;
+      animation: blinking#id# 0.7s linear infinite;
+    }
   </style>
   <script>
     var debug#id# = ('#debug#' == 1) ? true : false;
@@ -198,6 +211,21 @@
       else if (icone == 'hood') {
         svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="' + ((load === 7 || load === 8) ? '680' : (load === 5 || load === 6) ? '600' : (load === 3 || load === 4) ? '520' : '443') +'" y="' + ((load === 1 || load === 3 || load === 5 || load === 7) ? '159' : '268') +'" width="30" height="30" viewBox="0 0 24 24"><path fill="var(--load_colour#id#)" d="M4 20q-.825 0-1.412-.587T2 18v-4.2q0-.4.163-.763T2.6 12.4L7 8V3h10v5l4.425 4.425q.275.275.425.638t.15.762V18q0 .825-.587 1.413T20 20zm1.8-8h12.4L15 8.8V5H9v3.8zM4 18h16v-4H4zm6-1.3v-1.5h4v1.5z"/></svg>' 
       }
+      else if (icone == 'light') {
+        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="' + ((load === 7 || load === 8) ? '680' : (load === 5 || load === 6) ? '600' : (load === 3 || load === 4) ? '520' : '443') +'" y="' + ((load === 1 || load === 3 || load === 5 || load === 7) ? '162' : '271') +'" width="25" height="25" viewBox="0 0 24 24"><path fill="none" stroke="var(--load_colour#id#)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18"/></svg>'
+      }
+      else if (icone == 'tv') {
+        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="' + ((load === 7 || load === 8) ? '683' : (load === 5 || load === 6) ? '603' : (load === 3 || load === 4) ? '523' : '446') +'" y="' + ((load === 1 || load === 3 || load === 5 || load === 7) ? '162' : '271') +'" width="24" height="24" viewBox="0 0 20 20"><path fill="var(--load_colour#id#)" d="M1.364 2.35v10.794h17.272V2.35zM19.09 1c.502 0 .909.403.909.9v11.694c0 .497-.407.9-.91.9l-8.53-.001v3.157h3.437c.377 0 .682.303.682.675a.678.678 0 0 1-.682.675H5.981a.678.678 0 0 1-.682-.675c0-.372.306-.674.682-.674l3.216-.001v-3.157H.909A.904.904 0 0 1 0 13.595V1.9c0-.497.407-.9.91-.9z"/></svg>'
+      }
+      else if (icone == 'server') {
+        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="' + ((load === 7 || load === 8) ? '680' : (load === 5 || load === 6) ? '600' : (load === 3 || load === 4) ? '520' : '443') +'" y="' + ((load === 1 || load === 3 || load === 5 || load === 7) ? '162' : '271') +'" width="25" height="25" viewBox="0 0 24 24"><g fill="none"><path stroke="var(--load_colour#id#)" stroke-linecap="round" stroke-width="1.5" d="M22 19h-8M2 19h8m2-2v-3"/><circle cx="12" cy="19" r="2" stroke="var(--load_colour#id#)" stroke-width="1.5"/><path stroke="var(--load_colour#id#)" stroke-width="1.5" d="M2 11a3 3 0 0 1 3-3h14a3 3 0 1 1 0 6H5a3 3 0 0 1-3-3Zm0-6a3 3 0 0 1 3-3h14a3 3 0 1 1 0 6H5a3 3 0 0 1-3-3Z"/><path stroke="var(--load_colour#id#)" stroke-linecap="round" stroke-width="1.5" d="M13 5h6m-6 6h6"/><circle cx="6" cy="5" r="1" fill="var(--load_colour#id#)"/><circle cx="6" cy="11" r="1" fill="var(--load_colour#id#)"/></g></svg>'
+      }
+      else if (icone == 'laptop') {
+        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="' + ((load === 7 || load === 8) ? '680' : (load === 5 || load === 6) ? '600' : (load === 3 || load === 4) ? '520' : '443') +'" y="' + ((load === 1 || load === 3 || load === 5 || load === 7) ? '162' : '271') +'" width="25" height="25" viewBox="0 0 25 25"><path fill="var(--load_colour#id#)" d="M22 18V3H2v15H0v2h24v-2zm-8 0h-4v-1h4zm6-3H4V5h16z"/></svg>'
+      }
+      else if (icone == 'console') {
+        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="iconLoad' + load + '#id#" x="' + ((load === 7 || load === 8) ? '680' : (load === 5 || load === 6) ? '600' : (load === 3 || load === 4) ? '520' : '443') +'" y="' + ((load === 1 || load === 3 || load === 5 || load === 7) ? '162' : '271') +'" width="25" height="25" viewBox="0 0 24 24"><path fill="none" stroke="var(--load_colour#id#)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7.5 11.5v3M6 13h3m3-4.653c2.005 0 3.7-1.888 5.786-1.212c2.264.733 3.82 3.413 3.708 9.492c-.022 1.224-.336 2.578-1.546 3.106c-2.797 1.221-4.397-2.328-7-2.328h-1.897c-2.605 0-4.213 3.545-6.998 2.328c-1.21-.528-1.525-1.882-1.547-3.107c-.113-6.078 1.444-8.758 3.708-9.491C8.299 6.459 9.994 8.347 12 8.347m0-4.565v4.342M14.874 13h3"/></svg>'
+      }
       if (debug#id#) console.log('|└────────────────────────────────────')
       return svg
     }
@@ -208,6 +236,7 @@
       large_font: false,// Todo -> param optionnel
       show_solar: false,
       card_height: '396px',
+      blink: false,
       timer: {
         usetimer: false, /* Displays "Use timer" status as an icon next to the inverter. Set to `no` to hide */
         state: 'no', // [on, off] Shows if energy pattern is set to priority load or priority battery as an icon next to the inverter.
@@ -381,6 +410,8 @@
           icon: false, //oven, pump, aircon, boiler, charging
           name: false,
           energy: false,
+          energy_unit: '',
+          max_power: false
         },
         load2: {
           power: 0,
@@ -389,6 +420,7 @@
           name: false,
           energy: false,
           energy_unit: '',
+          max_power: false
         },
         load3: {
           power: 0,
@@ -397,6 +429,7 @@
           name: false,
           energy: false,
           energy_unit: '',
+          max_power: false
         },
         load4: {
           power: 0,
@@ -405,6 +438,7 @@
           name: false,
           energy: false,
           energy_unit: '',
+          max_power: false
         },
         load5: {
           power: 0,
@@ -413,6 +447,7 @@
           name: false,
           energy: false,
           energy_unit: '',
+          max_power: false
         },
         load6: {
           power: 0,
@@ -421,6 +456,7 @@
           name: false,
           energy: false,
           energy_unit: '',
+          max_power: false
         },
         load7: {
           power: 0,
@@ -429,6 +465,7 @@
           name: false,
           energy: false,
           energy_unit: '',
+          max_power: false
         },
         load8: {
           power: 0,
@@ -437,6 +474,7 @@
           name: false,
           energy: false,
           energy_unit: '',
+          max_power: false
         },
         has_load_power: false,
         animate_load_enable: true,
@@ -502,24 +540,34 @@
     ////////////////////////// Load /////////////////////////
     if ("#load1Name#" != '#'+'load1Name#') config#id#.load.load1.name = "#load1Name#"
     if ("#load1Icon#" != '#'+'load1Icon#') config#id#.load.load1.icon = "#load1Icon#"
+    if ("#load1MaxPower#" != '#'+'load1MaxPower#') config#id#.load.load1.max_power = "#load1MaxPower#"
     if ("#load2Name#" != '#'+'load2Name#') config#id#.load.load2.name = "#load2Name#"
     if ("#load2Icon#" != '#'+'load2Icon#') config#id#.load.load2.icon = "#load2Icon#"
+    if ("#load2MaxPower#" != '#'+'load2MaxPower#') config#id#.load.load2.max_power = "#load2MaxPower#"
     if ("#load3Name#" != '#'+'load3Name#') config#id#.load.load3.name = "#load3Name#"
     if ("#load3Icon#" != '#'+'load3Icon#') config#id#.load.load3.icon = "#load3Icon#"
+    if ("#load3MaxPower#" != '#'+'load3MaxPower#') config#id#.load.load3.max_power = "#load3MaxPower#"
     if ("#load4Name#" != '#'+'load4Name#') config#id#.load.load4.name = "#load4Name#"
     if ("#load4Icon#" != '#'+'load4Icon#') config#id#.load.load4.icon = "#load4Icon#"
+    if ("#load4MaxPower#" != '#'+'load4MaxPower#') config#id#.load.load4.max_power = "#load4MaxPower#"
     if ("#load5Name#" != '#'+'load5Name#') config#id#.load.load5.name = "#load5Name#"
     if ("#load5Icon#" != '#'+'load5Icon#') config#id#.load.load5.icon = "#load5Icon#"
+    if ("#load5MaxPower#" != '#'+'load5MaxPower#') config#id#.load.load5.max_power = "#load5MaxPower#"
     if ("#load6Name#" != '#'+'load6Name#') config#id#.load.load6.name = "#load6Name#"
     if ("#load6Icon#" != '#'+'load6Icon#') config#id#.load.load6.icon = "#load6Icon#"
+    if ("#load6MaxPower#" != '#'+'load6MaxPower#') config#id#.load.load6.max_power = "#load6MaxPower#"
     if ("#load7Name#" != '#'+'load7Name#') config#id#.load.load7.name = "#load7Name#"
     if ("#load7Icon#" != '#'+'load7Icon#') config#id#.load.load7.icon = "#load7Icon#"
+    if ("#load7MaxPower#" != '#'+'load7MaxPower#') config#id#.load.load7.max_power = "#load7MaxPower#"
     if ("#load8Name#" != '#'+'load8Name#') config#id#.load.load8.name = "#load8Name#"
     if ("#load8Icon#" != '#'+'load8Icon#') config#id#.load.load8.icon = "#load8Icon#"
+    if ("#load8MaxPower#" != '#'+'load8MaxPower#') config#id#.load.load8.max_power = "#load8MaxPower#"
     if ("#loadAnimate#" != '#'+'loadAnimate#' && "#loadAnimate#" == '0') config#id#.load.animate_load_enable = 0
     if ("#dailyLoadText#" != '#'+'dailyLoadText#') config#id#.load.daily.text = "#dailyLoadText#"
     if (is_numeric('#loadMaxPower#')) config#id#.load.max_power = '#loadMaxPower#'
     if ("#loadColor#" != '#'+'loadColor#') document.documentElement.style.setProperty('--load_colour#id#', '#loadColor#')
+    if ("#blink#" == 1) config#id#.blink = true
+if ("#colorDanger#" != '#'+'colorDanger#') document.documentElement.style.setProperty('--color_alerte#id#', '#colorDanger#')
     ////////////////////////// grid /////////////////////////
     if ("#dailyGridSellText#" != '#'+'dailyGridSellText#') config#id#.grid.daily.text_sell = "#dailyGridSellText#"
     if ("#dailyGridBuyText#" != '#'+'dailyGridBuyText#') config#id#.grid.daily.text_buy = "#dailyGridBuyText#"
@@ -1539,6 +1587,7 @@
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + loadState)
                 if (cmds[j].unite != '') config#id#.load.unit = cmds[j].unite
                 if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.load.unit)
+                if (debug#id# == 1 && config#id#.load.max_power) console.log('|    └> max_power : '  + config#id#.load.max_power)
                 if (typeof loadState === "number") {
                   config#id#.load.power = trunc#id#(parseFloat(loadState), 1)
                 }
@@ -1550,6 +1599,15 @@
               config#id#.load.power = trunc#id#(parseFloat(_options.value), 1)
               document.getElementById("ess_power#id#").innerHTML = config#id#.load.power + ' ' + config#id#.load.unit
               calculateLoad#id#('load state')
+              
+              if (config#id#.load.max_power && config#id#.load.power >= config#id#.load.max_power) {
+                document.getElementById("load-rect-#id#").setAttribute("stroke", "var(--color_alerte#id#)")
+                if (config#id#.blink) document.getElementById("load-rect-#id#").classList.add("blink#id#")
+              }
+              else {
+                document.getElementById("load-rect-#id#").setAttribute("stroke", "var(--load_colour#id#)")
+                if (config#id#.blink) document.getElementById("load-rect-#id#").classList.remove("blink#id#")
+              }
             })
           }
           ///////////////////////////////////////////////////////////////////////
@@ -1565,6 +1623,7 @@
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + load1State)
                 if (cmds[j].unite != '') config#id#.load.load1.power_unit = cmds[j].unite
                 if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.load.load1.power_unit)
+                if (debug#id# == 1 && config#id#.load.load1.max_power) console.log('|    └> max_power : '  + config#id#.load.load1.max_power)
                 if (typeof load1State === "number") {
                   config#id#.load.load1.power = trunc#id#(parseFloat(load1State), 1)
                 }
@@ -1577,11 +1636,18 @@
               document.getElementById("ess_load1#id#").innerHTML = config#id#.load.load1.power + ' ' + config#id#.load.load1.power_unit
               if (config#id#.load.has_load_power === false) calculateLoad#id#('load1 state')
               
-              if (config#id#.load.load1.power > 0) {
-                document.getElementById("es-dot1-#id#").setAttribute("fill", "var(--load_colour#id#)");
+              if (config#id#.load.load1.power > 0) document.getElementById("es-dot1-#id#").setAttribute("fill", "var(--load_colour#id#)")
+              else document.getElementById("es-dot1-#id#").setAttribute("fill", "transparent")
+              
+              if (config#id#.load.load1.max_power && config#id#.load.load1.power >= config#id#.load.load1.max_power)
+              {
+                document.getElementById("load1-rect-#id#").setAttribute("stroke", "var(--color_alerte#id#)")
+                if (config#id#.blink) document.getElementById("load1-rect-#id#").classList.add("blink#id#")
               }
-              else {
-                document.getElementById("es-dot1-#id#").setAttribute("fill", "transparent");
+              else 
+              {
+                document.getElementById("load1-rect-#id#").setAttribute("stroke", "var(--load_colour#id#)")
+                if (config#id#.blink) document.getElementById("load1-rect-#id#").classList.remove("blink#id#")
               }
             })
           }
@@ -1598,6 +1664,7 @@
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + load2State)
                 if (cmds[j].unite != '') config#id#.load.load2.power_unit = cmds[j].unite
                 if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.load.load2.power_unit)
+                if (debug#id# == 1 && config#id#.load.load2.max_power) console.log('|    └> max_power : '  + config#id#.load.load2.max_power)
                 if (typeof load2State === "number") {
                   config#id#.load.load2.power = trunc#id#(parseFloat(load2State), 1)
                 }
@@ -1610,11 +1677,18 @@
               document.getElementById("ess_load2#id#").innerHTML = config#id#.load.load2.power + ' ' + config#id#.load.load2.power_unit
               if (config#id#.load.has_load_power === false) calculateLoad#id#('load2 state')
               
-              if (config#id#.load.load2.power > 0) {
-                document.getElementById("es-dot2-#id#").setAttribute("fill", "var(--load_colour#id#)");
+              if (config#id#.load.load2.power > 0) document.getElementById("es-dot2-#id#").setAttribute("fill", "var(--load_colour#id#)")
+              else document.getElementById("es-dot2-#id#").setAttribute("fill", "transparent")
+              
+              if (config#id#.load.load2.max_power && config#id#.load.load2.power >= config#id#.load.load2.max_power)
+              {
+                document.getElementById("load2-rect-#id#").setAttribute("stroke", "var(--color_alerte#id#)")
+                if (config#id#.blink) document.getElementById("load2-rect-#id#").classList.add("blink#id#")
               }
-              else {
-                document.getElementById("es-dot2-#id#").setAttribute("fill", "transparent");
+              else 
+              {
+                document.getElementById("load2-rect-#id#").setAttribute("stroke", "var(--load_colour#id#)")
+                if (config#id#.blink) document.getElementById("load2-rect-#id#").classList.remove("blink#id#")
               }
             })
           }
@@ -1631,6 +1705,7 @@
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + load3State)
                 if (cmds[j].unite != '') config#id#.load.load3.power_unit = cmds[j].unite
                 if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.load.load3.power_unit)
+                if (debug#id# == 1 && config#id#.load.load3.max_power) console.log('|    └> max_power : '  + config#id#.load.load3.max_power)
                 if (typeof load3State === "number") {
                   config#id#.load.load3.power = trunc#id#(parseFloat(load3State), 1)
                 }
@@ -1643,11 +1718,18 @@
               document.getElementById("ess_load3#id#").innerHTML = config#id#.load.load3.power + ' ' + config#id#.load.load3.power_unit
               if (config#id#.load.has_load_power === false) calculateLoad#id#('load3 state')
               
-              if (config#id#.load.load3.power > 0) {
-                document.getElementById("es-dot3-#id#").setAttribute("fill", "var(--load_colour#id#)");
+              if (config#id#.load.load3.power > 0) document.getElementById("es-dot3-#id#").setAttribute("fill", "var(--load_colour#id#)")
+              else document.getElementById("es-dot3-#id#").setAttribute("fill", "transparent")
+              
+              if (config#id#.load.load3.max_power && config#id#.load.load3.power >= config#id#.load.load3.max_power)
+              {
+                document.getElementById("load3-rect-#id#").setAttribute("stroke", "var(--color_alerte#id#)")
+                if (config#id#.blink) document.getElementById("load3-rect-#id#").classList.add("blink#id#")
               }
-              else {
-                document.getElementById("es-dot3-#id#").setAttribute("fill", "transparent");
+              else
+              {
+                document.getElementById("load3-rect-#id#").setAttribute("stroke", "var(--load_colour#id#)")
+                if (config#id#.blink) document.getElementById("load3-rect-#id#").classList.remove("blink#id#")
               }
             })
           }
@@ -1664,6 +1746,7 @@
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + load4State)
                 if (cmds[j].unite != '') config#id#.load.load4.power_unit = cmds[j].unite
                 if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.load.load4.power_unit)
+                if (debug#id# == 1 && config#id#.load.load4.max_power) console.log('|    └> max_power : '  + config#id#.load.load4.max_power)
                 if (typeof load4State === "number") {
                   config#id#.load.load4.power = trunc#id#(parseFloat(load4State), 1)
                 }
@@ -1676,11 +1759,18 @@
               document.getElementById("ess_load4#id#").innerHTML = config#id#.load.load4.power + ' ' + config#id#.load.load4.power_unit
               if (config#id#.load.has_load_power === false) calculateLoad#id#('load4 state')
               
-              if (config#id#.load.load4.power > 0) {
-                document.getElementById("es-dot4-#id#").setAttribute("fill", "var(--load_colour#id#)");
+              if (config#id#.load.load4.power > 0) document.getElementById("es-dot4-#id#").setAttribute("fill", "var(--load_colour#id#)")
+              else document.getElementById("es-dot4-#id#").setAttribute("fill", "transparent")
+              
+              if (config#id#.load.load4.max_power && config#id#.load.load4.power >= config#id#.load.load4.max_power)
+              {
+                document.getElementById("load4-rect-#id#").setAttribute("stroke", "var(--color_alerte#id#)")
+                if (config#id#.blink) document.getElementById("load4-rect-#id#").classList.add("blink#id#")
               }
-              else {
-                document.getElementById("es-dot4-#id#").setAttribute("fill", "transparent");
+              else
+              {
+                document.getElementById("load4-rect-#id#").setAttribute("stroke", "var(--load_colour#id#)")
+                if (config#id#.blink) document.getElementById("load4-rect-#id#").classList.remove("blink#id#")
               }
             })
           }
@@ -1697,6 +1787,7 @@
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + load5State)
                 if (cmds[j].unite != '') config#id#.load.load5.power_unit = cmds[j].unite
                 if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.load.load5.power_unit)
+                if (debug#id# == 1 && config#id#.load.load5.max_power) console.log('|    └> max_power : '  + config#id#.load.load5.max_power)
                 if (typeof load5State === "number") {
                   config#id#.load.load5.power = trunc#id#(parseFloat(load5State), 1)
                 }
@@ -1709,11 +1800,18 @@
               document.getElementById("ess_load5#id#").innerHTML = config#id#.load.load5.power + ' ' + config#id#.load.load5.power_unit
               if (config#id#.load.has_load_power === false) calculateLoad#id#('load5 state')
               
-              if (config#id#.load.load5.power > 0) {
-                document.getElementById("es-dot5-#id#").setAttribute("fill", "var(--load_colour#id#)");
+              if (config#id#.load.load5.power > 0) document.getElementById("es-dot5-#id#").setAttribute("fill", "var(--load_colour#id#)")
+              else document.getElementById("es-dot5-#id#").setAttribute("fill", "transparent")
+              
+              if (config#id#.load.load5.max_power && config#id#.load.load5.power >= config#id#.load.load5.max_power)
+              {
+                document.getElementById("load5-rect-#id#").setAttribute("stroke", "var(--color_alerte#id#)")
+                if (config#id#.blink) document.getElementById("load5-rect-#id#").classList.add("blink#id#")
               }
-              else {
-                document.getElementById("es-dot5-#id#").setAttribute("fill", "transparent");
+              else
+              {
+                document.getElementById("load5-rect-#id#").setAttribute("stroke", "var(--load_colour#id#)")
+                if (config#id#.blink) document.getElementById("load5-rect-#id#").classList.remove("blink#id#")
               }
             })
           }
@@ -1730,6 +1828,7 @@
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + load6State)
                 if (cmds[j].unite != '') config#id#.load.load6.power_unit = cmds[j].unite
                 if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.load.load6.power_unit)
+                if (debug#id# == 1 && config#id#.load.load6.max_power) console.log('|    └> max_power : '  + config#id#.load.load6.max_power)
                 if (typeof load6State === "number") {
                   config#id#.load.load6.power = trunc#id#(parseFloat(load6State), 1)
                 }
@@ -1742,11 +1841,18 @@
               document.getElementById("ess_load6#id#").innerHTML = config#id#.load.load6.power + ' ' + config#id#.load.load6.power_unit
               if (config#id#.load.has_load_power === false) calculateLoad#id#('load6 state')
               
-              if (config#id#.load.load6.power > 0) {
-                document.getElementById("es-dot6-#id#").setAttribute("fill", "var(--load_colour#id#)");
+              if (config#id#.load.load6.power > 0) document.getElementById("es-dot6-#id#").setAttribute("fill", "var(--load_colour#id#)")
+              else document.getElementById("es-dot6-#id#").setAttribute("fill", "transparent")
+              
+              if (config#id#.load.load6.max_power && config#id#.load.load6.power >= config#id#.load.load6.max_power)
+              {
+                document.getElementById("load6-rect-#id#").setAttribute("stroke", "var(--color_alerte#id#)")
+                if (config#id#.blink) document.getElementById("load6-rect-#id#").classList.add("blink#id#")
               }
-              else {
-                document.getElementById("es-dot6-#id#").setAttribute("fill", "transparent");
+              else
+              {
+                document.getElementById("load6-rect-#id#").setAttribute("stroke", "var(--load_colour#id#)")
+                if (config#id#.blink) document.getElementById("load6-rect-#id#").classList.remove("blink#id#")
               }
             })
           }
@@ -1763,6 +1869,7 @@
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + load7State)
                 if (cmds[j].unite != '') config#id#.load.load7.power_unit = cmds[j].unite
                 if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.load.load7.power_unit)
+                if (debug#id# == 1 && config#id#.load.load7.max_power) console.log('|    └> max_power : '  + config#id#.load.load7.max_power)
                 if (typeof load7State === "number") {
                   config#id#.load.load7.power = trunc#id#(parseFloat(load7State), 1)
                 }
@@ -1775,11 +1882,18 @@
               document.getElementById("ess_load7#id#").innerHTML = config#id#.load.load7.power + ' ' + config#id#.load.load7.power_unit
               if (config#id#.load.has_load_power === false) calculateLoad#id#('load7 state')
               
-              if (config#id#.load.load7.power > 0) {
-                document.getElementById("es-dot7-#id#").setAttribute("fill", "var(--load_colour#id#)");
+              if (config#id#.load.load7.power > 0) document.getElementById("es-dot7-#id#").setAttribute("fill", "var(--load_colour#id#)")
+              else document.getElementById("es-dot7-#id#").setAttribute("fill", "transparent")
+              
+              if (config#id#.load.load7.max_power && config#id#.load.load7.power >= config#id#.load.load7.max_power)
+              {
+                document.getElementById("load7-rect-#id#").setAttribute("stroke", "var(--color_alerte#id#)")
+                if (config#id#.blink) document.getElementById("load7-rect-#id#").classList.add("blink#id#")
               }
-              else {
-                document.getElementById("es-dot7-#id#").setAttribute("fill", "transparent");
+              else
+              {
+                document.getElementById("load7-rect-#id#").setAttribute("stroke", "var(--load_colour#id#)")
+                if (config#id#.blink) document.getElementById("load7-rect-#id#").classList.remove("blink#id#")
               }
             })
           }
@@ -1796,6 +1910,7 @@
                 if (debug#id# == 1) console.log('|    └> cmd.execute : ' + load8State)
                 if (cmds[j].unite != '') config#id#.load.load8.power_unit = cmds[j].unite
                 if (debug#id# == 1) console.log('|    └> unite : '  + config#id#.load.load8.power_unit)
+                if (debug#id# == 1 && config#id#.load.load8.max_power) console.log('|    └> max_power : '  + config#id#.load.load8.max_power)
                 if (typeof load8State === "number") {
                   config#id#.load.load8.power = trunc#id#(parseFloat(load8State), 1)
                 }
@@ -1808,11 +1923,18 @@
               document.getElementById("ess_load8#id#").innerHTML = config#id#.load.load8.power + ' ' + config#id#.load.load8.power_unit
               if (config#id#.load.has_load_power === false) calculateLoad#id#('load8 state')
               
-              if (config#id#.load.load8.power > 0) {
-                document.getElementById("es-dot8-#id#").setAttribute("fill", "var(--load_colour#id#)");
+              if (config#id#.load.load8.power > 0) document.getElementById("es-dot8-#id#").setAttribute("fill", "var(--load_colour#id#)")
+              else document.getElementById("es-dot8-#id#").setAttribute("fill", "transparent")
+              
+              if (config#id#.load.load8.max_power && config#id#.load.load8.power >= config#id#.load.load8.max_power)
+              {
+                document.getElementById("load8-rect-#id#").setAttribute("stroke", "var(--color_alerte#id#)")
+                if (config#id#.blink) document.getElementById("load8-rect-#id#").classList.add("blink#id#")
               }
-              else {
-                document.getElementById("es-dot8-#id#").setAttribute("fill", "transparent");
+              else
+              {
+                document.getElementById("load8-rect-#id#").setAttribute("stroke", "var(--load_colour#id#)")
+                if (config#id#.blink) document.getElementById("load8-rect-#id#").classList.remove("blink#id#")
               }
             })
           }
@@ -2318,8 +2440,7 @@
           ////////////////////// Load ///////////////////////////
           ///////////////////////////////////////////////////////
           html += '<!-- Load -->'
-          html += '<rect x="304" y="213.5" width="70" height="30" rx="4.5" ry="4.5" class="' + ((config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--load_colour#id#)" pointer-events="all"/>'
-          
+          html += '<rect id="load-rect-#id#" class="" x="304" y="213.5" width="70" height="30" rx="4.5" ry="4.5" class="' + ((config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--load_colour#id#)" pointer-events="all"/>'
           html += '<text id="ess_power#id#" x="338.1" y="232.2" display="' + ((config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) ? '' : 'none') + '" class="' + ((config#id#.large_font !== true) ? 'ft12-#id#' : 'ft14-#id#') + ' ftw-#id# center-align#id#" fill="var(--load_colour#id#)"></text>'
           // LINE LOAD
           html += '<path id="es-line#id#" class="' + ((config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) ? '' : 'hidden-#id#') + '" d="M 304 228 L 264.7 228" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
@@ -2343,8 +2464,7 @@
           //////////////////// Load 1 ///////////////////////////
           ///////////////////////////////////////////////////////
           html += '<!-- Load 1 -->'
-          html += '<rect id="load1-rect-#id#" x="406" y="128.5" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--load_colour#id#)" pointer-events="all" display="' + ((config#id#.load.additional_loads >= 1) ? '' : 'none') + '"/>'
-          
+          html += '<rect id="load1-rect-#id#" class="' + ((config#id#.blink && config#id#.load.load1.max_power && config#id#.load.load1.power >= config#id#.load.load1.max_power) ? 'blink#id#' : '') + '" x="406" y="128.5" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="' + ((config#id#.load.load1.max_power && config#id#.load.load1.power >= config#id#.load.load1.max_power) ? 'var(--color_alerte#id#)' : 'var(--load_colour#id#)') + '" pointer-events="all" display="' + ((config#id#.load.additional_loads >= 1) ? '' : 'none') + '"/>'
           html += '<text id="ess_load1#id#" x="440" y="' + ((config#id#.load.load1.energy === false) ? '148' : '143') + '" display="' + ((config#id#.load.additional_loads >= 1) ? '' : 'none') + '" class="'
           html += (config#id#.large_font !== true) ? 'ft12-#id#' : 'ft14-#id#'
           html += ' ftw-#id# center-align#id#" fill="var(--load_colour#id#)">' + config#id#.load.load1.power + ' ' + config#id#.load.load1.power_unit + '</text>'
@@ -2364,8 +2484,7 @@
           //////////////////// Load 2 ///////////////////////////
           ///////////////////////////////////////////////////////
           html += '<!-- Load 2 -->'
-          html += '<rect id="load2-rect-#id#" x="406" y="300" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--load_colour#id#)" pointer-events="all" display="' + ((config#id#.load.additional_loads >= 2) ? '' : 'none') + '"/>'
-          
+          html += '<rect id="load2-rect-#id#" class="' + ((config#id#.blink && config#id#.load.load2.max_power && config#id#.load.load2.power >= config#id#.load.load2.max_power) ? 'blink#id#' : '') + '" x="406" y="300" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="' + ((config#id#.load.load2.max_power && config#id#.load.load2.power >= config#id#.load.load2.max_power) ? 'var(--color_alerte#id#)' : 'var(--load_colour#id#)') + '" pointer-events="all" display="' + ((config#id#.load.additional_loads >= 2) ? '' : 'none') + '"/>'
           html += '<text id="ess_load2#id#" x="440" y="' + ((config#id#.load.load2.energy === false) ? '319.5' : '314.5') + '" display="' + ((config#id#.load.additional_loads >= 2) ? '' : 'none') + '" class="'
           html += (config#id#.large_font !== true) ? 'ft12-#id#' : 'ft14-#id#'
           html += ' ftw-#id# center-align#id#" fill="var(--load_colour#id#)">' + config#id#.load.load2.power + ' ' + config#id#.load.load2.power_unit + '</text>'
@@ -2385,8 +2504,7 @@
           //////////////////// Load 3 ///////////////////////////
           ///////////////////////////////////////////////////////
           html += '<!-- Load 3 -->'
-          html += '<rect id="load3-rect-#id#" x="485" y="128.5" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--load_colour#id#)" pointer-events="all" display="' + ((config#id#.load.additional_loads >= 3) ? '' : 'none') + '"/>'
-          
+          html += '<rect id="load3-rect-#id#" class="' + ((config#id#.blink && config#id#.load.load3.max_power && config#id#.load.load3.power >= config#id#.load.load3.max_power) ? 'blink#id#' : '') + '" x="485" y="128.5" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="' + ((config#id#.load.load3.max_power && config#id#.load.load3.power >= config#id#.load.load3.max_power) ? 'var(--color_alerte#id#)' : 'var(--load_colour#id#)') + '" pointer-events="all" display="' + ((config#id#.load.additional_loads >= 3) ? '' : 'none') + '"/>'
           html += '<text id="ess_load3#id#" x="520" y="' + ((config#id#.load.load3.energy === false) ? '148' : '143') + '" display="' + ((config#id#.load.additional_loads >= 3) ? '' : 'none') + '" class="'
           html += (config#id#.large_font !== true) ? 'ft12-#id#' : 'ft14-#id#'
           html += ' ftw-#id# center-align#id#" fill="var(--load_colour#id#)">' + config#id#.load.load3.power + ' ' + config#id#.load.load3.power_unit + '</text>'
@@ -2406,8 +2524,7 @@
           //////////////////// Load 4 ///////////////////////////
           ///////////////////////////////////////////////////////
           html += '<!-- Load 4 -->'
-          html += '<rect id="load4-rect-#id#" x="485" y="300" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--load_colour#id#)" pointer-events="all" display="' + ((config#id#.load.additional_loads >= 4) ? '' : 'none') + '"/>'
-          
+          html += '<rect id="load4-rect-#id#" class="' + ((config#id#.blink && config#id#.load.load4.max_power && config#id#.load.load4.power >= config#id#.load.load4.max_power) ? 'blink#id#' : '') + '" x="485" y="300" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="' + ((config#id#.load.load4.max_power && config#id#.load.load4.power >= config#id#.load.load4.max_power) ? 'var(--color_alerte#id#)' : 'var(--load_colour#id#)') + '" pointer-events="all" display="' + ((config#id#.load.additional_loads >= 4) ? '' : 'none') + '"/>'
           html += '<text id="ess_load4#id#" x="520" y="' + ((config#id#.load.load4.energy === false) ? '319.5' : '314.5') + '" display="' + ((config#id#.load.additional_loads >= 4) ? '' : 'none') + '" class="'
           html += (config#id#.large_font !== true) ? 'ft12-#id#' : 'ft14-#id#'
           html += ' ftw-#id# center-align#id#" fill="var(--load_colour#id#)">' + config#id#.load.load4.power + ' ' + config#id#.load.load4.power_unit + '</text>'
@@ -2427,8 +2544,7 @@
           //////////////////// Load 5 ///////////////////////////
           ///////////////////////////////////////////////////////
           html += '<!-- Load 5 -->'
-          html += '<rect id="load5-rect-#id#" x="564" y="128.5" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--load_colour#id#)" pointer-events="all" display="' + ((config#id#.load.additional_loads >= 5) ? '' : 'none') + '"/>'
-          
+          html += '<rect id="load5-rect-#id#" class="' + ((config#id#.blink && config#id#.load.load5.max_power && config#id#.load.load5.power >= config#id#.load.load5.max_power) ? 'blink#id#' : '') + '" x="564" y="128.5" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="' + ((config#id#.load.load5.max_power && config#id#.load.load5.power >= config#id#.load.load5.max_power) ? 'var(--color_alerte#id#)' : 'var(--load_colour#id#)') + '" pointer-events="all" display="' + ((config#id#.load.additional_loads >= 5) ? '' : 'none') + '"/>'
           html += '<text id="ess_load5#id#" x="599" y="' + ((config#id#.load.load5.energy === false) ? '148' : '143') + '" display="' + ((config#id#.load.additional_loads >= 5) ? '' : 'none') + '" class="'
           html += (config#id#.large_font !== true) ? 'ft12-#id#' : 'ft14-#id#'
           html += ' ftw-#id# center-align#id#" fill="var(--load_colour#id#)">' + config#id#.load.load5.power + ' ' + config#id#.load.load5.power_unit + '</text>'
@@ -2448,8 +2564,7 @@
           //////////////////// Load 6 ///////////////////////////
           ///////////////////////////////////////////////////////
           html += '<!-- Load 6 -->'
-          html += '<rect id="load6-rect-#id#" x="564" y="300" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--load_colour#id#)" pointer-events="all" display="' + ((config#id#.load.additional_loads >= 6) ? '' : 'none') + '"/>'
-          
+          html += '<rect id="load6-rect-#id#" class="' + ((config#id#.blink && config#id#.load.load6.max_power && config#id#.load.load6.power >= config#id#.load.load6.max_power) ? 'blink#id#' : '') + '" x="564" y="300" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="' + ((config#id#.load.load6.max_power && config#id#.load.load6.power >= config#id#.load.load6.max_power) ? 'var(--color_alerte#id#)' : 'var(--load_colour#id#)') + '" pointer-events="all" display="' + ((config#id#.load.additional_loads >= 6) ? '' : 'none') + '"/>'
           html += '<text id="ess_load6#id#" x="599" y="' + ((config#id#.load.load6.energy === false) ? '319.5' : '314.5') + '" display="' + ((config#id#.load.additional_loads >= 6) ? '' : 'none') + '" class="'
           html += (config#id#.large_font !== true) ? 'ft12-#id#' : 'ft14-#id#'
           html += ' ftw-#id# center-align#id#" fill="var(--load_colour#id#)">' + config#id#.load.load6.power + ' ' + config#id#.load.load6.power_unit + '</text>'
@@ -2469,8 +2584,7 @@
           //////////////////// Load 7 ///////////////////////////
           ///////////////////////////////////////////////////////
           html += '<!-- Load 7 -->'
-          html += '<rect id="load7-rect-#id#" x="643" y="128.5" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--load_colour#id#)" pointer-events="all" display="' + ((config#id#.load.additional_loads >= 7) ? '' : 'none') + '"/>'
-          
+          html += '<rect id="load7-rect-#id#" class="' + ((config#id#.blink && config#id#.load.load7.max_power && config#id#.load.load7.power >= config#id#.load.load7.max_power) ? 'blink#id#' : '') + '" x="643" y="128.5" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="' + ((config#id#.load.load7.max_power && config#id#.load.load7.power >= config#id#.load.load7.max_power) ? 'var(--color_alerte#id#)' : 'var(--load_colour#id#)') + '" pointer-events="all" display="' + ((config#id#.load.additional_loads >= 7) ? '' : 'none') + '"/>'
           html += '<text id="ess_load7#id#" x="678" y="' + ((config#id#.load.load7.energy === false) ? '148' : '143') + '" display="' + ((config#id#.load.additional_loads >= 7) ? '' : 'none') + '" class="'
           html += (config#id#.large_font !== true) ? 'ft12-#id#' : 'ft14-#id#'
           html += ' ftw-#id# center-align#id#" fill="var(--load_colour#id#)">' + config#id#.load.load7.power + ' ' + config#id#.load.load7.power_unit + '</text>'
@@ -2490,8 +2604,7 @@
           //////////////////// Load 8 ///////////////////////////
           ///////////////////////////////////////////////////////
           html += '<!-- Load 8 -->'
-          html += '<rect id="load8-rect-#id#" x="643" y="300" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--load_colour#id#)" pointer-events="all" display="' + ((config#id#.load.additional_loads >= 8) ? '' : 'none') + '"/>'
-          
+          html += '<rect id="load8-rect-#id#" class="' + ((config#id#.blink && config#id#.load.load8.max_power && config#id#.load.load8.power >= config#id#.load.load8.max_power) ? 'blink#id#' : '') + '" x="643" y="300" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="' + ((config#id#.load.load8.max_power && config#id#.load.load8.power >= config#id#.load.load8.max_power) ? 'var(--color_alerte#id#)' : 'var(--load_colour#id#)') + '" pointer-events="all" display="' + ((config#id#.load.additional_loads >= 8) ? '' : 'none') + '"/>'
           html += '<text id="ess_load8#id#" x="678" y="' + ((config#id#.load.load8.energy === false) ? '319.5' : '314.5') + '" display="' + ((config#id#.load.additional_loads >= 8) ? '' : 'none') + '" class="'
           html += (config#id#.large_font !== true) ? 'ft12-#id#' : 'ft14-#id#'
           html += ' ftw-#id# center-align#id#" fill="var(--load_colour#id#)">' + config#id#.load.load8.power + ' ' + config#id#.load.load8.power_unit + '</text>'
@@ -2503,7 +2616,7 @@
           
           html += '<text id="es-load8-name#id#" x="680" y="343" class="ft9-#id# center-align#id#" display="' + ((config#id#.load.additional_loads >= 8) ? '' : 'none') + '" fill="var(--load_colour#id#)" >' + ((config#id#.load.load8.name) ? config#id#.load.load8.name : '') + '</text>'
           // ICON
-          if (config#id#.load.additional_loads >= 8 && config#id#.load.load6.icon !== false) html += getSvgIcon(config#id#.load.load8.icon, 8)
+          if (config#id#.load.additional_loads >= 8 && config#id#.load.load8.icon !== false) html += getSvgIcon(config#id#.load.load8.icon, 8)
           // LINE
           html += '<path id="es-load8path#id#" d="M 678 300 L 678 252 Q 678 242 670 242 L 475 242" class="' + ((config#id#.load.additional_loads >= 8) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10" pointer-events="stroke"></path>'
           html += '<circle id="es-dot8-#id#" cx="0" cy="0" r="3"  class="' + ((config#id#.load.additional_loads >= 8 && config#id#.load.animate_load_enable === true) ? '' : 'hidden-#id#') + '" fill="' + ((config#id#.load.load8.power == 0) ? 'transparent' : 'var(--load_colour#id#)') + '"><animateMotion id="anim_load8-#id#" dur="3" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#es-load8path#id#"></mpath></animateMotion></circle>'
@@ -2868,9 +2981,7 @@
         if (el != '' && debug#id#) console.log('| launched by ' + el)
         if (debug#id#) console.log('| has_load_power ?',config#id#.load.has_load_power);
         
-        if (config#id#.load.has_load_power !== false && el == 'init'){
-          document.getElementById("ess_power#id#").innerHTML = config#id#.load.power + ' ' + config#id#.load.unit
-        }
+        if (config#id#.load.has_load_power !== false && el == 'init') document.getElementById("ess_power#id#").innerHTML = config#id#.load.power + ' ' + config#id#.load.unit
         
         if (config#id#.load.has_load_power === false){
           if (config#id#.load.unit == '') {
@@ -2890,6 +3001,15 @@
             config#id#.load.power = ((config#id#.load.load1.power * 1000) + (config#id#.load.load2.power * 1000) + (config#id#.load.load3.power * 1000) + (config#id#.load.load4.power * 1000) + (config#id#.load.load5.power * 1000) + (config#id#.load.load6.power * 1000) + (config#id#.load.load7.power * 1000) + (config#id#.load.load8.power * 1000)) / 1000
             document.getElementById("ess_power#id#").innerHTML = config#id#.load.power + ' ' + config#id#.load.unit
           }
+          
+        }
+        if (config#id#.load.max_power && config#id#.load.power >= config#id#.load.max_power) {
+          document.getElementById("load-rect-#id#").setAttribute("stroke", "var(--color_alerte#id#)")
+          if (config#id#.blink) document.getElementById("load-rect-#id#").classList.add("blink#id#")
+        }
+        else {
+          document.getElementById("load-rect-#id#").setAttribute("stroke", "var(--load_colour#id#)")
+          if (config#id#.blink) document.getElementById("load-rect-#id#").classList.remove("blink#id#")
         }
         
         if (debug#id#) console.log('| total_load = ' + config#id#.load.power);
@@ -3146,27 +3266,37 @@
     <div>pvMaxPower : Puissance max des PV. (permet la gestion de vitesse de l'animation)</div>
     <div>solarColor : Couleur des éléments de catégorie "solaire" [ Exemple : #fffff, white]</div>
     <div> ------------ Load ------------</div>
-    <div> [ Liste des icones possible pour les load : oven, pump, aircon, boiler, charging, battery, plug, pool, dryer, dishwasher, washing, microwave, toaster, fridge, coffee, hood ]</div>
+    <div> [ Liste des icones possible pour les load : oven, pump, aircon, boiler, charging, battery, plug, light, pool, dryer, dishwasher, washing, microwave, toaster, fridge, coffee, hood, tv, server, laptop, console ]</div>
     <div>load1Name : personnalisation du nom du Load1. (Ex: C.E, Clim, ...)</div>
     <div>load1Icon : Afficher Icone. Choix : Voir liste au dessus.</div>
+    <div>load1MaxPower : Puissance Max (Permet de colorer le rectangle cette puissance est atteinte)</div>
     <div>load2Name : personnalisation du nom du Load2. (Ex: C.E, Clim, ....)</div>
     <div>load2Icon : Afficher Icone. Choix : Voir liste au dessus.</div>
+    <div>load2MaxPower : Puissance Max (Permet de colorer le rectangle cette puissance est atteinte)</div>
     <div>load3Name : personnalisation du nom du Load3. (Ex: C.E, Clim, ....)</div>
     <div>load3Icon : Afficher Icone. Choix : Voir liste au dessus.</div>
+    <div>load3MaxPower : Puissance Max (Permet de colorer le rectangle cette puissance est atteinte)</div>
     <div>load4Name : personnalisation du nom du Load4. (Ex: C.E, Clim, ....)</div>
     <div>load4Icon : Afficher Icone. Choix : Voir liste au dessus.</div>
+    <div>load4MaxPower : Puissance Max (Permet de colorer le rectangle cette puissance est atteinte)</div>
     <div>load5Name : personnalisation du nom du Load5. (Ex: C.E, Clim, ....)</div>
     <div>load5Icon : Afficher Icone. Choix : Voir liste au dessus.</div>
+    <div>load5MaxPower : Puissance Max (Permet de colorer le rectangle cette puissance est atteinte)</div>
     <div>load6Name : personnalisation du nom du Load6. (Ex: C.E, Clim, ....)</div>
     <div>load6Icon : Afficher Icone. Choix : Voir liste au dessus.</div>
+    <div>load6MaxPower : Puissance Max (Permet de colorer le rectangle cette puissance est atteinte)</div>
     <div>load7Name : personnalisation du nom du Load7. (Ex: C.E, Clim, ....)</div>
     <div>load7Icon : Afficher Icone. Choix : Voir liste au dessus.</div>
+    <div>load7MaxPower : Puissance Max (Permet de colorer le rectangle cette puissance est atteinte)</div>
     <div>load8Name : personnalisation du nom du Load8. (Ex: C.E, Clim, ....)</div>
     <div>load8Icon : Afficher Icone. Choix : Voir liste au dessus.</div>
+    <div>load8MaxPower : Puissance Max (Permet de colorer le rectangle cette puissance est atteinte)</div>
     <div>dailyLoadText : personnalisation du texte. (défaut : DAILY LOAD)</div>
-    <div>loadMaxPower : Puissance max des équipements "Load". (permet la gestion de vitesse de l'animation)</div>
+    <div>loadMaxPower : Puissance max des équipements "Load". (Permet la gestion de vitesse de l'animation + coloration du rectangle cette puissance est atteinte)</div>
     <div>loadColor : Couleur des éléments de catégorie "load" [ Exemple : #fffff, white]</div>
     <div>loadAnimate: Pour désactiver l'animation des Load passer ce paramètre a 0</div>
+    <div>blink : Clignotement rectangle si valeur > puissance max</div>
+    <div>colorDanger : Couleur des rectangles en cas de dépassement de puissance. (Défaut : red)
     <div> ------------ Grid ------------</div>
     <div>dailyGridSellText : personnalisation du texte. (défaut : DAILY GRID SELL)</div>
     <div>dailyGridBuyText : personnalisation du texte. (défaut : DAILY GRID BUYL)</div>
