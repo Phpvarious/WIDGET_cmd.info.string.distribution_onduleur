@@ -1,0 +1,115 @@
+{
+    "name": "distribution_onduleur_tempo",
+    "isActive": "1",
+    "group": "",
+    "mode": "schedule",
+    "schedule": "*\/10 * * * *",
+    "trigger": [
+        ""
+    ],
+    "timeout": "0",
+    "object_id": null,
+    "isVisible": "0",
+    "display": {
+        "name": "",
+        "icon": "<i class=\"icon fas fa-solar-panel\"><\/i>"
+    },
+    "order": "9999",
+    "description": "Auteur : @Phpvarious\nGithub --> https:\/\/phpvarious.github.io\/documentation\/widget\/fr_FR\/widget_scenario\/distribution_onduleur\/\nScénario en lien avec le widget distribution onduleur.",
+    "configuration": {
+        "timeDependency": 0,
+        "has_return": 0,
+        "logmode": "default",
+        "allowMultiInstance": "0",
+        "syncmode": "0",
+        "timeline::enable": "0",
+        "timeline::folder": ""
+    },
+    "elements": [
+        {
+            "name": null,
+            "type": "comment",
+            "options": [],
+            "order": "0",
+            "subElements": [
+                {
+                    "name": null,
+                    "type": "comment",
+                    "subtype": "comment",
+                    "options": {
+                        "collapse": "1"
+                    },
+                    "order": "0",
+                    "expressions": [
+                        {
+                            "type": "comment",
+                            "subtype": null,
+                            "expression": "Auteur : @Phpvarious\nVersion actuelle : 08\/03\/2024",
+                            "options": [],
+                            "order": "0"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": null,
+            "type": "code",
+            "options": [],
+            "order": "0",
+            "subElements": [
+                {
+                    "name": null,
+                    "type": "code",
+                    "subtype": "action",
+                    "options": {
+                        "collapse": "1",
+                        "enable": "1"
+                    },
+                    "order": "0",
+                    "expressions": [
+                        {
+                            "type": "code",
+                            "subtype": null,
+                            "expression": "\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\n\/\/\/\/\/\/\/\/\/\/\/ NE PAS MODIFIER \/\/\/\/\/\/\/\/\/\/\/\/\n\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\n$tags = $scenario->getTags();\n$today = $tomorrow = $todayTS = $tomorrowTS = $eqLogic = $blueRemainingDays = $whiteRemainingDays = $redRemainingDays = $blueTotalDays = $whiteTotalDays = $redTotalDays = false;\nif (class_exists('rteEcowatt')){\n  $scenario->setLog('[OK] Présence du plugin rteEcowatt.');\n  if (!empty($tags['#idEqRteEcowatt#'])){\n    $scenario->setLog('Recherche equipement par id [' . $tags['#idEqRteEcowatt#'] . '] ... ');\n    $eqLogic = eqLogic::byId($tags['#idEqRteEcowatt#']);\n  } else {\n    $scenario->setLog('Recherche équipement Auto ...');\n    foreach (eqLogic::byType('rteEcowatt',true) as $rteEcowatt) {\n      if($rteEcowatt->getConfiguration('datasource') == 'tempoRTE') {\n        $eqLogic = $rteEcowatt;\n        break;\n      }\n    }\n  }\n  if(is_object($eqLogic)) {\n    if ($eqLogic->getEqType_name() == 'rteEcowatt') {\n      if ($eqLogic->getConfiguration('datasource') == 'tempoRTE') {\n        $scenario->setLog('[OK] Equipement trouvé. (' . $eqLogic->getName() . ')');\n        $scenario->setLog('[OK] datasource => tempoRTE.');\n        $cmds = $eqLogic->getCmd();\n        foreach ($cmds as $cmd) {\n          switch ($cmd->getLogicalId()) {\n            case 'now':\n            case 'refresh':\n              break;\n            case 'today':\n              $today = $cmd->execCmd();\n              break;\n            case 'tomorrow':\n              $tomorrow = $cmd->execCmd();\n              break;\n            case 'todayTS':\n              $todayTS = $cmd->execCmd();\n              break;\n            case 'tomorrowTS':\n              $tomorrowTS = $cmd->execCmd();\n              break;\n            case 'blue-remainingDays':\n              $blueRemainingDays = $cmd->execCmd();\n              break;\n            case 'white-remainingDays':\n              $whiteRemainingDays = $cmd->execCmd();\n              break;\n            case 'red-remainingDays':\n              $redRemainingDays = $cmd->execCmd();\n              break;\n            case 'blue-totalDays':\n              $blueTotalDays = $cmd->execCmd();\n              break;\n            case 'white-totalDays':\n              $whiteTotalDays = $cmd->execCmd();\n              break;\n            case 'red-totalDays':\n              $redTotalDays = $cmd->execCmd();\n              break;\n          }\n        }\n        if($today && $todayTS){ \n          $todayTS = date(DATE_ATOM, $todayTS);\n          $scenario->setLog('Aujourd\\'hui -------> ' . $todayTS . ' -> ' . $today);\n          $tags['#json#']['today'] = array (\"value\" => $today, \"datetime\" => $todayTS);\n        }\n        if($tomorrow && $tomorrowTS){ \n          $tomorrowTS = date(DATE_ATOM, $tomorrowTS);\n          $scenario->setLog('Demain -------> ' . $tomorrowTS . ' -> ' . $tomorrow);\n          $tags['#json#']['tomorrow'] = array (\"value\" => $tomorrow, \"datetime\" => $tomorrowTS);\n        }\n        if($blueRemainingDays && $blueTotalDays){ \n           $scenario->setLog('Jour Bleu -------> ' . $blueRemainingDays . '\/' . $blueTotalDays);\n          $tags['#json#']['bleu'] = array (\"value\" => $blueRemainingDays . '\/' . $blueTotalDays);\n        }\n        if($whiteRemainingDays && $whiteTotalDays){ \n           $scenario->setLog('Jour Blanc -------> ' . $whiteRemainingDays . '\/' . $whiteTotalDays);\n          $tags['#json#']['blanc'] = array (\"value\" => $whiteRemainingDays . '\/' . $whiteTotalDays);\n        }\n        if($redRemainingDays && $redTotalDays){ \n           $scenario->setLog('Jour Rouge -------> ' . $redRemainingDays . '\/' . $redTotalDays);\n          $tags['#json#']['rouge'] = array (\"value\" => $redRemainingDays . '\/' . $redTotalDays);\n        }\n      } else $scenario->setLog('[NOK] Mauvais type de source de données. Verifiez votre équipement !!!');\n    } else $scenario->setLog('[NOK] Equipement ' . $tags['#idEqRteEcowatt#'] . ' n\\'est pas un equipement rteEcowatt !!!');\n  } else {\n    if (!empty($tags['#idEqRteEcowatt#'])) $scenario->setLog('[NOK] Equipement ' . $tags['#idEqRteEcowatt#'] . ' inconnu !!!.');\n    else $scenario->setLog('[NOK] Aucun équipement trouvé, Verifiez que vous avez un équipement \"rteEcowatt\" de type \"tempoRTE\" et que celui-ci soit activé !!!');\n  }\n} else $scenario->setLog('[NOK] Plugin rteEcowatt introuvable !!!.');\n\nif (!isset($tags['#json#'])) $tags['#json#'] = array();\n$json = json_encode($tags['#json#']);\n$scenario->setLog('$json = ' . $json);\n$tags['#json#'] = $json;\n$scenario->setTags($tags);",
+                            "options": [],
+                            "order": "0"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": null,
+            "type": "action",
+            "options": [],
+            "order": "0",
+            "subElements": [
+                {
+                    "name": null,
+                    "type": "action",
+                    "subtype": "action",
+                    "options": {
+                        "collapse": "0",
+                        "enable": "1"
+                    },
+                    "order": "0",
+                    "expressions": [
+                        {
+                            "type": "action",
+                            "subtype": null,
+                            "expression": "event",
+                            "options": {
+                                "enable": "1",
+                                "background": "0",
+                                "cmd": "#[Energie][Onduleur distribution][widget]#",
+                                "value": "\"tag(json)\""
+                            },
+                            "order": "0"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
