@@ -3,7 +3,7 @@
   Widget name : cmd.info.string.distribution_onduleur
   Author : Phpvarious
   Inspiration : https://github.com/slipx06/sunsynk-power-flow-card/tree/master
-  Last Uptade : 2024/03/08 18h45 - Phpvarious
+  Last Uptade : 2024/03/11 19h30 - Phpvarious
 -->
   <div class="widget#id#" id="widget#id#"></div>
   <style>
@@ -60,7 +60,7 @@
     ////////////////////// VARIABLES ///////////////////////
     ////////////////////////////////////////////////////////
     var debug#id# = ('#debug#' == 1) ? true : false
-    var versionWidget#id# = '08/03/2024 18h45'
+    var versionWidget#id# = '11/03/2024 19h30'
     var float = false
     var timer_in#id# = false
     var unite_conversion#id# = { 'W' : [1000, 'W', 'kW', 'MW'], 'Wh' : [1000, 'Wh', 'kWh', 'MWh'], 'l' : [1000, 'l', 'm<sup>3</sup>'] }
@@ -703,12 +703,12 @@
                 async: false,
                 success:  function(pvValue) {
                   if (cmds[j].unite != '') config#id#.solar.unit = cmds[j].unite
-                  log#id#('|    └> cmd.execute : ' + pvValue + config#id#.solar.unit)
-                  config#id#.solar.power = (typeof pvValue === "number") ? parseFloat(pvValue) : 0
+                  config#id#.solar.power = isNaN(parseFloat(pvValue)) ? 0 : parseFloat(pvValue)
+                  log#id#('|    └> value : ' + config#id#.solar.power + config#id#.solar.unit)
                 }
               })
               jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
-                config#id#.solar.power = (_options.value != undefined) ? parseFloat(_options.value) : 0
+                config#id#.solar.power = isNaN(parseFloat(_options.value)) ? 0 : parseFloat(_options.value)
                 calculatePv#id#('pv_power')
               })
               break;
@@ -738,17 +738,17 @@
                 success:  function(pvValue) {
                   if(iPv == 1 && type[1] == 'power') config#id#.show_solar = true
                   if (type[1] == 'power') config#id#.solar.mppts = Math.max(config#id#.solar.mppts, iPv)
+                  config#id#.solar['pv' + iPv][type[1]] = isNaN(parseFloat(pvValue)) ? 0 : parseFloat(pvValue)
                   config#id#.solar['pv' + iPv][type[1] + '_unit'] = cmds[j].unite
-                  log#id#('|    └> cmd.execute : ' + pvValue + config#id#.solar['pv' + iPv][type[1] + '_unit'])
-                  config#id#.solar['pv' + iPv][type[1]] = (typeof pvValue === "number") ? parseFloat(pvValue) : 0
+                  log#id#('|    └> value : ' + config#id#.solar['pv' + iPv][type[1]] + config#id#.solar['pv' + iPv][type[1] + '_unit'])
                 }
               })
               jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
-                config#id#.solar['pv' + iPv][type[1]] = (_options.value != undefined) ? parseFloat(_options.value) : 0
+                config#id#.solar['pv' + iPv][type[1]] = isNaN(parseFloat(_options.value)) ? 0 : parseFloat(_options.value)
                 let pvEnergy = autoValueArray#id#(config#id#.solar['pv' + iPv][type[1]],config#id#.solar['pv' + iPv][type[1] + '_unit'])
                 if (type[1] != 'energy') document.getElementById("pv" + iPv + "_" + type[1] + "#id#").innerHTML = trunc#id#(parseFloat(_options.value), 1) + ' ' + ((type[1] == 'power') ? config#id#.solar.unit : config#id#.solar['pv' + iPv][type[1] + '_unit'])
                 else document.getElementById("pv" + iPv + "_" + type[1] + "#id#").innerHTML = trunc#id#(pvEnergy.value, 3, 1) + ' ' + pvEnergy.unit
-                if (type[1] == 'power' && config#id#.solar.has_pv_power === false) calculatePv#id#('pv' + iPv + '_power')
+                if (type[1] == 'power') calculatePv#id#('pv' + iPv + '_power') //&& config#id#.solar.has_pv_power === false
               })
               break;
             ///////////////////////////////////////////////////////////////////////
@@ -764,8 +764,8 @@
                 async: false,
                 success:  function(dailyValue) {
                   config#id#[type[1]].daily.unit = cmds[j].unite
-                  log#id#('|    └> cmd.execute : ' + dailyValue + config#id#[type[1]].daily.unit)
-                  config#id#[type[1]].daily.state = (typeof dailyValue === "number") ? parseFloat(dailyValue) : 0
+                  config#id#[type[1]].daily.state = isNaN(parseFloat(dailyValue)) ? 0 : parseFloat(dailyValue)
+                  log#id#('|    └> value : ' + config#id#[type[1]].daily.state + config#id#[type[1]].daily.unit)
                 }
               })
               jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
@@ -783,10 +783,9 @@
                 id: id_eql,
                 async: false,
                 success:  function(daily) {
-                  log#id#('|    └> cmd.execute : ' + daily)
                   config#id#[type[1]].daily[type[2] + '_unit'] = cmds[j].unite
-                  log#id#('|    └> unite : '  + config#id#[type[1]].daily[type[2] + '_unit'])
-                  config#id#[type[1]].daily[type[2] + '_state'] = (typeof daily === "number") ? parseFloat(daily) : 0
+                  config#id#[type[1]].daily[type[2] + '_state'] = isNaN(parseFloat(daily)) ? 0 : parseFloat(daily)
+                  log#id#('|    └> value : ' + config#id#[type[1]].daily[type[2] + '_state'] + config#id#[type[1]].daily[type[2] + '_unit'])
                 }
               })
               jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
@@ -809,13 +808,13 @@
                 success:  function(batteryValue) {
                   config#id#.battery[type[1]].show = true
                   if (cmds[j].unite != '') config#id#.battery[type[1]].unit = cmds[j].unite
-                  log#id#('|    └> cmd.execute : ' + batteryValue + config#id#.battery[type[1]].unit)
-                  if (type[1] != 'state') config#id#.battery[type[1]].state = (typeof batteryValue === "number") ? trunc#id#(parseFloat(batteryValue),1) : 0
-                  else config#id#.battery[type[1]].state = (typeof batteryValue === "number") ? parseFloat(batteryValue) : 100
+                  if (type[1] != 'state') config#id#.battery[type[1]].state = isNaN(parseFloat(batteryValue)) ? 0 : parseFloat(batteryValue)
+                  else config#id#.battery[type[1]].state = isNaN(parseFloat(batteryValue)) ? 100 : parseFloat(batteryValue)
+                  log#id#('|    └> value : ' + config#id#.battery[type[1]].state + config#id#.battery[type[1]].unit)
                 }
               })
               jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
-                config#id#.battery[type[1]].state = (_options.value != undefined) ? parseFloat(_options.value) : 0
+                config#id#.battery[type[1]].state = isNaN(parseFloat(_options.value)) ? 0 : parseFloat(_options.value)
                 let batteryValue = (config#id#.battery[type[1]].state < 0) ? config#id#.battery[type[1]].state * -1 : config#id#.battery[type[1]].state
                 if (type[1] != 'state') document.getElementById("battery_" + type[1] + "#id#").innerHTML = trunc#id#(parseFloat(batteryValue),1) + ' ' + config#id#.battery[type[1]].unit
                 if (type[1] == 'power' || type[1] == 'state') calculateBattery#id#('battery ' + type[1])
@@ -833,12 +832,12 @@
                 success:  function(batteryMppt) {
                   config#id#.battery.mppt[type[2]].show = true
                   if (cmds[j].unite != '') config#id#.battery.mppt[type[2]].unit = cmds[j].unite
-                  config#id#.battery.mppt[type[2]].state = (typeof batteryMppt === "number") ? parseFloat(batteryMppt) : 0
-                  log#id#('|    └> cmd.execute : ' + batteryMppt + config#id#.battery.mppt[type[2]].unit)
+                  config#id#.battery.mppt[type[2]].state = isNaN(parseFloat(batteryMppt)) ? 0 : parseFloat(batteryMppt)
+                  log#id#('|    └> value : ' + config#id#.battery.mppt[type[2]].state + config#id#.battery.mppt[type[2]].unit)
                 }
               })
               jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
-                config#id#.battery.mppt[type[2]].state = (_options.value != undefined) ? trunc#id#(parseFloat(_options.value), 1) : 0
+                config#id#.battery.mppt[type[2]].state = isNaN(parseFloat(_options.value)) ? 0 : parseFloat(_options.value)
                 let batteryValue = autoValueArray#id#(config#id#.battery.mppt[type[2]].state,config#id#.battery.mppt[type[2]].unit)
                 if(type[2] == 'energy') document.getElementById("battery-mppt-energy-#id#").innerHTML = trunc#id#(batteryValue.value, 3, 1) + ' ' + batteryValue.unit
                 if(type[2] == 'power') {
@@ -884,13 +883,14 @@
                 id: id_eql,
                 async: false,
                 success:  function(temp) {
+                  config#id#.inverter.temp[type[0] + '_state'] = isNaN(parseFloat(temp)) ? 0 : parseFloat(temp)
                   if (cmds[j].unite != '') config#id#.inverter.temp[type[0] + '_unit'] = cmds[j].unite
-                  log#id#('|    └> cmd.execute : ' + temp + config#id#.inverter.temp[type[0] + '_unit'])
-                  config#id#.inverter.temp[type[0] + '_state'] = (typeof temp === "number") ? trunc#id#(parseFloat(temp), 1) : 0
+                  log#id#('|    └> value : ' + config#id#.inverter.temp[type[0] + '_state'] + config#id#.inverter.temp[type[0] + '_unit'])
                 }
               })
               jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
-                document.getElementById(type[0] + "_temp#id#").innerHTML = trunc#id#(parseFloat(_options.value), 1) + ' ' + config#id#.inverter.temp[type[0] + '_unit']
+                config#id#.inverter.temp[type[0] + '_state'] = isNaN(parseFloat(_options.value)) ? 0 : parseFloat(_options.value)
+                document.getElementById(type[0] + "_temp#id#").innerHTML = trunc#id#(config#id#.inverter.temp[type[0] + '_state'], 1) + ' ' + config#id#.inverter.temp[type[0] + '_unit']
               })
               break;
             ///////////////////////////////////////////////////////////////////////
@@ -904,13 +904,14 @@
                 id: id_eql,
                 async: false,
                 success:  function(value) {
+                  config#id#.inverter[type[0] + '_state'] = isNaN(parseFloat(value)) ? 0 : parseFloat(value)
                   if (cmds[j].unite != '') config#id#.inverter[type[0] + '_unit'] = cmds[j].unite
-                  log#id#('|    └> cmd.execute : ' + value + config#id#.inverter[type[0] + '_unit'])
-                  config#id#.inverter[type[0] + '_state'] = (typeof value === "number") ? trunc#id#(parseFloat(value), 1) : 0
+                  log#id#('|    └> value : ' + config#id#.inverter[type[0] + '_state'] + config#id#.inverter[type[0] + '_unit'])
                 }
               })
               jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
-                document.getElementById("inverter_" + type[0] + "#id#").innerHTML = trunc#id#(parseFloat(_options.value), 1) + ' ' + config#id#.inverter[type[0] + '_unit']
+                config#id#.inverter[type[0] + '_state'] = isNaN(parseFloat(_options.value)) ? 0 : parseFloat(_options.value)
+                document.getElementById("inverter_" + type[0] + "#id#").innerHTML = trunc#id#(config#id#.inverter[type[0] + '_state'], 1) + ' ' + config#id#.inverter[type[0] + '_unit']
               })
               break;
             ///////////////////////////////////////////////////////////////////////
@@ -927,13 +928,13 @@
                 async: false,
                 success:  function(value) {
                   if (cmds[j].unite != '') config#id#[type[0]].power_unit = cmds[j].unite
-                  log#id#('|    └> cmd.execute : ' + value + config#id#[type[0]].power_unit)
+                  config#id#[type[0]].power = isNaN(parseFloat(value)) ? 0 : parseFloat(value)
+                  log#id#('|    └> value : ' + config#id#[type[0]].power + config#id#[type[0]].power_unit)
                   log#id#('|    └> max_power : '  + config#id#[type[0]].max_power)
-                  config#id#[type[0]].power = (typeof value === "number") ? parseFloat(value) : 0
                 }
               })
               jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
-                config#id#[type[0]].power = (_options.value != undefined) ? parseFloat(_options.value) : 0
+                config#id#[type[0]].power = isNaN(parseFloat(_options.value)) ? 0 : parseFloat(_options.value)
                 let PowerTrunc = trunc#id#(config#id#[type[0]].power, 1)
                 let PowerAbs = (PowerTrunc > 0) ? PowerTrunc : (PowerTrunc < 0) ? (PowerTrunc * -1) : PowerTrunc
                 document.getElementById(type[0] + "_power#id#").innerHTML = PowerAbs + ' ' + config#id#[type[0]].power_unit
@@ -1012,16 +1013,15 @@
                 id: id_eql,
                 async: false,
                 success:  function(loadState) {
+                  config#id#.load['load' + iLoad][type[1]] = isNaN(parseFloat(loadState)) ? 0 : parseFloat(loadState)
                   if (cmds[j].unite != '') config#id#.load['load' + iLoad][type[1] + '_unit'] = cmds[j].unite
-                  log#id#('|    └> cmd.execute : ' + loadState + config#id#.load['load' + iLoad][type[1] + '_unit'])
+                  log#id#('|    └> value : ' + config#id#.load['load' + iLoad][type[1]] + config#id#.load['load' + iLoad][type[1] + '_unit'])
                   if (type[1] == 'power' && config#id#.load['load' + iLoad].max_power) log#id#('|    └> max_power : '  + config#id#.load['load' + iLoad].max_power)
-                  config#id#.load['load' + iLoad][type[1]] = (typeof loadState === "number") ? parseFloat(loadState) : 0
                 }
               })
               jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
-                if (type[1] != 'perso') config#id#.load['load' + iLoad][type[1]] = trunc#id#((_options.value != undefined) ? parseFloat(_options.value) : 0, 1)
-                else config#id#.load['load' + iLoad][type[1]] = (_options.value != undefined) ? parseFloat(_options.value) : 0
-                
+                config#id#.load['load' + iLoad][type[1]] = isNaN(parseFloat(_options.value)) ? 0 : parseFloat(_options.value)
+                if (type[1] != 'perso') config#id#.load['load' + iLoad][type[1]] = trunc#id#(config#id#.load['load' + iLoad][type[1]], 1)
                 if (type[1] == 'power'){
                   document.getElementById("ess_load" + iLoad + "#id#").innerHTML = config#id#.load['load' + iLoad][type[1]] + ' ' + config#id#.load['load' + iLoad][type[1] + '_unit']
                   if (config#id#.load.has_load_power === false) calculateLoad#id#('load' + iLoad + ' state')
@@ -1038,10 +1038,9 @@
                     if (config#id#.blink) document.getElementById("load" + iLoad + "-rect-#id#").classList.remove("blink#id#")
                   }
                 } else if (type[1] == 'energy') {
-                  let loadEnergy = autoValueArray#id#(parseFloat(_options.value),config#id#.load['load' + iLoad][type[1] + '_unit'])
+                  let loadEnergy = autoValueArray#id#(config#id#.load['load' + iLoad][type[1]],config#id#.load['load' + iLoad][type[1] + '_unit'])
                   document.getElementById("load" + iLoad + "_" + type[1] + "#id#").innerHTML = trunc#id#(loadEnergy.value, 3, 1) + ' ' + loadEnergy.unit
-                } else {
-                  config#id#.load['load' + iLoad][type[1]] = (_options.value != undefined) ? _options.value : false
+                } else { // perso
                   document.getElementById("load" + iLoad + "_" + type[1] + "#id#").innerHTML = config#id#.load['load' + iLoad][type[1]] + ' ' + config#id#.load['load' + iLoad][type[1] + '_unit']
                 }
               })
