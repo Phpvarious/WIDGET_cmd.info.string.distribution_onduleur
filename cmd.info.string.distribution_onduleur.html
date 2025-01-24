@@ -1719,17 +1719,14 @@
         if (el != '') log#id#('| launched by ' + el)
         log#id#('| has_load_power ?',config#id#.load.has_load_power)
         if (config#id#.load.has_load_power === false) {
-          if (config#id#.load.power_unit == '' && config#id#.load.load1.power_unit != '') config#id#.load.power_unit = config#id#.load.load1.power_unit
-          log#id#('| load1_state = ' + config#id#.load.load1.power)
-          log#id#('| load2_state = ' + config#id#.load.load2.power)
-          log#id#('| load3_state = ' + config#id#.load.load3.power)
-          log#id#('| load4_state = ' + config#id#.load.load4.power)
-          log#id#('| load5_state = ' + config#id#.load.load5.power)
-          log#id#('| load4_state = ' + config#id#.load.load6.power)
-          log#id#('| load5_state = ' + config#id#.load.load7.power)
-          log#id#('| load5_state = ' + config#id#.load.load8.power)
-          if (config#id#.load.load1.power_unit != config#id#.load.load2.power_unit || config#id#.load.load1.power_unit != config#id#.load.load3.power_unit || config#id#.load.load1.power_unit != config#id#.load.load4.power_unit || config#id#.load.load1.power_unit != config#id#.load.load5.power_unit){
-            log#id#('| /!\\ ------- Attention unité differente entre load1, load2, load3 ou load4 calcul impossible !!!')
+          var differentUnit = false
+          config#id#.load.power_unit = config#id#.load.load1.power_unit
+          for (let i_additional_loads = 1; i_additional_loads <= config#id#.load.additional_loads; i_additional_loads++) {
+            log#id#('| load' + i_additional_loads + '_state = ' + config#id#.load['load' + i_additional_loads].power + ' ' + config#id#.load['load' + i_additional_loads].power_unit)
+            if (config#id#.load['load' + i_additional_loads].power_unit != config#id#.load.power_unit) differentUnit = true
+          }
+          if (differentUnit === true) {
+            log#id#('| /!\\ ------- Attention unité differente entre load, calcul impossible !!!')
           } else {
             config#id#.load.power = ((config#id#.load.load1.power * 1000) + (config#id#.load.load2.power * 1000) + (config#id#.load.load3.power * 1000) + (config#id#.load.load4.power * 1000) + (config#id#.load.load5.power * 1000) + (config#id#.load.load6.power * 1000) + (config#id#.load.load7.power * 1000) + (config#id#.load.load8.power * 1000)) / 1000
             document.getElementById("load_power#id#").innerHTML = config#id#.load.power + ' ' + config#id#.load.power_unit
