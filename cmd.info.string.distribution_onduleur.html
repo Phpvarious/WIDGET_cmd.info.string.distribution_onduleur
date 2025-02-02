@@ -147,125 +147,125 @@
       let fill = 'var(--load_colour#id#)'
       if (id == 'iconBattery') { fill = 'var(--battery_colour#id#)'; width = height = '60' }
       if(icone === 'oven'){
-        x = ((id == 'iconLoad') ? (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
-        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7) ? '160' : (type === 2 || type === 4 || type === 6 || type === 8) ? '269' : '0' : '335')
+        x = ((id == 'iconLoad') ? (type === 11 || type === 12) ? '840' : (type === 9 || type === 10) ? '761' : (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
+        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7 || type === 9|| type === 11) ? '159' : (type === 2 || type === 4 || type === 6 || type === 8 || type === 10 || type === 12) ? '268' : '0' : '335')
         svg = '<svg xmlns="http://www.w3.org/2000/svg" id="' + id + type + '#id#" x="' + x + '" y="' + y + '" width="' + width + '" height="' + height + '" viewBox="0 0 32 32" opacity="1"><path fill="' + fill + '" d="M3 7.5A4.5 4.5 0 0 1 7.5 3h17A4.5 4.5 0 0 1 29 7.5v17a4.5 4.5 0 0 1-4.5 4.5h-17A4.5 4.5 0 0 1 3 24.5v-17Zm24 0A2.5 2.5 0 0 0 24.5 5h-17A2.5 2.5 0 0 0 5 7.5V11h22V7.5Zm0 17V13H5v11.5A2.5 2.5 0 0 0 7.5 27h17a2.5 2.5 0 0 0 2.5-2.5Zm-17-15a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3Zm6 0a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3ZM23.5 8a1.5 1.5 0 1 1-3 0a1.5 1.5 0 0 1 3 0ZM9 23v-6h14v6H9Zm-.5-8A1.5 1.5 0 0 0 7 16.5v7A1.5 1.5 0 0 0 8.5 25h15a1.5 1.5 0 0 0 1.5-1.5v-7a1.5 1.5 0 0 0-1.5-1.5h-15Z"/></svg>'
       }
       else if(icone === 'pump'){
-        x = ((id == 'iconLoad') ? (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
-        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7) ? '160' : (type === 2 || type === 4 || type === 6 || type === 8) ? '269' : '0' : '335')
+        x = ((id == 'iconLoad') ? (type === 11 || type === 12) ? '840' : (type === 9 || type === 10) ? '761' : (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
+        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7 || type === 9|| type === 11) ? '159' : (type === 2 || type === 4 || type === 6 || type === 8 || type === 10 || type === 12) ? '268' : '0' : '335')
         svg = '<svg xmlns="http://www.w3.org/2000/svg" id="' + id + type + '#id#" x="' + x + '" y="' + y + '" width="' + width + '" height="' + height + '" viewBox="0 0 24 24" opacity="1"><path fill="' + fill + '" d="M3 17h4.1q-.425-.425-.787-.925T5.675 15H3v2Zm9 0q2.075 0 3.538-1.463T17 12q0-2.075-1.463-3.538T12 7Q9.925 7 8.462 8.463T7 12q0 2.075 1.463 3.538T12 17Zm6.325-8H21V7h-4.1q.425.425.788.925T18.325 9ZM1 20v-8h2v1h2.075q-.05-.25-.063-.488T5 12q0-2.925 2.038-4.963T12 5h9V4h2v8h-2v-1h-2.075q.05.25.063.488T19 12q0 2.925-2.038 4.963T12 19H3v1H1Zm2-3v-2v2Zm18-8V7v2Zm-9 3Zm0 3q-.825 0-1.413-.588T10 13q0-.575.238-1.137t.912-1.613L12 9l.85 1.25q.675 1.05.913 1.613T14 13q0 .825-.588 1.413T12 15Z"/></svg>'
       }
       else if(icone === 'aircon'){
-        x = ((id == 'iconLoad') ? (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
-        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7) ? '162' : (type === 2 || type === 4 || type === 6 || type === 8) ? '269' : '0' : '335')
+        x = ((id == 'iconLoad') ? (type === 11 || type === 12) ? '840' : (type === 9 || type === 10) ? '761' : (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
+        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7 || type === 9|| type === 11) ? '159' : (type === 2 || type === 4 || type === 6 || type === 8 || type === 10 || type === 12) ? '268' : '0' : '335')
         if ( id == 'iconLoad') width = height = '25'
         svg = '<svg xmlns="http://www.w3.org/2000/svg" id="' + id + type + '#id#" x="' + x + '" y="' + y + '" width="' + width + '" height="' + height + '" viewBox="0 0 24 24" opacity="1"><path fill="' + fill + '" d="M6.59.66c2.34-1.81 4.88.4 5.45 3.84c.43 0 .85.12 1.23.34c.52-.6.98-1.42.8-2.34c-.42-2.15 1.99-3.89 4.28-.92c1.81 2.34-.4 4.88-3.85 5.45c0 .43-.11.86-.34 1.24c.6.51 1.42.97 2.34.79c2.13-.42 3.88 1.98.91 4.28c-2.34 1.81-4.88-.4-5.45-3.84c-.43 0-.85-.13-1.22-.35c-.52.6-.99 1.43-.81 2.35c.42 2.14-1.99 3.89-4.28.92c-1.82-2.35.4-4.89 3.85-5.45c0-.43.13-.85.35-1.23c-.6-.51-1.42-.98-2.35-.8c-2.13.42-3.88-1.98-.91-4.28M5 16h2a2 2 0 0 1 2 2v6H7v-2H5v2H3v-6a2 2 0 0 1 2-2m0 2v2h2v-2H5m7.93-2H15l-2.93 8H10l2.93-8M18 16h3v2h-3v4h3v2h-3a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2Z"/></svg>'
       }
       else if(icone === 'boiler'){
-        x = ((id == 'iconLoad') ? (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
-        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7) ? '160' : (type === 2 || type === 4 || type === 6 || type === 8) ? '269' : '0' : '335')
+        x = ((id == 'iconLoad') ? (type === 11 || type === 12) ? '840' : (type === 9 || type === 10) ? '761' : (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
+        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7 || type === 9|| type === 11) ? '159' : (type === 2 || type === 4 || type === 6 || type === 8 || type === 10 || type === 12) ? '268' : '0' : '335')
         svg = '<svg xmlns="http://www.w3.org/2000/svg" id="' + id + type + '#id#" x="' + x + '" y="' + y + '" width="' + width + '" height="' + height + '" viewBox="0 0 24 24" opacity="1"><path fill="' + fill + '" d="M9.3 10.775q0 .475.163.925t.462.825q.05-.3.2-.588t.375-.487L12 10l1.475 1.475q.225.2.375.475t.2.575q.275-.375.487-.8t.213-.9q0-.475-.15-.913t-.45-.812q-.275.125-.563.2T13 9.375q-.75 0-1.375-.425t-.95-1.125q-.3.3-.55.637t-.438.713Q9.5 9.55 9.4 9.95t-.1.825ZM12 12.1l-.425.425q-.1.1-.138.2t-.037.225q0 .25.175.4t.425.15q.25 0 .425-.15t.175-.4q0-.125-.037-.225t-.138-.2L12 12.1ZM12 5v1.9q0 .425.3.713t.725.287q.275 0 .5-.162t.4-.388l.175-.25q1.025.575 1.588 1.563t.562 2.162q0 1.75-1.25 2.963T12 15q-1.75 0-2.975-1.225T7.8 10.8q0-1.925 1.225-3.425T12 5ZM6 22q-.825 0-1.413-.588T4 20V6q0-1.65 1.175-2.825T8 2h8q1.65 0 2.825 1.175T20 6v14q0 .825-.588 1.413T18 22H6Zm0-4v2h12v-2q-.75 0-1.2.5T15 19q-1.35 0-1.763-.5T12 18q-.825 0-1.238.5T9 19q-1.35 0-1.763-.5T6 18Zm3-1q.825 0 1.238-.5T12 16q1.35 0 1.8.5t1.2.5q.75 0 1.2-.5T18 16V6q0-.825-.588-1.413T16 4H8q-.825 0-1.413.588T6 6v10q1.35 0 1.763.5T9 17Z"/></svg>'
       }
       else if(icone === 'charging'){
-        x = ((id == 'iconLoad') ? (type === 7 || type === 8) ? '687' : (type === 5 || type === 6) ? '608' : (type === 3 || type === 4) ? '529' : (type === 1 || type === 2) ? '450' : '0' : (type === 1) ? '111' : '212')
-        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7) ? '162' : (type === 2 || type === 4 || type === 6 || type === 8) ? '271' : '0' : '335')
+        x = ((id == 'iconLoad') ? (type === 11 || type === 12) ? '840' : (type === 9 || type === 10) ? '761' : (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
+        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7 || type === 9|| type === 11) ? '159' : (type === 2 || type === 4 || type === 6 || type === 8 || type === 10 || type === 12) ? '268' : '0' : '335')
         if ( id == 'iconLoad') width = height = '25'
         if ( id == 'iconBattery') width = height = '55'
         svg = '<svg xmlns="http://www.w3.org/2000/svg" id="' + id + type + '#id#" x="' + x + '" y="' + y + '" width="' + width + '" height="' + height + '" viewBox="0 0 24 24" opacity="1"><path fill="' + fill + '" d="M22,2V4H20V2H18V6a2,2,0,0,0,2,2V18a1,1,0,0,1-1,1H16V11H13V9h3V3a3,3,0,0,0-3-3H3A3,3,0,0,0,0,3V9H3v2H0V24H16V21h3a3,3,0,0,0,3-3V8a2,2,0,0,0,2-2V2ZM10.772,11.426,9.008,14.959l-1.789-.893L8.75,11H6.615A1.614,1.614,0,0,1,5.07,8.917L7.293,4.756l1.76.949L7.275,9H9.4a1.6,1.6,0,0,1,1.376,2.426Z"/></svg>'
       }
       else if(icone === 'battery'){
-        x = ((id == 'iconLoad') ? (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
-        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7) ? '159' : (type === 2 || type === 4 || type === 6 || type === 8) ? '268' : '0' : '335')
+        x = ((id == 'iconLoad') ? (type === 11 || type === 12) ? '840' : (type === 9 || type === 10) ? '761' : (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
+        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7 || type === 9|| type === 11) ? '159' : (type === 2 || type === 4 || type === 6 || type === 8 || type === 10 || type === 12) ? '268' : '0' : '335')
         svg = '<svg xmlns="http://www.w3.org/2000/svg" id="' + id + type + '#id#" x="' + x + '" y="' + y + '" width="' + width + '" height="' + height + '" viewBox="0 0 24 24" opacity="1"><path fill="' + fill + '" d="M13 12h3l-5 7v-5H8l5-7zm-2-6H7v14h10V6h-4V4h-2zM9 4V3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1h3a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/></svg>'
       }
       else if(icone == 'plug') {
-        x = ((id == 'iconLoad') ? (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
-        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7) ? '162' : (type === 2 || type === 4 || type === 6 || type === 8) ? '271' : '0' : '335')
+        x = ((id == 'iconLoad') ? (type === 11 || type === 12) ? '840' : (type === 9 || type === 10) ? '761' : (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
+        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7 || type === 9|| type === 11) ? '159' : (type === 2 || type === 4 || type === 6 || type === 8 || type === 10 || type === 12) ? '268' : '0' : '335')
         if ( id == 'iconLoad') width = height = '25'
         svg = '<svg xmlns="http://www.w3.org/2000/svg" id="' + id + type + '#id#" x="' + x + '" y="' + y + '" width="' + width + '" height="' + height + '" viewBox="0 0 16 16"><path fill="' + fill + '" d="M11.89 4.111a5.5 5.5 0 0 0-7.78 0c-2.599 2.6-2.12 5.657-1.06 6.718a.75.75 0 0 0 1.06 0l.925-.925a3.09 3.09 0 0 1-.173-2.843l.547-1.23a1 1 0 0 1 1.62-.302l.19.19l.75-.75A.75.75 0 1 1 9.03 6.03l-.75.75l.94.94l.75-.75a.75.75 0 1 1 1.06 1.06l-.75.75l.19.19a1 1 0 0 1-.3 1.621l-1.231.547a3.089 3.089 0 0 1-2.843-.173l-.924.924a2.25 2.25 0 0 1-3.182 0C.222 10.122-.007 6.107 3.05 3.05a7 7 0 1 1 2.983 11.67a.75.75 0 1 1 .42-1.44a5.5 5.5 0 0 0 5.436-9.168Zm-5.658 3.56l.252-.566l2.411 2.411l-.566.252A1.589 1.589 0 0 1 6.232 7.67Z"/></svg>'
       }
       else if(icone == 'pool') {
-        x = ((id == 'iconLoad') ? (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
-        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7) ? '162' : (type === 2 || type === 4 || type === 6 || type === 8) ? '271' : '0' : '335')
+        x = ((id == 'iconLoad') ? (type === 11 || type === 12) ? '840' : (type === 9 || type === 10) ? '761' : (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
+        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7 || type === 9|| type === 11) ? '159' : (type === 2 || type === 4 || type === 6 || type === 8 || type === 10 || type === 12) ? '268' : '0' : '335')
         if ( id == 'iconLoad') width = height = '25'
         svg = '<svg xmlns="http://www.w3.org/2000/svg" id="' + id + type + '#id#" x="' + x + '" y="' + y + '" width="' + width + '" height="' + height + '" viewBox="0 0 24 24"><path fill="' + fill + '" d="M2 15c1.67-.75 3.33-1.5 5-1.83V5a3 3 0 0 1 3-3c1.31 0 2.42.83 2.83 2H10a1 1 0 0 0-1 1v1h5V5a3 3 0 0 1 3-3c1.31 0 2.42.83 2.83 2H17a1 1 0 0 0-1 1v9.94c2-.32 4-1.94 6-1.94v2c-2.22 0-4.44 2-6.67 2c-2.22 0-4.44-2-6.66-2c-2.23 0-4.45 1-6.67 2zm12-7H9v2h5zm0 4H9v1c1.67.16 3.33 1.31 5 1.79zM2 19c2.22-1 4.44-2 6.67-2c2.22 0 4.44 2 6.66 2c2.23 0 4.45-2 6.67-2v2c-2.22 0-4.44 2-6.67 2c-2.22 0-4.44-2-6.66-2c-2.23 0-4.45 1-6.67 2z"/></svg>'
       }
       else if(icone == 'dryer') {
-        x = ((id == 'iconLoad') ? (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
-        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7) ? '159' : (type === 2 || type === 4 || type === 6 || type === 8) ? '268' : '0' : '335')
+        x = ((id == 'iconLoad') ? (type === 11 || type === 12) ? '840' : (type === 9 || type === 10) ? '761' : (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
+        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7 || type === 9|| type === 11) ? '159' : (type === 2 || type === 4 || type === 6 || type === 8 || type === 10 || type === 12) ? '268' : '0' : '335')
        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="' + id + type + '#id#" x="' + x + '" y="' + y + '" width="' + width + '" height="' + height + '" viewBox="0 0 24 24"><path fill="' + fill + '" d="M6 2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2m1 2a1 1 0 0 0-1 1a1 1 0 0 0 1 1a1 1 0 0 0 1-1a1 1 0 0 0-1-1m3 0a1 1 0 0 0-1 1a1 1 0 0 0 1 1a1 1 0 0 0 1-1a1 1 0 0 0-1-1m2 4a6 6 0 0 0-6 6a6 6 0 0 0 6 6a6 6 0 0 0 6-6a6 6 0 0 0-6-6m-3.89 2.5H10c-.24 1.38 0 2.17.58 2.79c1.1 1.07 1.58 2.42 1.31 4.21H10c.24-1.38 0-2.17-.58-2.79c-1.1-1.07-1.57-2.42-1.31-4.21m4 0H14c-.24 1.38 0 2.17.58 2.79c1.1 1.07 1.58 2.42 1.31 4.21H14c.24-1.38 0-2.17-.58-2.79c-1.1-1.07-1.57-2.42-1.31-4.21"/></svg>' 
       }
       else if(icone == 'dishwasher') {
-        x = ((id == 'iconLoad') ? (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
-        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7) ? '159' : (type === 2 || type === 4 || type === 6 || type === 8) ? '268' : '0' : '335')
+        x = ((id == 'iconLoad') ? (type === 11 || type === 12) ? '840' : (type === 9 || type === 10) ? '761' : (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
+        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7 || type === 9|| type === 11) ? '159' : (type === 2 || type === 4 || type === 6 || type === 8 || type === 10 || type === 12) ? '268' : '0' : '335')
         svg = '<svg xmlns="http://www.w3.org/2000/svg" id="' + id + type + '#id#" x="' + x + '" y="' + y + '"  width="' + width + '" height="' + height + '" viewBox="0 0 24 24"><path fill="' + fill + '" d="M6.25 3A3.25 3.25 0 0 0 3 6.25V10h1.5v-.5h15v8.25a1.75 1.75 0 0 1-1.75 1.75H7v.018c.766.11 1.373.716 1.482 1.482h9.268A3.25 3.25 0 0 0 21 17.75V6.25A3.25 3.25 0 0 0 17.75 3zM19.5 8h-15V6.25c0-.966.784-1.75 1.75-1.75h11.5c.966 0 1.75.784 1.75 1.75zM9 6.25a1 1 0 1 1-2 0a1 1 0 0 1 2 0m3.75-.75a.75.75 0 0 0 0 1.5h3.5a.75.75 0 0 0 0-1.5zM2 11.75a.75.75 0 0 1 .75-.75h5a.75.75 0 0 1 .75.75v2A3.251 3.251 0 0 1 6 16.913V20.5h.75a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1 0-1.5h.75v-3.587A3.251 3.251 0 0 1 2 13.75z"/></svg>'
       }
       else if(icone == 'washing') {
-        x = ((id == 'iconLoad') ? (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
-        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7) ? '162' : (type === 2 || type === 4 || type === 6 || type === 8) ? '271' : '0' : '335')
+        x = ((id == 'iconLoad') ? (type === 11 || type === 12) ? '840' : (type === 9 || type === 10) ? '761' : (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
+        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7 || type === 9|| type === 11) ? '159' : (type === 2 || type === 4 || type === 6 || type === 8 || type === 10 || type === 12) ? '268' : '0' : '335')
         if ( id == 'iconLoad') width = height = '25'
         svg = '<svg xmlns="http://www.w3.org/2000/svg" id="' + id + type + '#id#" x="' + x + '" y="' + y + '" width="' + width + '" height="' + height + '" viewBox="0 0 24 24"><g fill="none" stroke="' + fill + '" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path fill="' + fill + '" d="M3 6h3m11 0h.01"/><rect width="18" height="20" x="3" y="2" rx="2"/><circle cx="12" cy="13" r="5"/><path d="M12 18a2.5 2.5 0 0 0 0-5a2.5 2.5 0 0 1 0-5"/></g></svg>'
       }
       else if(icone == 'microwave') {
-        x = ((id == 'iconLoad') ? (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
-        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7) ? '159' : (type === 2 || type === 4 || type === 6 || type === 8) ? '268' : '0' : '335')
+        x = ((id == 'iconLoad') ? (type === 11 || type === 12) ? '840' : (type === 9 || type === 10) ? '761' : (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
+        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7 || type === 9|| type === 11) ? '159' : (type === 2 || type === 4 || type === 6 || type === 8 || type === 10 || type === 12) ? '268' : '0' : '335')
         svg = '<svg xmlns="http://www.w3.org/2000/svg" id="' + id + type + '#id#" x="' + x + '" y="' + y + '" width="' + width + '" height="' + height + '" viewBox="0 0 24 24"><g fill="none" stroke="' + fill + '" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path fill="none" d="M3 7a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1zm12-1v12m3-6h.01M18 15h.01M18 9h.01"/><path d="M6.5 10.5c1-.667 1.5-.667 2.5 0c.833.347 1.667.926 2.5 0m-5 3c1-.667 1.5-.667 2.5 0c.833.347 1.667.926 2.5 0"/></g></svg>'
       }
       else if (icone == 'toaster') {
-        x = ((id == 'iconLoad') ? (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
-        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7) ? '159' : (type === 2 || type === 4 || type === 6 || type === 8) ? '268' : '0' : '335')
+        x = ((id == 'iconLoad') ? (type === 11 || type === 12) ? '840' : (type === 9 || type === 10) ? '761' : (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
+        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7 || type === 9|| type === 11) ? '159' : (type === 2 || type === 4 || type === 6 || type === 8 || type === 10 || type === 12) ? '268' : '0' : '335')
         svg = '<svg xmlns="http://www.w3.org/2000/svg" id="' + id + type + '#id#" x="' + x + '" y="' + y + '" width="' + width + '" height="' + height + '" viewBox="0 0 24 24"><path fill="' + fill + '" d="M21 11a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2H2v2h1v7h18v-7h1v-2m-5 4a2 2 0 1 1 2-2a2 2 0 0 1-2 2m1-7H6c.33-2.25 2.88-4 6-4s5.63 1.75 6 4"/></svg>'
       }
       else if (icone == 'fridge') {
-        x = ((id == 'iconLoad') ? (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
-        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7) ? '159' : (type === 2 || type === 4 || type === 6 || type === 8) ? '268' : '0' : '335')
+        x = ((id == 'iconLoad') ? (type === 11 || type === 12) ? '840' : (type === 9 || type === 10) ? '761' : (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
+        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7 || type === 9|| type === 11) ? '159' : (type === 2 || type === 4 || type === 6 || type === 8 || type === 10 || type === 12) ? '268' : '0' : '335')
         svg = '<svg xmlns="http://www.w3.org/2000/svg" id="' + id + type + '#id#" x="' + x + '" y="' + y + '" width="' + width + '" height="' + height + '" viewBox="0 0 24 24"><path fill="' + fill + '" d="M9 21v1H7v-1a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v15a2 2 0 0 1-2 2v1h-2v-1zM7 4v5h10V4zm0 15h10v-8H7zm1-7h2v3H8zm0-6h2v2H8z"/></svg>'
       }
       else if (icone == 'coffee') {
-        x = ((id == 'iconLoad') ? (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
-        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7) ? '159' : (type === 2 || type === 4 || type === 6 || type === 8) ? '268' : '0' : '335')
+        x = ((id == 'iconLoad') ? (type === 11 || type === 12) ? '840' : (type === 9 || type === 10) ? '761' : (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
+        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7 || type === 9|| type === 11) ? '159' : (type === 2 || type === 4 || type === 6 || type === 8 || type === 10 || type === 12) ? '268' : '0' : '335')
         svg = '<svg xmlns="http://www.w3.org/2000/svg" id="' + id + type + '#id#" x="' + x + '" y="' + y + '" width="' + width + '" height="' + height + '" viewBox="0 0 24 24"><path fill="' + fill + '" d="M18 6V4h2V2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h14v-2h-4.03A4.966 4.966 0 0 0 18 16v-5H8v5c0 1.64.81 3.09 2.03 4H6V4h2v2c0 .55.45 1 1 1h8c.55 0 1-.45 1-1m-8 10v-3h6v3c0 1.65-1.35 3-3 3s-3-1.35-3-3"/><circle cx="13" cy="9" r="1" fill="' + fill + '"/></svg>'
       }
       else if (icone == 'hood') {
-        x = ((id == 'iconLoad') ? (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
-        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7) ? '159' : (type === 2 || type === 4 || type === 6 || type === 8) ? '268' : '0' : '335')
+        x = ((id == 'iconLoad') ? (type === 11 || type === 12) ? '840' : (type === 9 || type === 10) ? '761' : (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
+        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7 || type === 9|| type === 11) ? '159' : (type === 2 || type === 4 || type === 6 || type === 8 || type === 10 || type === 12) ? '268' : '0' : '335')
         svg = '<svg xmlns="http://www.w3.org/2000/svg" id="' + id + type + '#id#" x="' + x + '" y="' + y + '" width="' + width + '" height="' + height + '" viewBox="0 0 24 24"><path fill="' + fill + '" d="M4 20q-.825 0-1.412-.587T2 18v-4.2q0-.4.163-.763T2.6 12.4L7 8V3h10v5l4.425 4.425q.275.275.425.638t.15.762V18q0 .825-.587 1.413T20 20zm1.8-8h12.4L15 8.8V5H9v3.8zM4 18h16v-4H4zm6-1.3v-1.5h4v1.5z"/></svg>' 
       }
       else if (icone == 'light') {
-        x = ((id == 'iconLoad') ? (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
-        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7) ? '162' : (type === 2 || type === 4 || type === 6 || type === 8) ? '271' : '0' : '335')
+        x = ((id == 'iconLoad') ? (type === 11 || type === 12) ? '840' : (type === 9 || type === 10) ? '761' : (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
+        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7 || type === 9|| type === 11) ? '159' : (type === 2 || type === 4 || type === 6 || type === 8 || type === 10 || type === 12) ? '268' : '0' : '335')
         if ( id == 'iconLoad') width = height = '25'
         svg = '<svg xmlns="http://www.w3.org/2000/svg" id="' + id + type + '#id#" x="' + x + '" y="' + y + '" width="' + width + '" height="' + height + '" viewBox="0 0 24 24"><path fill="none" stroke="' + fill + '" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18"/></svg>'
       }
       else if (icone == 'tv') {
-        x = ((id == 'iconLoad') ? (type === 7 || type === 8) ? '684' : (type === 5 || type === 6) ? '605' : (type === 3 || type === 4) ? '526' : (type === 1 || type === 2) ? '447' : '0' : (type === 1) ? '108' : '209')
-        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7) ? '162' : (type === 2 || type === 4 || type === 6 || type === 8) ? '271' : '0' : '335')
+        x = ((id == 'iconLoad') ? (type === 11 || type === 12) ? '840' : (type === 9 || type === 10) ? '761' : (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
+        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7 || type === 9|| type === 11) ? '159' : (type === 2 || type === 4 || type === 6 || type === 8 || type === 10 || type === 12) ? '268' : '0' : '335')
         if ( id == 'iconLoad') width = height = '24'
         if ( id == 'iconBattery') width = height = '55'
         svg = '<svg xmlns="http://www.w3.org/2000/svg" id="' + id + type + '#id#" x="' + x + '" y="' + y + '" width="' + width + '" height="' + height + '" viewBox="0 0 20 20"><path fill="' + fill + '" d="M1.364 2.35v10.794h17.272V2.35zM19.09 1c.502 0 .909.403.909.9v11.694c0 .497-.407.9-.91.9l-8.53-.001v3.157h3.437c.377 0 .682.303.682.675a.678.678 0 0 1-.682.675H5.981a.678.678 0 0 1-.682-.675c0-.372.306-.674.682-.674l3.216-.001v-3.157H.909A.904.904 0 0 1 0 13.595V1.9c0-.497.407-.9.91-.9z"/></svg>'
       }
       else if (icone == 'server') {
-        x = ((id == 'iconLoad') ? (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '605' : (type === 3 || type === 4) ? '526' : (type === 1 || type === 2) ? '447' : '0' : (type === 1) ? '108' : '209')
-        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7) ? '162' : (type === 2 || type === 4 || type === 6 || type === 8) ? '271' : '0' : '335')
+        x = ((id == 'iconLoad') ? (type === 11 || type === 12) ? '840' : (type === 9 || type === 10) ? '761' : (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
+        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7 || type === 9|| type === 11) ? '159' : (type === 2 || type === 4 || type === 6 || type === 8 || type === 10 || type === 12) ? '268' : '0' : '335')
         if ( id == 'iconLoad') width = height = '25'
         svg = '<svg xmlns="http://www.w3.org/2000/svg" id="' + id + type + '#id#" x="' + x + '" y="' + y + '" width="' + width + '" height="' + height + '" viewBox="0 0 24 24"><g fill="none"><path stroke="' + fill + '" stroke-linecap="round" stroke-width="1.5" d="M22 19h-8M2 19h8m2-2v-3"/><circle cx="12" cy="19" r="2" stroke="' + fill + '" stroke-width="1.5"/><path stroke="' + fill + '" stroke-width="1.5" d="M2 11a3 3 0 0 1 3-3h14a3 3 0 1 1 0 6H5a3 3 0 0 1-3-3Zm0-6a3 3 0 0 1 3-3h14a3 3 0 1 1 0 6H5a3 3 0 0 1-3-3Z"/><path stroke="' + fill + '" stroke-linecap="round" stroke-width="1.5" d="M13 5h6m-6 6h6"/><circle cx="6" cy="5" r="1" fill="' + fill + '"/><circle cx="6" cy="11" r="1" fill="' + fill + '"/></g></svg>'
       }
       else if (icone == 'laptop') {
-        x = ((id == 'iconLoad') ? (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '605' : (type === 3 || type === 4) ? '526' : (type === 1 || type === 2) ? '447' : '0' : (type === 1) ? '108' : '209')
-        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7) ? '162' : (type === 2 || type === 4 || type === 6 || type === 8) ? '271' : '0' : '335')
+        x = ((id == 'iconLoad') ? (type === 11 || type === 12) ? '840' : (type === 9 || type === 10) ? '761' : (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
+        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7 || type === 9|| type === 11) ? '159' : (type === 2 || type === 4 || type === 6 || type === 8 || type === 10 || type === 12) ? '268' : '0' : '335')
         if ( id == 'iconLoad') width = height = '25'
         svg = '<svg xmlns="http://www.w3.org/2000/svg" id="' + id + type + '#id#" x="' + x + '" y="' + y + '" width="' + width + '" height="' + height + '" viewBox="0 0 25 25"><path fill="' + fill + '" d="M22 18V3H2v15H0v2h24v-2zm-8 0h-4v-1h4zm6-3H4V5h16z"/></svg>'
       }
       else if (icone == 'console') {
-        x = ((id == 'iconLoad') ? (type === 7 || type === 8) ? '684' : (type === 5 || type === 6) ? '607' : (type === 3 || type === 4) ? '528' : (type === 1 || type === 2) ? '449' : '0' : (type === 1) ? '108' : '209')
-        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7) ? '162' : (type === 2 || type === 4 || type === 6 || type === 8) ? '271' : '0' : '335')
+        x = ((id == 'iconLoad') ? (type === 11 || type === 12) ? '840' : (type === 9 || type === 10) ? '761' : (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
+        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7 || type === 9|| type === 11) ? '159' : (type === 2 || type === 4 || type === 6 || type === 8 || type === 10 || type === 12) ? '268' : '0' : '335')
         if ( id == 'iconLoad') width = height = '25'
         svg = '<svg xmlns="http://www.w3.org/2000/svg" id="' + id + type + '#id#" x="' + x + '" y="' + y + '" width="' + width + '" height="' + height + '" viewBox="0 0 24 24"><path fill="none" stroke="' + fill + '" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7.5 11.5v3M6 13h3m3-4.653c2.005 0 3.7-1.888 5.786-1.212c2.264.733 3.82 3.413 3.708 9.492c-.022 1.224-.336 2.578-1.546 3.106c-2.797 1.221-4.397-2.328-7-2.328h-1.897c-2.605 0-4.213 3.545-6.998 2.328c-1.21-.528-1.525-1.882-1.547-3.107c-.113-6.078 1.444-8.758 3.708-9.491C8.299 6.459 9.994 8.347 12 8.347m0-4.565v4.342M14.874 13h3"/></svg>'
       }
       else if (icone == 've') {
-        x = ((id == 'iconLoad') ? (type === 7 || type === 8) ? '680' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '96' : '194')
-        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7) ? '157' : (type === 2 || type === 4 || type === 6 || type === 8) ? '266' : '0' : '325')
+        x = ((id == 'iconLoad') ? (type === 11 || type === 12) ? '840' : (type === 9 || type === 10) ? '761' : (type === 7 || type === 8) ? '682' : (type === 5 || type === 6) ? '603' : (type === 3 || type === 4) ? '524' : (type === 1 || type === 2) ? '445' : '0' : (type === 1) ? '108' : '209')
+        y = ((id == 'iconLoad') ? (type === 1 || type === 3 || type === 5 || type === 7 || type === 9|| type === 11) ? '159' : (type === 2 || type === 4 || type === 6 || type === 8 || type === 10 || type === 12) ? '268' : '0' : '335')
         if ( id == 'iconLoad') width = height = '35'
         if ( id == 'iconBattery') width = height = '75'
         svg = '<svg xmlns="http://www.w3.org/2000/svg" id="' + id + type + '#id#" x="' + x + '" y="' + y + '" width="' + width + '" height="' + height + '" preserveAspectRatio="none" viewBox="0 0 1600 1600"><path fill="' + fill + '" d="M1553,402.5l-18.6-18.6c-4-4-10.4-4-14.4,0l-86.1,86.1l-57.2-57.2l86.1-86.1c4-4,4-10.4,0-14.4l-18.6-18.6   c-4-4-10.4-4-14.4,0l-86.1,86.1l-47-47c-48.6,48.6-57.8,121.8-27.5,179.7c-18,17.7-31.6,38.1-40.6,61.2c-2.7,6.8-4.9,13.8-6.7,21   c-39.6-45-74.3-73.2-74.3-73.2c-70.9-60.6-175.6-93.2-303.3-84.3c-190.4,13.3-267.9,98.6-324.4,160.9   c-34.7,38.3-55.9,60.1-87.2,64.8c-225.4,33.4-347,133.2-333.7,273.8c7.5,78.9,30.5,132.6,68.6,159.5c0,0,29.6,17.7,66,17.2h54.9   c27.4,69.8,95.5,119.3,174.9,119.3s147.5-49.5,174.9-119.3h236.9c27.4,69.8,95.5,119.3,174.9,119.3c88.3,0,162.6-61.3,182.6-143.6   c26.9-34.9,88.8-126.1,101.7-225.3c7.3-56.4-10.1-112.6-36.9-162.6c-3.8-12.3-7.4-27.5-8.8-43.8c-3.1-37.3,6.2-67.1,28.3-90.4   c59.9,42.3,143.3,36.6,197-17l-47-47l86.1-86.1C1557,412.9,1557,406.4,1553,402.5z M463.3,1159.8c-63.4,0-114.9-51.6-114.9-114.9   c0-63.4,51.6-114.9,114.9-114.9s114.9,51.6,114.9,114.9C578.2,1108.3,526.7,1159.8,463.3,1159.8z M1050,1159.8   c-63.4,0-114.9-51.6-114.9-114.9c0-63.4,51.6-114.9,114.9-114.9c63.4,0,114.9,51.6,114.9,114.9   C1165,1108.3,1113.4,1159.8,1050,1159.8z M1261.7,870.9c-2.2,38.8-16.9,78-35.1,109.7c-26.3-72.1-95.5-123.6-176.5-123.6   c-102.1,0-185.4,81.9-187.8,183.4H651.1c-2.4-101.5-85.7-183.4-187.8-183.4s-185.4,81.9-187.8,183.4h-45.4c-21,0.3-22.2-5-22.2-5   c-10.7-8.6-29.7-33.7-36.5-105.6c-12.5-132.6,164.9-178.9,271.8-194.8c58.7-8.7,93.6-47.2,130.6-87.9   c53.6-59,114.3-126,275.5-137.2c13.6-1,26.8-1.4,39.5-1.4c87,0,154.7,22,201.6,65.6C1090.3,574.1,1271.1,702.5,1261.7,870.9z"/></svg>'
@@ -561,6 +561,50 @@
           perso: false,
           perso_unit: ''
         },
+        load9: {
+          power: 0,
+          power_unit: 'W',
+          icon: false,
+          name: false,
+          energy: false,
+          energy_unit: '',
+          max_power: false,
+          perso: false,
+          perso_unit: ''
+        },
+        load10: {
+          power: 0,
+          power_unit: 'W',
+          icon: false,
+          name: false,
+          energy: false,
+          energy_unit: '',
+          max_power: false,
+          perso: false,
+          perso_unit: ''
+        },
+        load11: {
+          power: 0,
+          power_unit: 'W',
+          icon: false,
+          name: false,
+          energy: false,
+          energy_unit: '',
+          max_power: false,
+          perso: false,
+          perso_unit: ''
+        },
+        load12: {
+          power: 0,
+          power_unit: 'W',
+          icon: false,
+          name: false,
+          energy: false,
+          energy_unit: '',
+          max_power: false,
+          perso: false,
+          perso_unit: ''
+        },
         has_load_power: false,
         animate_load_enable: true
       },
@@ -649,6 +693,18 @@
     if ("#load8Name#" != '#'+'load8Name#') config#id#.load.load8.name = "#load8Name#"
     if ("#load8Icon#" != '#'+'load8Icon#') config#id#.load.load8.icon = "#load8Icon#"
     if ("#load8MaxPower#" != '#'+'load8MaxPower#') config#id#.load.load8.max_power = "#load8MaxPower#"
+    if ("#load9Name#" != '#'+'load9Name#') config#id#.load.load9.name = "#load9Name#"
+    if ("#load9Icon#" != '#'+'load9Icon#') config#id#.load.load9.icon = "#load9Icon#"
+    if ("#load9MaxPower#" != '#'+'load9MaxPower#') config#id#.load.load9.max_power = "#load9MaxPower#"
+    if ("#load10Name#" != '#'+'load10Name#') config#id#.load.load10.name = "#load10Name#"
+    if ("#load10Icon#" != '#'+'load10Icon#') config#id#.load.load10.icon = "#load10Icon#"
+    if ("#load10MaxPower#" != '#'+'load10MaxPower#') config#id#.load.load10.max_power = "#load10MaxPower#"
+    if ("#load11Name#" != '#'+'load11Name#') config#id#.load.load11.name = "#load11Name#"
+    if ("#load11Icon#" != '#'+'load11Icon#') config#id#.load.load11.icon = "#load11Icon#"
+    if ("#load11MaxPower#" != '#'+'load11MaxPower#') config#id#.load.load11.max_power = "#load11MaxPower#"
+    if ("#load12Name#" != '#'+'load12Name#') config#id#.load.load12.name = "#load12Name#"
+    if ("#load12Icon#" != '#'+'load12Icon#') config#id#.load.load12.icon = "#load12Icon#"
+    if ("#load12MaxPower#" != '#'+'load12MaxPower#') config#id#.load.load12.max_power = "#load12MaxPower#"
     if ("#loadAnimate#" != '#'+'loadAnimate#' && "#loadAnimate#" == '0') config#id#.load.animate_load_enable = 0
     if ("#dailyLoadText#" != '#'+'dailyLoadText#') config#id#.load.daily.text = "#dailyLoadText#"
     if (is_numeric('#loadMaxPower#')) config#id#.load.max_power = '#loadMaxPower#'
@@ -689,7 +745,9 @@
           let id_eql = cmds[j].id
           let name = cmds[j].name
           let iPv = cmds[j].name[2]
-          let iLoad = cmds[j].name[4]
+          let re_res = cmds[j].name.match(/\d+/);
+          let iLoad = (re_res === null) ? "" : re_res[0];
+          //let iLoad = cmds[j].name[4];
           let type = cmds[j].name.split(' ')
           switch (cmds[j].name) {
             ///////////////////////////////////////////////////////////////////////
@@ -990,6 +1048,14 @@
             case 'load7 power':
             case 'load8 state':
             case 'load8 power':
+            case 'load9 state':
+            case 'load9 power':
+            case 'load10 state':
+            case 'load10 power':
+            case 'load11 state':
+            case 'load11 power':
+            case 'load12 state':
+            case 'load12 power':
             case 'load1 energy':
             case 'load2 energy':
             case 'load3 energy':
@@ -998,6 +1064,10 @@
             case 'load6 energy':
             case 'load7 energy':
             case 'load8 energy':
+            case 'load9 energy':
+            case 'load10 energy':
+            case 'load11 energy':
+            case 'load12 energy':
             case 'load1 perso':
             case 'load2 perso':
             case 'load3 perso':
@@ -1006,6 +1076,10 @@
             case 'load6 perso':
             case 'load7 perso':
             case 'load8 perso':
+            case 'load9 perso':
+            case 'load10 perso':
+            case 'load11 perso':
+            case 'load12 perso':
               if (type[1] == 'state') type[1] = 'power' // workaround pour ne pas modifier le nom équipements d'origines.
               log#id#('| load' + iLoad + ' ' + type[1])
               if (type[1] == 'power') config#id#.load.additional_loads = Math.max(config#id#.load.additional_loads, iLoad)
@@ -1089,6 +1163,8 @@
           else if (config#id#.load.additional_loads == 3 || config#id#.load.additional_loads == 4) html += ' 560'
           else if (config#id#.load.additional_loads == 5 || config#id#.load.additional_loads == 6) html += ' 650'
           else if (config#id#.load.additional_loads == 7 || config#id#.load.additional_loads == 8) html += ' 740'
+          else if (config#id#.load.additional_loads == 9 || config#id#.load.additional_loads == 10) html += ' 830'
+          else if (config#id#.load.additional_loads == 11 || config#id#.load.additional_loads == 12) html += ' 920'
           else html += ' 500'
           
           html += ((config#id#.show_solar === false) ? ((config#id#.load.additional_loads >= 1) ? ' 292' : ' 270') : ((config#id#.solar.mppts == 1) ? ' 340' : ' 406'))
@@ -1412,6 +1488,94 @@
           html += '<path id="es-load8path#id#" d="M 678 300 L 678 252 Q 678 242 670 242 L 475 242" class="' + ((config#id#.load.additional_loads >= 8) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10" pointer-events="stroke"></path>'
           html += '<circle id="es-dot8-#id#" cx="0" cy="0" r="3"  class="' + ((config#id#.load.additional_loads >= 8 && config#id#.load.animate_load_enable === true) ? '' : 'hidden-#id#') + '" fill="' + ((config#id#.load.load8.power == 0) ? 'transparent' : 'var(--load_colour#id#)') + '"><animateMotion id="anim_load8-#id#" dur="3" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#es-load8path#id#"></mpath></animateMotion></circle>'
           ///////////////////////////////////////////////////////
+          //////////////////// Load 9 ///////////////////////////
+          ///////////////////////////////////////////////////////
+          html += '<!-- Load 9 -->'
+          html += '<rect id="load9-rect-#id#" class="' + ((config#id#.blink && config#id#.load.load9.max_power && config#id#.load.load9.power >= config#id#.load.load9.max_power) ? 'blink#id#' : '') + '" x="722" y="128.5" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="' + ((config#id#.load.load9.max_power && config#id#.load.load9.power >= config#id#.load.load9.max_power) ? 'var(--color_alerte#id#)' : 'var(--load_colour#id#)') + '" pointer-events="all" display="' + ((config#id#.load.additional_loads >= 9) ? '' : 'none') + '"/>'
+          html += '<text id="ess_load9#id#" x="757" y="' + ((config#id#.load.load9.energy === false) ? '148' : '143') + '" display="' + ((config#id#.load.additional_loads >= 9) ? '' : 'none') + '" class="ft12-#id#'
+          html += ' ftw-#id# center-align#id#" fill="var(--load_colour#id#)">' + trunc#id#(config#id#.load.load9.power, 1) + ' ' + config#id#.load.load9.power_unit + '</text>'
+          html += '<text id="es-load9-name#id#" x="760" y="122" class="ft9-#id# center-align#id#" display="' + ((config#id#.load.additional_loads >= 9) ? '' : 'none') + '" fill="var(--load_colour#id#)" >' + ((config#id#.load.load9.name) ? config#id#.load.load9.name : '') + '</text>'
+          // ENERGY
+          let load9_energy = autoValueArray#id#((config#id#.load.load9.energy || 0),config#id#.load.load9.energy_unit)
+          html += '<text id="load9_energy#id#" x="757" y="154" class="ft8-#id# center-align#id#" display="' + ((config#id#.load.load9.energy === false || config#id#.load.additional_loads <= 8) ? 'none' : '') + '" fill="var(--load_colour#id#)">'
+          html += trunc#id#(load9_energy.value, 3, 1) + ' ' + load9_energy.unit
+          html += '</text>'
+          // PERSO
+          html += '<text id="load9_perso#id#" x="752" y="170" class="ft8-#id# right-align#id#" display="' + ((config#id#.load.load9.perso === false || config#id#.load.additional_loads <= 8) ? 'none' : '') + '" fill="var(--load_colour#id#)">'
+          html += config#id#.load.load9.perso + ' ' + config#id#.load.load9.perso_unit
+          html += '</text>'
+          // ICON
+          if (config#id#.load.additional_loads >= 9 && config#id#.load.load9.icon !== false) html += getSvgIcon(config#id#.load.load9.icon, 9)
+          // LINE
+          html += '<path id="es-load9path#id#" d="M 757 158 L 757 205 Q 757 214 749 214 L 475 214" class="' + ((config#id#.load.additional_loads >= 9) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
+          html += '<circle id="es-dot9-#id#" cx="0" cy="0" r="3"  class="' + ((config#id#.load.additional_loads >= 9 && config#id#.load.animate_load_enable === true) ? '' : 'hidden-#id#') + '" fill="' + ((config#id#.load.load9.power == 0) ? 'transparent' : 'var(--load_colour#id#)') + '"><animateMotion id="anim_load9-#id#" dur="3" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#es-load9path#id#"></mpath></animateMotion></circle>'
+          ///////////////////////////////////////////////////////
+          ////////////////////// Load 10 ////////////////////////
+          ///////////////////////////////////////////////////////
+          html += '<!-- Load 10 -->'
+          html += '<rect id="load10-rect-#id#" class="' + ((config#id#.blink && config#id#.load.load10.max_power && config#id#.load.load10.power >= config#id#.load.load10.max_power) ? 'blink#id#' : '') + '" x="722" y="300" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="' + ((config#id#.load.load10.max_power && config#id#.load.load10.power >= config#id#.load.load10.max_power) ? 'var(--color_alerte#id#)' : 'var(--load_colour#id#)') + '" pointer-events="all" display="' + ((config#id#.load.additional_loads >= 10) ? '' : 'none') + '"/>'
+          html += '<text id="ess_load10#id#" x="757" y="' + ((config#id#.load.load10.energy === false) ? '319.5' : '314.5') + '" display="' + ((config#id#.load.additional_loads >= 10) ? '' : 'none') + '" class="ft12-#id#'
+          html += ' ftw-#id# center-align#id#" fill="var(--load_colour#id#)">' + trunc#id#(config#id#.load.load10.power, 1) + ' ' + config#id#.load.load10.power_unit + '</text>'
+          html += '<text id="es-load10-name#id#" x="760" y="343" class="ft9-#id# center-align#id#" display="' + ((config#id#.load.additional_loads >= 10) ? '' : 'none') + '" fill="var(--load_colour#id#)" >' + ((config#id#.load.load10.name) ? config#id#.load.load10.name : '') + '</text>'
+          // ENERGY
+          let load10_energy = autoValueArray#id#((config#id#.load.load10.energy || 0),config#id#.load.load10.energy_unit)
+          html += '<text id="load10_energy#id#" x="757" y="325.5" class="ft8-#id# center-align#id#" display="' + ((config#id#.load.load10.energy === false || config#id#.load.additional_loads <= 9) ? 'none' : '') + '" fill="var(--load_colour#id#)">'
+          html += trunc#id#(load10_energy.value, 3, 1) + ' ' + load10_energy.unit
+          html += '</text>'
+          // PERSO
+          html += '<text id="load10_perso#id#" x="752" y="295" class="ft8-#id# right-align#id#" display="' + ((config#id#.load.load10.perso === false || config#id#.load.additional_loads <= 9) ? 'none' : '') + '" fill="var(--load_colour#id#)">'
+          html += config#id#.load.load10.perso + ' ' + config#id#.load.load10.perso_unit
+          html += '</text>'
+          // ICON
+          if (config#id#.load.additional_loads >= 10 && config#id#.load.load10.icon !== false) html += getSvgIcon(config#id#.load.load10.icon, 10)
+          // LINE
+          html += '<path id="es-load10path#id#" d="M 757 300 L 757 252 Q 757 242 749 242 L 475 242" class="' + ((config#id#.load.additional_loads >= 10) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10" pointer-events="stroke"></path>'
+          html += '<circle id="es-dot10-#id#" cx="0" cy="0" r="3"  class="' + ((config#id#.load.additional_loads >= 10 && config#id#.load.animate_load_enable === true) ? '' : 'hidden-#id#') + '" fill="' + ((config#id#.load.load10.power == 0) ? 'transparent' : 'var(--load_colour#id#)') + '"><animateMotion id="anim_load10-#id#" dur="3" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#es-load10path#id#"></mpath></animateMotion></circle>'
+          ///////////////////////////////////////////////////////
+          //////////////////// Load 11 //////////////////////////
+          ///////////////////////////////////////////////////////
+          html += '<!-- Load 11 -->'
+          html += '<rect id="load11-rect-#id#" class="' + ((config#id#.blink && config#id#.load.load11.max_power && config#id#.load.load11.power >= config#id#.load.load11.max_power) ? 'blink#id#' : '') + '" x="801" y="128.5" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="' + ((config#id#.load.load11.max_power && config#id#.load.load11.power >= config#id#.load.load11.max_power) ? 'var(--color_alerte#id#)' : 'var(--load_colour#id#)') + '" pointer-events="all" display="' + ((config#id#.load.additional_loads >= 11) ? '' : 'none') + '"/>'
+          html += '<text id="ess_load11#id#" x="836" y="' + ((config#id#.load.load11.energy === false) ? '148' : '143') + '" display="' + ((config#id#.load.additional_loads >= 11) ? '' : 'none') + '" class="ft12-#id#'
+          html += ' ftw-#id# center-align#id#" fill="var(--load_colour#id#)">' + trunc#id#(config#id#.load.load11.power, 1) + ' ' + config#id#.load.load11.power_unit + '</text>'
+          html += '<text id="es-load11-name#id#" x="840" y="122" class="ft9-#id# center-align#id#" display="' + ((config#id#.load.additional_loads >= 11) ? '' : 'none') + '" fill="var(--load_colour#id#)" >' + ((config#id#.load.load11.name) ? config#id#.load.load11.name : '') + '</text>'
+          // ENERGY
+          let load11_energy = autoValueArray#id#((config#id#.load.load11.energy || 0),config#id#.load.load11.energy_unit)
+          html += '<text id="load11_energy#id#" x="836" y="154" class="ft8-#id# center-align#id#" display="' + ((config#id#.load.load11.energy === false || config#id#.load.additional_loads <= 10) ? 'none' : '') + '" fill="var(--load_colour#id#)">'
+          html += trunc#id#(load11_energy.value, 3, 1) + ' ' + load11_energy.unit
+          html += '</text>'
+          // PERSO
+          html += '<text id="load11_perso#id#" x="831" y="170" class="ft8-#id# right-align#id#" display="' + ((config#id#.load.load11.perso === false || config#id#.load.additional_loads <= 10) ? 'none' : '') + '" fill="var(--load_colour#id#)">'
+          html += config#id#.load.load11.perso + ' ' + config#id#.load.load11.perso_unit
+          html += '</text>'
+          // ICON
+          if (config#id#.load.additional_loads >= 11 && config#id#.load.load11.icon !== false) html += getSvgIcon(config#id#.load.load11.icon, 11)
+          // LINE
+          html += '<path id="es-load11path#id#" d="M 836 158 L 836 205 Q 836 214 828 214 L 475 214" class="' + ((config#id#.load.additional_loads >= 11) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
+          html += '<circle id="es-dot11-#id#" cx="0" cy="0" r="3"  class="' + ((config#id#.load.additional_loads >= 11 && config#id#.load.animate_load_enable === true) ? '' : 'hidden-#id#') + '" fill="' + ((config#id#.load.load11.power == 0) ? 'transparent' : 'var(--load_colour#id#)') + '"><animateMotion id="anim_load11-#id#" dur="3" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#es-load11path#id#"></mpath></animateMotion></circle>'
+          ///////////////////////////////////////////////////////
+          //////////////////// Load 12 //////////////////////////
+          ///////////////////////////////////////////////////////
+          html += '<!-- Load 12 -->'
+          html += '<rect id="load12-rect-#id#" class="' + ((config#id#.blink && config#id#.load.load12.max_power && config#id#.load.load12.power >= config#id#.load.load12.max_power) ? 'blink#id#' : '') + '" x="801" y="300" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="' + ((config#id#.load.load12.max_power && config#id#.load.load12.power >= config#id#.load.load12.max_power) ? 'var(--color_alerte#id#)' : 'var(--load_colour#id#)') + '" pointer-events="all" display="' + ((config#id#.load.additional_loads >= 12) ? '' : 'none') + '"/>'
+          html += '<text id="ess_load12#id#" x="836" y="' + ((config#id#.load.load12.energy === false) ? '319.5' : '314.5') + '" display="' + ((config#id#.load.additional_loads >= 12) ? '' : 'none') + '" class="ft12-#id#'
+          html += ' ftw-#id# center-align#id#" fill="var(--load_colour#id#)">' + trunc#id#(config#id#.load.load12.power, 1) + ' ' + config#id#.load.load12.power_unit + '</text>'
+          html += '<text id="es-load12-name#id#" x="840" y="343" class="ft9-#id# center-align#id#" display="' + ((config#id#.load.additional_loads >= 12) ? '' : 'none') + '" fill="var(--load_colour#id#)" >' + ((config#id#.load.load12.name) ? config#id#.load.load12.name : '') + '</text>'
+          // ENERGY
+          let load12_energy = autoValueArray#id#((config#id#.load.load12.energy || 0),config#id#.load.load12.energy_unit)
+          html += '<text id="load12_energy#id#" x="836" y="325.5" class="ft8-#id# center-align#id#" display="' + ((config#id#.load.load12.energy === false || config#id#.load.additional_loads <= 11) ? 'none' : '') + '" fill="var(--load_colour#id#)">'
+          html += trunc#id#(load12_energy.value, 3, 1) + ' ' + load12_energy.unit
+          html += '</text>'
+          // PERSO
+          html += '<text id="load12_perso#id#" x="831" y="295" class="ft8-#id# right-align#id#" display="' + ((config#id#.load.load12.perso === false || config#id#.load.additional_loads <= 11) ? 'none' : '') + '" fill="var(--load_colour#id#)">'
+          html += config#id#.load.load12.perso + ' ' + config#id#.load.load12.perso_unit
+          html += '</text>'
+          // ICON
+          if (config#id#.load.additional_loads >= 12 && config#id#.load.load12.icon !== false) html += getSvgIcon(config#id#.load.load12.icon, 12)
+          // LINE
+          html += '<path id="es-load12path#id#" d="M 836 300 L 836 252 Q 836 242 828 242 L 475 242" class="' + ((config#id#.load.additional_loads >= 12) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10" pointer-events="stroke"></path>'
+          html += '<circle id="es-dot12-#id#" cx="0" cy="0" r="3"  class="' + ((config#id#.load.additional_loads >= 12 && config#id#.load.animate_load_enable === true) ? '' : 'hidden-#id#') + '" fill="' + ((config#id#.load.load12.power == 0) ? 'transparent' : 'var(--load_colour#id#)') + '"><animateMotion id="anim_load12-#id#" dur="3" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#es-load12path#id#"></mpath></animateMotion></circle>'
+          ///////////////////////////////////////////////////////
           /////////////////////  Grid ///////////////////////////
           ///////////////////////////////////////////////////////
           html += '<!-- Grid -->'
@@ -1728,7 +1892,7 @@
           if (differentUnit === true) {
             log#id#('| /!\\ ------- Attention unité differente entre load, calcul impossible !!!')
           } else {
-            config#id#.load.power = ((config#id#.load.load1.power * 1000) + (config#id#.load.load2.power * 1000) + (config#id#.load.load3.power * 1000) + (config#id#.load.load4.power * 1000) + (config#id#.load.load5.power * 1000) + (config#id#.load.load6.power * 1000) + (config#id#.load.load7.power * 1000) + (config#id#.load.load8.power * 1000)) / 1000
+            config#id#.load.power = ((config#id#.load.load1.power * 1000) + (config#id#.load.load2.power * 1000) + (config#id#.load.load3.power * 1000) + (config#id#.load.load4.power * 1000) + (config#id#.load.load5.power * 1000) + (config#id#.load.load6.power * 1000) + (config#id#.load.load7.power * 1000) + (config#id#.load.load8.power * 1000) + (config#id#.load.load9.power * 1000) + (config#id#.load.load10.power * 1000) + (config#id#.load.load11.power * 1000) + (config#id#.load.load12.power * 1000)) / 1000
             document.getElementById("load_power#id#").innerHTML = config#id#.load.power + ' ' + config#id#.load.power_unit
           }
         }
@@ -2150,6 +2314,21 @@
     <div>load8Name : personnalisation du nom du Load8. (Ex: C.E, Clim, ....)</div>
     <div>load8Icon : Afficher Icone. Choix : Voir liste au dessus.</div>
     <div>load8MaxPower : Puissance Max (Permet de colorer le rectangle cette puissance est atteinte)</div>
+	<div>load8Name : personnalisation du nom du Load8. (Ex: C.E, Clim, ....)</div>
+    <div>load8Icon : Afficher Icone. Choix : Voir liste au dessus.</div>
+    <div>load8MaxPower : Puissance Max (Permet de colorer le rectangle cette puissance est atteinte)</div>
+    <div>load9Name : personnalisation du nom du Load9. (Ex: C.E, Clim, ....)</div>
+    <div>load9Icon : Afficher Icone. Choix : Voir liste au dessus.</div>
+    <div>load9MaxPower : Puissance Max (Permet de colorer le rectangle cette puissance est atteinte)</div>
+    <div>load10Name : personnalisation du nom du Load10. (Ex: C.E, Clim, ....)</div>
+    <div>load10Icon : Afficher Icone. Choix : Voir liste au dessus.</div>
+    <div>load10MaxPower : Puissance Max (Permet de colorer le rectangle cette puissance est atteinte)</div>
+    <div>load11Name : personnalisation du nom du Load11. (Ex: C.E, Clim, ....)</div>
+    <div>load11Icon : Afficher Icone. Choix : Voir liste au dessus.</div>
+    <div>load11MaxPower : Puissance Max (Permet de colorer le rectangle cette puissance est atteinte)</div>
+    <div>load12Name : personnalisation du nom du Load12. (Ex: C.E, Clim, ....)</div>
+    <div>load12Icon : Afficher Icone. Choix : Voir liste au dessus.</div>
+    <div>load12MaxPower : Puissance Max (Permet de colorer le rectangle cette puissance est atteinte)</div>
     <div>dailyLoadText : personnalisation du texte. (défaut : DAILY LOAD)</div>
     <div>loadMaxPower : Puissance max des équipements "Load". (Permet la gestion de vitesse de l'animation + coloration du rectangle cette puissance est atteinte)</div>
     <div>loadColor : Couleur des éléments de catégorie "load" [ Exemple : #fffff, white]</div>
