@@ -1094,11 +1094,9 @@
               ///////////////////// solars //////////////////////////
               ///////////////////////////////////////////////////////
               for (solar in config#id#.solars) {
-                
                 ////////////////////////////////////
                 //  variables for 5 mpps or more  //
                 ////////////////////////////////////
-                
                 let paire_solar = parseInt(solar)
                 let y_solar_rect = -60
                 let b_solar = '-30'
@@ -1128,11 +1126,9 @@
                 let x_current = a_solar - 7
                 if (config#id#.solars[solar].current === false) y_voltage = y_voltage - 10
                 let path_solar = 'M ' + a_solar + ' ' + b_solar + ' L ' + a_solar + ' ' + c_solar + ' Q ' + a_solar + ' ' + d_solar + ' ' + (a_solar - 10) + ' ' + d_solar + ' L 275 ' + d_solar
-                
                 ////////////////////////////////////
                 // variables for 4 mppts or less  //
                 ////////////////////////////////////
-                 
                 if (config#id#.solar.mppts <= 4) {
                   y_solar_rect = (config#id#.solar.mppts == 1) ? 128.5 : 64.5
                   y_solar_name = (config#id#.solar.mppts == 1) ? 122 : 60
@@ -1167,7 +1163,6 @@
                     path_solar = 'M 365 95 L 365 135 Q 365 144 358 144 L 275 144'
                   }
                 }
-                
                 ////////////////////////////////////
                 /////         DISPLAY          /////
                 ////////////////////////////////////
@@ -1212,7 +1207,6 @@
                   html += '<text id="pv' + solar + '-name-#id#" x="' + a_solar + '" y="' + y_solar_name + '" class="ft9-#id# ftw-#id# center-align#id#" display="' + ((config#id#.show_solar === false) ? 'none' : '') + '" fill="var(--solar_colour#id#)">' + ((isset(parameters#id#['pv' + solar + 'Name'])) ? parameters#id#['pv' + solar + 'Name'] : '') + '</text>'
                 }
               }
-              
               ///////////////////////////////////////////////////////
               ////////////////////// LOAD ///////////////////////////
               ///////////////////////////////////////////////////////
@@ -1282,7 +1276,8 @@
                 f = f + temp * 79
                 k = k + temp * 79
                   
-                if (load <= 2) path = 'M 441 ' + b + ' L 441 ' + c
+                if (load == 1) path = 'M 441 ' + c + ' L 441 ' + b
+                else if (load == 2) path = 'M 441 ' + b + ' L 441 ' + c
                 else path = 'M ' + a + ' ' + b + ' L ' + a + ' ' + c + ' Q ' + a + ' ' + d + ' ' + e + ' ' + d + ' L ' + '475 ' + d
                 
                 ////////////////////////////////////
