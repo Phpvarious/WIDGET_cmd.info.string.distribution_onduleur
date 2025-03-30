@@ -1,9 +1,10 @@
 <div class="cmd #history# cmd-widget" data-type="info" data-subtype="string" data-cmd_id="#id#" data-cmd_uid="#uid#" data-version="#version#" data-eqLogic_id="#eqLogic_id#" style="width: 100%;">
+  
   <!-- ################ Distribution onduleur ################ 
     Widget name : cmd.info.string.distribution_onduleur
     Author : Phpvarious
     Inspiration : https://github.com/slipx06/sunsynk-power-flow-card/tree/master
-    Last Update : 2025/03/26 22h45 - Phpvarious
+    Last Update : 2025/03/30 21h00 - Phpvarious
   
     version béta
   -->
@@ -46,8 +47,12 @@
       .ft7-#id#{font-size:7px;}
       .ft8-#id#{font-size:8px;}
       .ft9-#id#{font-size:9px;}
+      .ft10-#id#{font-size:10px;}
+      .ft11-#id#{font-size:11px;}
       .ft12-#id#{font-size:12px;}
+      .ft13-#id#{font-size:13px;}
       .ft14-#id#{font-size:14px;}
+      .ft15-#id#{font-size:15px;}
       .ft16-#id#{font-size:16px;}
       .ft18-#id#{font-size:18px;}
       .ft22-#id#{font-size:22px;}
@@ -70,7 +75,7 @@
       ////////////////////////////////////////////////////////
       var debug#id# = ('#debug#' == 1) ? true : false
       var versionWidget#id# = '11/03/2024 19h30'
-      var float = false
+      //var float = false
       var timer_in#id# = false
       var unite_conversion#id# = { 'W' : [1000, 'W', 'kW', 'MW'], 'Wh' : [1000, 'Wh', 'kWh', 'MWh'], 'l' : [1000, 'l', 'm<sup>3</sup>'] }
       var JsonTempoArray#id# = []
@@ -139,38 +144,29 @@
       }
       function getBatteryIcon#id#(value=false, full_capacity=80, empty_capacity=30, icon_perso=false) {
         log#id#('| getBatteryIcon() -> ' + value + ' | ' + full_capacity + ' | ' + empty_capacity + ' | ' + icon_perso)
-        if (value < full_capacity && value >= 50) {// 50 a 99
-          return '<path fill="var(--battery_colour#id#)" d="M 12 20 H 4 V 6 h 8 L 12 20 m 0.67 -16 H 11 V 2 H 5 v 2 H 3.33 C 2.6 4 2 4.6 2 5.33 v 15.34 C 2 21.4 2.6 22 3.33 22 h 9.34 c 0.74 0 1.33 -0.59 1.33 -1.33 V 5.33 C 14 4.6 13.4 4 12.67 4 M 11 16 H 5 v 3 h 6 v -3 m 0 -4.5 H 5 v 3 h 6 v -3 h -3 h 3"/>'
-        } else if (value < 50 && value > empty_capacity) { // 1 a 49
+        let available = full_capacity - empty_capacity
+        let value_pourcent = Math.trunc(value * available / 100)
+        if (value_pourcent <= 75 && value_pourcent > 50) {
+          // 51 a 75
+          return '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-battery-75"/>'
           return '<path fill="var(--battery_colour#id#)" d="M 12 20 H 4 V 6 h 8 L 12 6 L 12 20 m 0.67 -15.999 H 11 V 2 H 5 v 2 H 3.33 C 2.6 4 2 4.6 2 5.33 v 15.34 C 2 21.4 2.6 22 3.33 22 h 9.34 c 0.74 0 1.33 -0.59 1.33 -1.33 V 5.33 C 14 4.6 13.4 4 12.67 4 M 11 16 H 5 v 3 h 6 v -3"/>'
-        } else if (value <= empty_capacity) { // empty
+        } else if (value_pourcent <= 50 && value_pourcent > 25) {
+          // 26 a 50
+          return '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-battery-50"/>'
+          return '<path fill="var(--battery_colour#id#)" d="M 12 20 H 4 V 6 h 8 L 12 6 L 12 20 m 0.67 -15.999 H 11 V 2 H 5 v 2 H 3.33 C 2.6 4 2 4.6 2 5.33 v 15.34 C 2 21.4 2.6 22 3.33 22 h 9.34 c 0.74 0 1.33 -0.59 1.33 -1.33 V 5.33 C 14 4.6 13.4 4 12.67 4 M 11 16 H 5 v 3 h 6 v -3"/>'
+        } else if (value_pourcent <= 25 && value_pourcent > 0) {
+          // 1 a 25
+          return '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-battery-25"/>'
+          return '<path fill="var(--battery_colour#id#)" d="M 12 20 H 4 V 6 h 8 L 12 6 L 12 20 m 0.67 -15.999 H 11 V 2 H 5 v 2 H 3.33 C 2.6 4 2 4.6 2 5.33 v 15.34 C 2 21.4 2.6 22 3.33 22 h 9.34 c 0.74 0 1.33 -0.59 1.33 -1.33 V 5.33 C 14 4.6 13.4 4 12.67 4 M 11 16 H 5 v 3 h 6 v -3"/>'
+        } else if (value_pourcent <= 0) {
+          // battery-empty
+          return '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-battery-0"/>'
           return '<path fill="var(--battery_colour#id#)" d="M 12 6 L 12 20 M 12 20 H 4 l 0.05 -14 h 7.95 m 0.67 -2 h -1.67 V 2 h -6 v 2 H 3.38 a 1.33 1.33 0 0 0 -1.33 1.33 v 15.34 c 0 0.73 0.6 1.33 1.33 1.33 h 9.34 c 0.73 0 1.33 -0.6 1.33 -1.33 V 5.33 A 1.33 1.33 0 0 0 12.72 4 Z"/>'
-        } else { // full
+        } else {
+          // full
+          return '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-battery-100"/>'
           return '<path fill="var(--battery_colour#id#)" d="M 12 20 H 4 V 6 h 8 L 12 20 m 0.67 -16 H 11 V 2 H 5 v 2 H 3.33 C 2.6 4 2 4.6 2 5.33 v 15.34 C 2 21.4 2.6 22 3.33 22 h 9.34 c 0.74 0 1.33 -0.59 1.33 -1.33 V 5.33 C 14 4.6 13.4 4 12.67 4 M 11 16 H 5 v 3 h 6 v -3 m 0 -9 H 5 v 3 h 6 V 7 m 0 4.5 H 5 v 3 h 6 v -3 h -3 h 3"/>'
         }
-      }
-      function getImgIcon(path, number, id = 'iconLoad'){
-        log#id#('|┌─────────────── getImgIcon()')
-        let a = parseInt(number)
-        let b = 158.5 + 3 // 3 = marge //160
-        let width = 30; let height = 30
-        if (id == 'iconBattery') { width = height = '60' }
-        if (numIsPair(number)) {
-          a = load - 1
-          b = 300 - width - 3 //b = 272 //269
-        }
-        let temp = Math.floor(a/2)
-        let svg = ''; let x = ''; let y = '';
-        x = ((id == 'iconLoad') ? 445 + temp * 79 : (number === 1) ?  (139 - (width / 2)) : (239 - (width / 2)))
-        y = ((id == 'iconLoad') ? b : 335)
-        svg = '<svg xmlns="http://www.w3.org/2000/svg" id="' + id + number + '#id#" x="' + x + '" y="' + y + '" width="' + width + '" height="' + height + '" viewBox="0 0 ' + width + ' ' + height + '" opacity="1"><image xlink:href="' + path + '" x="0" y="0" height="' + height + '" width="' + width + '"/></svg>'
-        log#id#('|| path = ' +  path)
-        log#id#('|| number = ' +  number)
-        log#id#('|| id = ' +  id)
-        log#id#('|| x = ' +  x)
-        log#id#('|| y = ' +  y)
-        log#id#('|└────────────────────────────────────')
-        return svg
       }
       
       function numIsPair(n) {
@@ -182,7 +178,9 @@
       var config#id# = {
         show_solar: false,
         show_load: false,
+        has_battery: false,
         blink: false,
+        font_alert: false,
         timer: {
           usetimer: false, /* Displays "Use timer" status as an icon next to the inverter. Set to `no` to hide */
           state: 'no', // [on, off] Shows if energy pattern is set to priority load or priority battery as an icon next to the inverter.
@@ -206,17 +204,29 @@
           model: 'sunsynk',
           voltage_state: false,
           voltage_unit: 'V',
+          voltage_isHistorized:0,
+          voltage_id: false,
           frequency_state: false,
           frequency_unit: 'Hz',
+          frequency_isHistorized:0,
+          frequency_id: false,
           current_state: false,
           current_unit: 'A',
+          current_isHistorized:0,
+          current_id: false,
           lcd_state: false,
           lcd_unit: '',
+          lcd_isHistorized:0,
+          lcd_id: false,
           temp:{
             ac_state: false,
             ac_unit: '°C',
+            ac_isHistorized:0,
+            ac_id: false,
             dc_state: false,
-            dc_unit: '°C'
+            dc_unit: '°C',
+            dc_isHistorized:0,
+            dc_id: false,
           },
           prog: { //--------------- Todo
             show: false,
@@ -226,24 +236,33 @@
           }
         },
         battery: {
+          //has_battery_power: false,
           animation_speed: 5,
-          energy: false, 
+          energy: false,
           voltage: {
             show: false,
             state: 0,
-            unit: 'V'
+            unit: 'V',
+            isHistorized:0,
+            id: false,
           },
           current: {
             show: false,
             state: 0,
-            unit: 'A'
+            unit: 'A',
+            isHistorized:0,
+            id: false,
           },
           temp: {
             show: false,
             state: 0,
-            unit: '°'
+            unit: '°',
+            isHistorized:0,
+            id: false,
           },
           power: {
+            isHistorized:0,
+            id: false,
             show: false,
             state: 0,
             unit: 'W'
@@ -251,7 +270,9 @@
           state: {
             show: false,
             state: 100,
-            unit: '%'
+            unit: '%',
+            isHistorized:0,
+            id: false,
           },
           daily: {
             show_charge: false,
@@ -260,19 +281,30 @@
             discharge_state: 0,
             charge_unit: '',
             discharge_unit: '',
+            charge_isHistorized: 0,
+            charge_id: false,
+            discharge_isHistorized: 0,
+            discharge_id: false,
             text_charge: 'CHARGE JOUR',
             text_discharge: 'DECHARGE JOUR',
           },
           mppt : {
+            has_mppt_power: false,
+            isHistorized:0,
+            id: false,
             power: {
               show: false,
               state: 0,
-              unit: 'W'
+              unit: 'W',
+              isHistorized:0,
+              id: false,
             },
             energy: {
               show: false,
               state: 0,
-              unit: 'Wh'
+              unit: 'Wh',
+              isHistorized:0,
+              id: false,
             },
             name: '',
             voltage: false,
@@ -285,7 +317,8 @@
           soc: {
             shutdown: 0
           },
-          icon_perso: false
+          icon: false,
+          img: false
         },
         solars: {},
         solar: {
@@ -296,11 +329,15 @@
           has_pv_power: false,
           animate_solar_enable: true, // TODO
           mppts: 0,
+          isHistorized:0,
+          id: false,
           daily: {
             show: false,
             state: 0,
             unit: '',
             text: 'PROD JOUR',
+            isHistorized:0,
+            id: false,
             //text_left: 'DAILY SOLAR / LEFT TODAY',
             //remaining_show: false,
             //remaining_state: 0,
@@ -316,11 +353,16 @@
           has_load_power: false,
           animate_load_enable: true,
           additional_loads: 0,
+          force4load: true,
+          isHistorized:0,
+          id: false,
           daily:{
             show: false,
             state: 0,
             unit: '',
             text: 'CONSO JOUR',
+            isHistorized:0,
+            id: false,
           },
           aux: {
             //show_aux: true,
@@ -337,13 +379,19 @@
         grid: {
           animation_speed: 5,
           max_power: false,
+          isHistorized:0,
+          id: false,
           daily: {
             show_sell: false,
             show_buy: false,
             buy_state: 0,
             buy_unit: '',
+            buy_isHistorized: 0,
+            buy_id: false,
             sell_state: 0,
             sell_unit: '',
+            sell_isHistorized: 0,
+            sell_id: false,
             text_sell: 'VENTE JOUR',
             text_buy: 'ACHAT JOUR'
           },
@@ -373,19 +421,25 @@
           has_aux_power: false,
           animation_speed: 5,
           energy: false,
+          isHistorized:0,
+          id: false,
           daily:{
             show: false,
             text: 'PRODUCTION JOUR',
             state: 0,
             unit: '',
+            isHistorized:0,
+            id: false,
           },
-        }
+        },
+        persos: {}
       }
       ////////////////////////////////////////////////////////
       //////////////// PARAMETRES OPTIONNELS /////////////////
       ////////////////////////////////////////////////////////
       /////////////////////// DIVERS /////////////////////////
       if ('#Background#' != '#'+'Background#') document.documentElement.style.setProperty('--background#id#', '#Background#')
+      if ('#fontAlert#' != '#'+'fontAlert#' && '#fontAlert#' == '1') config#id#.font_alert = true
       ////////////////////////// Solar ///////////////////////
       //if ("#pv1Name#" != '#'+'pv1Name#') config#id#.solar.pv1.name = "#pv1Name#"
       //if ("#pv2Name#" != '#'+'pv2Name#') config#id#.solar.pv2.name = "#pv2Name#"
@@ -408,8 +462,9 @@
       if ("#gridColor#" != '#'+'gridColor#') document.documentElement.style.setProperty('--grid_colour#id#', '#gridColor#')
       if ("#noGridColor#" != '#'+'noGridColor#') document.documentElement.style.setProperty('--no_grid_colour#id#', '#noGridColor#')
       ////////////////////////// BATTERY /////////////////////
-      if ("#batteryIcone#" != '#'+'batteryIcone#') config#id#.battery.icon_perso = '#batteryIcone#'
-      if ("#batteryIconeVe#" == '1') config#id#.battery.icon_perso = 've'
+      if ("#batteryImg#" != '#'+'batteryImg#') config#id#.battery.img = '#batteryImg#'
+      if ("#batteryIcon#" != '#'+'batteryIcon#') config#id#.battery.icon = '#batteryIcon#'
+      //if ("#batteryIconeVe#" == '1') config#id#.battery.icon = 've'
       if ("#dailyBatteryChargeText#" != '#'+'dailyBatteryChargeText#') config#id#.battery.daily.text_charge = "#dailyBatteryChargeText#"
       if ("#dailyBatteryDischargeText#" != '#'+'dailyBatteryDischargeText#') config#id#.battery.daily.text_discharge = "#dailyBatteryDischargeText#"
       if (is_numeric('#batteryMaxPower#')) config#id#.battery.energy = '#batteryMaxPower#'
@@ -446,6 +501,7 @@
             let name = cmds[j].name
             let iPv = cmds[j].name[2]
             let iLoad = cmds[j].name[4]
+            let iPerso = cmds[j].name[5]
             let type = cmds[j].name.split(' ')
             /////////////////////////////////////////////////////////////////////////
             //////////////////////////// LOADS //////////////////////////////////////
@@ -467,15 +523,21 @@
                     if (!isset(config#id#.loads[iLoad].energy)) {
                       config#id#.loads[iLoad].energy = false
                       config#id#.loads[iLoad].energy_unit = ''
+                      config#id#.loads[iLoad].energy_isHistorized = 0
+                      config#id#.loads[iLoad].energy_id = cmds[j].id
                     }
                     if (!isset(config#id#.loads[iLoad].perso)) {
                       config#id#.loads[iLoad].perso = false
                       config#id#.loads[iLoad].perso_unit = ''
+                      config#id#.loads[iLoad].perso_isHistorized = 0
+                      config#id#.loads[iLoad].perso_id = cmds[j].id
                     }
                     config#id#.loads[iLoad].max_power = isset(parameters#id#['load'+iLoad+'MaxPower']) ? parameters#id#['load'+iLoad+'MaxPower'] : false
                   }
                   config#id#.loads[iLoad][type[1]] =  isNaN(parseFloat(loadState)) ? 0 : parseFloat(loadState)
                   config#id#.loads[iLoad][type[1] + '_unit'] = cmds[j].unite
+                  config#id#.loads[iLoad][type[1] + '_isHistorized'] = cmds[j].isHistorized
+                  config#id#.loads[iLoad][type[1] + '_id'] = cmds[j].id
                   log#id#('|    └> value : ' + config#id#.loads[iLoad][type[1]] + config#id#.loads[iLoad][type[1] + '_unit'])
                   if (type[1] == 'power' && config#id#.loads[iLoad].max_power) log#id#('|    └> max_power : '  + config#id#.loads[iLoad].max_power)
                   jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
@@ -489,10 +551,18 @@
                         else document.getElementById("es-dot" + iLoad + "-#id#").setAttribute("fill", "transparent")
                         if (config#id#.loads[iLoad].max_power && config#id#.loads[iLoad].power >= config#id#.loads[iLoad].max_power) {
                           document.getElementById("load" + iLoad + "-rect-#id#").setAttribute("stroke", "var(--color_alerte#id#)")
-                          if (config#id#.blink) document.getElementById("load" + iLoad + "-rect-#id#").classList.add("blink#id#")
+                          if (config#id#.font_alert) document.getElementById("ess_load" + iLoad + "#id#").setAttribute("fill", "var(--color_alerte#id#)")
+                          if (config#id#.blink) {
+                            document.getElementById("load" + iLoad + "-rect-#id#").classList.add("blink#id#")
+                            if (config#id#.font_alert) document.getElementById("ess_load" + iLoad + "#id#").classList.add("blink#id#")
+                          }
                         } else {
                           document.getElementById("load" + iLoad + "-rect-#id#").setAttribute("stroke", "var(--load_colour#id#)")
-                          if (config#id#.blink) document.getElementById("load" + iLoad + "-rect-#id#").classList.remove("blink#id#")
+                          if (config#id#.font_alert) document.getElementById("ess_load" + iLoad + "#id#").setAttribute("fill", "var(--load_colour#id#)")
+                          if (config#id#.blink) {
+                            document.getElementById("load" + iLoad + "-rect-#id#").classList.remove("blink#id#")
+                            if (config#id#.font_alert) document.getElementById("ess_load" + iLoad + "#id#").classList.remove("blink#id#")
+                          }
                         }
                       } else if (type[1] == 'energy') {
                         let loadEnergy = autoValueArray#id#(config#id#.loads[iLoad][type[1]],config#id#.loads[iLoad][type[1] + '_unit'])
@@ -518,23 +588,30 @@
                   if (!isset(config#id#.solars[iPv])) config#id#.solars[iPv] = {}
                   if (type[1] == 'power') {
                     config#id#.show_solar = true
-                    //config#id#.solar.power_unit = cmds[j].unite
                     config#id#.solar.mppts = Math.max(config#id#.solar.mppts, iPv)
                     if (!isset(config#id#.solars[iPv].energy)) {
                       config#id#.solars[iPv].energy = false
                       config#id#.solars[iPv].energy_unit = ''
+                      config#id#.solars[iPv].energy_isHistorized = 0
+                      config#id#.solars[iPv].energy_id = cmds[j].id
                     }
                     if (!isset(config#id#.solars[iPv].current)) {
                       config#id#.solars[iPv].current = false
                       config#id#.solars[iPv].current_unit = ''
+                      config#id#.solars[iPv].current_isHistorized = 0
+                      config#id#.solars[iPv].current_id = cmds[j].id
                     }
                     if (!isset(config#id#.solars[iPv].voltage)) {
                       config#id#.solars[iPv].voltage = false
                       config#id#.solars[iPv].voltage_unit = ''
+                      config#id#.solars[iPv].voltage_isHistorized = 0
+                      config#id#.solars[iPv].voltage_id = cmds[j].id
                     }
                   }
                   config#id#.solars[iPv][type[1]] = isNaN(parseFloat(pvValue)) ? 0 : parseFloat(pvValue)
                   config#id#.solars[iPv][type[1] + '_unit'] = cmds[j].unite
+                  config#id#.solars[iPv][type[1] + '_isHistorized'] = cmds[j].isHistorized
+                  config#id#.solars[iPv][type[1] + '_id'] = cmds[j].id
                   jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
                     if (isset(config#id#.solars[iPv])) {
                       config#id#.solars[iPv][type[1]] = isNaN(parseFloat(_options.value)) ? 0 : parseFloat(_options.value)
@@ -551,6 +628,53 @@
                 }
               })
             }
+            /////////////////////////////////////////////////////////////////////////
+            //////////////////////////// PERSO //////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////////
+            if (type[0].substring(0, 5) == 'perso' && iPerso >= 1) {
+              if (cmds[j].name[6] != ' ' && cmds[j].name[6] >= 0) iPerso = iPerso * 10 + parseInt(cmds[j].name[6])
+              if (isset(parameters#id#['perso'+iPerso+'Param']) && type[1] == 'state') {
+                let param = parameters#id#['perso'+iPerso+'Param'].split(" ")
+                if (param.length >= 2) {
+                  jeedom.cmd.execute({
+                    id: id_eql,
+                    async: false,
+                    success:  function(persoValue) {
+                      // Format paramètre optionel : x y size_value color text size_text
+                      config#id#.persos[iPerso] = {}
+                      let size_value = isNaN(param[2]) ? 16 : Math.min(16, parseFloat(param[2]))
+                      let size_text = isNaN(param[5]) ? 9 : Math.min(16, parseFloat(param[5]))
+                      let y_value = parseFloat(param[1])
+                      let color = param[3] || 'var(--inverter_colour#id#)'
+                      let text = param[4] || false
+                      config#id#.persos[iPerso]['isHistorized'] = cmds[j].isHistorized
+                      config#id#.persos[iPerso]['id'] = cmds[j].id
+                      config#id#.persos[iPerso]['x_value'] = parseFloat(param[0])
+                      config#id#.persos[iPerso]['y_value'] = y_value
+                      config#id#.persos[iPerso]['size_value'] = size_value
+                      config#id#.persos[iPerso]['size_text'] = size_text
+                      config#id#.persos[iPerso]['y_text'] = y_value + size_value - 2
+                      if (color == 'solar') color = 'var(--solar_colour#id#)'
+                      else if (color == 'battery') color = 'var(--battery_colour#id#)'
+                      else if (color == 'aux') color = 'var(--aux_colour#id#)'
+                      else if (color == 'grid') color = 'var(--grid_colour#id#)'
+                      else if (color == 'load') color = 'var(--load_colour#id#)'
+                      else if (color == 'inverter') color = 'var(--inverter_colour#id#)'
+                      config#id#.persos[iPerso]['color'] = color
+                      if(text) text = text.replaceAll('_', ' ')
+                      config#id#.persos[iPerso]['text'] = text
+                      config#id#.persos[iPerso]['value'] = persoValue
+                      config#id#.persos[iPerso]['unit'] = cmds[j].unite
+                      jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
+                        if (is_object(cmd = document.getElementById("perso" + iPerso + "-value-#id#"))) {
+                          cmd.innerHTML = _options.value + ' ' + config#id#.persos[iPerso]['unit']
+                        }
+                      })
+                    }
+                  })
+                }
+              }
+            }
             switch (cmds[j].name) {
               ///////////////////////////////////////////////////////////////////////
               ////////////////////////////////  pv power ////////////////////////////
@@ -561,9 +685,10 @@
                   id: id_eql,
                   async: false,
                   success:  function(pvValue) {
-  config#id#.solar.has_pv_power = true
-  config#id#.show_solar = true
-                    //if (cmds[j].unite != '') 
+                    config#id#.solar.has_pv_power = true
+                    config#id#.show_solar = true
+                    config#id#.solar.isHistorized = cmds[j].isHistorized
+                    config#id#.solar.id = cmds[j].id
                     config#id#.solar.power_unit = cmds[j].unite
                     config#id#.solar.power = isNaN(parseFloat(pvValue)) ? 0 : parseFloat(pvValue)
                     log#id#('|    └> value : ' + config#id#.solar.power + config#id#.solar.power_unit)
@@ -586,6 +711,8 @@
                   id: id_eql,
                   async: false,
                   success:  function(dailyValue) {
+                    config#id#[type[1]].daily.isHistorized = cmds[j].isHistorized
+                    config#id#[type[1]].daily.id = cmds[j].id
                     config#id#[type[1]].daily.unit = cmds[j].unite
                     config#id#[type[1]].daily.state = isNaN(parseFloat(dailyValue)) ? 0 : parseFloat(dailyValue)
                     log#id#('|    └> value : ' + config#id#[type[1]].daily.state + config#id#[type[1]].daily.unit)
@@ -608,6 +735,8 @@
                   success:  function(daily) {
                     config#id#[type[1]].daily[type[2] + '_unit'] = cmds[j].unite
                     config#id#[type[1]].daily[type[2] + '_state'] = isNaN(parseFloat(daily)) ? 0 : parseFloat(daily)
+                    config#id#[type[1]].daily[type[2] + '_isHistorized'] = cmds[j].isHistorized
+                    config#id#[type[1]].daily[type[2] + '_id'] = cmds[j].id
                     log#id#('|    └> value : ' + config#id#[type[1]].daily[type[2] + '_state'] + config#id#[type[1]].daily[type[2] + '_unit'])
                   }
                 })
@@ -629,8 +758,11 @@
                   id: id_eql,
                   async: false,
                   success:  function(batteryValue) {
+                    if (type[1] == 'power') config#id#.has_battery = true
+                    config#id#.battery[type[1]].isHistorized = cmds[j].isHistorized
+                    config#id#.battery[type[1]].id = cmds[j].id
                     config#id#.battery[type[1]].show = true
-                    if (cmds[j].unite != '') config#id#.battery[type[1]].unit = cmds[j].unite
+                    config#id#.battery[type[1]].unit = cmds[j].unite
                     if (type[1] != 'state') config#id#.battery[type[1]].state = isNaN(parseFloat(batteryValue)) ? 0 : parseFloat(batteryValue)
                     else config#id#.battery[type[1]].state = isNaN(parseFloat(batteryValue)) ? 100 : parseFloat(batteryValue)
                     log#id#('|    └> value : ' + config#id#.battery[type[1]].state + config#id#.battery[type[1]].unit)
@@ -639,8 +771,8 @@
                 jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
                   config#id#.battery[type[1]].state = isNaN(parseFloat(_options.value)) ? 0 : parseFloat(_options.value)
                   let batteryValue = (config#id#.battery[type[1]].state < 0) ? config#id#.battery[type[1]].state * -1 : config#id#.battery[type[1]].state
-                  if (type[1] != 'state') document.getElementById("battery_" + type[1] + "#id#").innerHTML = trunc#id#(parseFloat(batteryValue),1) + ' ' + config#id#.battery[type[1]].unit
-                  if (type[1] == 'power' || type[1] == 'state') calculateBattery#id#('battery ' + type[1])
+                  if (type[1] != 'state' && is_object(cmd = document.getElementById("battery_" + type[1] + "#id#"))) cmd.innerHTML = trunc#id#(parseFloat(batteryValue),1) + ' ' + config#id#.battery[type[1]].unit
+                  if (config#id#.has_battery && (type[1] == 'power' || type[1] == 'state')) calculateBattery#id#('battery ' + type[1])
                 })
                 break;
               ///////////////////////////////////////////////////////////////////////
@@ -653,8 +785,11 @@
                   id: id_eql,
                   async: false,
                   success:  function(batteryMppt) {
+                    if (type[2] == 'power') config#id#.battery.mppt.has_mppt_power = true
+                    config#id#.battery.mppt[type[2]].isHistorized = cmds[j].isHistorized
+                    config#id#.battery.mppt[type[2]].id = cmds[j].id
                     config#id#.battery.mppt[type[2]].show = true
-                    if (cmds[j].unite != '') config#id#.battery.mppt[type[2]].unit = cmds[j].unite
+                    config#id#.battery.mppt[type[2]].unit = cmds[j].unite
                     config#id#.battery.mppt[type[2]].state = isNaN(parseFloat(batteryMppt)) ? 0 : parseFloat(batteryMppt)
                     log#id#('|    └> value : ' + config#id#.battery.mppt[type[2]].state + config#id#.battery.mppt[type[2]].unit)
                   }
@@ -662,12 +797,14 @@
                 jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
                   config#id#.battery.mppt[type[2]].state = isNaN(parseFloat(_options.value)) ? 0 : parseFloat(_options.value)
                   let batteryValue = autoValueArray#id#(config#id#.battery.mppt[type[2]].state,config#id#.battery.mppt[type[2]].unit)
-                  if(type[2] == 'energy') document.getElementById("battery-mppt-energy-#id#").innerHTML = trunc#id#(batteryValue.value, 3, 1) + ' ' + batteryValue.unit
-                  if(type[2] == 'power') {
-                    document.getElementById("battery_mppt_" + type[2] + "-#id#").innerHTML = config#id#.battery.mppt[type[2]].state + ' ' + config#id#.battery.mppt[type[2]].unit
-                    if(config#id#.battery.mppt[type[2]].state > 0) document.getElementById("dot-battery-mppt-#id#").setAttribute("fill", "var(--solar_colour#id#)")
-                    else document.getElementById("dot-battery-mppt-#id#").setAttribute("fill", "transparent")
-                    calculateBattery#id#('battery mppt power')
+                  if (config#id#.has_battery && is_object(cmd = document.getElementById("battery_mppt_" + type[2] + "-#id#"))) {
+                    if(type[2] == 'energy') cmd.innerHTML = trunc#id#(batteryValue.value, 3, 1) + ' ' + batteryValue.unit
+                    if(type[2] == 'power') {
+                      cmd.innerHTML = config#id#.battery.mppt[type[2]].state + ' ' + config#id#.battery.mppt[type[2]].unit
+                      if(config#id#.battery.mppt[type[2]].state > 0) document.getElementById("dot-battery-mppt-#id#").setAttribute("fill", "var(--solar_colour#id#)")
+                      else document.getElementById("dot-battery-mppt-#id#").setAttribute("fill", "transparent")
+                      calculateBattery#id#('battery mppt power')
+                    }
                   }
                 })
                 break;
@@ -687,12 +824,12 @@
                 })
                 jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
                   if (_options.value === 0 || _options.value === '0' || _options.value === 'off') {
-                    document.getElementById("transmission_on#id#").querySelector('path').classList.add("hidden-#id#");
-                    document.getElementById("transmission_off#id#").querySelector('path').classList.remove("hidden-#id#");
+                    document.getElementById("transmission_on#id#").classList.add("hidden-#id#");
+                    document.getElementById("transmission_off#id#").classList.remove("hidden-#id#");
                   }
                   else {
-                    document.getElementById("transmission_on#id#").querySelector('path').classList.remove("hidden-#id#");
-                    document.getElementById("transmission_off#id#").querySelector('path').classList.add("hidden-#id#");
+                    document.getElementById("transmission_on#id#").classList.remove("hidden-#id#");
+                    document.getElementById("transmission_off#id#").classList.add("hidden-#id#");
                   }
                 })
                 break;
@@ -706,6 +843,8 @@
                   id: id_eql,
                   async: false,
                   success:  function(temp) {
+                    config#id#.inverter.temp[type[0] + '_isHistorized'] = cmds[j].isHistorized
+                    config#id#.inverter.temp[type[0] + '_id'] = cmds[j].id
                     config#id#.inverter.temp[type[0] + '_state'] = isNaN(parseFloat(temp)) ? 0 : parseFloat(temp)
                     if (cmds[j].unite != '') config#id#.inverter.temp[type[0] + '_unit'] = cmds[j].unite
                     log#id#('|    └> value : ' + config#id#.inverter.temp[type[0] + '_state'] + config#id#.inverter.temp[type[0] + '_unit'])
@@ -728,6 +867,8 @@
                   id: id_eql,
                   async: false,
                   success:  function(value) {
+                    config#id#.inverter[type[0] + '_isHistorized'] = cmds[j].isHistorized
+                    config#id#.inverter[type[0] + '_id'] = cmds[j].id
                     if (type[0] == 'lcd') config#id#.inverter[type[0] + '_state'] = value
                     else config#id#.inverter[type[0] + '_state'] = isNaN(parseFloat(value)) ? 0 : parseFloat(value)
                     config#id#.inverter[type[0] + '_unit'] = cmds[j].unite
@@ -749,12 +890,14 @@
               case 'aux power':
               case 'grid power':
                 log#id#('| ' + type[0] + ' ' + type[1])
+                if (type[1] == 'state') type[1] = 'power' // workaround pour ne pas modifier le nom équipements d'origines.
                 config#id#[type[0]]['has_' + type[0] + '_power'] = true
                 jeedom.cmd.execute({
                   id: id_eql,
                   async: false,
                   success:  function(value) {
-                    //if (cmds[j].unite != '') config#id#[type[0]].power_unit = cmds[j].unite
+                    config#id#[type[0]]['isHistorized'] = cmds[j].isHistorized
+                    config#id#[type[0]]['id'] = cmds[j].id
                     config#id#[type[0]].power_unit = cmds[j].unite
                     config#id#[type[0]].power = isNaN(parseFloat(value)) ? 0 : parseFloat(value)
                     log#id#('|    └> value : ' + config#id#[type[0]].power + config#id#[type[0]].power_unit)
@@ -824,12 +967,14 @@
           
           for (load in config#id#.loads) {
             if (!isset(config#id#.loads[load].power)) delete config#id#.loads[load]
+            else config#id#.load.additional_loads = Math.max(config#id#.load.additional_loads, load)
           }
           for (solar in config#id#.solars) {
             if (!isset(config#id#.solars[solar].power)) delete config#id#.solars[solar]
           }
           if (debug#id#) console.table(config#id#.loads)
           if (debug#id#) console.table(config#id#.solars)
+          if (debug#id#) console.table(config#id#.persos)
         }
       })
       log#id#('└──────────────────────────────────────────────────────')
@@ -838,6 +983,7 @@
       
       function init#id#(init=true,el='') {
         log#id#('┌─────────────────── Widget Distribution Onduleur [#id#] en debug [init()] ───────────────')
+        
         var ElDomExist = !!document.getElementById("widget#id#");
         log#id#('| ElDomExist ? ' + ElDomExist)
         if (ElDomExist) {
@@ -848,80 +994,65 @@
             let nb_solar = config#id#.solar.mppts
             if (numIsPair(nb_solar) && nb_solar >= 1) nb_solar = nb_solar - 1
             
-            let max_load = (485 + Math.floor(nb_load / 2) * 79)
+            let max_load = (482 + 76 + Math.floor(nb_load / 2) * 76)
+            if (config#id#.solar.mppts <= 6 && config#id#.load.force4load) max_load = (482 + 76 + Math.trunc(nb_load / 4.1) * 76)
             if (config#id#.load.has_load_power === false && config#id#.load.additional_loads == 0) max_load = 240
             
             let max_solar = (406 + Math.floor(nb_solar / 2) * 79) //327
             if (config#id#.solar.mppts == 0) max_solar = 240
-            else if (config#id#.solar.mppts <= 4) max_solar = 290
+            else if (config#id#.solar.mppts <= 6) max_solar = 290
             
             log#id#('max_load : ' + max_load)
             log#id#('max_solar : ' + max_solar)
             
             var html = '<div class="container#id# card#id#">'
-            let viewBox_y = -90 // pv >= 5
+            let viewBox_y = -90 // pv >= 7
             let viewBox_w = Math.max(max_load, max_solar)
-            let viewBox_h = 300 //292 // aux or battery or load >= 2
-            
+            let viewBox_h = 300
             html += '<svg viewBox="'
             // début gauche
             html += '0'
-            
             // début haut
             if (config#id#.show_solar === false) {
               if (config#id#.load.additional_loads >= 1) viewBox_y = 110
               else viewBox_y = 150
             } else {
-              if (config#id#.solar.mppts == 0) viewBox_y = 60
+              if (config#id#.solar.mppts > 6) viewBox_y = -90
+              else if (config#id#.load.force4load == true && config#id#.load.additional_loads > 2) viewBox_y = 0
+              else if (config#id#.solar.mppts == 0) viewBox_y = 60
               else if (config#id#.solar.mppts == 1) viewBox_y = 60
-              else if (config#id#.solar.mppts > 1 && config#id#.solar.mppts <= 4) viewBox_y = 0
+              else if (config#id#.solar.mppts > 1 && config#id#.solar.mppts <= 6) viewBox_y = 0
             }
-            //html += (config#id#.show_solar === false) ? ((config#id#.load.additional_loads >= 1) ? ' 110 ' : ' 145 ') : (config#id#.solar.mppts == 1) ? ' 65 ' : ((config#id#.solar.mppts <= 4) ? ' 0 ' : ' -60 ')
             html += ' ' + viewBox_y + ' '
             
             // fin droite
             if (config#id#.show_solar === false) viewBox_w = Math.max(viewBox_w, 300)
-            if (config#id#.aux.has_aux_power !== false && config#id#.battery.power.show !== false) viewBox_w = Math.max(viewBox_w, 485)
-            else if (config#id#.battery.power.show !== false) viewBox_w = Math.max(viewBox_w, 400)
-            if (config#id#.solar.mppts == 2 || config#id#.solar.mppts == 3) viewBox_w = Math.max(viewBox_w, 334)
+            if (config#id#.aux.has_aux_power !== false && config#id#.has_battery) viewBox_w = Math.max(viewBox_w, 485)
+            else if (config#id#.has_battery) viewBox_w = Math.max(viewBox_w, 400) //
+            if (config#id#.solar.mppts == 2) viewBox_w = Math.max(viewBox_w, 334)
             else if (config#id#.solar.mppts == 4) viewBox_w = Math.max(viewBox_w, 410)
+            else if (config#id#.solar.mppts == 6) viewBox_w = Math.max(viewBox_w, 486)
             html += viewBox_w
-            
-            //config#id#.load.has_load_power
             
             // fin bas
             if (config#id#.show_solar === false) {
               //if (config#id#.load.has_aux_power === false) viewBox_h = 170
               if (config#id#.load.additional_loads == 1) viewBox_h = 310 - viewBox_y
               if (config#id#.load.additional_loads > 1) viewBox_h = 350 - viewBox_y  //240
-              if (config#id#.aux.has_aux_power !== false || config#id#.battery.power.show !== false) viewBox_h = 400 - viewBox_y
-  //else viewBox_h = 300 //viewBox_h = 170
-              //if (config#id#.aux.has_aux_power !== false || config#id#.battery.power.show !== false && config#id#.load.additional_loads >= 1) viewBox_h = 292
-               // if (config#id#.load.additional_loads == 0) viewBox_h = 170
-              //}
+              if (config#id#.aux.has_aux_power !== false || config#id#.has_battery) viewBox_h = 400 - viewBox_y
             } else {
               if (config#id#.solar.mppts == 0) viewBox_h = 310 - viewBox_y
               if (config#id#.solar.mppts == 1) viewBox_h = 310 - viewBox_y
-              if (config#id#.solar.mppts > 1 && config#id#.solar.mppts <= 4) viewBox_h = 300 - viewBox_y
-              if (config#id#.aux.has_aux_power !== false || config#id#.battery.power.show !== false) viewBox_h = 413 - viewBox_y
+              if (config#id#.solar.mppts > 1 && config#id#.solar.mppts <= 6) viewBox_h = 300 - viewBox_y
+              if (config#id#.aux.has_aux_power !== false || config#id#.has_battery) viewBox_h = 413 - viewBox_y
+              else if (config#id#.load.force4load == true && config#id#.load.additional_loads > 2) viewBox_h = 413 - viewBox_y
               else if (config#id#.load.additional_loads > 1) viewBox_h = 360 - viewBox_y
-              //if (config#id#.aux.has_aux_power !== false || config#id#.battery.power.show !== false) viewBox_h = 340
+              //if (config#id#.aux.has_aux_power !== false || config#id#.has_battery) viewBox_h = 340
               //else if (config#id#.load.additional_loads == 1) viewBox_h = 210
             }
-            //viewBox_h = viewBox_h - viewBox_y
             
             html += ' ' + viewBox_h
-            //html += (config#id#.show_solar === false) ? ((config#id#.load.additional_loads >= 1) ? ' 292' : ' 270') : (config#id#.solar.mppts == 1) ? ' 340' : ((config#id#.solar.mppts <= 4) ? ' 466' : ' 466')
-            //																						battery ou aux 292 sinon 240
-            //html += '<svg viewBox="-0.5 ' + ((config#id#.show_solar === false) ? ((config#id#.load.additional_loads >= 1) ? '110' : '145') : ((config#id#.solar.mppts == 1) ? '65' : '-0.5'))
-            //html += '<svg viewBox="0 ' + ((config#id#.show_solar === false) ? ((config#id#.load.additional_loads >= 1) ? '110' : '145') : ((config#id#.solar.mppts == 1) ? '65' : '-60'))
-            
-            
-            
-            //html += ' ' + (485 + Math.floor(nb_load / 2) * 79)
-            
-            
-            html += '" preserveAspectRatio="xMidYMid meet" height="100%" width="100%" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">'
+            html += '" preserveAspectRatio="xMidYMid meet" height="100%" width="100%" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" style="border: 1px red dashed;">'
             
             
             ///////////////////////////////////////////////////////
@@ -930,112 +1061,154 @@
             html += '<!-- PV -->'
             if (config#id#.show_solar !== false) {
               html += '<rect x="205" y="128.5" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--solar_colour#id#)" pointer-events="all" class="' + ((config#id#.solar.mppts == 1) ? 'hidden-#id#' : '') + '"/>'
-              html += '<text id="pvtotal_power#id#" x="238.8" y="148" class="ft12-#id# ftw-#id# center-align#id#" display="' + ((config#id#.solar.mppts == 1) ? 'none' : '') + '" fill="var(--solar_colour#id#)"></text>'
-              // LINE
-              if (config#id#.solar.mppts > 4) {
+              ///////////////
+              ///  POWER  ///
+              ///////////////
+              html += '<text id="pvtotal_power#id#" x="238.8" y="148" class="ft12-#id# ftw-#id# center-align#id# ' + ((config#id#.solar.has_pv_power && config#id#.solar.isHistorized == 1 && config#id#.solar.id) ? 'history cursor' : '') + '" display="' + ((config#id#.solar.mppts == 1) ? 'none' : '') + '" fill="var(--solar_colour#id#)"'
+              html += ((config#id#.solar.has_pv_power && config#id#.solar.isHistorized == 1 && config#id#.solar.id) ? ' data-cmd_id=' + config#id#.solar.id : '')
+              html += '></text>'
+              ///////////////
+              ///  LINE   ///
+              ///////////////
+              if (config#id#.solar.mppts > 6) {
                 html += '<path id="so-line2#id#" d="M 239 128 L 239 58" fill="none" stroke="var(--solar_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
                 html += '<circle id="so-dot2#id#" cx="0" cy="0" r="3" fill="transparent">'
                 html += '<animateMotion id="anim_pv2#id#" dur="' + config#id#.solar.animation_speed + 's" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear">'
                 html += '<mpath xlink:href="#so-line2#id#"/></animateMotion></circle>'
               }
-              
               html += '<path id="so-line#id#" d="M 239 196 L 239 158" fill="none" stroke="var(--solar_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
               html += '<circle id="so-dot#id#" cx="0" cy="0" r="3" fill="transparent">'
               html += '<animateMotion id="anim_pv#id#" dur="' + config#id#.solar.animation_speed + 's" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear">'
               html += '<mpath xlink:href="#so-line#id#"/></animateMotion></circle>'
-              // ICON
-              html += '<svg xmlns="http://www.w3.org/2000/svg" id="icon_sun#id#" x="' + ((config#id#.solar.daily.show === false) ? '220' : (config#id#.solar.mppts > 4) ? '205' : '180') + '" y="' + ((config#id#.solar.mppts == 1 || (config#id#.solar.mppts == 0 && config#id#.solar.has_pv_power !== false)) ? '70' : (config#id#.solar.mppts > 4) ? '-13' : '10') + '" width="' + ((config#id#.solar.mppts > 4) ? '70' : '40') + '" height="' + ((config#id#.solar.mppts > 4) ? '70' : '40') + '" viewBox="0 0 24 24"><path class="' + ((config#id#.show_solar === false) ? 'hidden-#id#' : '') + '" fill="var(--solar_colour#id#)" d="M11.45 2v3.55L15 3.77L11.45 2m-1 6L8 10.46l3.75 1.25L10.45 8M2 11.45L3.77 15l1.78-3.55H2M10 2H2v8c.57.17 1.17.25 1.77.25c3.58.01 6.49-2.9 6.5-6.5c-.01-.59-.1-1.18-.27-1.75m7 20v-6h-3l5-9v6h3l-5 9Z"/></svg>'
-              // DAILY
+              ///////////////
+              ///  ICON   ///
+              ///////////////
+              html += '<svg xmlns="http://www.w3.org/2000/svg" id="icon_sun#id#" x="' + ((config#id#.solar.daily.show === false) ? '220' : (config#id#.solar.mppts > 6) ? '205' : '180') + '" y="' + ((config#id#.solar.mppts == 1 || (config#id#.solar.mppts == 0 && config#id#.solar.has_pv_power !== false)) ? '70' : (config#id#.solar.mppts > 6) ? '-13' : '10') + '" width="' + ((config#id#.solar.mppts > 6) ? '70' : '40') + '" height="' + ((config#id#.solar.mppts > 6) ? '70' : '40') + '" viewBox="0 0 24 24"><path class="' + ((config#id#.show_solar === false) ? 'hidden-#id#' : '') + '" fill="var(--solar_colour#id#)" d="M11.45 2v3.55L15 3.77L11.45 2m-1 6L8 10.46l3.75 1.25L10.45 8M2 11.45L3.77 15l1.78-3.55H2M10 2H2v8c.57.17 1.17.25 1.77.25c3.58.01 6.49-2.9 6.5-6.5c-.01-.59-.1-1.18-.27-1.75m7 20v-6h-3l5-9v6h3l-5 9Z"/></svg>'
+              ///////////////
+              ///  DAILY  ///
+              ///////////////
               let dailySolar = autoValueArray#id#(config#id#.solar.daily.state,config#id#.solar.daily.unit)
-              html += '<text id="daily_solar_value#id#" x="226" y="' + ((config#id#.solar.mppts == 1 || (config#id#.solar.mppts == 0 && config#id#.solar.has_pv_power !== false)) ? '85' : ((config#id#.solar.mppts > 4) ? '-60' : '26')) + '" class="ft16-#id# left-align#id#" display="'
+              html += '<text id="daily_solar_value#id#" x="226" y="' + ((config#id#.solar.mppts == 1 || (config#id#.solar.mppts == 0 && config#id#.solar.has_pv_power !== false)) ? '85' : ((config#id#.solar.mppts > 6) ? '-60' : '26')) + '" class="ft16-#id# left-align#id# ' + ((config#id#.solar.daily.isHistorized && config#id#.solar.daily.isHistorized == 1) ? 'history cursor' : '') + '" display="'
               html += (config#id#.solar.daily.show !== true || config#id#.show_solar === false) ? 'none' : ''
-              html += '" fill="var(--solar_colour#id#)">'
+              html += '" fill="var(--solar_colour#id#)"'
+              html += ((config#id#.solar.daily.isHistorized == 1 && config#id#.solar.daily.id) ? ' data-cmd_id=' + config#id#.solar.daily.id : '')
+              html += '>'
               html += trunc#id#(dailySolar.value, 3, 1) + ' ' + dailySolar.unit
               html += '</text>'
-              html += '<text id="daily_solar#id#" x="226" y="' + ((config#id#.solar.mppts == 1 || (config#id#.solar.mppts == 0 && config#id#.solar.has_pv_power !== false)) ? '100' : ((config#id#.solar.mppts > 4) ? '-46' : '40')) + '" class="ft9-#id# left-align#id#" fill="' + ((config#id#.solar.daily.show !== true || config#id#.show_solar === false) ? 'transparent' : 'var(--solar_colour#id#)') + '">' + config#id#.solar.daily.text + '</text>'
+              html += '<text id="daily_solar#id#" x="226" y="' + ((config#id#.solar.mppts == 1 || (config#id#.solar.mppts == 0 && config#id#.solar.has_pv_power !== false)) ? '100' : ((config#id#.solar.mppts > 6) ? '-46' : '40')) + '" class="ft9-#id# left-align#id#" fill="' + ((config#id#.solar.daily.show !== true || config#id#.show_solar === false) ? 'transparent' : 'var(--solar_colour#id#)') + '">' + config#id#.solar.daily.text + '</text>'
+            }
+            ///////////////////////////////////////////////////////
+            ///////////////////// persos //////////////////////////
+            ///////////////////////////////////////////////////////
+            for (perso in config#id#.persos) {
+              html += '<text id="perso' + perso + '-value-#id#" x="' + config#id#.persos[perso].x_value + '" y="' + config#id#.persos[perso].y_value + '" class="ft' + config#id#.persos[perso].size_value + '-#id# left-align#id# ' + ((config#id#.persos[perso].isHistorized == 1) ? 'history cursor' : '') + '" fill="' + config#id#.persos[perso].color + ' "'
+              html += ((config#id#.persos[perso].isHistorized == 1 && config#id#.persos[perso].id) ? ' data-cmd_id=' + config#id#.persos[perso].id : '')
+              html += '>'+ config#id#.persos[perso].value
+              if (config#id#.persos[perso].unit != '') html += ' ' + config#id#.persos[perso].unit
+              html += '</text>'
+              if (config#id#.persos[perso].text) {
+                html += '<text id="perso' + perso + '-text-#id#" x="' + config#id#.persos[perso].x_value + '" y="' + config#id#.persos[perso].y_text + '" class="ft' + config#id#.persos[perso].size_text + '-#id# left-align#id#" fill="' + config#id#.persos[perso].color + '">' + config#id#.persos[perso].text + '</text>'
+              }
             }
             ///////////////////////////////////////////////////////
             ///////////////////// solars //////////////////////////
             ///////////////////////////////////////////////////////
             for (solar in config#id#.solars) {
               ////////////////////////////////////
-              //  variables for 5 mpps or more  //
+              //  variables for 7 mpps or more  //
               ////////////////////////////////////
               let paire_solar = parseInt(solar)
-              let y_solar_rect = -60
+              let pas_horizontal = 79
+              let x_rect = 0
+              let y_rect = -60
+              let x_power = 0
+              let y_power = (config#id#.solars[solar].energy !== false) ? -45.5 : -40
+              let a_solar = 0
               let b_solar = '-30'
               let c_solar = '-8.5'
               let d_solar = '1.5'
-              let y_solar_name = -66
-              let y_power = (config#id#.solars[solar].energy !== false) ? -45.5 : -40
+              let x_name = 0
+              let y_name = -66
+              let x_energy = 0
               let y_energy = -34.5
+              let x_voltage = 0
               let y_voltage = -5
+              let x_current = 0
               let y_current = -15
+              let r_path = 8 // rayon courbes lines
               if (numIsPair(solar)) {
                 paire_solar = paire_solar - 1
-                y_solar_rect = 61
+                y_rect = 61
                 b_solar = '61'
                 c_solar = '43.5'
                 d_solar = '29.5'
-                y_solar_name = 104
+                y_name = 104
                 y_power = (config#id#.solars[solar].energy !== false) ? 75.5 : 81
                 y_energy = 86.5
                 y_voltage = 53
                 y_current = 43
               }
               paire_solar = Math.floor(paire_solar / 2)
-              let x_solar_rect = 327 + paire_solar * 79
-              let a_solar = 362 + paire_solar * 79
-              let x_voltage = a_solar - 7
-              let x_current = a_solar - 7
+              x_rect = 327 + paire_solar * pas_horizontal
+              x_power = 362 + paire_solar * pas_horizontal
+              x_energy = 362 + paire_solar * pas_horizontal
+              x_name = 362 + paire_solar * pas_horizontal
+              a_solar = 362 + paire_solar * pas_horizontal
+              
+              x_voltage = x_rect + 35 - 5
+              x_current = x_rect + 35 - 5
               if (config#id#.solars[solar].current === false) y_voltage = y_voltage - 10
               let path_solar = 'M ' + a_solar + ' ' + b_solar + ' L ' + a_solar + ' ' + c_solar + ' Q ' + a_solar + ' ' + d_solar + ' ' + (a_solar - 10) + ' ' + d_solar + ' L 275 ' + d_solar
               ////////////////////////////////////
-              // variables for 4 mppts or less  //
+              // variables for 6 mppts or less  //
               ////////////////////////////////////
-              if (config#id#.solar.mppts <= 4) {
-                y_solar_rect = (config#id#.solar.mppts == 1) ? 128.5 : 64.5
-                y_solar_name = (config#id#.solar.mppts == 1) ? 122 : 60
+              if (config#id#.solar.mppts <= 6) {
+                y_rect = (config#id#.solar.mppts == 1) ? 128.5 : 64.5
+                y_name = (config#id#.solar.mppts == 1) ? 122 : 60
                 y_power = (config#id#.solar.mppts == 1) ? ((config#id#.solars[solar].energy === false) ? 148 : 143) : ((config#id#.solars[solar].energy === false) ? 84 : 79)
                 y_energy = (config#id#.solar.mppts == 1) ? 154 : 90
                 y_voltage = (config#id#.solar.mppts == 1) ? ((config#id#.solars[solar].current === false) ? '172' : '184') : ((config#id#.solars[solar].current === false) ? '106' : '118')
                 y_current = (config#id#.solar.mppts == 1) ? 172 : 106
                 if (config#id#.solars[solar].energy === false) y_power + 5
                 if (solar == 1) {
-                  x_solar_rect = (config#id#.solar.mppts == 1) ? 205 : 154
-                  a_solar = (config#id#.solar.mppts == 1) ? 238.8 : 188.1
-                  x_voltage = (config#id#.solar.mppts == 1) ? 235 : 181
-                  x_current = (config#id#.solar.mppts == 1) ? 235 : 181
-                  path_solar = 'M 187 95 L 187 132 Q 187 144 195 144 L 205 144'
+                  x_rect = (config#id#.solar.mppts == 1) ? 205 : 156 //154
+                  path_solar = 'M 191 95 L 191 135 Q 191 143 199 144 L 205 144'
+                  //path_solar = 'M ' + (x_rect + 35) + ' 95 L ' + (x_rect + 35) + ' 132 Q ' + (x_rect + 35) + ' 143 195 144 L 205 143'
                 } else if (solar == 2) {
-                  x_solar_rect = 254
-                  a_solar = 289.5
-                  x_voltage = 284
-                  x_current = 284
-                  path_solar = 'M 289 95 L 289 135 Q 289 144 282 144 L 275 144'
+                  x_rect = 254
+                  x_voltage = x_current = x_rect + 30
+                  path_solar = 'M 289 95 L 289 135 Q 289 143 281 144 L 275 144'
                 } else if (solar == 3) {
-                  x_solar_rect = 78
-                  a_solar = 113
-                  x_voltage = 107
-                  x_current = 107
-                  path_solar = 'M 113 95 L 113 135 Q 113 144 120 144 L 205 144'
+                  x_rect = 80
+                  path_solar = 'M 115 95 L 115 135 Q 115 143 123 144 L 205 144'
                 } else if (solar == 4) {
-                  x_solar_rect = 330
-                  a_solar = 366
-                  x_voltage = 360
-                  x_current = 360
-                  path_solar = 'M 365 95 L 365 135 Q 365 144 358 144 L 275 144'
+                  x_rect = 330
+                  path_solar = 'M 365 95 L 365 135 Q 365 143 357 144 L 275 144'
+                } else if (solar == 5) {
+                  x_rect = 2
+                  path_solar = 'M 37 95 L 37 135 Q 37 143 45 144 L 205 144'
+                } else if (solar == 6) {
+                  x_rect = 406
+                  path_solar = 'M 441 95 L 441 135 Q 441 143 433 144 L 275 144'
                 }
+                x_power = x_rect + 35
+                x_energy = x_rect + 35
+                x_name = x_rect + 35
+                x_voltage = x_current = x_rect + 35 - 5
+                a_solar = x_rect + 35
+                //path_solar = 'M 365 95 L 365 135 Q 365 144 358 144 L 275 144'
               }
               ////////////////////////////////////
               /////         DISPLAY          /////
               ////////////////////////////////////
               html += '<!-- PV ' + solar + ' -->'
-              html += '<rect id="pv' + solar + '-rect-#id#" x="' + x_solar_rect + '" y="' + y_solar_rect + '" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--solar_colour#id#)" pointer-events="all" class=""/>'
+              html += '<rect id="pv' + solar + '-rect-#id#" x="' + x_rect + '" y="' + y_rect + '" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--solar_colour#id#)" pointer-events="all" class=""/>'
               ///////////////
               ///  POWER  ///
               ///////////////
-              html += '<text id="pv' + solar + '_power#id#" x="' + a_solar + '" y="' + y_power + '" class="ft12-#id# ftw-#id# center-align#id#" fill="var(--solar_colour#id#)">' + trunc#id#(config#id#.solars[solar].power, 1) + config#id#.solars[solar].power_unit + '</text>'
+              html += '<text id="pv' + solar + '_power#id#" x="' + x_power + '" y="' + y_power + '" class="ft12-#id# ftw-#id# center-align#id# ' + (isset(config#id#.solars[solar]) && isset(config#id#.solars[solar].power_isHistorized) && config#id#.solars[solar].power_isHistorized == 1 ? 'history cursor' : '') + '" fill="var(--solar_colour#id#)"'
+              html += (isset(config#id#.solars[solar]) && isset(config#id#.solars[solar].power_id) ? ' data-cmd_id=' + config#id#.solars[solar].power_id : '')
+              html += '>' + trunc#id#(config#id#.solars[solar].power, 1) + ' ' + config#id#.solars[solar].power_unit + '</text>'
               ///////////////
               ///  LINE   ///
               ///////////////
@@ -1050,34 +1223,47 @@
               ///////////////
               if (config#id#.solars[solar].energy !== false) {
                 let energy = autoValueArray#id#((config#id#.solars[solar].energy || 0),config#id#.solars[solar].energy_unit)
-                html += '<text id="pv' + solar + '_energy#id#" x="' + a_solar + '" y="' + y_energy + '" class="ft8-#id# center-align#id#" fill="var(--solar_colour#id#)">' + trunc#id#(energy.value, 3, 1) + ' ' + energy.unit + '</text>'
+                html += '<text id="pv' + solar + '_energy#id#" x="' + x_energy + '" y="' + y_energy + '" class="ft8-#id# center-align#id# ' + ((config#id#.solars[solar].energy_isHistorized == 1) ? 'history cursor' : '') + '" fill="var(--solar_colour#id#)"'
+                html += ((config#id#.solars[solar].energy_isHistorized == 1 && config#id#.solars[solar].energy_id) ? ' data-cmd_id=' + config#id#.solars[solar].energy_id : '')
+                html += '>' + trunc#id#(energy.value, 3, 1) + ' ' + energy.unit + '</text>'
               }
               ///////////////
               /// VOLTAGE ///
               ///////////////
               if (config#id#.solars[solar].voltage !== false) {
-                html += '<text id="pv' + solar + '_voltage#id#" x="' + x_voltage + '" y="'+ y_voltage + '" class="ft9-#id# right-align#id#" fill="var(--solar_colour#id#)" >' + trunc#id#(config#id#.solars[solar].voltage, 1) + ' ' + config#id#.solars[solar].voltage_unit + '</text>'
+                html += '<text id="pv' + solar + '_voltage#id#" x="' + x_voltage + '" y="'+ y_voltage + '" class="ft9-#id# right-align#id# ' + ((config#id#.solars[solar].voltage_isHistorized == 1) ? 'history cursor' : '') + '" fill="var(--solar_colour#id#)" '
+                html += ((config#id#.solars[solar].voltage_isHistorized == 1 && config#id#.solars[solar].voltage_id) ? ' data-cmd_id=' + config#id#.solars[solar].voltage_id : '')
+                html += '>' + trunc#id#(config#id#.solars[solar].voltage, 1) + ' ' + config#id#.solars[solar].voltage_unit + '</text>'
               }
               ///////////////
               /// CURRENT ///
               ///////////////
               if (config#id#.solars[solar].current !== false) {
-                html += '<text id="pv' + solar + '_current#id#" x="' + x_current + '" y="' + y_current + '" class="ft9-#id# right-align#id#" fill="var(--solar_colour#id#)" >' + trunc#id#(config#id#.solars[solar].current, 1) + ' ' + config#id#.solars[solar].current_unit + '</text>'
+                html += '<text id="pv' + solar + '_current#id#" x="' + x_current + '" y="' + y_current + '" class="ft9-#id# right-align#id# ' + ((config#id#.solars[solar].current_isHistorized == 1) ? 'history cursor' : '') + '" fill="var(--solar_colour#id#)" '
+                html += ((config#id#.solars[solar].current_isHistorized == 1 && config#id#.solars[solar].current_id) ? ' data-cmd_id=' + config#id#.solars[solar].current_id : '')
+                html += '>' + trunc#id#(config#id#.solars[solar].current, 1) + ' ' + config#id#.solars[solar].current_unit + '</text>'
               }
               ///////////////
               ///  NAME   ///
               ///////////////
               if (isset(parameters#id#['pv'+solar+'Name'])) {
-                html += '<text id="pv' + solar + '-name-#id#" x="' + a_solar + '" y="' + y_solar_name + '" class="ft9-#id# ftw-#id# center-align#id#" display="' + ((config#id#.show_solar === false) ? 'none' : '') + '" fill="var(--solar_colour#id#)">' + ((isset(parameters#id#['pv' + solar + 'Name'])) ? parameters#id#['pv' + solar + 'Name'] : '') + '</text>'
+                html += '<text id="pv' + solar + '-name-#id#" x="' + x_name + '" y="' + y_name + '" class="ft9-#id# ftw-#id# center-align#id#" display="' + ((config#id#.show_solar === false) ? 'none' : '') + '" fill="var(--solar_colour#id#)">' + ((isset(parameters#id#['pv' + solar + 'Name'])) ? parameters#id#['pv' + solar + 'Name'] : '') + '</text>'
               }
             }
             ///////////////////////////////////////////////////////
             ////////////////////// LOAD ///////////////////////////
             ///////////////////////////////////////////////////////
             html += '<!-- Load -->'
-            html += '<rect id="load-rect-#id#" x="304" y="213.5" width="70" height="30" rx="4.5" ry="4.5" class="' + ((config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--load_colour#id#)" pointer-events="all"/>'
-            html += '<text id="load_power#id#" x="338.1" y="232.2" display="' + ((config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) ? '' : 'none') + '" class="ft12-#id# ftw-#id# center-align#id#" fill="var(--load_colour#id#)">' + trunc#id#(config#id#.load.power, 1) + ' ' + config#id#.load.power_unit + '</text>'
-            // LINE LOAD
+            html += '<rect id="load-rect-#id#" x="304" y="213" width="70" height="30" rx="4.5" ry="4.5" class="' + ((config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--load_colour#id#)" pointer-events="all"/>'
+            ///////////////
+            ///  POWER  ///
+            ///////////////
+            html += '<text id="load_power#id#" x="338.1" y="232.2" display="' + ((config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) ? '' : 'none') + '" class="ft12-#id# ftw-#id# center-align#id# ' + ((config#id#.load.has_load_power && config#id#.load.isHistorized == 1 && config#id#.load.id) ? 'history cursor' : '') + '" fill="var(--load_colour#id#)"'
+            html += ((config#id#.load.has_load_power && config#id#.load.isHistorized == 1 && config#id#.load.id) ? ' data-cmd_id=' + config#id#.load.id : '')
+            html += '>' + trunc#id#(config#id#.load.power, 1) + ' ' + config#id#.load.power_unit + '</text>'
+            ///////////////
+            ///  LINE   ///
+            ///////////////
             html += '<path id="es-line#id#" class="' + ((config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) ? '' : 'hidden-#id#') + '" d="M 304 228 L 264.7 228" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
             html += '<circle id="es-dot1#id#" cx="0" cy="0" r="3" fill="transparent">'
             html += '<animateMotion id="anim_load1#id#" dur="' + config#id#.load.animation_speed + 's" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear">'
@@ -1087,100 +1273,226 @@
             // ICON LOAD ESS
             //html += '<svg xmlns="http://www.w3.org/2000/svg" id="icon_load#id#" x="402" y="177.5" width="79" height="79" viewBox="0 0 24 24"><path fill="var(--load_colour#id#)" d="M15 9h1V7.5h4V9h1c.55 0 1 .45 1 1v11c0 .55-.45 1-1 1h-6c-.55 0-1-.45-1-1V10c0-.55.45-1 1-1m1 2v3h4v-3h-4m-4-5.31l-5 4.5V18h5v2H5v-8H2l10-9l2.78 2.5H14v1.67l-.24.1L12 5.69Z"/></svg>'
             // ICON LOAD NONESS
-            html += '<svg xmlns="http://www.w3.org/2000/svg" class="' + ((config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) ? '' : 'hidden-#id#') + '" id="icon_load#id#" x="400" y="190.5" width="79" height="79" viewBox="0 0 24 24"><path fill="var(--load_colour#id#)" d="m15 13l-4 4v-3H2v-2h9V9l4 4M5 20v-4h2v2h10v-7.81l-5-4.5L7.21 10H4.22L12 3l10 9h-3v8H5Z"></path></svg>'
-            // DAILY
+            if (config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) {
+              html += '<svg fill="var(--load_colour7465)" id="icon_load#id#" x="400" y="188.5" width="80" height="80" style="color:var(--load_colour#id#)"><use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-load"></use></svg>'
+            }
+            ///////////////
+            ///  DAILY  ///
+            ///////////////
             let dailyLoad = autoValueArray#id#(config#id#.load.daily.state,config#id#.load.daily.unit)
-            html += '<text id="daily_load_value#id#" x="' + ((config#id#.load.additional_loads == 1) ? '400.4' : '335') + '" y="' + ((config#id#.load.additional_loads == 1) ? '277.9' : '178') + '" class="ft16-#id# left-align#id# ' + (((config#id#.load.daily.show === true) && (config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power)) ? '' : 'hidden-#id#') + '" fill="var(--load_colour#id#)">' + trunc#id#(dailyLoad.value, 3, 1) + ' ' + dailyLoad.unit + '</text>'
-            html += '<text id="daily_load#id#" x="' + ((config#id#.load.additional_loads == 1) ? '400.4' : '335') + '" y="' + ((config#id#.load.additional_loads == 1) ? '292.1' : '192.2') + '" class="ft9-#id# left-align#id# ' + (((config#id#.load.daily.show === true) && (config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power)) ? '' : 'hidden-#id#') + '" fill="var(--load_colour#id#)" >' + config#id#.load.daily.text + '</text>'
+            html += '<text id="daily_load_value#id#" x="' + ((config#id#.load.additional_loads == 1) ? '400.4' : '304') + '" y="' + ((config#id#.load.additional_loads == 1) ? '277.9' : '178') + '" class="ft16-#id# left-align#id# ' + (((config#id#.load.daily.show === true) && (config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power)) ? '' : 'hidden-#id#') + ' ' + ((config#id#.load.daily.isHistorized && config#id#.load.daily.isHistorized == 1) ? 'history cursor' : '') + '" fill="var(--load_colour#id#)"'
+            html += ((config#id#.load.has_load_power && config#id#.load.daily.isHistorized == 1 && config#id#.load.daily.id) ? ' data-cmd_id=' + config#id#.load.daily.id : '')
+            html += '>' + trunc#id#(dailyLoad.value, 3, 1) + ' ' + dailyLoad.unit + '</text>'
+            html += '<text id="daily_load#id#" x="' + ((config#id#.load.additional_loads == 1) ? '400.4' : '304') + '" y="' + ((config#id#.load.additional_loads == 1) ? '292.1' : '192.2') + '" class="ft9-#id# left-align#id# ' + (((config#id#.load.daily.show === true) && (config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power)) ? '' : 'hidden-#id#') + '" fill="var(--load_colour#id#)" >' + config#id#.load.daily.text + '</text>'
   
             ///////////////////////////////////////////////////////
             ///////////////////// LOADS ///////////////////////////
             ///////////////////////////////////////////////////////
-            for (load in config#id#.loads) {
+            var max_width_load = 0
+            for (let load = 1; load <= config#id#.load.additional_loads; load++) {
                           
               ////////////////////////////////////
               //            variables           //
               ////////////////////////////////////
+              let num_load = parseInt(load)
+              let pas_horizontal = 76
+              let nbre_colonnes = 0
+              let path = ''
+              let x_rect = 482 //406
+              let y_rect = 0
+              let x_path = x_rect + 35
+              let y_path = 0
+              let y2_path = 228
+              let x_power = x_rect + 35
+              let y_power = 0
+              let x_energy = x_rect + 35
+              let y_energy = 0
+              let x_name = x_rect + 35
+              let y_name = 0
+              let x_perso = x_rect + 30
+              let y_perso = 0
+              let x_icon = x_rect + (70 / 2) + 2
+              let y_icon = 0
               
-              var temp = 1
-              var x = parseInt(load);
-              var y = '128.5'
-              var a = 79
-              var b = '158'
-              if (load <= 2) b = 190
-              var c = '205'
-              if (load <= 2) c = 158
-              var d = '214'
-              var e = 433
-              var f = 441
-              var g1 = '148'
-              var g2 = '143'
-              var h = '122'
-              var i = '154'
-              var k = 436
-              var l = '170'
-              var path = ''
-              if (numIsPair(load)) {
-                x = load - 1
-                y = '300'
-                b = '300'
-                c = '252'
-                if (load <= 2) c = 267
-                d = '242'
-                g1 = '319.5'
-                g2 = '314.5'
-                h = '343'
-                i = '325.5'
-                l = '295'
+              let a_path = x_rect + 35
+              let b_path = 0
+              let r_path = 8 // rayon courbes lines
+              let c_path = 0
+              let d_path = 0
+              let e_path = 0
+              
+              if (config#id#.solar.mppts <= 6 && config#id#.load.force4load) {
+                nbre_colonnes = Math.trunc(num_load / 4.1)
+                if (numIsPair(num_load)) {
+                  if (((nbre_colonnes * 4) + 4) == num_load) {
+                    // D
+                    y_rect = 272 + 92
+                    y_path = y_rect
+                    y2_path = y2_path + 92
+                    y_name = y_rect + 30 + 10
+                    y_perso = y_rect - 5
+                    y_icon = y_rect - 27
+                  }
+                  else 
+                  {
+                    // C
+                    y_rect = 272
+                    y_path = y_rect
+                    y_name = y_rect + 30 + 10
+                    y_perso = y_rect - 5
+                    y_icon = y_rect - 27
+                  }
+                } else {
+                  if (((nbre_colonnes * 4) + 3) == num_load) {
+                    // A
+                    y_rect = 156 - 92
+                    y_path = y_rect + 30
+                    y2_path = y2_path - 92
+                    y_name = y_rect - 4
+                    y_perso = y_rect + 40
+                    y_icon = y_rect + 32
+                  }
+                  else {
+                    // B
+                    y_rect = 156
+                    y_path = y_rect + 30
+                    y_name = y_rect - 4
+                    y_perso = y_rect + 40
+                    y_icon = y_rect + 32
+                  }
+                }
+              } else {
+                nbre_colonnes = Math.trunc(num_load / 2.1)
+                if (numIsPair(num_load)) {
+                  // C
+                  y_rect = 297.5
+                  y_path = y_rect
+                  y_name = y_rect + 30 + 10
+                  y_perso = y_rect - 5
+                  y_icon = y_rect - 27
+                  b_path = 242
+                  c_path = y_rect
+                  d_path = b_path + r_path
+                }
+                else {
+                  // B
+                  y_rect = 156
+                  y_rect = 128.5
+                  y_path = y_rect + 30
+                  y_name = y_rect - 6
+                  y_perso = y_rect + 40
+                  y_icon = y_rect + 32
+                  b_path = 214
+                  c_path = y_rect + 30
+                  d_path = b_path - r_path
+                }
               }
-              temp = Math.floor(x/2)
-              x = 406 + temp * 79
-              a = 441 + temp * 79
-              e = e + temp * 79
-              f = f + temp * 79
-              k = k + temp * 79
-                
-              if (load == 1) path = 'M 441 ' + c + ' L 441 ' + b
-              else if (load == 2) path = 'M 441 ' + b + ' L 441 ' + c
-              else path = 'M ' + a + ' ' + b + ' L ' + a + ' ' + c + ' Q ' + a + ' ' + d + ' ' + e + ' ' + d + ' L ' + '475 ' + d
+              y_power = (!isset(config#id#.loads[load]) || config#id#.loads[load].energy === false) ? y_rect + 20 : y_rect + 20 - 5
+              y_energy = y_rect + 25
+              
+              x_rect = x_rect + nbre_colonnes * pas_horizontal
+              x_path = x_path + nbre_colonnes * pas_horizontal
+              
+              
+              max_width_load = Math.max(max_width_load, x_path)
+              x_power = x_power + nbre_colonnes * pas_horizontal
+              x_energy = x_energy + nbre_colonnes * pas_horizontal
+              x_name = x_name + nbre_colonnes * pas_horizontal
+              x_perso = x_perso + nbre_colonnes * pas_horizontal
+              x_icon = x_icon + nbre_colonnes * pas_horizontal
+              
+              a_path = a_path + nbre_colonnes * pas_horizontal
+              e_path = a_path - r_path
+              
+              if (config#id#.solar.mppts <= 6 && config#id#.load.force4load) path = 'M ' + x_path + ' ' + y_path + ' L ' + x_path + ' ' + y2_path
+              else path = 'M ' + a_path + ' ' + c_path + ' L ' + a_path + ' ' + d_path + ' Q ' + a_path + ' ' + b_path + ' ' + e_path + ' ' + b_path + ' L 475 ' + b_path
               
               ////////////////////////////////////
               /////         DISPLAY          /////
               ////////////////////////////////////
               html += '<!-- Load ' + load + '-->'
-              html += '<rect id="load' + load + '-rect-#id#" class="' + ((config#id#.blink && config#id#.loads[load].max_power && config#id#.loads[load].power >= config#id#.loads[load].max_power) ? 'blink#id#' : '') + '" x="' + x + '" y="' + y + '" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="' + ((config#id#.loads[load].max_power && config#id#.loads[load].power >= config#id#.loads[load].max_power) ? 'var(--color_alerte#id#)' : 'var(--load_colour#id#)') + '" pointer-events="all" />'
+              html += '<rect id="load' + load + '-rect-#id#" class="'
+              html += ((config#id#.blink && isset(config#id#.loads[load]) && config#id#.loads[load].max_power && config#id#.loads[load].power >= config#id#.loads[load].max_power) ? 'blink#id#' : '')
+              html += '" x="' + x_rect + '" y="' + y_rect + '" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="'
+              html += ((isset(config#id#.loads[load]) && config#id#.loads[load].max_power && config#id#.loads[load].power >= config#id#.loads[load].max_power) ? 'var(--color_alerte#id#)' : 'var(--load_colour#id#)')
+              html += '" pointer-events="all" />'
               ///////////////
               ///  POWER  ///
               ///////////////
-              html += '<text id="ess_load' + load + '#id#" x="' + f + '" y="' + ((config#id#.loads[load].energy === false) ? g1 : g2) + '" display="' + ((config#id#.load.additional_loads >= load) ? '' : 'none') + '" class="ft12-#id#'
-              html += ' ftw-#id# center-align#id#" fill="var(--load_colour#id#)">' + trunc#id#(config#id#.loads[load].power, 1) + ' ' + config#id#.loads[load].power_unit + '</text>'
-                
-              html += '<text id="es-load' + load + '-name#id#" x="' + f + '" y="' + h + '" class="ft9-#id# center-align#id#" display="' + ((config#id#.load.additional_loads >= load) ? '' : 'none') + '" fill="var(--load_colour#id#)" >' + ((isset(parameters#id#['load'+load+'Name'])) ? parameters#id#['load'+load+'Name'] : '') + '</text>'
-              // ENERGY
-              let load_energy = autoValueArray#id#((config#id#.loads[load].energy || 0),(config#id#.loads[load].energy_unit || 'W'))
-              html += '<text id="load' + load + '_energy#id#" x="' + f + '" y="' + i + '" class="ft8-#id# center-align#id#" display="' + ((config#id#.loads[load].energy === false || config#id#.load.additional_loads < load) ? 'none' : '') + '" fill="var(--load_colour#id#)">'
-              html += trunc#id#(load_energy.value, 3, 1) + ' ' + load_energy.unit
-              html += '</text>'
-              // PERSO
-              html += '<text id="load' + load + '_perso#id#" x="' + k + '" y="' + l + '" class="ft8-#id# right-align#id#" display="' + ((config#id#.loads[load].perso === false || config#id#.load.additional_loads < load) ? 'none' : '') + '" fill="var(--load_colour#id#)">'
-              html += (config#id#.loads[load].perso || 0) + ' ' + config#id#.loads[load].perso_unit
-              html += '</text>'
-              // ICON
-              if (config#id#.load.additional_loads >= load && isset(parameters#id#['load'+load+'Img'])) html += getImgIcon(parameters#id#['load'+load+'Img'], parseInt(load), 'iconLoad')
-              // LINE
-              html += '<path id="es-load' + load + 'path#id#" d="' + path + '" class="' + ((config#id#.load.additional_loads >= load) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
-              html += '<circle id="es-dot' + load + '-#id#" cx="0" cy="0" r="3"  class="' + ((config#id#.load.additional_loads >= load && config#id#.load.animate_load_enable === true) ? '' : 'hidden-#id#') + '" fill="' + ((config#id#.loads[load].power == 0) ? 'transparent' : 'var(--load_colour#id#)') + '"><animateMotion id="anim_load' + load + '-#id#" dur="3" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#es-load' + load + 'path#id#"></mpath></animateMotion></circle>'
+              html += '<text id="ess_load' + load + '#id#" x="' + x_power + '" y="' + y_power + '" class="ft12-#id# ftw-#id# center-align#id#' + (isset(config#id#.loads[load]) && isset(config#id#.loads[load].power_isHistorized) && config#id#.loads[load].power_isHistorized == 1 ? ' history cursor' : '')
+              html += ((config#id#.font_alert && config#id#.blink && isset(config#id#.loads[load]) && config#id#.loads[load].max_power && config#id#.loads[load].power >= config#id#.loads[load].max_power) ? ' blink#id#' : '')
+              html += '" fill="'
+              html += ((config#id#.font_alert && isset(config#id#.loads[load]) && config#id#.loads[load].max_power && config#id#.loads[load].power >= config#id#.loads[load].max_power) ? 'var(--color_alerte#id#)' : 'var(--load_colour#id#)')
+              html += '"'
+              html += (isset(config#id#.loads[load]) && isset(config#id#.loads[load].power_id) ? ' data-cmd_id=' + config#id#.loads[load].power_id : '')
+              html += '>' + trunc#id#((isset(config#id#.loads[load])) ? config#id#.loads[load].power : 0, 1) + ' ' + ((isset(config#id#.loads[load])) ? config#id#.loads[load].power_unit : '') + '</text>'
+              ///////////////
+              ///  LINE   ///
+              ///////////////
+              html += '<path id="es-load' + load + 'path#id#" d="' + path + '" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
+              html += '<circle id="es-dot' + load + '-#id#" cx="0" cy="0" r="3"  class="' + ((config#id#.load.animate_load_enable === true) ? '' : 'hidden-#id#') + '" fill="' + ((!isset(config#id#.loads[load]) || config#id#.loads[load].power == 0) ? 'transparent' : 'var(--load_colour#id#)') + '"><animateMotion id="anim_load' + load + '-#id#" dur="3" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#es-load' + load + 'path#id#"></mpath></animateMotion></circle>'
+              ///////////////
+              ///  ENERGY ///
+              ///////////////
+              if (isset(config#id#.loads[load]) && config#id#.loads[load].energy !== false) {
+                let load_energy = autoValueArray#id#((config#id#.loads[load].energy || 0),(config#id#.loads[load].energy_unit || 'Wh'))
+                html += '<text id="load' + load + '_energy#id#" x="' + x_energy + '" y="' + y_energy + '" class="ft8-#id# center-align#id# ' + ((isset(config#id#.loads[load].energy_isHistorized) && config#id#.loads[load].energy_isHistorized == 1) ? 'history cursor' : '') + '" fill="var(--load_colour#id#)"'
+                html += ((isset(config#id#.loads[load].energy_id) && config#id#.loads[load].energy_id) ? ' data-cmd_id=' + config#id#.loads[load].energy_id : '')
+                html+= '>' + trunc#id#(load_energy.value, 3, 1) + ' ' + load_energy.unit + '</text>'
+              }
+              ///////////////
+              ///  NAME   ///
+              ///////////////
+              if (isset(config#id#.loads[load]) && isset(parameters#id#['load'+load+'Name'])) {
+                html += '<text id="es-load' + load + '-name#id#" x="' + x_name + '" y="' + y_name + '" class="ft9-#id# center-align#id#" fill="var(--load_colour#id#)" >' + parameters#id#['load'+load+'Name'] + '</text>'
+              }
+              ///////////////
+              ///  PERSO  ///
+              ///////////////
+              if (isset(config#id#.loads[load]) && config#id#.loads[load].perso !== false) {
+                html += '<text id="load' + load + '_perso#id#" x="' + x_perso + '" y="' + y_perso + '" class="ft8-#id# right-align#id# ' + ((isset(config#id#.loads[load].perso_isHistorized) && config#id#.loads[load].perso_isHistorized == 1) ? 'history cursor' : '') + '" fill="var(--load_colour#id#)"'
+                html += ((isset(config#id#.loads[load].perso_id) && config#id#.loads[load].perso_id) ? ' data-cmd_id=' + config#id#.loads[load].perso_id : '')
+                html += '>' + (config#id#.loads[load].perso || 0) + ' ' + config#id#.loads[load].perso_unit + '</text>'
+              }
+              ///////////////
+              ///   ICON  ///
+              ///////////////
+              if (isset(parameters#id#['load'+load+'Icon'])) {
+                html += '<svg fill="var(--load_colour#id#)" x="' + x_icon + '" y="' + y_icon + '" width="25" height="25" style="color:var(--load_colour#id#)">'
+                html += '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-' + parameters#id#['load'+load+'Icon'] + '"/>'
+                //html += '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon2.svg#shape-icon-' + parameters#id#['load'+load+'Icon'] + '" />'
+                html += '</svg>'
+              }
+              else if (isset(parameters#id#['load'+load+'Img'])) {
+                html += '<svg xmlns="http://www.w3.org/2000/svg" x="' + x_icon + '" y="' + y_icon + '" width="25" height="25" viewBox="0 0 25 25" opacity="1"><image xlink:href="' + parameters#id#['load'+load+'Img'] + '" x="0" y="0" height="25" width="25"/></svg>'
+              }
             }
+            ///////////////
+            ///  LINE   ///
+            ///////////////
+            if (config#id#.load.additional_loads >= 1 && (config#id#.solar.mppts <= 6 && config#id#.load.force4load)) {
+              let path = 'M 480 228 L ' + max_width_load + ' 228'
+              html += '<path id="loads-path#id#" d="' + path + '" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
+              html += '<circle id="loads-dot-#id#" cx="0" cy="0" r="3"  class="' + ((config#id#.load.animate_load_enable === true) ? '' : 'hidden-#id#') + '" fill="transparent"><animateMotion id="anim_loads-#id#" dur="3" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#loads-path#id#"></mpath></animateMotion></circle>'
+            }
+            
             ///////////////////////////////////////////////////////
             /////////////////////  Grid ///////////////////////////
             ///////////////////////////////////////////////////////
             html += '<!-- Grid -->'
-            html += '<rect id="grid-rect-#id#" class="' + ((config#id#.blink && config#id#.grid.max_power && config#id#.grid.power >= config#id#.grid.max_power) ? 'blink#id#' : '') + '" x="103" y="213.5" width="70" height="29.5" rx="4.42" ry="4.42" fill="none" stroke="var(--grid_colour#id#)" pointer-events="all"/>'
+            html += '<rect id="grid-rect-#id#" class="' + ((config#id#.blink && config#id#.grid.max_power && config#id#.grid.power >= config#id#.grid.max_power) ? 'blink#id#' : '') + '" x="103" y="213" width="70" height="29.5" rx="4.42" ry="4.42" fill="none" stroke="var(--grid_colour#id#)" pointer-events="all"/>'
+            ///////////////
+            ///  POWER  ///
+            ///////////////
             html += '<text id="grid_power#id#" x="138.1" y="232.2" display="'
-            html += '" class="ft12-#id# ftw-#id# center-align#id#" fill="var(--grid_colour#id#)">'
+            html += '" class="ft12-#id# ftw-#id# center-align#id# ' + ((config#id#.grid.has_grid_power && config#id#.grid.isHistorized == 1 && config#id#.grid.id) ? 'history cursor' : '') + '" fill="var(--grid_colour#id#)"'
+            html += ((config#id#.grid.has_grid_power && config#id#.grid.isHistorized == 1 && config#id#.grid.id) ? ' data-cmd_id=' + config#id#.grid.id : '')
+            html += '>'
             html += (config#id#.grid.power < 0) ? config#id#.grid.power * -1 : config#id#.grid.power
             html += ' ' + config#id#.grid.power_unit + '</text>'
-            // LINE GRID
+            ///////////////
+            ///  LINE   ///
+            ///////////////
             html += '<path id="grid-line#id#" d="M 173 228 L 214 228" fill="none" stroke="var(--grid_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
             html += '<circle id="grid-dot-buy#id#" cx="0" cy="0" r="3" fill="' + ((config#id#.grid.power < 0 || config#id#.grid.power === 0) ? 'transparent' : 'var(--grid_colour#id#)') + '">'
             html += '<animateMotion id="anim_grid_buy#id#" dur="' + config#id#.grid.animation_speed + 's" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear">'
@@ -1196,24 +1508,39 @@
             html += '<circle id="grid-dot1-sell#id#" cx="0" cy="0" r="3" fill="' + ((config#id#.grid.power > 0 || config#id#.grid.power === 0) ? 'transparent' : 'var(--grid_colour#id#)') + '">'
             html += '<animateMotion id="anim_grid_sell1#id#" dur="' + config#id#.grid.animation_speed + 's" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear">'
             html += '<mpath xlink:href="#grid-line1#id#"/></animateMotion></circle>'
-            // ICON ON
-            html += '<svg xmlns="http://www.w3.org/2000/svg" id="transmission_on#id#" x="-0.5" y="197.5" width="62" height="62" viewBox="0 0 24 24"><path class="'
-            html += (config#id#.grid.status === 'off' || config#id#.grid.status === '0' || config#id#.grid.status === 0) ? 'hidden-#id#' : ''
-            html += '" fill="var(--grid_colour#id#)" d="m8.28 5.45l-1.78-.9L7.76 2h8.47l1.27 2.55l-1.78.89L15 4H9l-.72 1.45M18.62 8h-4.53l-.79-3h-2.6l-.79 3H5.38L4.1 10.55l1.79.89l.73-1.44h10.76l.72 1.45l1.79-.89L18.62 8m-.85 14H15.7l-.24-.9L12 15.9l-3.47 5.2l-.23.9H6.23l2.89-11h2.07l-.36 1.35L12 14.1l1.16-1.75l-.35-1.35h2.07l2.89 11m-6.37-7l-.9-1.35l-1.18 4.48L11.4 15m3.28 3.12l-1.18-4.48l-.9 1.36l2.08 3.12Z"/></svg>'
-            // ICON OFF
-            html += '<svg xmlns="http://www.w3.org/2000/svg" id="transmission_off#id#" x="-0.5" y="197.5" width="64.5" height="64.5" viewBox="0 0 24 24"><path class="'
+            ///////////////
+            ///  ICON   ///
+            ///////////////
+            // OFF
+            html += '<svg id="transmission_off#id#" fill="var(--grid_colour#id#)" x="0" y="197.5" width="62" height="62" style="color:var(--no_grid_colour#id#)" class="'
             html += (config#id#.grid.status === 'on' || config#id#.grid.status === '1' || config#id#.grid.status === 1) ? 'hidden-#id#' : ''
-            html += '" fill="var(--no_grid_colour#id#)" d="M22.1 21.5L2.4 1.7L1.1 3l5 5h-.7l-1.3 2.5l1.8.9l.7-1.4h1.5l1 1l-2.9 11h2.1l.2-.9l3.5-5.2l3.5 5.2l.2.9h2.1l-.8-3.2l3.9 3.9l1.2-1.2M9.3 18.1l1.2-4.5l.9 1.3l-2.1 3.2m5.4 0L12.6 15l.2-.3l1.3 1.3l.6 2.1m-.5-7.1h.7l.2.9l-.9-.9m-.1-3h4.5l1.3 2.6l-1.8.9l-.7-1.5h-4.2l-3-3l.5-2h2.6l.8 3M8.4 5.2L6.9 3.7L7.8 2h8.5l1.3 2.5l-1.8.9L15 4H9l-.6 1.2Z"/></svg>'
-            // DAILY
+            html += '">'
+            html += '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-transmission-off"/>'
+            html += '</svg>'
+            // ON
+            html += '<svg id="transmission_on#id#" fill="var(--grid_colour#id#)" x="0" y="197.5" width="62" height="62" style="color:var(--grid_colour#id#)" class="'
+            html += (config#id#.grid.status === 'off' || config#id#.grid.status === '0' || config#id#.grid.status === 0) ? 'hidden-#id#' : ''
+            html += '">'
+            html += '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-transmission-on"/>'
+            html += '</svg>'
+            ///////////////
+            ///  DAILY  ///
+            ///////////////
             html += '<text id="daily_grid_buy#id#" x="5" y="292.1" class="ft9-#id# left-align#id#" fill="' + ((config#id#.grid.daily.show_buy !== true) ? 'transparent' : 'var(--grid_colour#id#)') + '" >' + config#id#.grid.daily.text_buy + '</text>'
             html += '<text id="daily_grid_sell#id#" x="5" y="189" class="ft9-#id# left-align#id#" fill="' + ((config#id#.grid.daily.show_sell !== true) ? 'transparent' : 'var(--grid_colour#id#)') + '" >' + config#id#.grid.daily.text_sell + '</text>'
             let dailyGridBuy = autoValueArray#id#(config#id#.grid.daily.buy_state,config#id#.grid.daily.buy_unit)
-            html += '<text id="daily_grid_buy_value#id#" x="5" y="277.9" class="ft16-#id# left-align#id#" display="' + ((config#id#.grid.daily.show_buy !== true) ? 'none' : '')
-            html += '" fill="var(--grid_colour#id#)">' + trunc#id#(dailyGridBuy.value, 3, 1) + ' ' + dailyGridBuy.unit + '</text>'
+            html += '<text id="daily_grid_buy_value#id#" x="5" y="277.9" class="ft16-#id# left-align#id# ' + ((config#id#.grid.daily.buy_isHistorized == 1) ? 'history cursor' : '') + '" display="' + ((config#id#.grid.daily.show_buy !== true) ? 'none' : '')
+            html += '" fill="var(--grid_colour#id#)"'
+            html += ((config#id#.grid.daily.buy_isHistorized == 1 && config#id#.grid.daily.buy_id) ? ' data-cmd_id=' + config#id#.grid.daily.buy_id : '')
+            html += '>' + trunc#id#(dailyGridBuy.value, 3, 1) + ' ' + dailyGridBuy.unit + '</text>'
             let dailyGridSell = autoValueArray#id#(config#id#.grid.daily.sell_state,config#id#.grid.daily.sell_unit)
-            html += '<text id="daily_grid_sell_value#id#" x="5" y="175" class="ft16-#id# left-align#id#" display="' + ((config#id#.grid.daily.show_sell !== true) ? 'none' : '')
-            html += '" fill="var(--grid_colour#id#)" >' + trunc#id#(dailyGridSell.value,3 , 1) + ' ' + dailyGridSell.unit + '</text>'
-            // TEMPO
+            html += '<text id="daily_grid_sell_value#id#" x="5" y="175" class="ft16-#id# left-align#id# ' + ((config#id#.grid.daily.sell_isHistorized == 1) ? 'history cursor' : '') + '" display="' + ((config#id#.grid.daily.show_sell !== true) ? 'none' : '')
+            html += '" fill="var(--grid_colour#id#)"'
+            html += ((config#id#.grid.daily.sell_isHistorized == 1 && config#id#.grid.daily.sell_id) ? ' data-cmd_id=' + config#id#.grid.daily.sell_id : '')
+            html += '>' + trunc#id#(dailyGridSell.value,3 , 1) + ' ' + dailyGridSell.unit + '</text>'
+            ///////////////
+            ///  TEMPO  ///
+            ///////////////
             html += '<text id="tempo_today_text#id#" x="78" y="221" class="ft12-#id# left-align#id#" fill="transparent" display=""></text>'
             html += '<circle id="tempo_today_circle#id#" cx="66" cy="217" r="6" fill="transparent"></circle>'
             html += '<text  id="tempo_tomorrow_text#id#" x="75" y="241" class="ft7-#id# left-align#id#" fill="transparent" display="">Demain</text>'
@@ -1221,119 +1548,212 @@
             ///////////////////////////////////////////////////////
             ////////////////////// Battery ////////////////////////
             ///////////////////////////////////////////////////////
-            html += '<!-- Battery -->'
-            html += '<rect x="' + ((config#id#.aux.has_aux_power) ? '104' : '204') + '" y="300" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--battery_colour#id#)" pointer-events="all" display="' + ((config#id#.battery.power.show === false) ? 'none' : '') + '"></rect>'
-            html += '<text id="battery_power#id#" x="' + ((config#id#.aux.has_aux_power) ? '140' : '239') + '" y="320" display="' + ((config#id#.battery.power.show === false) ? 'none' : '') + '" fill=var(--battery_colour#id#) class="ft12-#id# ftw-#id# center-align#id#">'
-            html += (config#id#.battery.power.state < 0) ? config#id#.battery.power.state * -1 : config#id#.battery.power.state
-            html += ' ' + config#id#.battery.power.unit + '</text>'
-            // CURRENT
-            html += '<text id="battery_current#id#" x="' + ((config#id#.aux.has_aux_power) ? '133' : '232') + '" y="295" display="' + ((config#id#.battery.power.show === false || !config#id#.battery.current.show) ? 'none' : '') + '" fill=var(--battery_colour#id#) class="ft9-#id# right-align#id#">' + config#id#.battery.current.state + ' ' + config#id#.battery.current.unit + '</text>'
-            // VOLTAGE
-            html += '<text id="battery_voltage#id#" x="' + ((config#id#.aux.has_aux_power) ? '133' : '232') + '" y="' + ((!config#id#.battery.current.show) ? '295' : '285') + '" display="' // 193 346
-            html += (config#id#.battery.power.show === false || !config#id#.battery.voltage.show) ? 'none' : ''
-            html += '" fill=var(--battery_colour#id#) class="ft9-#id# right-align#id#" >' + config#id#.battery.voltage.state + ' ' + config#id#.battery.voltage.unit + '</text>'
-            // TEMP
-            html += '<text id="battery_temp#id#" x="' + ((config#id#.aux.has_aux_power) ? '146' : '245') + '" y="295" class="ft9-#id# left-align#id#" fill="var(--battery_colour#id#)" display="'
-            html += (config#id#.battery.power.show === false || !config#id#.battery.temp.show) ? 'none' : ''
-            html += '" >' + config#id#.battery.temp.state + '' + config#id#.battery.temp.unit + '</text>'
-            // DAILY
-            let dailyBatteryCharge = autoValueArray#id#(config#id#.battery.daily.charge_state,config#id#.battery.daily.charge_unit)
-            html += '<text id="daily_battery_charge_value#id#" x="' + ((config#id#.aux.has_aux_power) ? '25' : '131') + '" y="343" class= "ft16-#id# left-align#id#" display="' + ((config#id#.battery.power.show === false || config#id#.battery.daily.show_charge !== true) ? 'none' : '') + '" fill="var(--battery_colour#id#)">'
-            html += trunc#id#(dailyBatteryCharge.value, 3, 1) + ' ' + dailyBatteryCharge.unit
-            html += '</text>'
-            html += '<text id="daily_bat_charge#id#" x="' + ((config#id#.aux.has_aux_power) ? '25' : '131') + '" y="357.2" class="ft9-#id# left-align#id#"  fill="' + ((config#id#.battery.daily.show_charge !== true) ? 'transparent' : 'var(--battery_colour#id#)') + '" display="' + ((config#id#.battery.power.show === false) ? 'none' : '') + '" >' + config#id#.battery.daily.text_charge + '</text>'
-            let dailyBatteryDischarge = autoValueArray#id#(config#id#.battery.daily.discharge_state,config#id#.battery.daily.discharge_unit)
-            html += '<text id="daily_battery_discharge_value#id#" x="' + ((config#id#.aux.has_aux_power) ? '25' : '131') + '" y="380.1" class="ft16-#id# left-align#id#" display="' + ((config#id#.battery.power.show === false || config#id#.battery.daily.show_discharge !== true) ? 'none' : '')
-            html += '" fill="var(--battery_colour#id#)" >' + trunc#id#(dailyBatteryDischarge.value, 3, 1) + ' ' + dailyBatteryDischarge.unit + '</text>'
-            html += '<text id="daily_bat_discharge#id#" x="' + ((config#id#.aux.has_aux_power) ? '25' : '131') + '" y="393.7" class="ft9-#id# left-align#id#"  fill="' + ((config#id#.battery.daily.show_discharge !== true) ? 'transparent' : 'var(--battery_colour#id#)') + '" display="' + ((config#id#.battery.power.show === false) ? 'none' : '') + '" >' + config#id#.battery.daily.text_discharge + '</text>'
-            // TIME
-            html += '<text id="duration#id#" x="' + ((config#id#.aux.has_aux_power) ? '171' : '270') + '" y="377.5" class="ft12-#id# left-align#id#" fill="'
-            html += (config#id#.battery.energy == 0 || !config#id#.battery.energy) ? 'transparent' : 'var(--battery_colour#id#)'
-            html += '" display="' + ((config#id#.battery.power.show === false) ? 'none' : '') + '"></text>'
-            html += '<text id="duration_text_etat#id#" x="' + ((config#id#.aux.has_aux_power) ? '171' : '270') + '" y="393.7" class="ft9-#id# left-align#id#" fill="'
-            html += (config#id#.battery.energy == 0 || !config#id#.battery.energy || config#id#.battery.power.state === 0 || float === true) ? 'transparent' : 'var(--battery_colour#id#)'
-            html += '" display="' + ((config#id#.battery.power.show === false) ? 'none' : '') + '"></text>'
-            // %
-            html += '<text id="battery_soc#id#" x="' + ((config#id#.aux.has_aux_power) ? '171' : '270') + '" y="360" display="' + ((config#id#.battery.power.show === false || config#id#.battery.state.show === false) ? 'none' : '') + '" fill=var(--battery_colour#id#) class="ft18-#id# ftw-#id# left-align#id#"></text>'
-            // ICON BATTERY
-            if (!isset(parameters#id#['batteryImg'])) {
-            //if (!config#id#.battery.icon_perso) {
-              html += '<svg xmlns="http://www.w3.org/2000/svg" id="icon_bat#id#" class="' + ((config#id#.battery.power.show === false) ? 'hidden-#id#' : '') + '" x="' + ((config#id#.aux.has_aux_power) ? '114' : '213') + '" y="325.5" width="78.75" height="78.75" preserveAspectRatio="none" opacity="1" viewBox="0 0 24 24">'
-              html += getBatteryIcon#id#(config#id#.battery.state.state, config#id#.battery.full_capacity, config#id#.battery.empty_capacity)
-              html += '</svg>'
-            } else if (config#id#.battery.power.show !== false) {
-              html += getImgIcon(parameters#id#['batteryImg'], (config#id#.aux.has_aux_power) ? 1 : 0, 'iconBattery')
+            if (config#id#.has_battery === true) {
+              html += '<!-- Battery -->'
+              html += '<rect x="' + ((config#id#.aux.has_aux_power) ? '104' : '204') + '" y="300" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--battery_colour#id#)" pointer-events="all"></rect>'
+              ///////////////
+              ///  POWER  ///
+              ///////////////
+              html += '<text id="battery_power#id#" x="' + ((config#id#.aux.has_aux_power) ? '140' : '239') + '" y="320" fill=var(--battery_colour#id#) class="ft12-#id# ftw-#id# center-align#id# ' + (( config#id#.battery.power.isHistorized == 1 && config#id#.battery.power.id) ? 'history cursor' : '') + '"'
+              html += ((config#id#.battery.power.isHistorized == 1 && config#id#.battery.power.id) ? ' data-cmd_id=' + config#id#.battery.power.id : '')
+              html += '>'
+              html += (config#id#.battery.power.state < 0) ? config#id#.battery.power.state * -1 : config#id#.battery.power.state
+              html += ' ' + config#id#.battery.power.unit + '</text>'
+              ///////////////
+              /// CURRENT ///
+              ///////////////
+              if (config#id#.battery.current.show) {
+                html += '<text id="battery_current#id#" x="' + ((config#id#.aux.has_aux_power) ? '133' : '232') + '" y="295" fill=var(--battery_colour#id#) class="ft9-#id# right-align#id# ' + (( config#id#.battery.current.isHistorized == 1 && config#id#.battery.current.id) ? 'history cursor' : '') + '"'
+                html += ((config#id#.battery.current.isHistorized == 1 && config#id#.battery.current.id) ? ' data-cmd_id=' + config#id#.battery.current.id : '')
+                html += '>' + config#id#.battery.current.state + ' ' + config#id#.battery.current.unit + '</text>'
+              }
+              ///////////////
+              /// VOLTAGE ///
+              ///////////////
+              if (config#id#.battery.voltage.show) {
+                html += '<text id="battery_voltage#id#" x="' + ((config#id#.aux.has_aux_power) ? '133' : '232') + '" y="' + ((!config#id#.battery.current.show) ? '295' : '285') + '" fill=var(--battery_colour#id#) class="ft9-#id# right-align#id# ' + (( config#id#.battery.voltage.isHistorized == 1 && config#id#.battery.voltage.id) ? 'history cursor' : '') + '"'
+                html += ((config#id#.battery.voltage.isHistorized == 1 && config#id#.battery.voltage.id) ? ' data-cmd_id=' + config#id#.battery.voltage.id : '')
+                html += '>' + config#id#.battery.voltage.state + ' ' + config#id#.battery.voltage.unit + '</text>'
+              }
+              ///////////////
+              ///   TEMP  ///
+              ///////////////
+              if (config#id#.battery.temp.show) {
+                html += '<text id="battery_temp#id#" x="' + ((config#id#.aux.has_aux_power) ? '146' : '245') + '" y="295" class="ft9-#id# left-align#id# ' + (( config#id#.battery.temp.isHistorized == 1 && config#id#.battery.temp.id) ? 'history cursor' : '') + '" fill="var(--battery_colour#id#)"'
+                html += ((config#id#.battery.temp.isHistorized == 1 && config#id#.battery.temp.id) ? ' data-cmd_id=' + config#id#.battery.temp.id : '')
+                html += '>' + config#id#.battery.temp.state + '' + config#id#.battery.temp.unit + '</text>'
+              }
+              ///////////////
+              ///  DAILY  ///
+              ///////////////
+              if (config#id#.battery.daily.show_charge) {
+                let dailyBatteryCharge = autoValueArray#id#(config#id#.battery.daily.charge_state,config#id#.battery.daily.charge_unit)
+                html += '<text id="daily_battery_charge_value#id#" x="' + ((config#id#.aux.has_aux_power) ? '25' : '131') + '" y="343" class= "ft16-#id# left-align#id# ' + ((config#id#.battery.daily.charge_isHistorized == 1) ? 'history cursor' : '') + '" fill="var(--battery_colour#id#)"'
+                html += ((config#id#.battery.daily.charge_isHistorized == 1 && config#id#.battery.daily.charge_id) ? ' data-cmd_id=' + config#id#.battery.daily.charge_id : '')
+                html += '>' + trunc#id#(dailyBatteryCharge.value, 3, 1) + ' ' + dailyBatteryCharge.unit + '</text>'
+                html += '<text id="daily_bat_charge#id#" x="' + ((config#id#.aux.has_aux_power) ? '25' : '131') + '" y="357.2" class="ft9-#id# left-align#id#" fill="var(--battery_colour#id#)">' + config#id#.battery.daily.text_charge + '</text>'
+              }
+              if (config#id#.battery.daily.show_discharge) {
+                let dailyBatteryDischarge = autoValueArray#id#(config#id#.battery.daily.discharge_state,config#id#.battery.daily.discharge_unit)
+                html += '<text id="daily_battery_discharge_value#id#" x="' + ((config#id#.aux.has_aux_power) ? '25' : '131') + '" y="380.1" class="ft16-#id# left-align#id# ' + ((config#id#.battery.daily.discharge_isHistorized == 1) ? 'history cursor' : '') + '" fill="var(--battery_colour#id#)"'
+                html += ((config#id#.battery.daily.discharge_isHistorized == 1 && config#id#.battery.daily.discharge_id) ? ' data-cmd_id=' + config#id#.battery.daily.discharge_id : '')
+                html += '>' + trunc#id#(dailyBatteryDischarge.value, 3, 1) + ' ' + dailyBatteryDischarge.unit + '</text>'
+                html += '<text id="daily_bat_discharge#id#" x="' + ((config#id#.aux.has_aux_power) ? '25' : '131') + '" y="393.7" class="ft9-#id# left-align#id#" fill="var(--battery_colour#id#)">' + config#id#.battery.daily.text_discharge + '</text>'
+              }
+              ///////////////
+              ///   TIME  ///
+              ///////////////
+              html += '<text id="duration#id#" x="' + ((config#id#.aux.has_aux_power) ? '171' : '270') + '" y="377.5" class="ft12-#id# left-align#id#" fill="' + ((config#id#.battery.energy == 0 || !config#id#.battery.energy) ? 'transparent' : 'var(--battery_colour#id#)') + '"></text>'
+              html += '<text id="duration_text_etat#id#" x="' + ((config#id#.aux.has_aux_power) ? '171' : '270') + '" y="393.7" class="ft9-#id# left-align#id#" fill="' + ((config#id#.battery.energy == 0 || !config#id#.battery.energy || config#id#.battery.power.state === 0) ? 'transparent' : 'var(--battery_colour#id#)') + '"></text>' // || float === true
+              ///////////////
+              /// STATE % ///
+              ///////////////
+              if (config#id#.battery.state.show) {
+                html += '<text id="battery_soc#id#" x="' + ((config#id#.aux.has_aux_power) ? '171' : '270') + '" y="360" fill=var(--battery_colour#id#) class="ft18-#id# ftw-#id# left-align#id# ' + (( config#id#.battery.state.isHistorized == 1) ? 'history cursor' : '') + '"'
+                html += ((config#id#.battery.state.isHistorized == 1 && config#id#.battery.state.id) ? ' data-cmd_id=' + config#id#.battery.state.id : '')
+                html += '></text>'
+              }
+              ///////////////
+              ///  ICON   ///
+              ///////////////
+              let x_icon = (config#id#.aux.has_aux_power) ? 139 - (60 / 2) : 239 - (60 / 2)
+              let y_icon = 335
+              if (config#id#.battery.icon) {
+                html += '<svg fill="var(--battery_colour#id#)" x="' + x_icon + '" y="' + y_icon + '" width="60" height="60" style="color:var(--battery_colour#id#)">'
+                html += '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-' + parameters#id#['batteryIcon'] + '"/>'
+                html += '</svg>'
+              } else if (config#id#.battery.img) {//config#id#.battery.img
+                html += '<svg xmlns="http://www.w3.org/2000/svg" id="icon_bat#id#" x="' + x_icon + '" y="' + y_icon + '" width="60" height="60" viewBox="0 0 60 60" opacity="1"><image xlink:href="' + parameters#id#['batteryImg'] + '" x="0" y="0" height="60" width="60"/></svg>'
+              }
+              else {
+                html += '<svg fill="var(--battery_colour#id#)" id="icon_bat#id#" x="' + x_icon + '" y="' + y_icon + '" width="60" height="60" style="color:var(--battery_colour#id#)">'
+                html += getBatteryIcon#id#(config#id#.battery.state.state, config#id#.battery.full_capacity, config#id#.battery.empty_capacity)
+                html += '</svg>'
+              }
+              ///////////////
+              ///  LINE   ///
+              ///////////////
+              html += '<path id="bat-line#id#" d="' + ((config#id#.aux.has_aux_power) ? 'M 214 250 L 147 250 Q 139 250 139 258 L 139 300' : 'M 239 260 L 239 300') + '" fill="none" stroke="var(--battery_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
+              html += '<circle id="power-dot-charge#id#" cx="0" cy="0" r="3" fill="transparent">'
+              html += '<animateMotion id="anim_battery-charge#id#" dur="' + config#id#.battery.animation_speed + 's" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear">'
+              html += '<mpath xlink:href="#bat-line#id#"/></animateMotion></circle>'
+              html += '<circle id="power-dot-discharge#id#" cx="0" cy="0" r="3" fill="transparent">'
+              html += '<animateMotion id="anim_battery-discharge#id#" dur="' + config#id#.battery.animation_speed + 's" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear">'
+              html += '<mpath xlink:href="#bat-line#id#"/></animateMotion></circle>'
+              ///////////////////////////////////////////////////////
+              /////////////////// Battery mppt //////////////////////
+              ///////////////////////////////////////////////////////
+              if (config#id#.battery.mppt.has_mppt_power) {
+                html += '<!-- battery mppt -->'
+                html += '<rect x="' + ((config#id#.aux.has_aux_power) ? '204' : '303') + '" y="300" width="70" height="30" rx="4.42" ry="4.42" fill="none" stroke="var(--solar_colour#id#)" pointer-events="all"/>'
+                ///////////////
+                ///  POWER  ///
+                ///////////////
+                html += '<text id="battery_mppt_power-#id#" x="' + ((config#id#.aux.has_aux_power) ? '240' : '337') + '" y="' + ((!config#id#.battery.mppt.energy.show) ? '319' : '314') + '" class="ft12-#id# ftw-#id# center-align#id# ' + (( config#id#.battery.mppt.power.isHistorized == 1 && config#id#.battery.mppt.power.id) ? 'history cursor' : '') + '" fill="var(--solar_colour#id#)"'
+                html += ((config#id#.battery.mppt.power.isHistorized == 1 && config#id#.battery.mppt.power.id) ? ' data-cmd_id=' + config#id#.battery.mppt.power.id : '')
+                html += '>' + trunc#id#(config#id#.battery.mppt.power.state, 1) + ' ' + config#id#.battery.mppt.power.unit + '</text>'
+                ///////////////
+                ///  ENERGY ///
+                ///////////////
+                if (config#id#.battery.mppt.energy.show) {
+                  let mppt_energy = autoValueArray#id#(config#id#.battery.mppt.energy.state, config#id#.battery.mppt.energy.unit)
+                  html += '<text id="battery_mppt_energy-#id#" x="' + ((config#id#.aux.has_aux_power) ? '240' : '337') + '" y="325" class="ft8-#id# center-align#id# ' + ((config#id#.battery.mppt.energy.isHistorized == 1 && config#id#.battery.mppt.energy.id) ? 'history cursor' : '') + '" fill="var(--solar_colour#id#)"'
+                  html += ((config#id#.battery.mppt.energy.isHistorized == 1 && config#id#.battery.mppt.energy.id) ? ' data-cmd_id=' + config#id#.battery.mppt.energy.id : '')
+                  html += '>' + trunc#id#(mppt_energy.value, 3, 1) + ' ' + mppt_energy.unit + '</text>'
+                }
+                ///////////////
+                ///  LINE   ///
+                ///////////////
+                html += '<path id="battery-mppt-line-#id#" d="' + ((config#id#.aux.has_aux_power) ? 'M 175 315 L 204 315' : 'M 274 315 L 303 315') + '" fill="none" stroke="var(--solar_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
+                html += '<circle id="dot-battery-mppt-#id#" cx="0" cy="0" r="3" fill="' + ((parseInt(config#id#.battery.mppt.power.state) <= 0) ? 'transparent' : 'var(--solar_colour#id#)') + '">'
+                html += '<animateMotion id="battery-mppt-animate-#id#" dur="5s" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#battery-mppt-line-#id#"/></animateMotion></circle>'
+                ///////////////
+                ///  NAME  ///
+                ///////////////
+                html += '<text x="' + ((config#id#.aux.has_aux_power) ? '239' : '338') + '" y="295" class="ft9-#id# ftw-#id# center-align#id#" fill="var(--solar_colour#id#)">' + config#id#.battery.mppt.name + '</text>'
+              }
             }
-            // LINE BATTERY
-            html += '<path id="bat-line#id#" class="' + ((config#id#.battery.power.show === false) ? 'hidden-#id#' : '') + '" d="' + ((config#id#.aux.has_aux_power) ? 'M 214 250 L 147 250 Q 139 250 139 258 L 139 300' : 'M 239 260 L 239 300') + '" fill="none" stroke="var(--battery_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
-            html += '<circle id="power-dot-charge#id#" class="' + ((config#id#.battery.power.show === false) ? 'hidden-#id#' : '') + '" cx="0" cy="0" r="3" fill="transparent">'
-            html += '<animateMotion id="anim_battery-charge#id#" dur="' + config#id#.battery.animation_speed + 's" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear">'
-            html += '<mpath xlink:href="#bat-line#id#"/></animateMotion></circle>'
-            html += '<circle id="power-dot-discharge#id#" class="' + ((config#id#.battery.power.show === false) ? 'hidden-#id#' : '') + '" cx="0" cy="0" r="3" fill="transparent">'
-            html += '<animateMotion id="anim_battery-discharge#id#"  dur="' + config#id#.battery.animation_speed + 's" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear">'
-            html += '<mpath xlink:href="#bat-line#id#"/></animateMotion></circle>'
-            ///////////////////////////////////////////////////////
-            /////////////////// Battery mppt //////////////////////
-            ///////////////////////////////////////////////////////
-            html += '<!-- battery mppt -->'
-            html += '<rect x="' + ((config#id#.aux.has_aux_power) ? '204' : '303') + '" y="300" width="70" height="30" rx="4.42" ry="4.42" fill="none" stroke="var(--solar_colour#id#)" pointer-events="all" class="' + ((!config#id#.battery.mppt.power.show || !config#id#.battery.power.show) ? 'hidden-#id#' : '') + '"/>'
-            html += '<text x="' + ((config#id#.aux.has_aux_power) ? '239' : '338') + '" y="295" class="ft9-#id# ftw-#id# center-align#id#" display="' + ((config#id#.battery.mppt.power.show && config#id#.battery.power.show) ? '' : 'none') + '" fill="var(--solar_colour#id#)">' + config#id#.battery.mppt.name + '</text>'
-            html += '<text id="battery_mppt_power-#id#" x="' + ((config#id#.aux.has_aux_power) ? '240' : '337') + '" y="' + ((!config#id#.battery.mppt.energy.show) ? '319' : '314') + '" class="ft12-#id# ftw-#id# center-align#id#" display="' + ((config#id#.battery.mppt.power.show === true && config#id#.battery.power.show === true) ? '' : 'none')
-            html += '" fill="var(--solar_colour#id#)">' + trunc#id#(config#id#.battery.mppt.power.state, 1) + ' ' + config#id#.battery.mppt.power.unit + '</text>'
-            // ENERGY
-            let mppt_energy = autoValueArray#id#(config#id#.battery.mppt.energy.state, config#id#.battery.mppt.energy.unit)
-            html += '<text id="battery-mppt-energy-#id#" x="' + ((config#id#.aux.has_aux_power) ? '240' : '337') + '" y="325" class="ft8-#id# center-align#id#" display="' + ((!config#id#.battery.mppt.power.show || !config#id#.battery.mppt.energy.show || !config#id#.battery.power.show) ? 'none' : '') + '" fill="var(--solar_colour#id#)">'
-            html += trunc#id#(mppt_energy.value, 3, 1) + ' ' + mppt_energy.unit
-            html += '</text>'
-            // LINE
-            html += '<path id="battery-mppt-line-#id#" d="' + ((config#id#.aux.has_aux_power) ? 'M 175 315 L 204 315' : 'M 274 315 L 303 315') + '" class="' + ((!config#id#.battery.mppt.power.show || !config#id#.battery.power.show) ? 'hidden-#id#' : '') + '" fill="none" stroke="var(--solar_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
-            html += '<circle id="dot-battery-mppt-#id#" cx="0" cy="0" r="3" class="' + ((!config#id#.battery.mppt.power.show || !config#id#.battery.power.show) ? 'hidden-#id#' : '') + '" fill="' + ((parseInt(config#id#.battery.mppt.power.state) <= 0) ? 'transparent' : 'var(--solar_colour#id#)') + '">'
-            html += '<animateMotion id="battery-mppt-animate-#id#" dur="5s" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#battery-mppt-line-#id#"/></animateMotion></circle>'
             ///////////////////////////////////////////////////
             ////////////////////// Aux ////////////////////////
             ///////////////////////////////////////////////////
-            html += '<!-- Aux -->'
-            html += '<rect id="aux-rect-#id#" class="" x="' + ((config#id#.battery.power.show) ? '304' : '204') + '" y="300" width="70" height="30" rx="4.5" ry="4.5" display="'+ ((config#id#.aux.has_aux_power === false) ? 'none' : '') +'" fill="none" stroke="var(--aux_colour#id#)" pointer-events="all"></rect>'
-            html += '<text id="aux_power#id#" x="' + ((config#id#.battery.power.show) ? '339' : '239') + '" y="320" display="' + ((config#id#.aux.has_aux_power === false) ? 'none' : '')
-            html += '" class="ft12-#id# ftw-#id# center-align#id#" fill="var(--aux_colour#id#)">'
-            html += trunc#id#(config#id#.aux.power, 1) + ' ' + config#id#.aux.power_unit + '</text>'
-            //LINE
-            html += '<path id="aux-line#id#" d="' + ((config#id#.battery.power.show) ? 'M 339 300 L 339 258 Q 339 250 331 250 L 264 250' : 'M 239.23 300 L 239.23 260') + '" class="' + ((config#id#.aux.has_aux_power === false) ? 'hidden-#id#' : '') + '" fill="none" stroke="var(--aux_colour#id#)" stroke-width="1" stroke-miterlimit="10" pointer-events="stroke"></path>'
-            html += '<circle id="aux-dot-#id#" cx="0" cy="0" r="3" class="' + ((config#id#.aux.has_aux_power === false) ? 'hidden-#id#' : '') + '" fill="' + ((config#id#.aux.power == 0) ? 'transparent' : 'var(--aux_colour#id#)') + '">'
-            html += '<animateMotion id="anim_aux#id#" dur="' + config#id#.aux.animation_speed + 's" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear">'
-            html += '<mpath xlink:href="#aux-line#id#"/></animateMotion></circle>'
-            // ICON
-            html += '<svg xmlns="http://www.w3.org/2000/svg" id="aux_generator" x="' + ((config#id#.battery.power.show) ? '304' : '203') + '" y="325" width="74" height="74" viewBox="0 0 24 24">'
-            html += '<path class="' + ((config#id#.aux.has_aux_power === false) ? 'hidden-#id#' : '') + '" display="" fill="' + ((config#id#.aux.status === 'on' || config#id#.aux.status === '1') ? 'var(--aux_colour#id#)' : 'var(--aux_off_colour#id#)') + '" d="M6 3a2 2 0 0 0-2 2v11h2v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h6v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h2V5a2 2 0 0 0-2-2H6m6 4V5h6v2h-6m0 2h6v2h-6V9M8 5v4h2l-3 6v-4H5l3-6m14 15v2H2v-2h20Z"/></svg>'
-            // DAILY
-            let dailyAux = autoValueArray#id#(config#id#.aux.daily.state,config#id#.aux.daily.unit)
-            html += '<text id="daily_aux_value#id#" x="' + ((config#id#.battery.power.show) ? '385' : '115') + '" y="' + ((config#id#.battery.power.show) ? '380' : '343') + '" class="ft16-#id# left-align#id#" display="'
-            html += (config#id#.aux.has_aux_power !== true || config#id#.aux.daily.show !== true) ? 'none' : ''
-            html += '" fill="var(--aux_colour#id#)" >' + trunc#id#(dailyAux.value, 3, 1) + ' ' + dailyAux.unit + '</text>'
-            html += '<text id="daily_aux_text#id#" x="' + ((config#id#.battery.power.show) ? '385' : '115') + '" y="' + ((config#id#.battery.power.show) ? '393.7' : '357.2') + '" class="ft9-#id# left-align#id#" display="'
-            html += (config#id#.aux.has_aux_power !== true || config#id#.aux.daily.show !== true) ? 'none' : ''
-            html += '" fill="var(--aux_colour#id#)">' + config#id#.aux.daily.text + '</text>'
+            if (config#id#.aux.has_aux_power !== false) {
+              html += '<!-- Aux -->'
+              html += '<rect id="aux-rect-#id#" class="" x="' + ((config#id#.battery.power.show) ? '304' : '204') + '" y="300" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--aux_colour#id#)" pointer-events="all"></rect>'
+              ///////////////
+              ///  POWER  ///
+              ///////////////
+              html += '<text id="aux_power#id#" x="' + ((config#id#.battery.power.show) ? '339' : '239') + '" y="320" class="ft12-#id# ftw-#id# center-align#id# ' + ((config#id#.aux.has_aux_power && config#id#.aux.isHistorized == 1 && config#id#.aux.id) ? 'history cursor' : '') + '" fill="var(--aux_colour#id#)"'
+              html += ((config#id#.aux.has_aux_power && config#id#.aux.isHistorized == 1 && config#id#.aux.id) ? ' data-cmd_id=' + config#id#.aux.id : '')
+              html += '>' + trunc#id#(config#id#.aux.power, 1) + ' ' + config#id#.aux.power_unit + '</text>'
+              ///////////////
+              ///  LINE   ///
+              ///////////////
+              html += '<path id="aux-line#id#" d="' + ((config#id#.battery.power.show) ? 'M 339 300 L 339 258 Q 339 250 331 250 L 264 250' : 'M 239.23 300 L 239.23 260') + '" fill="none" stroke="var(--aux_colour#id#)" stroke-width="1" stroke-miterlimit="10" pointer-events="stroke"></path>'
+              html += '<circle id="aux-dot-#id#" cx="0" cy="0" r="3" fill="' + ((config#id#.aux.power == 0) ? 'transparent' : 'var(--aux_colour#id#)') + '">'
+              html += '<animateMotion id="anim_aux#id#" dur="' + config#id#.aux.animation_speed + 's" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear">'
+              html += '<mpath xlink:href="#aux-line#id#"/></animateMotion></circle>'
+              ///////////////
+              ///  ICON   ///
+              ///////////////
+              //if (config#id#.aux.has_aux_power !== false) {
+              html += '<svg fill="var(--aux_colour#id#)" id="aux_generator#id#" x="' + ((config#id#.battery.power.show) ? '299' : '199') + '" y="325" width="80" height="80" style="color:var(--aux_colour#id#)"><use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-aux"></use></svg>'
+              //}
+              ///////////////
+              ///  DAILY  ///
+              ///////////////
+              let dailyAux = autoValueArray#id#(config#id#.aux.daily.state,config#id#.aux.daily.unit)
+              html += '<text id="daily_aux_value#id#" x="' + ((config#id#.battery.power.show) ? '385' : '115') + '" y="' + ((config#id#.battery.power.show) ? '380' : '343') + '" class="ft16-#id# left-align#id# ' + ((config#id#.aux.daily.isHistorized && config#id#.aux.daily.isHistorized == 1) ? 'history cursor' : '') + '" fill="var(--aux_colour#id#)"'
+              html += ((config#id#.aux.daily.isHistorized == 1 && config#id#.aux.daily.id) ? ' data-cmd_id=' + config#id#.aux.daily.id : '')
+              html += '>' + trunc#id#(dailyAux.value, 3, 1) + ' ' + dailyAux.unit + '</text>'
+              html += '<text id="daily_aux_text#id#" x="' + ((config#id#.battery.power.show) ? '385' : '115') + '" y="' + ((config#id#.battery.power.show) ? '393.7' : '357.2') + '" class="ft9-#id# left-align#id#" fill="var(--aux_colour#id#)">' + config#id#.aux.daily.text + '</text>'
+            }
             ///////////////////////////////////////////////////////
             ///////////////////// Inverter ////////////////////////
             ///////////////////////////////////////////////////////
             html += '<!-- Inverter -->'
-            // ICON
+            ///////////////
+            ///  ICON   ///
+            ///////////////
             if (config#id#.inverter.model == 'sunsynk') {
               html += '<svg version="1.0" xmlns="http://www.w3.org/2000/svg" x="213.5" y="189" width="54" height="79" viewBox="0 0 74 91"  preserveAspectRatio="xMidYMid meet"> '
               html += '<g transform="translate(0.000000,91.000000) scale(0.100000,-0.100000)" fill="var(--inverter_colour#id#)" stroke="none"> <path d="M35 887 l-27 -23 0 -404 0 -404 27 -23 c26 -23 28 -23 329 -23 284 0 305 1 327 19 l24 19 0 412 0 412 -24 19 c-22 18 -43 19 -327 19 -301 0 -303 0 -329 -23z m585 -157 l0 -80 -255 0 -255 0 0 80 0 80 255 0 255 0 0 -80z m-242 -229"/> </g> </svg>'
             }
             else html += '<rect x="214" y="196" width="50" height="64" rx="4.5" ry="4.5" fill="none" stroke="var(--inverter_colour#id#)" pointer-events="all"></rect>'
-            // LCD
-            html += '<text id="inverter_lcd#id#" x="240" y="211" display="' + ((config#id#.inverter.lcd_state === false) ? 'none' : '') + '" class="ft8-#id# center-align#id#" fill="var(--inverter_colour#id#)" >' + config#id#.inverter.lcd_state + ' ' + config#id#.inverter.lcd_unit + '</text>'
-            // VOLTAGE
-            html += '<text id="inverter_voltage#id#" x="240" y="230" display="' + ((config#id#.inverter.voltage_state === false) ? 'none' : '') + '" class="ft9-#id# center-align#id#" fill="' +((config#id#.inverter.model == 'sunsynk') ? 'var(--inverter_secondary_colour#id#)' : 'var(--inverter_colour#id#)') + '" >' + config#id#.inverter.voltage_state + ' ' + config#id#.inverter.voltage_unit + '</text>'
-            // FREQUENCY
-            html += '<text id="inverter_frequency#id#" x="240" y="' + ((config#id#.inverter.voltage_state === false) ? '230' : '240') + '" display="' + ((config#id#.inverter.frequency_state === false) ? 'none' : '') + '" class="ft9-#id# center-align#id#" fill="' +((config#id#.inverter.model == 'sunsynk') ? 'var(--inverter_secondary_colour#id#)' : 'var(--inverter_colour#id#)') + '">' + config#id#.inverter.frequency_state + ' ' + config#id#.inverter.frequency_unit + '</text>'
-            // CURRENT
-            html += '<text id="inverter_current#id#" x="240" y="' + ((config#id#.inverter.voltage_state === false && config#id#.inverter.frequency_state === false) ? '230' : (config#id#.inverter.voltage_state !== false && config#id#.inverter.frequency_state !== false) ? '250' : '240') + '" display="' + ((config#id#.inverter.current_state === false) ? 'none' : '') + '" class="ft9-#id# center-align#id#" fill="' +((config#id#.inverter.model == 'sunsynk') ? 'var(--inverter_secondary_colour#id#)' : 'var(--inverter_colour#id#)') + '">' + config#id#.inverter.current_state + ' ' + config#id#.inverter.current_unit + '</text>'
-            // TEMP
-            html += '<text id="ac_temp#id#" x="' + ((config#id#.aux.has_aux_power || config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) ? '270' : '185') + '" y="242" class="ft9-#id# left-align#id#" fill="var(--inverter_colour#id#)" display="' + ((config#id#.inverter.temp.ac_state !== false) ? '' : 'none') + '" >' + config#id#.inverter.temp.ac_state + ' ' + config#id#.inverter.temp.ac_unit + '</text>'   
-            html += '<text id="dc_temp#id#" x="243" y="' + ((config#id#.show_solar || (!config#id#.show_solar && !config#id#.battery.power.show)) ? '192' : '272') + '" class="ft9-#id# left-align#id#" fill="var(--inverter_colour#id#)" display="' + ((config#id#.inverter.temp.dc_state !== false) ? '' : 'none') + '" >' + config#id#.inverter.temp.dc_state + ' ' + config#id#.inverter.temp.dc_unit + '</text>'
+            ///////////////
+            ///   LCD   ///
+            ///////////////
+            html += '<text id="inverter_lcd#id#" x="240" y="211" display="' + ((config#id#.inverter.lcd_state === false) ? 'none' : '') + '" class="ft8-#id# center-align#id# ' + ((config#id#.inverter.lcd_isHistorized == 1) ? 'history cursor' : '') + '" fill="var(--inverter_colour#id#)"'
+            html += ((config#id#.inverter.lcd_isHistorized == 1 && config#id#.inverter.lcd_id) ? ' data-cmd_id=' + config#id#.inverter.lcd_id : '')
+            html += '>' + config#id#.inverter.lcd_state + ' ' + config#id#.inverter.lcd_unit + '</text>'
+            ///////////////
+            /// VOLTAGE ///
+            ///////////////
+            html += '<text id="inverter_voltage#id#" x="240" y="230" display="' + ((config#id#.inverter.voltage_state === false) ? 'none' : '') + '" class="ft9-#id# center-align#id# ' + ((config#id#.inverter.voltage_isHistorized == 1) ? 'history cursor' : '') + '" fill="' +((config#id#.inverter.model == 'sunsynk') ? 'var(--inverter_secondary_colour#id#)' : 'var(--inverter_colour#id#)') + '"'
+            html += ((config#id#.inverter.voltage_isHistorized == 1 && config#id#.inverter.voltage_id) ? ' data-cmd_id=' + config#id#.inverter.voltage_id : '')
+            html += '>' + config#id#.inverter.voltage_state + ' ' + config#id#.inverter.voltage_unit + '</text>'
+            /////////////////
+            /// FREQUENCY ///
+            /////////////////
+            html += '<text id="inverter_frequency#id#" x="240" y="' + ((config#id#.inverter.voltage_state === false) ? '230' : '240') + '" display="' + ((config#id#.inverter.frequency_state === false) ? 'none' : '') + '" class="ft9-#id# center-align#id# ' + ((config#id#.inverter.frequency_isHistorized == 1) ? 'history cursor' : '') + '" fill="' +((config#id#.inverter.model == 'sunsynk') ? 'var(--inverter_secondary_colour#id#)' : 'var(--inverter_colour#id#)') + '"'
+            html += ((config#id#.inverter.frequency_isHistorized == 1 && config#id#.inverter.frequency_id) ? ' data-cmd_id=' + config#id#.inverter.frequency_id : '')
+            html += '>' + config#id#.inverter.frequency_state + ' ' + config#id#.inverter.frequency_unit + '</text>'
+            ///////////////
+            /// CURRENT ///
+            ///////////////
+            html += '<text id="inverter_current#id#" x="240" y="' + ((config#id#.inverter.voltage_state === false && config#id#.inverter.frequency_state === false) ? '230' : (config#id#.inverter.voltage_state !== false && config#id#.inverter.frequency_state !== false) ? '250' : '240') + '" display="' + ((config#id#.inverter.current_state === false) ? 'none' : '') + '" class="ft9-#id# center-align#id# ' + ((config#id#.inverter.current_isHistorized == 1) ? 'history cursor' : '') + '" fill="' +((config#id#.inverter.model == 'sunsynk') ? 'var(--inverter_secondary_colour#id#)' : 'var(--inverter_colour#id#)') + '"'
+            html += ((config#id#.inverter.current_isHistorized == 1 && config#id#.inverter.current_id) ? ' data-cmd_id=' + config#id#.inverter.current_id : '')
+            html += '>' + config#id#.inverter.current_state + ' ' + config#id#.inverter.current_unit + '</text>'
+            ///////////////
+            ///   TEMP  ///
+            ///////////////
+            //ac
+            html += '<text id="ac_temp#id#" x="' + ((config#id#.aux.has_aux_power || config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) ? '270' : '185') + '" y="242" class="ft9-#id# left-align#id# ' + ((config#id#.inverter.temp.ac_isHistorized == 1) ? 'history cursor' : '') + '" fill="var(--inverter_colour#id#)" display="' + ((config#id#.inverter.temp.ac_state !== false) ? '' : 'none') + '"'
+            html += ((config#id#.inverter.temp.ac_isHistorized == 1 && config#id#.inverter.temp.ac_id) ? ' data-cmd_id=' + config#id#.inverter.temp.ac_id : '')
+            html += '>' + config#id#.inverter.temp.ac_state + ' ' + config#id#.inverter.temp.ac_unit + '</text>'
+            //dc
+            html += '<text id="dc_temp#id#" x="243" y="' + ((config#id#.show_solar || (!config#id#.show_solar && !config#id#.battery.power.show)) ? '192' : '272') + '" class="ft9-#id# left-align#id# ' + ((config#id#.inverter.temp.dc_isHistorized == 1) ? 'history cursor' : '') + '" fill="var(--inverter_colour#id#)" display="' + ((config#id#.inverter.temp.dc_state !== false) ? '' : 'none') + '"'
+            html += ((config#id#.inverter.temp.dc_isHistorized == 1 && config#id#.inverter.temp.dc_id) ? ' data-cmd_id=' + config#id#.inverter.temp.dc_id : '')
+            html += '>' + config#id#.inverter.temp.dc_state + ' ' + config#id#.inverter.temp.dc_unit + '</text>'
            
             /*
             html += '<!-- Test -->'
@@ -1431,10 +1851,9 @@
         log#id#('└──────────────────────────────────────────────────────')
         if (config#id#.show_solar !== false) calculatePv#id#('init');
         calculateLoad#id#('init');
-        if (config#id#.battery.power.show !== false) calculateBattery#id#('init')
+        if (config#id#.has_battery) calculateBattery#id#('init')
         calculateGrid#id#('init')
         if (config#id#.aux.has_aux_power !== false) calculateAux#id#('init')
-        //calculateGreenValue#id#('init')
       }
       
       function calculatePv#id#(el='') {
@@ -1471,8 +1890,6 @@
             config#id#.solar.power = trunc#id#(config#id#.solar.power, 1)
           }
           document.getElementById("pvtotal_power#id#").innerHTML = config#id#.solar.power + ' ' + config#id#.solar.power_unit
-          
-          
           log#id#('| total_pv = ' + config#id#.solar.power)
           let solar_animation_speed = config#id#.solar.animation_speed
           log#id#('| animation_speed = ' + config#id#.solar.animation_speed)
@@ -1495,7 +1912,6 @@
             document.getElementById("so-dot#id#")?.setAttribute("fill", "transparent")
             document.getElementById("so-dot2#id#")?.setAttribute("fill", "transparent")
           }
-        //calculateAutarky#id#('calculatePv()')
         }
         log#id#('└──────────────────────────────────────────────────────')
       }    
@@ -1517,9 +1933,6 @@
                 differentUnit = true
                 break
               }
-            //for (let i_additional_loads = 1; i_additional_loads <= config#id#.load.additional_loads; i_additional_loads++) {
-              //log#id#('| load' + load + '_state = ' + config#id#.loads[load].power + ' ' + config#id#.loads[load].power_unit)
-              //if (config#id#.loads[i_additional_loads].power_unit != config#id#.load.power_unit) differentUnit = true
             }
             if (differentUnit === true) {
               log#id#('| /!\\ ------- Attention unité differente entre load, calcul impossible !!!')
@@ -1546,9 +1959,11 @@
           log#id#('| total_load = ' + config#id#.load.power)
           
           if(config#id#.load.power > 0) {
+            //document.getElementById("loads-dot-#id#").setAttribute("fill", "var(--load_colour#id#)")
             document.getElementById("es-dot1#id#").setAttribute("fill", "var(--load_colour#id#)")
             document.getElementById("es-dot#id#").setAttribute("fill", "var(--load_colour#id#)")
           } else {
+            //document.getElementById("loads-dot-#id#").setAttribute("fill", "transparent")
             document.getElementById("es-dot1#id#").setAttribute("fill", "transparent")
             document.getElementById("es-dot#id#").setAttribute("fill", "transparent")
           }
@@ -1596,7 +2011,7 @@
           if (el != '') log#id#('| launched by ' + el)
           // get Icon of battery
           if (el == 'init' || el == 'battery state'){
-            if (!config#id#.battery.icon_perso) document.getElementById("icon_bat#id#").innerHTML = getBatteryIcon#id#(config#id#.battery.state.state, config#id#.battery.full_capacity, config#id#.battery.empty_capacity)
+            if (!config#id#.battery.icon && !config#id#.battery.img) document.getElementById("icon_bat#id#").innerHTML = getBatteryIcon#id#(config#id#.battery.state.state, config#id#.battery.full_capacity, config#id#.battery.empty_capacity)
             document.getElementById("battery_soc#id#").innerHTML = trunc#id#(config#id#.battery.state.state, 1) + '%'
           }
           // dot && speed
@@ -1675,8 +2090,7 @@
             }
             duration +=  minutes + ' min'
             log#id#('| duration= ' + duration)
-            //config#id#.battery.duration = duration
-            if (float !== true && config#id#.battery.energy !== 0 && config#id#.battery.energy !== false) {
+            if (config#id#.battery.energy !== 0 && config#id#.battery.energy !== false) { // float !== true && 
               if (config#id#.battery.power.state == 0 || config#id#.battery.power.state == '0' || duration == '0 min') {
                 document.getElementById("duration#id#").innerHTML = ''
                 document.getElementById("duration_text_etat#id#").innerHTML = ''
@@ -1722,28 +2136,9 @@
             document.getElementById("grid-rect-#id#").setAttribute("stroke", "var(--grid_colour#id#)")
             if (config#id#.blink) document.getElementById("grid-rect-#id#").classList.remove("blink#id#")
           }
-          //calculateGreenValue#id#('calculateGrid()')
-          //calculateAutarky#id#('calculateGrid()')
         }
         log#id#('└──────────────────────────────────────────────────────')
-        //calculateGreenValue#id#('calculateGrid()')
       }
-      /*
-      function calculateAutarky#id#(el='') { //TODO
-        log#id#('┌─────────────────── Widget Distribution Onduleur [#id#] en debug [calculateAutarky()] ───────────────')
-        var ElDomExist = !!document.getElementById("widget#id#");
-        log#id#('| ElDomExist ? ' + ElDomExist)
-       
-        if (ElDomExist) {
-          let _export = (config#id#.grid.power > 0) ? 0 : (config#id#.grid.power < 0) ? Math.abs(config#id#.grid.power) : 0
-          let autoconsumption = ((config#id#.solar.power - _export) / config#id#.solar.power) * 100
-          //config#id#battery.power.state
-          document.getElementById("autarkyp_value#id#").innerHTML = autoconsumption + '%'
-          //$autoconsumption = round((($production - $export) / $production) * 100, 1);
-          //$selfsufficiency = round((($production - $export) / $consumption) * 100, 1);
-        }
-      }
-      */
       /*
       function calculateGreenValue#id#(el='') {
         
@@ -1936,43 +2331,59 @@
     </script>
     <template>
       <div> ------------ Général -------------</div>
-      <div>Background : Couleur arrière plan du widget [ Exemple : #fffff, white, linear-gradient... | Défaut : transparent ]</div>
+      <div>Background : Couleur d'arrière plan du widget [ Exemple : #fffff, white, linear-gradient... | Défaut : transparent ]</div>
       <div>inverterColor : Couleur des éléments de catégorie "onduleur" [ Exemple : #fffff, white]</div>
       <div>noGridColor : Couleur du logo "noGridColor" [ Exemple : #fffff, white]</div>
+      <div>colorDanger : Couleur des rectangles en cas de dépassement de puissance. (Défaut : red)</div>
+      <div>blink : Active le clignotement du rectangle en cas de dépassement de puissance. (Défaut: 0)</div>
+      <div>fontAlert : Applique la couleur 'colorDanger' au texte en cas de dépassement de puissance. (Défaut: 0)</div>
       <div> ------------ Solar ------------</div>
-      <div>pv1Name : personnalisation du nom du Pv1. (Ex: Ouest, Nord, PV1 ...)</div>
-      <div>pv2Name : personnalisation du nom du Pv2. (Ex: Ouest, Nord, PV2 ...)</div>
+      <div>pv1Name : Personnalisation du nom du Pv1. (Ex: Ouest, Nord, PV1 ...)</div>
+      <div>pv2Name : Personnalisation du nom du Pv2. (Ex: Ouest, Nord, PV2 ...)</div>
       <div> ... </div>
-      <div>dailySolarText : personnalisation du texte. (défaut : DAILY SOLAR)</div>
+      <div>dailySolarText : Personnalisation du texte. (défaut : DAILY SOLAR)</div>
       <div>pvMaxPower : Puissance max des PV. (permet la gestion de vitesse de l'animation)</div>
       <div>solarColor : Couleur des éléments de catégorie "solaire" [ Exemple : #fffff, white]</div>
       <div> ------------ Load ------------</div>
-      <div>load1Name : personnalisation du nom du Load1. (Ex: C.E, Clim, ...)</div>
-      <div>load1Img : Afficher une image perso. ( mettre le chemin jusqu'au fichier sans oublier l'extension)</div>
-      <div> /!\ si load1Icon et load1Img sont paramètrés, load1Icon sera prioritaire /!\ </div>
-      <div>load1MaxPower : Puissance Max (Permet de colorer le rectangle cette puissance est atteinte)</div>
+      <div>load1Name : Personnalisation du nom du Load1. (Ex: C.E, Clim, ...)</div>
+      <div>load1Icon : Choix icône intègrée : Voir liste en bas.</div>
+      <div>load1Img : Affiche une image perso. ( mettre le chemin jusqu'au fichier sans oublier l'extension)</div>
+      <div> /!\ Si load1Icon et load1Img sont paramètrés, load1Icon sera prioritaire /!\ </div>
+      <div>load1MaxPower : Puissance Max (Permet de colorer le rectangle lorsque cette puissance est atteinte)</div>
       <div> ... </div>
-      <div>dailyLoadText : personnalisation du texte. (défaut : DAILY LOAD)</div>
-      <div>loadMaxPower : Puissance max des équipements "Load". (Permet la gestion de vitesse de l'animation + coloration du rectangle cette puissance est atteinte)</div>
+      <div>dailyLoadText : Personnalisation du texte. (défaut : DAILY LOAD)</div>
+      <div>loadMaxPower : Puissance max des équipements "Load". (Permet la gestion de vitesse de l'animation + coloration du rectangle si cette puissance est atteinte)</div>
       <div>loadColor : Couleur des éléments de catégorie "load" [ Exemple : #fffff, white]</div>
       <div>loadAnimate: Pour désactiver l'animation des Load passer ce paramètre a 0</div>
-      <div>blink : Clignotement rectangle si valeur > puissance max</div>
-      <div>colorDanger : Couleur des rectangles en cas de dépassement de puissance. (Défaut : red)</div>
       <div> ------------ Grid ------------</div>
-      <div>dailyGridSellText : personnalisation du texte. (défaut : DAILY GRID SELL)</div>
-      <div>dailyGridBuyText : personnalisation du texte. (défaut : DAILY GRID BUYL)</div>
+      <div>dailyGridSellText : Personnalisation du texte. (défaut : DAILY GRID SELL)</div>
+      <div>dailyGridBuyText : Personnalisation du texte. (défaut : DAILY GRID BUYL)</div>
       <div>gridMaxPower : Puissance max de consommation. (permet la gestion de vitesse de l'animation)</div>
       <div>gridColor : Couleur des éléments de catégorie "réseau" [ Exemple : #fffff, white]</div>
       <div> ------------ Battery ------------</div>
-      <div>dailyBatteryChargeText : personnalisation du texte. (défaut : DAILY CHARGE)</div>
-      <div>dailyBatteryDischargeText : personnalisation du texte. (défaut : DAILY DISCHARGE)</div>
+      <div>dailyBatteryChargeText : Personnalisation du texte. (défaut : DAILY CHARGE)</div>
+      <div>dailyBatteryDischargeText : Personnalisation du texte. (défaut : DAILY DISCHARGE)</div>
       <div>batteryMaxPower : Puissance max de la batterie. (permet la gestion de vitesse de l'animation)</div>
       <div>batterySocShutdown : SOC mini. (defaut: 0)</div>
-      <div>mpptName : personnalisation du nom du Chargeur PV.</div>
+      <div>mpptName : Personnalisation du nom du Chargeur PV.</div>
       <div>batteryColor : Couleur des éléments de catégorie "batterie" [ Exemple : #fffff, white]</div>
-      <div>batteryImg : Remplace l'icon batterie par une image perso.( mettre le chemin jusqu'au fichier sans oublier l'extension)</div>
+      <div>batteryIcon : Choix icône intègrée : Voir liste en bas.</div>
+      <div>batteryImg : Affiche une image perso.( mettre le chemin jusqu'au fichier sans oublier l'extension)</div>
+      <div> /!\ si batteryIcon et batteryImg sont paramètrés, batteryIcon sera prioritaire /!\ </div>
       <div> ------------ Aux ------------</div>
       <div>auxColor :  Couleur des éléments de catégorie "aux" [ Exemple : #fffff, white]</div>
       <div>auxMaxPower : Puissance max des "Aux". (permet la gestion de vitesse de l'animation)</div>
+      <div> ------------ Perso ------------</div>
+      <div>perso1Param : Paramètre pour afficher une commande perso (il faut obligatoirement avoir créé la commande perso1_state)</div>
+      <div>┌─────────────────── INFO </div>
+      <div>&nbsp;| Format du paramètre perso1Param : x y size_value color text size_text (espace entre chaque valeur)</div>
+      <div>&nbsp;| x et y sont les coordonnées pour emplacement de l'info. (exemple pour afficher la commande en dessous de l'onduleur : 213 275)</div>
+      <div>&nbsp;| size_value : Taille du texte de la commande. (entre 7 a 16)</div>
+      <div>&nbsp;| color : Couleur de l'info. [ Exemple : #fffff, white] peut aussi s'adapter a la couleur d'une des catégorie en utilisant solar, load, inverter, grid, aux, battery.</div>
+      <div>&nbsp;| text : Ajoute un texte additionnel sous la commande. (ne pas mettre d'espace !, utilisez le caractère _ pour faire un espace)</div>
+      <div>&nbsp;| size_text : Taille du texte additionnel. (entre 7 a 16)</div>
+      <div>└───────────────────────────</div>
+      <div> ------------ Liste des icônes ------------</div>
+      <div>oven - pump - boiler - charging - aircon - battery - plug - stove - pool - dryer - dishwasher - washing - microwave - toaster - fridge - coffee - hood - light - tv - screen - server - laptop - computer - multimedia - heat_pump - music - console - ve - water_heater - heating_coil - wine_cellar - spa</div>
     </template>
   </div>
