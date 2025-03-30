@@ -353,7 +353,7 @@
           has_load_power: false,
           animate_load_enable: true,
           additional_loads: 0,
-          force4load: true,
+          force4load: false,
           isHistorized:0,
           id: false,
           daily:{
@@ -455,6 +455,7 @@
       if ("#loadColor#" != '#'+'loadColor#') document.documentElement.style.setProperty('--load_colour#id#', '#loadColor#')
       if ("#blink#" == 1) config#id#.blink = true
       if ("#colorDanger#" != '#'+'colorDanger#') document.documentElement.style.setProperty('--color_alerte#id#', '#colorDanger#')
+      if ("#force4Load#" == '1') config#id#.load.force4load = true
       ////////////////////////// GRID ////////////////////////
       if ("#dailyGridSellText#" != '#'+'dailyGridSellText#') config#id#.grid.daily.text_sell = "#dailyGridSellText#"
       if ("#dailyGridBuyText#" != '#'+'dailyGridBuyText#') config#id#.grid.daily.text_buy = "#dailyGridBuyText#"
@@ -2350,6 +2351,7 @@
       <div>load1Img : Affiche une image perso. ( mettre le chemin jusqu'au fichier sans oublier l'extension)</div>
       <div> /!\ Si load1Icon et load1Img sont paramètrés, load1Icon sera prioritaire /!\ </div>
       <div>load1MaxPower : Puissance Max (Permet de colorer le rectangle lorsque cette puissance est atteinte)</div>
+      <div>force4Load : Force a 4 loads par colonne. (désactivé automatiquement si utilisation de 7 PV ou plus) [défaut : 0]</div>
       <div> ... </div>
       <div>dailyLoadText : Personnalisation du texte. (défaut : DAILY LOAD)</div>
       <div>loadMaxPower : Puissance max des équipements "Load". (Permet la gestion de vitesse de l'animation + coloration du rectangle si cette puissance est atteinte)</div>
