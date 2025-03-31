@@ -4,7 +4,7 @@
     Widget name : cmd.info.string.distribution_onduleur
     Author : Phpvarious
     Inspiration : https://github.com/slipx06/sunsynk-power-flow-card/tree/master
-    Last Update : 2025/03/30 21h00 - Phpvarious
+    Last Update : 2025/03/31 22h00 - Phpvarious
   
     version béta
   -->
@@ -1312,7 +1312,7 @@
               let y_name = 0
               let x_perso = x_rect + 30
               let y_perso = 0
-              let x_icon = x_rect + (70 / 2) + 2
+              let x_icon = x_rect + 5 //x_rect + (70 / 2) + 2
               let y_icon = 0
               
               let a_path = x_rect + 35
@@ -1331,7 +1331,7 @@
                     y_path = y_rect
                     y2_path = y2_path + 92
                     y_name = y_rect + 30 + 10
-                    y_perso = y_rect - 5
+                    y_perso = y_rect - 35 //5
                     y_icon = y_rect - 27
                   }
                   else 
@@ -1340,7 +1340,7 @@
                     y_rect = 272
                     y_path = y_rect
                     y_name = y_rect + 30 + 10
-                    y_perso = y_rect - 5
+                    y_perso = y_rect - 34 //5
                     y_icon = y_rect - 27
                   }
                 } else {
@@ -1350,7 +1350,7 @@
                     y_path = y_rect + 30
                     y2_path = y2_path - 92
                     y_name = y_rect - 4
-                    y_perso = y_rect + 40
+                    y_perso = y_rect + 70 //40
                     y_icon = y_rect + 32
                   }
                   else {
@@ -1358,7 +1358,7 @@
                     y_rect = 156
                     y_path = y_rect + 30
                     y_name = y_rect - 4
-                    y_perso = y_rect + 40
+                    y_perso = y_rect + 67 //40
                     y_icon = y_rect + 32
                   }
                 }
@@ -1369,7 +1369,7 @@
                   y_rect = 297.5
                   y_path = y_rect
                   y_name = y_rect + 30 + 10
-                  y_perso = y_rect - 5
+                  y_perso = y_rect - 45 //5
                   y_icon = y_rect - 27
                   b_path = 242
                   c_path = y_rect
@@ -1381,7 +1381,7 @@
                   y_rect = 128.5
                   y_path = y_rect + 30
                   y_name = y_rect - 6
-                  y_perso = y_rect + 40
+                  y_perso = y_rect + 80 //40
                   y_icon = y_rect + 32
                   b_path = 214
                   c_path = y_rect + 30
@@ -1459,12 +1459,26 @@
               ///   ICON  ///
               ///////////////
               if (isset(parameters#id#['load'+load+'Icon'])) {
-                html += '<svg fill="var(--load_colour#id#)" x="' + x_icon + '" y="' + y_icon + '" width="25" height="25" style="color:var(--load_colour#id#)">'
-                html += '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-' + parameters#id#['load'+load+'Icon'] + '"/>'
-                //html += '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon2.svg#shape-icon-' + parameters#id#['load'+load+'Icon'] + '" />'
-                html += '</svg>'
+                let icon = parameters#id#['load'+load+'Icon'].split(' ')
+                for(let i = 0; i < icon.length; i++) {
+                  html += '<svg fill="var(--load_colour#id#)" x="' + (x_icon + i * 35) + '" y="' + y_icon + '" width="25" height="25" style="color:var(--load_colour#id#)">'
+                  html += '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-' + icon[i] + '"/>'
+                  html += '</svg>'
+                  if (i == 1) break
+                }
+                //html += '<svg fill="var(--load_colour#id#)" x="' + x_icon + '" y="' + y_icon + '" width="25" height="25" style="color:var(--load_colour#id#)">'
+                //html += '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-' + parameters#id#['load'+load+'Icon'] + '"/>'
+                //html += '</svg>'
               }
               else if (isset(parameters#id#['load'+load+'Img'])) {
+                /*
+                let img = parameters#id#['load'+load+'Img'].split(' ')
+                for(let i = 0; i < img.length; i++) {
+                  console.log(img[i])
+                  html += '<svg xmlns="http://www.w3.org/2000/svg" x="' + (x_icon + i * 35) + '" y="' + y_icon + '" width="25" height="25" viewBox="0 0 25 25" opacity="1"><image xlink:href="' + img[i] + '" x="0" y="0" height="25" width="25"/></svg>'
+                  if (i == 1) break
+                }
+                */
                 html += '<svg xmlns="http://www.w3.org/2000/svg" x="' + x_icon + '" y="' + y_icon + '" width="25" height="25" viewBox="0 0 25 25" opacity="1"><image xlink:href="' + parameters#id#['load'+load+'Img'] + '" x="0" y="0" height="25" width="25"/></svg>'
               }
             }
@@ -2348,10 +2362,11 @@
       <div> ------------ Load ------------</div>
       <div>load1Name : Personnalisation du nom du Load1. (Ex: C.E, Clim, ...)</div>
       <div>load1Icon : Choix icône intègrée : Voir liste en bas.</div>
+      <div>---- load1Icon accèpte 2 icônes, il suffit d'ajouter un espace entre les 2 icônes. [ex : plug microwave]</div>
       <div>load1Img : Affiche une image perso. ( mettre le chemin jusqu'au fichier sans oublier l'extension)</div>
       <div> /!\ Si load1Icon et load1Img sont paramètrés, load1Icon sera prioritaire /!\ </div>
       <div>load1MaxPower : Puissance Max (Permet de colorer le rectangle lorsque cette puissance est atteinte)</div>
-      <div>force4Load : Force a 4 loads par colonne. (désactivé automatiquement si utilisation de 7 PV ou plus) [défaut : 0]</div>
+      <div>force4Load : Force a 4 loads par colonne. (désactivé si utilisation de 7 PV ou plus) [défaut : 0]</div>
       <div> ... </div>
       <div>dailyLoadText : Personnalisation du texte. (défaut : DAILY LOAD)</div>
       <div>loadMaxPower : Puissance max des équipements "Load". (Permet la gestion de vitesse de l'animation + coloration du rectangle si cette puissance est atteinte)</div>
