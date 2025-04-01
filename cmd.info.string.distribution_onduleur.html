@@ -4,7 +4,7 @@
     Widget name : cmd.info.string.distribution_onduleur
     Author : Phpvarious
     Inspiration : https://github.com/slipx06/sunsynk-power-flow-card/tree/master
-    Last Update : 2025/03/31 22h00 - Phpvarious
+    Last Update : 2025/04/01 18h40 - Phpvarious
   
     version béta
   -->
@@ -101,7 +101,7 @@
         if (debug#id#) console.log(text)
       }
       function getLabel(key){
-        return labelsList.find(item => item.key.toLowerCase() === key.toLowerCase())?labelsList.find(item => item.key.toLowerCase() === key.toLowerCase()).data.label:'label-error#id#'
+        return labelsList.find(item => item.key.toLowerCase() === key.toLowerCase())?labelsList.find(item => item.key.toLowerCase() === key.toLowerCase()).data.label:'label-error#id#';
       }
       function trunc#id#(value = 0, trunc = 1, forceDec = false) {
         trunc = (trunc == 0) ? 1 : (trunc == 1) ? 10 : (trunc == 2) ? 100 : (trunc == 3) ? 1000 : 10
@@ -110,18 +110,18 @@
         result = Math.trunc(value * trunc) / trunc
         result = (forceDec && forceDec >= 1 && Number.isInteger(result)) ? result.toFixed(forceDec) : result
         log#id#('|| trunc(' +  value + ', ' + trunc +', ' + forceDec + ') | value brute = ' +  value + ' => ' +  result)
-        return result
+        return result;
       }
       function autoValueArray#id#(value, unit = '', trunc = 1) {
         var result = { }
         result.unit = unit.replace("\"", "").replace("\'", "")
         if (value === null || value == '') {
           result.value = 0
-          return result
+          return result;
         }
         if(isNaN(value) == true){
           result.value = value
-          return result
+          return result;
         }
         if (isset(unite_conversion#id#[unit])) {
           let mod = unite_conversion#id#[unit][0]
@@ -130,7 +130,7 @@
           result.value = myval[0]
           result.unit = prefix[myval[1]]
         } else result.value = value //Math.trunc(value * trunc) / trunc
-        return result
+        return result;
       }
       function autoValueFormat#id#(value, mod = 1000, maxdiv = 10) {
         let val = 0
@@ -140,7 +140,7 @@
           val = parseFloat(val / mod)
         }
         if (value < 0) val = -val
-        return Array(val, div)
+        return Array(val, div);
       }
       function getBatteryIcon#id#(value=false, full_capacity=80, empty_capacity=30, icon_perso=false) {
         log#id#('| getBatteryIcon() -> ' + value + ' | ' + full_capacity + ' | ' + empty_capacity + ' | ' + icon_perso)
@@ -148,24 +148,19 @@
         let value_pourcent = Math.trunc(value * available / 100)
         if (value_pourcent <= 75 && value_pourcent > 50) {
           // 51 a 75
-          return '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-battery-75"/>'
-          return '<path fill="var(--battery_colour#id#)" d="M 12 20 H 4 V 6 h 8 L 12 6 L 12 20 m 0.67 -15.999 H 11 V 2 H 5 v 2 H 3.33 C 2.6 4 2 4.6 2 5.33 v 15.34 C 2 21.4 2.6 22 3.33 22 h 9.34 c 0.74 0 1.33 -0.59 1.33 -1.33 V 5.33 C 14 4.6 13.4 4 12.67 4 M 11 16 H 5 v 3 h 6 v -3"/>'
+          return '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-battery-75"/>';
         } else if (value_pourcent <= 50 && value_pourcent > 25) {
           // 26 a 50
-          return '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-battery-50"/>'
-          return '<path fill="var(--battery_colour#id#)" d="M 12 20 H 4 V 6 h 8 L 12 6 L 12 20 m 0.67 -15.999 H 11 V 2 H 5 v 2 H 3.33 C 2.6 4 2 4.6 2 5.33 v 15.34 C 2 21.4 2.6 22 3.33 22 h 9.34 c 0.74 0 1.33 -0.59 1.33 -1.33 V 5.33 C 14 4.6 13.4 4 12.67 4 M 11 16 H 5 v 3 h 6 v -3"/>'
+          return '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-battery-50"/>';
         } else if (value_pourcent <= 25 && value_pourcent > 0) {
           // 1 a 25
-          return '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-battery-25"/>'
-          return '<path fill="var(--battery_colour#id#)" d="M 12 20 H 4 V 6 h 8 L 12 6 L 12 20 m 0.67 -15.999 H 11 V 2 H 5 v 2 H 3.33 C 2.6 4 2 4.6 2 5.33 v 15.34 C 2 21.4 2.6 22 3.33 22 h 9.34 c 0.74 0 1.33 -0.59 1.33 -1.33 V 5.33 C 14 4.6 13.4 4 12.67 4 M 11 16 H 5 v 3 h 6 v -3"/>'
+          return '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-battery-25"/>';
         } else if (value_pourcent <= 0) {
           // battery-empty
-          return '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-battery-0"/>'
-          return '<path fill="var(--battery_colour#id#)" d="M 12 6 L 12 20 M 12 20 H 4 l 0.05 -14 h 7.95 m 0.67 -2 h -1.67 V 2 h -6 v 2 H 3.38 a 1.33 1.33 0 0 0 -1.33 1.33 v 15.34 c 0 0.73 0.6 1.33 1.33 1.33 h 9.34 c 0.73 0 1.33 -0.6 1.33 -1.33 V 5.33 A 1.33 1.33 0 0 0 12.72 4 Z"/>'
+          return '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-battery-0"/>';
         } else {
           // full
-          return '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-battery-100"/>'
-          return '<path fill="var(--battery_colour#id#)" d="M 12 20 H 4 V 6 h 8 L 12 20 m 0.67 -16 H 11 V 2 H 5 v 2 H 3.33 C 2.6 4 2 4.6 2 5.33 v 15.34 C 2 21.4 2.6 22 3.33 22 h 9.34 c 0.74 0 1.33 -0.59 1.33 -1.33 V 5.33 C 14 4.6 13.4 4 12.67 4 M 11 16 H 5 v 3 h 6 v -3 m 0 -9 H 5 v 3 h 6 V 7 m 0 4.5 H 5 v 3 h 6 v -3 h -3 h 3"/>'
+          return '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-battery-100"/>';
         }
       }
       
@@ -181,6 +176,7 @@
         has_battery: false,
         blink: false,
         font_alert: false,
+        checkHistoInValue: false,
         timer: {
           usetimer: false, /* Displays "Use timer" status as an icon next to the inverter. Set to `no` to hide */
           state: 'no', // [on, off] Shows if energy pattern is set to priority load or priority battery as an icon next to the inverter.
@@ -448,6 +444,7 @@
       if (is_numeric('#pvMaxPower#')) config#id#.solar.max_power = '#pvMaxPower#'
       if ("#dailySolarText#" != '#'+'dailySolarText#') config#id#.solar.daily.text = "#dailySolarText#"
       if ("#solarColor#" != '#'+'solarColor#') document.documentElement.style.setProperty('--solar_colour#id#', '#solarColor#')
+      if ("#checkHistoInValue#" == '1') config#id#.checkHistoInValue = true
       ////////////////////////// LOAD ////////////////////////
       if ("#loadAnimate#" != '#'+'loadAnimate#' && "#loadAnimate#" == '0') config#id#.load.animate_load_enable = 0
       if ("#dailyLoadText#" != '#'+'dailyLoadText#') config#id#.load.daily.text = "#dailyLoadText#"
@@ -539,6 +536,24 @@
                   config#id#.loads[iLoad][type[1] + '_unit'] = cmds[j].unite
                   config#id#.loads[iLoad][type[1] + '_isHistorized'] = cmds[j].isHistorized
                   config#id#.loads[iLoad][type[1] + '_id'] = cmds[j].id
+                  
+                  if (config#id#.loads[iLoad][type[1] + '_isHistorized'] == '0') {
+                    let test = cmds[j].value.match(/^#{1}(\d+)#{1}$/gm);
+                    if (test) {
+                      config#id#.loads[iLoad][type[1] + '_isHistorized'] = '1'
+                      config#id#.loads[iLoad][type[1] + '_id'] = test[0].replaceAll('#', '')
+                      if (config#id#.checkHistoInValue) {
+                        jeedom.cmd.byId({
+                          id: test[0].replaceAll('#', ''),
+                          async: false,
+                          success:  function(cmd) {
+                            config#id#.loads[iLoad][type[1] + '_isHistorized'] = cmd.isHistorized
+                          }
+                        })
+                      }
+                    }
+                  }
+                  
                   log#id#('|    └> value : ' + config#id#.loads[iLoad][type[1]] + config#id#.loads[iLoad][type[1] + '_unit'])
                   if (type[1] == 'power' && config#id#.loads[iLoad].max_power) log#id#('|    └> max_power : '  + config#id#.loads[iLoad].max_power)
                   jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
@@ -613,6 +628,24 @@
                   config#id#.solars[iPv][type[1] + '_unit'] = cmds[j].unite
                   config#id#.solars[iPv][type[1] + '_isHistorized'] = cmds[j].isHistorized
                   config#id#.solars[iPv][type[1] + '_id'] = cmds[j].id
+                  
+                  if (config#id#.solars[iPv][type[1] + '_isHistorized'] == '0') {
+                    let test = cmds[j].value.match(/^#{1}(\d+)#{1}$/gm);
+                    if (test) {
+                      config#id#.solars[iPv][type[1] + '_isHistorized'] = '1'
+                      config#id#.solars[iPv][type[1] + '_id'] = test[0].replaceAll('#', '')
+                      if (config#id#.checkHistoInValue) {
+                        jeedom.cmd.byId({
+                          id: test[0].replaceAll('#', ''),
+                          async: false,
+                          success:  function(cmd) {
+                            config#id#.solars[iPv][type[1] + '_isHistorized'] = cmd.isHistorized
+                          }
+                        })
+                      }
+                    }
+                  }
+                  
                   jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
                     if (isset(config#id#.solars[iPv])) {
                       config#id#.solars[iPv][type[1]] = isNaN(parseFloat(_options.value)) ? 0 : parseFloat(_options.value)
@@ -650,6 +683,24 @@
                       let text = param[4] || false
                       config#id#.persos[iPerso]['isHistorized'] = cmds[j].isHistorized
                       config#id#.persos[iPerso]['id'] = cmds[j].id
+                      
+                      if (config#id#.persos[iPerso]['isHistorized'] == '0') {
+                        let test = cmds[j].value.match(/^#{1}(\d+)#{1}$/gm);
+                        if (test) {
+                          config#id#.persos[iPerso]['isHistorized'] = '1'
+                          config#id#.persos[iPerso]['id'] = test[0].replaceAll('#', '')
+                          if (config#id#.checkHistoInValue) {
+                            jeedom.cmd.byId({
+                              id: test[0].replaceAll('#', ''),
+                              async: false,
+                              success:  function(cmd) {
+                                config#id#.persos[iPerso]['isHistorized'] = cmd.isHistorized
+                              }
+                            })
+                          }
+                        }
+                      }
+                      
                       config#id#.persos[iPerso]['x_value'] = parseFloat(param[0])
                       config#id#.persos[iPerso]['y_value'] = y_value
                       config#id#.persos[iPerso]['size_value'] = size_value
@@ -690,6 +741,24 @@
                     config#id#.show_solar = true
                     config#id#.solar.isHistorized = cmds[j].isHistorized
                     config#id#.solar.id = cmds[j].id
+                    
+                    if (config#id#.solar.isHistorized == '0') {
+                      let test = cmds[j].value.match(/^#{1}(\d+)#{1}$/gm);
+                      if (test) {
+                        config#id#.solar.isHistorized = '1'
+                        config#id#.solar.id = test[0].replaceAll('#', '')
+                        if (config#id#.checkHistoInValue) {
+                          jeedom.cmd.byId({
+                            id: test[0].replaceAll('#', ''),
+                            async: false,
+                            success:  function(cmd) {
+                              config#id#.solar.isHistorized = cmd.isHistorized
+                            }
+                          })
+                        }
+                      }
+                    }
+                    
                     config#id#.solar.power_unit = cmds[j].unite
                     config#id#.solar.power = isNaN(parseFloat(pvValue)) ? 0 : parseFloat(pvValue)
                     log#id#('|    └> value : ' + config#id#.solar.power + config#id#.solar.power_unit)
@@ -714,6 +783,24 @@
                   success:  function(dailyValue) {
                     config#id#[type[1]].daily.isHistorized = cmds[j].isHistorized
                     config#id#[type[1]].daily.id = cmds[j].id
+                    
+                    if (config#id#[type[1]].daily.isHistorized == '0') {
+                      let test = cmds[j].value.match(/^#{1}(\d+)#{1}$/gm);
+                      if (test) {
+                        config#id#[type[1]].daily.isHistorized = '1'
+                        config#id#[type[1]].daily.id = test[0].replaceAll('#', '')
+                        if (config#id#.checkHistoInValue) {
+                          jeedom.cmd.byId({
+                            id: test[0].replaceAll('#', ''),
+                            async: false,
+                            success:  function(cmd) {
+                              config#id#[type[1]].daily.isHistorized = cmd.isHistorized
+                            }
+                          })
+                        }
+                      }
+                    }
+                    
                     config#id#[type[1]].daily.unit = cmds[j].unite
                     config#id#[type[1]].daily.state = isNaN(parseFloat(dailyValue)) ? 0 : parseFloat(dailyValue)
                     log#id#('|    └> value : ' + config#id#[type[1]].daily.state + config#id#[type[1]].daily.unit)
@@ -738,6 +825,24 @@
                     config#id#[type[1]].daily[type[2] + '_state'] = isNaN(parseFloat(daily)) ? 0 : parseFloat(daily)
                     config#id#[type[1]].daily[type[2] + '_isHistorized'] = cmds[j].isHistorized
                     config#id#[type[1]].daily[type[2] + '_id'] = cmds[j].id
+                    
+                    if (config#id#[type[1]].daily[type[2] + '_isHistorized'] == '0') {
+                      let test = cmds[j].value.match(/^#{1}(\d+)#{1}$/gm);
+                      if (test) {
+                        config#id#[type[1]].daily[type[2] + '_isHistorized'] = '1'
+                        config#id#[type[1]].daily[type[2] + '_id'] = test[0].replaceAll('#', '')
+                        if (config#id#.checkHistoInValue) {
+                          jeedom.cmd.byId({
+                            id: test[0].replaceAll('#', ''),
+                            async: false,
+                            success:  function(cmd) {
+                              config#id#[type[1]].daily[type[2] + '_isHistorized'] = cmd.isHistorized
+                            }
+                          })
+                        }
+                      }
+                    }
+                    
                     log#id#('|    └> value : ' + config#id#[type[1]].daily[type[2] + '_state'] + config#id#[type[1]].daily[type[2] + '_unit'])
                   }
                 })
@@ -762,6 +867,24 @@
                     if (type[1] == 'power') config#id#.has_battery = true
                     config#id#.battery[type[1]].isHistorized = cmds[j].isHistorized
                     config#id#.battery[type[1]].id = cmds[j].id
+                    
+                    if (config#id#.battery[type[1]].isHistorized == '0') {
+                      let test = cmds[j].value.match(/^#{1}(\d+)#{1}$/gm);
+                      if (test) {
+                        config#id#.battery[type[1]].isHistorized = '1'
+                        config#id#.battery[type[1]].id = test[0].replaceAll('#', '')
+                        if (config#id#.checkHistoInValue) {
+                          jeedom.cmd.byId({
+                            id: test[0].replaceAll('#', ''),
+                            async: false,
+                            success:  function(cmd) {
+                              config#id#.battery[type[1]].isHistorized = cmd.isHistorized
+                            }
+                          })
+                        }
+                      }
+                    }
+                    
                     config#id#.battery[type[1]].show = true
                     config#id#.battery[type[1]].unit = cmds[j].unite
                     if (type[1] != 'state') config#id#.battery[type[1]].state = isNaN(parseFloat(batteryValue)) ? 0 : parseFloat(batteryValue)
@@ -789,6 +912,24 @@
                     if (type[2] == 'power') config#id#.battery.mppt.has_mppt_power = true
                     config#id#.battery.mppt[type[2]].isHistorized = cmds[j].isHistorized
                     config#id#.battery.mppt[type[2]].id = cmds[j].id
+                    
+                    if (config#id#.battery.mppt[type[2]].isHistorized == '0') {
+                      let test = cmds[j].value.match(/^#{1}(\d+)#{1}$/gm);
+                      if (test) {
+                        config#id#.battery.mppt[type[2]].isHistorized = '1'
+                        config#id#.battery.mppt[type[2]].id = test[0].replaceAll('#', '')
+                        if (config#id#.checkHistoInValue) {
+                          jeedom.cmd.byId({
+                            id: test[0].replaceAll('#', ''),
+                            async: false,
+                            success:  function(cmd) {
+                              config#id#.battery.mppt[type[2]].isHistorized = cmd.isHistorized
+                            }
+                          })
+                        }
+                      }
+                    }
+                    
                     config#id#.battery.mppt[type[2]].show = true
                     config#id#.battery.mppt[type[2]].unit = cmds[j].unite
                     config#id#.battery.mppt[type[2]].state = isNaN(parseFloat(batteryMppt)) ? 0 : parseFloat(batteryMppt)
@@ -846,6 +987,24 @@
                   success:  function(temp) {
                     config#id#.inverter.temp[type[0] + '_isHistorized'] = cmds[j].isHistorized
                     config#id#.inverter.temp[type[0] + '_id'] = cmds[j].id
+                    
+                    if (config#id#.inverter.temp[type[0] + '_isHistorized'] == '0') {
+                      let test = cmds[j].value.match(/^#{1}(\d+)#{1}$/gm);
+                      if (test) {
+                        config#id#.inverter.temp[type[0] + '_isHistorized'] = '1'
+                        config#id#.inverter.temp[type[0] + '_id'] = test[0].replaceAll('#', '')
+                        if (config#id#.checkHistoInValue) {
+                          jeedom.cmd.byId({
+                            id: test[0].replaceAll('#', ''),
+                            async: false,
+                            success:  function(cmd) {
+                              config#id#.inverter.temp[type[0] + '_isHistorized'] = cmd.isHistorized
+                            }
+                          })
+                        }
+                      }
+                    }
+                    
                     config#id#.inverter.temp[type[0] + '_state'] = isNaN(parseFloat(temp)) ? 0 : parseFloat(temp)
                     if (cmds[j].unite != '') config#id#.inverter.temp[type[0] + '_unit'] = cmds[j].unite
                     log#id#('|    └> value : ' + config#id#.inverter.temp[type[0] + '_state'] + config#id#.inverter.temp[type[0] + '_unit'])
@@ -870,6 +1029,24 @@
                   success:  function(value) {
                     config#id#.inverter[type[0] + '_isHistorized'] = cmds[j].isHistorized
                     config#id#.inverter[type[0] + '_id'] = cmds[j].id
+                    
+                    if (config#id#.inverter[type[0] + '_isHistorized'] == '0') {
+                      let test = cmds[j].value.match(/^#{1}(\d+)#{1}$/gm);
+                      if (test) {
+                        config#id#.inverter[type[0] + '_isHistorized'] = '1'
+                        config#id#.inverter[type[0] + '_id'] = test[0].replaceAll('#', '')
+                        if (config#id#.checkHistoInValue) {
+                          jeedom.cmd.byId({
+                            id: test[0].replaceAll('#', ''),
+                            async: false,
+                            success:  function(cmd) {
+                              config#id#.inverter[type[0] + '_isHistorized'] = cmd.isHistorized
+                            }
+                          })
+                        }
+                      }
+                    }
+                    
                     if (type[0] == 'lcd') config#id#.inverter[type[0] + '_state'] = value
                     else config#id#.inverter[type[0] + '_state'] = isNaN(parseFloat(value)) ? 0 : parseFloat(value)
                     config#id#.inverter[type[0] + '_unit'] = cmds[j].unite
@@ -899,6 +1076,24 @@
                   success:  function(value) {
                     config#id#[type[0]]['isHistorized'] = cmds[j].isHistorized
                     config#id#[type[0]]['id'] = cmds[j].id
+                    
+                    if (config#id#[type[0]]['isHistorized'] == '0') {
+                      let test = cmds[j].value.match(/^#{1}(\d+)#{1}$/gm);
+                      if (test) {
+                        config#id#[type[0]]['isHistorized'] = '1'
+                        config#id#[type[0]]['id'] = test[0].replaceAll('#', '')
+                        if (config#id#.checkHistoInValue) {
+                          jeedom.cmd.byId({
+                            id: test[0].replaceAll('#', ''),
+                            async: false,
+                            success:  function(cmd) {
+                              config#id#[type[0]]['isHistorized'] = cmd.isHistorized
+                            }
+                          })
+                        }
+                      }
+                    }
+                    
                     config#id#[type[0]].power_unit = cmds[j].unite
                     config#id#[type[0]].power = isNaN(parseFloat(value)) ? 0 : parseFloat(value)
                     log#id#('|    └> value : ' + config#id#[type[0]].power + config#id#[type[0]].power_unit)
@@ -1459,7 +1654,7 @@
               ///   ICON  ///
               ///////////////
               if (isset(parameters#id#['load'+load+'Icon'])) {
-                let icon = parameters#id#['load'+load+'Icon'].split(' ')
+                let icon = parameters#id#['load'+load+'Icon'].replace(/  +/g, ' ').split(" ")
                 for(let i = 0; i < icon.length; i++) {
                   html += '<svg fill="var(--load_colour#id#)" x="' + (x_icon + i * 35) + '" y="' + y_icon + '" width="25" height="25" style="color:var(--load_colour#id#)">'
                   html += '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-' + icon[i] + '"/>'
