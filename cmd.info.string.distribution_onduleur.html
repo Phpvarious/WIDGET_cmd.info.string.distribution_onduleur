@@ -4,7 +4,7 @@
     Widget name : cmd.info.string.distribution_onduleur
     Author : Phpvarious
     Inspiration : https://github.com/slipx06/sunsynk-power-flow-card/tree/master
-    Last Update : 2025/04/01 18h40 - Phpvarious
+    Last Update : 2025/04/03 21h30 - Phpvarious
   
     version béta
   -->
@@ -14,8 +14,13 @@
       :root {
         --solar_colour#id# : orange;
         --battery_colour#id# : pink;
+        --battery-state#id# : var(--battery_colour#id#);
+        --battery-charge#id# : var(--battery_colour#id#);
+        --battery-discharge#id# : var(--battery_colour#id#);
         --aux_colour#id# : #a43df5;
         --grid_colour#id# : #5490c2;
+        --grid-sell-colour#id# : var(--grid_colour#id#);
+        --grid-buy-colour#id# : var(--grid_colour#id#);
         --load_colour#id# : #5fb6ad;
         --inverter_colour#id# : grey;
         --inverter_secondary_colour#id# : black;
@@ -37,8 +42,10 @@
       #div_error#id# {
         padding: 10px 10px 10px 10px;
         margin-bottom: 10px;
-        border: 1px red dashed;
+        border: 3px var(--al-danger-color) solid;
         width: 90%;
+        font-size: 16px;
+        line-height: 24px;
       }
       .card#id# {background: var(--background#id#, transparent);}
       .left-align#id# {text-anchor: start;}
@@ -74,7 +81,7 @@
       ////////////////////// VARIABLES ///////////////////////
       ////////////////////////////////////////////////////////
       var debug#id# = ('#debug#' == 1) ? true : false
-      var versionWidget#id# = '11/03/2024 19h30'
+      var versionWidget#id# = '2025/04/03 21h30 beta'
       //var float = false
       var timer_in#id# = false
       var unite_conversion#id# = { 'W' : [1000, 'W', 'kW', 'MW'], 'Wh' : [1000, 'Wh', 'kWh', 'MWh'], 'l' : [1000, 'l', 'm<sup>3</sup>'] }
@@ -109,7 +116,7 @@
         if (value === null || value == '' || (isNaN(value) == true)) value = 0
         result = Math.trunc(value * trunc) / trunc
         result = (forceDec && forceDec >= 1 && Number.isInteger(result)) ? result.toFixed(forceDec) : result
-        log#id#('|| trunc(' +  value + ', ' + trunc +', ' + forceDec + ') | value brute = ' +  value + ' => ' +  result)
+        //log#id#('|| trunc(' +  value + ', ' + trunc +', ' + forceDec + ') | value brute = ' +  value + ' => ' +  result)
         return result;
       }
       function autoValueArray#id#(value, unit = '', trunc = 1) {
@@ -171,24 +178,13 @@
       //////////////////////// CONFIG ////////////////////////
       ////////////////////////////////////////////////////////
       var config#id# = {
-        show_solar: false,
-        show_load: false,
         has_battery: false,
+        has_load: false,
+        has_aux: false,
+        has_grid: false,
+        has_solar: false,
         blink: false,
         font_alert: false,
-        checkHistoInValue: false,
-        timer: {
-          usetimer: false, /* Displays "Use timer" status as an icon next to the inverter. Set to `no` to hide */
-          state: 'no', // [on, off] Shows if energy pattern is set to priority load or priority battery as an icon next to the inverter.
-          text_on: 'Timer on',
-          text_off: 'Timer off'
-        },
-        priority: {
-          usepriority: false, //--------------- Todo
-          state: 'off', // on, off 
-          text_on: 'Priority Load',
-          text_off: 'Priority Batt'
-        },
         inverter: {
           autarky: 'no', // no, energy, power
           autarky_state: 10, // affiché si autarky = energy
@@ -224,15 +220,8 @@
             dc_isHistorized:0,
             dc_id: false,
           },
-          prog: { //--------------- Todo
-            show: false,
-            charge: 'none', // 'none'
-            grid: '', //none
-            capacity: 100
-          }
         },
         battery: {
-          //has_battery_power: false,
           animation_speed: 5,
           energy: false,
           voltage: {
@@ -314,7 +303,7 @@
             shutdown: 0
           },
           icon: false,
-          img: false
+          //img: false
         },
         solars: {},
         solar: {
@@ -395,18 +384,7 @@
           power: 0,
           power_unit:'W',
           status: 1, // on, off, '0', 0, '1', 1
-          noness: {
-            //show_nonessential: true,
-            //nonessential_icon: 'default',
-            //nonessential_name: 'nonessential_name',
-            //additional_loads: 2,
-            //load1_name: 'common.load1', //
-            //load2_name: 'common.load2', //
-            //load1_icon: 'default',
-            //load2_icon: 'default',
-          },
-          has_grid_power: false,
-          //invert_grid: false,           
+          has_grid_power: false,         
         },
         aux: {
           type: 'gen',
@@ -433,18 +411,14 @@
       ////////////////////////////////////////////////////////
       //////////////// PARAMETRES OPTIONNELS /////////////////
       ////////////////////////////////////////////////////////
+      
       /////////////////////// DIVERS /////////////////////////
       if ('#Background#' != '#'+'Background#') document.documentElement.style.setProperty('--background#id#', '#Background#')
       if ('#fontAlert#' != '#'+'fontAlert#' && '#fontAlert#' == '1') config#id#.font_alert = true
       ////////////////////////// Solar ///////////////////////
-      //if ("#pv1Name#" != '#'+'pv1Name#') config#id#.solar.pv1.name = "#pv1Name#"
-      //if ("#pv2Name#" != '#'+'pv2Name#') config#id#.solar.pv2.name = "#pv2Name#"
-      //if ("#pv3Name#" != '#'+'pv3Name#') config#id#.solar.pv3.name = "#pv3Name#"
-      //if ("#pv4Name#" != '#'+'pv4Name#') config#id#.solar.pv4.name = "#pv4Name#"
       if (is_numeric('#pvMaxPower#')) config#id#.solar.max_power = '#pvMaxPower#'
       if ("#dailySolarText#" != '#'+'dailySolarText#') config#id#.solar.daily.text = "#dailySolarText#"
       if ("#solarColor#" != '#'+'solarColor#') document.documentElement.style.setProperty('--solar_colour#id#', '#solarColor#')
-      if ("#checkHistoInValue#" == '1') config#id#.checkHistoInValue = true
       ////////////////////////// LOAD ////////////////////////
       if ("#loadAnimate#" != '#'+'loadAnimate#' && "#loadAnimate#" == '0') config#id#.load.animate_load_enable = 0
       if ("#dailyLoadText#" != '#'+'dailyLoadText#') config#id#.load.daily.text = "#dailyLoadText#"
@@ -458,9 +432,11 @@
       if ("#dailyGridBuyText#" != '#'+'dailyGridBuyText#') config#id#.grid.daily.text_buy = "#dailyGridBuyText#"
       if (is_numeric('#gridMaxPower#')) config#id#.grid.max_power = '#gridMaxPower#'
       if ("#gridColor#" != '#'+'gridColor#') document.documentElement.style.setProperty('--grid_colour#id#', '#gridColor#')
+      if ("#gridSellColor#" != '#'+'gridSellColor#') document.documentElement.style.setProperty('--grid-sell-colour#id#', '#gridSellColor#')
+      if ("#gridBuyColor#" != '#'+'gridBuyColor#') document.documentElement.style.setProperty('--grid-buy-colour#id#', '#gridBuyColor#')
       if ("#noGridColor#" != '#'+'noGridColor#') document.documentElement.style.setProperty('--no_grid_colour#id#', '#noGridColor#')
       ////////////////////////// BATTERY /////////////////////
-      if ("#batteryImg#" != '#'+'batteryImg#') config#id#.battery.img = '#batteryImg#'
+      //if ("#batteryImg#" != '#'+'batteryImg#') config#id#.battery.img = '#batteryImg#'
       if ("#batteryIcon#" != '#'+'batteryIcon#') config#id#.battery.icon = '#batteryIcon#'
       //if ("#batteryIconeVe#" == '1') config#id#.battery.icon = 've'
       if ("#dailyBatteryChargeText#" != '#'+'dailyBatteryChargeText#') config#id#.battery.daily.text_charge = "#dailyBatteryChargeText#"
@@ -469,8 +445,12 @@
       if (is_numeric('#batterySocShutdown#')) config#id#.battery.soc.shutdown = '#batterySocShutdown#'
       if ("#mpptName#" != '#'+'mpptName#') config#id#.battery.mppt.name = "#mpptName#"
       if ("#batteryColor#" != '#'+'batteryColor#') document.documentElement.style.setProperty('--battery_colour#id#', '#batteryColor#')
+      if ("#batteryStateColor#" != '#'+'batteryStateColor#') document.documentElement.style.setProperty('--battery-state#id#', '#batteryStateColor#')
+      if ("#batteryChargeColor#" != '#'+'batteryChargeColor#') document.documentElement.style.setProperty('--battery-charge#id#', '#batteryChargeColor#')
+      if ("#batteryDischargeColor#" != '#'+'batteryDischargeColor#') document.documentElement.style.setProperty('--battery-discharge#id#', '#batteryDischargeColor#')
       //////////////////////// INVERTER //////////////////////
       if ("#inverterColor#" != '#'+'inverterColor#') document.documentElement.style.setProperty('--inverter_colour#id#', '#inverterColor#')
+      if ("#inverterColorTextIn#" != '#'+'inverterColorTextIn#') document.documentElement.style.setProperty('--inverter_secondary_colour#id#', '#inverterColorTextIn#')
       if ("#inverterModel#" != '#'+'inverterModel#') config#id#.inverter.model = '#inverterModel#'
       ////////////////////////// AUX /////////////////////////
       if ("#auxColor#" != '#'+'auxColor#') document.documentElement.style.setProperty('--aux_colour#id#', '#auxColor#')
@@ -485,11 +465,13 @@
         }
       })
       if (debug#id#) console.table(parameters#id#)
-     
+        
       jeedom.eqLogic.getCmd({
         id: '#eqLogic_id#',
         async: false,
+        noCache: true,
         success: function (cmds) {
+          //console.table(cmds)
           for (j in cmds) {
             //console.table(cmds[j])
             cmds[j].name = cmds[j].name.toLowerCase();
@@ -507,15 +489,13 @@
             if (type[0].substring(0, 4) == 'load' && iLoad >= 1) {
               if (cmds[j].name[5] != ' ' && cmds[j].name[5] >= 0) iLoad = iLoad * 10 + parseInt(cmds[j].name[5])
               if (type[1] == 'state') type[1] = 'power' // workaround pour ne pas modifier le nom équipements d'origines.
-              log#id#('| load' + iLoad + ' ' + type[1])
-              //if (type[1] == 'power' || type[1] == 'energy'  || type[1] == 'perso') {
               jeedom.cmd.execute({
                 id: id_eql,
                 async: false,
-                success:  function(loadState) {
+                success: function(loadState) {
                   if (!isset(config#id#.loads[iLoad])) config#id#.loads[iLoad] = {}
                   if (type[1] == 'power') {
-                    config#id#.show_load = true
+                    config#id#.has_load = true
                     config#id#.load.power_unit = cmds[j].unite
                     config#id#.load.additional_loads = Math.max(config#id#.load.additional_loads, iLoad)
                     if (!isset(config#id#.loads[iLoad].energy)) {
@@ -536,26 +516,21 @@
                   config#id#.loads[iLoad][type[1] + '_unit'] = cmds[j].unite
                   config#id#.loads[iLoad][type[1] + '_isHistorized'] = cmds[j].isHistorized
                   config#id#.loads[iLoad][type[1] + '_id'] = cmds[j].id
-                  
                   if (config#id#.loads[iLoad][type[1] + '_isHistorized'] == '0') {
                     let test = cmds[j].value.match(/^#{1}(\d+)#{1}$/gm);
                     if (test) {
                       config#id#.loads[iLoad][type[1] + '_isHistorized'] = '1'
                       config#id#.loads[iLoad][type[1] + '_id'] = test[0].replaceAll('#', '')
-                      if (config#id#.checkHistoInValue) {
-                        jeedom.cmd.byId({
-                          id: test[0].replaceAll('#', ''),
-                          async: false,
-                          success:  function(cmd) {
-                            config#id#.loads[iLoad][type[1] + '_isHistorized'] = cmd.isHistorized
-                          }
-                        })
-                      }
+                      jeedom.cmd.byId({
+                        id: test[0].replaceAll('#', ''),
+                        async: false,
+                        success:  function(cmd) {
+                          config#id#.loads[iLoad][type[1] + '_isHistorized'] = cmd.isHistorized
+                        }
+                      })
                     }
                   }
                   
-                  log#id#('|    └> value : ' + config#id#.loads[iLoad][type[1]] + config#id#.loads[iLoad][type[1] + '_unit'])
-                  if (type[1] == 'power' && config#id#.loads[iLoad].max_power) log#id#('|    └> max_power : '  + config#id#.loads[iLoad].max_power)
                   jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
                     if (isset(config#id#.loads[iLoad])) {
                       config#id#.loads[iLoad][type[1]] = isNaN(parseFloat(_options.value)) ? 0 : parseFloat(_options.value)
@@ -603,7 +578,7 @@
                 success:  function(pvValue) {
                   if (!isset(config#id#.solars[iPv])) config#id#.solars[iPv] = {}
                   if (type[1] == 'power') {
-                    config#id#.show_solar = true
+                    config#id#.has_solar = true
                     config#id#.solar.mppts = Math.max(config#id#.solar.mppts, iPv)
                     if (!isset(config#id#.solars[iPv].energy)) {
                       config#id#.solars[iPv].energy = false
@@ -628,35 +603,30 @@
                   config#id#.solars[iPv][type[1] + '_unit'] = cmds[j].unite
                   config#id#.solars[iPv][type[1] + '_isHistorized'] = cmds[j].isHistorized
                   config#id#.solars[iPv][type[1] + '_id'] = cmds[j].id
-                  
                   if (config#id#.solars[iPv][type[1] + '_isHistorized'] == '0') {
                     let test = cmds[j].value.match(/^#{1}(\d+)#{1}$/gm);
                     if (test) {
                       config#id#.solars[iPv][type[1] + '_isHistorized'] = '1'
                       config#id#.solars[iPv][type[1] + '_id'] = test[0].replaceAll('#', '')
-                      if (config#id#.checkHistoInValue) {
-                        jeedom.cmd.byId({
-                          id: test[0].replaceAll('#', ''),
-                          async: false,
-                          success:  function(cmd) {
-                            config#id#.solars[iPv][type[1] + '_isHistorized'] = cmd.isHistorized
-                          }
-                        })
-                      }
+                      jeedom.cmd.byId({
+                        id: test[0].replaceAll('#', ''),
+                        async: false,
+                        success:  function(cmd) {
+                          config#id#.solars[iPv][type[1] + '_isHistorized'] = cmd.isHistorized
+                        }
+                      })
                     }
                   }
-                  
                   jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
                     if (isset(config#id#.solars[iPv])) {
                       config#id#.solars[iPv][type[1]] = isNaN(parseFloat(_options.value)) ? 0 : parseFloat(_options.value)
                       let value = autoValueArray#id#(config#id#.solars[iPv][type[1]], config#id#.solars[iPv][type[1] + '_unit'])
                       if (type[1] != 'energy') {
                         document.getElementById("pv" + iPv + "_" + type[1] + "#id#").innerHTML = trunc#id#(parseFloat(_options.value), 1) + ' ' + config#id#.solars[iPv][type[1] + '_unit']
-                        //document.getElementById("pv" + iPv + "_" + type[1] + "#id#").innerHTML = trunc#id#(parseFloat(_options.value), 1) + ' ' + ((type[1] == 'power') ? config#id#.solar.power_unit : config#id#.solar[iPv][type[1] + '_unit'])
                       } else {
                         document.getElementById("pv" + iPv + "_" + type[1] + "#id#").innerHTML = trunc#id#(value.value, 3, 1) + ' ' + value.unit
                       }
-                      if (type[1] == 'power') calculatePv#id#('pv' + iPv + '_power') //&& config#id#.solar.has_pv_power === false
+                      if (type[1] == 'power' && config#id#.has_solar) calculatePv#id#('pv' + iPv + '_power')
                     }
                   })
                 }
@@ -668,55 +638,46 @@
             if (type[0].substring(0, 5) == 'perso' && iPerso >= 1) {
               if (cmds[j].name[6] != ' ' && cmds[j].name[6] >= 0) iPerso = iPerso * 10 + parseInt(cmds[j].name[6])
               if (isset(parameters#id#['perso'+iPerso+'Param']) && type[1] == 'state') {
-                let param = parameters#id#['perso'+iPerso+'Param'].split(" ")
+                let param = parameters#id#['perso'+iPerso+'Param'].split(",")
                 if (param.length >= 2) {
                   jeedom.cmd.execute({
                     id: id_eql,
                     async: false,
                     success:  function(persoValue) {
-                      // Format paramètre optionel : x y size_value color text size_text
+                      // Format paramètre optionel : x,y,size_value,color,text,size_text
                       config#id#.persos[iPerso] = {}
-                      let size_value = isNaN(param[2]) ? 16 : Math.min(16, parseFloat(param[2]))
-                      let size_text = isNaN(param[5]) ? 9 : Math.min(16, parseFloat(param[5]))
-                      let y_value = parseFloat(param[1])
-                      let color = param[3] || 'var(--inverter_colour#id#)'
-                      let text = param[4] || false
+                      config#id#.persos[iPerso]['x_value'] = parseFloat(param[0].trim())
+                      config#id#.persos[iPerso]['y_value'] = parseFloat(param[1].trim())
+                      config#id#.persos[iPerso]['size_value'] = isNaN(param[2]?.trim()) ? 16 : Math.min(16, parseFloat(param[2].trim()))
+                      config#id#.persos[iPerso]['color'] = param[3]?.trim() || 'var(--inverter_colour#id#)'
+                      if (config#id#.persos[iPerso]['color'] == 'solar') config#id#.persos[iPerso]['color'] = 'var(--solar_colour#id#)'
+                      else if (config#id#.persos[iPerso]['color'] == 'battery') config#id#.persos[iPerso]['color'] = 'var(--battery_colour#id#)'
+                      else if (config#id#.persos[iPerso]['color'] == 'aux') config#id#.persos[iPerso]['color'] = 'var(--aux_colour#id#)'
+                      else if (config#id#.persos[iPerso]['color'] == 'grid') config#id#.persos[iPerso]['color'] = 'var(--grid_colour#id#)'
+                      else if (config#id#.persos[iPerso]['color'] == 'load') config#id#.persos[iPerso]['color'] = 'var(--load_colour#id#)'
+                      else if (config#id#.persos[iPerso]['color'] == 'inverter') config#id#.persos[iPerso]['color'] = 'var(--inverter_colour#id#)'
+                      config#id#.persos[iPerso]['size_text'] = isNaN(param[5]?.trim()) ? 9 : Math.min(16, parseFloat(param[5].trim()))
+                      config#id#.persos[iPerso]['y_text'] = config#id#.persos[iPerso]['y_value'] + config#id#.persos[iPerso]['size_value'] - 2
+                      config#id#.persos[iPerso]['text'] = param[4]?.trim() || false
                       config#id#.persos[iPerso]['isHistorized'] = cmds[j].isHistorized
                       config#id#.persos[iPerso]['id'] = cmds[j].id
-                      
                       if (config#id#.persos[iPerso]['isHistorized'] == '0') {
                         let test = cmds[j].value.match(/^#{1}(\d+)#{1}$/gm);
                         if (test) {
                           config#id#.persos[iPerso]['isHistorized'] = '1'
                           config#id#.persos[iPerso]['id'] = test[0].replaceAll('#', '')
-                          if (config#id#.checkHistoInValue) {
-                            jeedom.cmd.byId({
-                              id: test[0].replaceAll('#', ''),
-                              async: false,
-                              success:  function(cmd) {
-                                config#id#.persos[iPerso]['isHistorized'] = cmd.isHistorized
-                              }
-                            })
-                          }
+                          jeedom.cmd.byId({
+                            id: test[0].replaceAll('#', ''),
+                            async: false,
+                            success:  function(cmd) {
+                              config#id#.persos[iPerso]['isHistorized'] = cmd.isHistorized
+                            }
+                          })
                         }
                       }
-                      
-                      config#id#.persos[iPerso]['x_value'] = parseFloat(param[0])
-                      config#id#.persos[iPerso]['y_value'] = y_value
-                      config#id#.persos[iPerso]['size_value'] = size_value
-                      config#id#.persos[iPerso]['size_text'] = size_text
-                      config#id#.persos[iPerso]['y_text'] = y_value + size_value - 2
-                      if (color == 'solar') color = 'var(--solar_colour#id#)'
-                      else if (color == 'battery') color = 'var(--battery_colour#id#)'
-                      else if (color == 'aux') color = 'var(--aux_colour#id#)'
-                      else if (color == 'grid') color = 'var(--grid_colour#id#)'
-                      else if (color == 'load') color = 'var(--load_colour#id#)'
-                      else if (color == 'inverter') color = 'var(--inverter_colour#id#)'
-                      config#id#.persos[iPerso]['color'] = color
-                      if(text) text = text.replaceAll('_', ' ')
-                      config#id#.persos[iPerso]['text'] = text
                       config#id#.persos[iPerso]['value'] = persoValue
                       config#id#.persos[iPerso]['unit'] = cmds[j].unite
+                      
                       jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
                         if (is_object(cmd = document.getElementById("perso" + iPerso + "-value-#id#"))) {
                           cmd.innerHTML = _options.value + ' ' + config#id#.persos[iPerso]['unit']
@@ -732,42 +693,37 @@
               ////////////////////////////////  pv power ////////////////////////////
               ///////////////////////////////////////////////////////////////////////
               case 'pv power':
-                log#id#('| pv_power')
                 jeedom.cmd.execute({
                   id: id_eql,
                   async: false,
                   success:  function(pvValue) {
                     config#id#.solar.has_pv_power = true
-                    config#id#.show_solar = true
+                    config#id#.has_solar = true
                     config#id#.solar.isHistorized = cmds[j].isHistorized
                     config#id#.solar.id = cmds[j].id
-                    
                     if (config#id#.solar.isHistorized == '0') {
                       let test = cmds[j].value.match(/^#{1}(\d+)#{1}$/gm);
                       if (test) {
                         config#id#.solar.isHistorized = '1'
                         config#id#.solar.id = test[0].replaceAll('#', '')
-                        if (config#id#.checkHistoInValue) {
-                          jeedom.cmd.byId({
-                            id: test[0].replaceAll('#', ''),
-                            async: false,
-                            success:  function(cmd) {
-                              config#id#.solar.isHistorized = cmd.isHistorized
-                            }
-                          })
-                        }
+                        jeedom.cmd.byId({
+                          id: test[0].replaceAll('#', ''),
+                          async: false,
+                          success:  function(cmd) {
+                            config#id#.solar.isHistorized = cmd.isHistorized
+                          }
+                        })
                       }
                     }
-                    
                     config#id#.solar.power_unit = cmds[j].unite
                     config#id#.solar.power = isNaN(parseFloat(pvValue)) ? 0 : parseFloat(pvValue)
-                    log#id#('|    └> value : ' + config#id#.solar.power + config#id#.solar.power_unit)
+                    jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
+                      config#id#.solar.power = isNaN(parseFloat(_options.value)) ? 0 : parseFloat(_options.value)
+                      if (config#id#.has_solar) calculatePv#id#('pv_power')
+                    })
                   }
                 })
-                jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
-                  config#id#.solar.power = isNaN(parseFloat(_options.value)) ? 0 : parseFloat(_options.value)
-                  calculatePv#id#('pv_power')
-                })
+                
                 break;
               ///////////////////////////////////////////////////////////////////////
               /////////////////////////////////  Daily  /////////////////////////////
@@ -776,46 +732,42 @@
               case 'daily load':
               case 'daily aux':
                 config#id#[type[1]].daily.show = true
-                log#id#('| daily ' + type[1])
                 jeedom.cmd.execute({
                   id: id_eql,
                   async: false,
                   success:  function(dailyValue) {
                     config#id#[type[1]].daily.isHistorized = cmds[j].isHistorized
                     config#id#[type[1]].daily.id = cmds[j].id
-                    
                     if (config#id#[type[1]].daily.isHistorized == '0') {
                       let test = cmds[j].value.match(/^#{1}(\d+)#{1}$/gm);
                       if (test) {
                         config#id#[type[1]].daily.isHistorized = '1'
                         config#id#[type[1]].daily.id = test[0].replaceAll('#', '')
-                        if (config#id#.checkHistoInValue) {
-                          jeedom.cmd.byId({
-                            id: test[0].replaceAll('#', ''),
-                            async: false,
-                            success:  function(cmd) {
-                              config#id#[type[1]].daily.isHistorized = cmd.isHistorized
-                            }
-                          })
-                        }
+                        jeedom.cmd.byId({
+                          id: test[0].replaceAll('#', ''),
+                          async: false,
+                          success:  function(cmd) {
+                            config#id#[type[1]].daily.isHistorized = cmd.isHistorized
+                          }
+                        })
                       }
                     }
-                    
                     config#id#[type[1]].daily.unit = cmds[j].unite
                     config#id#[type[1]].daily.state = isNaN(parseFloat(dailyValue)) ? 0 : parseFloat(dailyValue)
-                    log#id#('|    └> value : ' + config#id#[type[1]].daily.state + config#id#[type[1]].daily.unit)
+                    
+                    jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
+                      let daily = autoValueArray#id#((_options.value != undefined) ? parseFloat(_options.value) : 0,config#id#[type[1]].daily.unit)
+                      if (is_object(cmd = document.getElementById("daily_" + type[1] + "_value#id#"))) {
+                        cmd.innerHTML = trunc#id#(daily.value, 3, 1) + ' ' + daily.unit
+                      }
+                    })
                   }
-                })
-                jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
-                  let daily = autoValueArray#id#((_options.value != undefined) ? parseFloat(_options.value) : 0,config#id#[type[1]].daily.unit)
-                  document.getElementById("daily_" + type[1] + "_value#id#").innerHTML = trunc#id#(daily.value, 3, 1) + ' ' + daily.unit
                 })
                 break;
               case 'daily battery charge':
               case 'daily battery discharge':
               case 'daily grid buy':
               case 'daily grid sell':
-                log#id#('| daily ' + type[1] + ' ' + type[2])
                 config#id#[type[1]].daily['show_' + type[2]] = true
                 jeedom.cmd.execute({
                   id: id_eql,
@@ -825,30 +777,28 @@
                     config#id#[type[1]].daily[type[2] + '_state'] = isNaN(parseFloat(daily)) ? 0 : parseFloat(daily)
                     config#id#[type[1]].daily[type[2] + '_isHistorized'] = cmds[j].isHistorized
                     config#id#[type[1]].daily[type[2] + '_id'] = cmds[j].id
-                    
                     if (config#id#[type[1]].daily[type[2] + '_isHistorized'] == '0') {
                       let test = cmds[j].value.match(/^#{1}(\d+)#{1}$/gm);
                       if (test) {
                         config#id#[type[1]].daily[type[2] + '_isHistorized'] = '1'
                         config#id#[type[1]].daily[type[2] + '_id'] = test[0].replaceAll('#', '')
-                        if (config#id#.checkHistoInValue) {
-                          jeedom.cmd.byId({
-                            id: test[0].replaceAll('#', ''),
-                            async: false,
-                            success:  function(cmd) {
-                              config#id#[type[1]].daily[type[2] + '_isHistorized'] = cmd.isHistorized
-                            }
-                          })
-                        }
+                        jeedom.cmd.byId({
+                          id: test[0].replaceAll('#', ''),
+                          async: false,
+                          success:  function(cmd) {
+                            config#id#[type[1]].daily[type[2] + '_isHistorized'] = cmd.isHistorized
+                          }
+                        })
                       }
                     }
                     
-                    log#id#('|    └> value : ' + config#id#[type[1]].daily[type[2] + '_state'] + config#id#[type[1]].daily[type[2] + '_unit'])
+                    jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
+                      let daily = autoValueArray#id#((_options.value != undefined) ? parseFloat(_options.value) : 0,config#id#[type[1]].daily[type[2] + '_unit'])
+                      if (is_object(cmd = document.getElementById("daily_" + type[1] + "_" + type[2] + "_value#id#"))) {
+                        cmd.innerHTML = trunc#id#(daily.value, 3, 1) + ' ' + daily.unit
+                      }
+                    })  
                   }
-                })
-                jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
-                  let daily = autoValueArray#id#((_options.value != undefined) ? parseFloat(_options.value) : 0,config#id#[type[1]].daily[type[2] + '_unit'])
-                  document.getElementById("daily_" + type[1] + "_" + type[2] + "_value#id#").innerHTML = trunc#id#(daily.value, 3, 1) + ' ' + daily.unit
                 })
                 break;
               ///////////////////////////////////////////////////////////////////////
@@ -859,7 +809,6 @@
               case 'battery current':
               case 'battery power':
               case 'battery state':
-                log#id#('| battery ' + type[1])
                 jeedom.cmd.execute({
                   id: id_eql,
                   async: false,
@@ -867,36 +816,32 @@
                     if (type[1] == 'power') config#id#.has_battery = true
                     config#id#.battery[type[1]].isHistorized = cmds[j].isHistorized
                     config#id#.battery[type[1]].id = cmds[j].id
-                    
                     if (config#id#.battery[type[1]].isHistorized == '0') {
                       let test = cmds[j].value.match(/^#{1}(\d+)#{1}$/gm);
                       if (test) {
                         config#id#.battery[type[1]].isHistorized = '1'
                         config#id#.battery[type[1]].id = test[0].replaceAll('#', '')
-                        if (config#id#.checkHistoInValue) {
-                          jeedom.cmd.byId({
-                            id: test[0].replaceAll('#', ''),
-                            async: false,
-                            success:  function(cmd) {
-                              config#id#.battery[type[1]].isHistorized = cmd.isHistorized
-                            }
-                          })
-                        }
+                        jeedom.cmd.byId({
+                          id: test[0].replaceAll('#', ''),
+                          async: false,
+                          success:  function(cmd) {
+                            config#id#.battery[type[1]].isHistorized = cmd.isHistorized
+                          }
+                        })
                       }
                     }
-                    
                     config#id#.battery[type[1]].show = true
                     config#id#.battery[type[1]].unit = cmds[j].unite
                     if (type[1] != 'state') config#id#.battery[type[1]].state = isNaN(parseFloat(batteryValue)) ? 0 : parseFloat(batteryValue)
                     else config#id#.battery[type[1]].state = isNaN(parseFloat(batteryValue)) ? 100 : parseFloat(batteryValue)
-                    log#id#('|    └> value : ' + config#id#.battery[type[1]].state + config#id#.battery[type[1]].unit)
+                    
+                    jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
+                      config#id#.battery[type[1]].state = isNaN(parseFloat(_options.value)) ? 0 : parseFloat(_options.value)
+                      let batteryValue = (config#id#.battery[type[1]].state < 0) ? config#id#.battery[type[1]].state * -1 : config#id#.battery[type[1]].state
+                      if (type[1] != 'state' && is_object(cmd = document.getElementById("battery_" + type[1] + "#id#"))) cmd.innerHTML = trunc#id#(parseFloat(batteryValue),1) + ' ' + config#id#.battery[type[1]].unit
+                      if (config#id#.has_battery && (type[1] == 'power' || type[1] == 'state')) calculateBattery#id#('battery ' + type[1])
+                    })
                   }
-                })
-                jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
-                  config#id#.battery[type[1]].state = isNaN(parseFloat(_options.value)) ? 0 : parseFloat(_options.value)
-                  let batteryValue = (config#id#.battery[type[1]].state < 0) ? config#id#.battery[type[1]].state * -1 : config#id#.battery[type[1]].state
-                  if (type[1] != 'state' && is_object(cmd = document.getElementById("battery_" + type[1] + "#id#"))) cmd.innerHTML = trunc#id#(parseFloat(batteryValue),1) + ' ' + config#id#.battery[type[1]].unit
-                  if (config#id#.has_battery && (type[1] == 'power' || type[1] == 'state')) calculateBattery#id#('battery ' + type[1])
                 })
                 break;
               ///////////////////////////////////////////////////////////////////////
@@ -904,7 +849,6 @@
               ///////////////////////////////////////////////////////////////////////
               case 'battery mppt power':
               case 'battery mppt energy':
-                log#id#('| battery mppt ' + type[2])
                 jeedom.cmd.execute({
                   id: id_eql,
                   async: false,
@@ -912,66 +856,61 @@
                     if (type[2] == 'power') config#id#.battery.mppt.has_mppt_power = true
                     config#id#.battery.mppt[type[2]].isHistorized = cmds[j].isHistorized
                     config#id#.battery.mppt[type[2]].id = cmds[j].id
-                    
                     if (config#id#.battery.mppt[type[2]].isHistorized == '0') {
                       let test = cmds[j].value.match(/^#{1}(\d+)#{1}$/gm);
                       if (test) {
                         config#id#.battery.mppt[type[2]].isHistorized = '1'
                         config#id#.battery.mppt[type[2]].id = test[0].replaceAll('#', '')
-                        if (config#id#.checkHistoInValue) {
-                          jeedom.cmd.byId({
-                            id: test[0].replaceAll('#', ''),
-                            async: false,
-                            success:  function(cmd) {
-                              config#id#.battery.mppt[type[2]].isHistorized = cmd.isHistorized
-                            }
-                          })
-                        }
+                        jeedom.cmd.byId({
+                          id: test[0].replaceAll('#', ''),
+                          async: false,
+                          success:  function(cmd) {
+                            config#id#.battery.mppt[type[2]].isHistorized = cmd.isHistorized
+                          }
+                        })
                       }
                     }
-                    
                     config#id#.battery.mppt[type[2]].show = true
                     config#id#.battery.mppt[type[2]].unit = cmds[j].unite
                     config#id#.battery.mppt[type[2]].state = isNaN(parseFloat(batteryMppt)) ? 0 : parseFloat(batteryMppt)
-                    log#id#('|    └> value : ' + config#id#.battery.mppt[type[2]].state + config#id#.battery.mppt[type[2]].unit)
+                    
+                    jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
+                      config#id#.battery.mppt[type[2]].state = isNaN(parseFloat(_options.value)) ? 0 : parseFloat(_options.value)
+                      let batteryValue = autoValueArray#id#(config#id#.battery.mppt[type[2]].state,config#id#.battery.mppt[type[2]].unit)
+                      if (config#id#.has_battery && is_object(cmd = document.getElementById("battery_mppt_" + type[2] + "-#id#"))) {
+                        if(type[2] == 'energy') cmd.innerHTML = trunc#id#(batteryValue.value, 3, 1) + ' ' + batteryValue.unit
+                        if(type[2] == 'power') {
+                          cmd.innerHTML = config#id#.battery.mppt[type[2]].state + ' ' + config#id#.battery.mppt[type[2]].unit
+                          if (config#id#.battery.mppt[type[2]].state > 0) document.getElementById("dot-battery-mppt-#id#")?.setAttribute("fill", "var(--solar_colour#id#)")
+                          else document.getElementById("dot-battery-mppt-#id#")?.setAttribute("fill", "transparent")
+                          if (config#id#.has_battery) calculateBattery#id#('battery mppt power')
+                        }
+                      }
+                    })
                   }
                 })
-                jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
-                  config#id#.battery.mppt[type[2]].state = isNaN(parseFloat(_options.value)) ? 0 : parseFloat(_options.value)
-                  let batteryValue = autoValueArray#id#(config#id#.battery.mppt[type[2]].state,config#id#.battery.mppt[type[2]].unit)
-                  if (config#id#.has_battery && is_object(cmd = document.getElementById("battery_mppt_" + type[2] + "-#id#"))) {
-                    if(type[2] == 'energy') cmd.innerHTML = trunc#id#(batteryValue.value, 3, 1) + ' ' + batteryValue.unit
-                    if(type[2] == 'power') {
-                      cmd.innerHTML = config#id#.battery.mppt[type[2]].state + ' ' + config#id#.battery.mppt[type[2]].unit
-                      if(config#id#.battery.mppt[type[2]].state > 0) document.getElementById("dot-battery-mppt-#id#").setAttribute("fill", "var(--solar_colour#id#)")
-                      else document.getElementById("dot-battery-mppt-#id#").setAttribute("fill", "transparent")
-                      calculateBattery#id#('battery mppt power')
-                    }
-                  }
-                })
+                
                 break;
               ///////////////////////////////////////////////////////////////////////
               ///////////////////////////  Grid Status //////////////////////////////
               ///////////////////////////////////////////////////////////////////////
               case 'grid status':
-                log#id#('| grid status')
                 jeedom.cmd.execute({
                   id: id_eql,
                   async: false,
                   success:  function(gridStatus) {
-                    log#id#('|    └> cmd.execute : ' + gridStatus)
                     if (gridStatus === 0 || gridStatus === '0' || gridStatus === 'off') config#id#.grid.status = 0
                     else config#id#.grid.status = 1
-                  }
-                })
-                jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
-                  if (_options.value === 0 || _options.value === '0' || _options.value === 'off') {
-                    document.getElementById("transmission_on#id#").classList.add("hidden-#id#");
-                    document.getElementById("transmission_off#id#").classList.remove("hidden-#id#");
-                  }
-                  else {
-                    document.getElementById("transmission_on#id#").classList.remove("hidden-#id#");
-                    document.getElementById("transmission_off#id#").classList.add("hidden-#id#");
+                    
+                    jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
+                      if (_options.value === 0 || _options.value === '0' || _options.value === 'off') {
+                        document.getElementById("transmission_on#id#")?.classList.add("hidden-#id#");
+                        document.getElementById("transmission_off#id#")?.classList.remove("hidden-#id#");
+                      } else {
+                        document.getElementById("transmission_on#id#")?.classList.remove("hidden-#id#");
+                        document.getElementById("transmission_off#id#")?.classList.add("hidden-#id#");
+                      }
+                    })
                   }
                 })
                 break;
@@ -980,39 +919,36 @@
               ///////////////////////////////////////////////////////////////////////    
               case 'ac temp':
               case 'dc temp':
-                log#id#('| ' + type[0] + ' temp')
                 jeedom.cmd.execute({
                   id: id_eql,
                   async: false,
                   success:  function(temp) {
                     config#id#.inverter.temp[type[0] + '_isHistorized'] = cmds[j].isHistorized
                     config#id#.inverter.temp[type[0] + '_id'] = cmds[j].id
-                    
                     if (config#id#.inverter.temp[type[0] + '_isHistorized'] == '0') {
                       let test = cmds[j].value.match(/^#{1}(\d+)#{1}$/gm);
                       if (test) {
                         config#id#.inverter.temp[type[0] + '_isHistorized'] = '1'
                         config#id#.inverter.temp[type[0] + '_id'] = test[0].replaceAll('#', '')
-                        if (config#id#.checkHistoInValue) {
-                          jeedom.cmd.byId({
-                            id: test[0].replaceAll('#', ''),
-                            async: false,
-                            success:  function(cmd) {
-                              config#id#.inverter.temp[type[0] + '_isHistorized'] = cmd.isHistorized
-                            }
-                          })
-                        }
+                        jeedom.cmd.byId({
+                          id: test[0].replaceAll('#', ''),
+                          async: false,
+                          success:  function(cmd) {
+                            config#id#.inverter.temp[type[0] + '_isHistorized'] = cmd.isHistorized
+                          }
+                        })
                       }
                     }
-                    
                     config#id#.inverter.temp[type[0] + '_state'] = isNaN(parseFloat(temp)) ? 0 : parseFloat(temp)
                     if (cmds[j].unite != '') config#id#.inverter.temp[type[0] + '_unit'] = cmds[j].unite
-                    log#id#('|    └> value : ' + config#id#.inverter.temp[type[0] + '_state'] + config#id#.inverter.temp[type[0] + '_unit'])
+                    
+                    jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
+                      config#id#.inverter.temp[type[0] + '_state'] = isNaN(parseFloat(_options.value)) ? 0 : parseFloat(_options.value)
+                      if (is_object(cmd = document.getElementById(type[0] + "_temp#id#"))) {
+                        cmd.innerHTML = trunc#id#(config#id#.inverter.temp[type[0] + '_state'], 1) + ' ' + config#id#.inverter.temp[type[0] + '_unit']
+                      }
+                    })
                   }
-                })
-                jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
-                  config#id#.inverter.temp[type[0] + '_state'] = isNaN(parseFloat(_options.value)) ? 0 : parseFloat(_options.value)
-                  document.getElementById(type[0] + "_temp#id#").innerHTML = trunc#id#(config#id#.inverter.temp[type[0] + '_state'], 1) + ' ' + config#id#.inverter.temp[type[0] + '_unit']
                 })
                 break;
               ///////////////////////////////////////////////////////////////////////
@@ -1022,42 +958,39 @@
               case 'frequency state':
               case 'current state':
               case 'lcd state':
-                log#id#('| ' + type[0] + ' state')
                 jeedom.cmd.execute({
                   id: id_eql,
                   async: false,
                   success:  function(value) {
                     config#id#.inverter[type[0] + '_isHistorized'] = cmds[j].isHistorized
                     config#id#.inverter[type[0] + '_id'] = cmds[j].id
-                    
                     if (config#id#.inverter[type[0] + '_isHistorized'] == '0') {
                       let test = cmds[j].value.match(/^#{1}(\d+)#{1}$/gm);
                       if (test) {
                         config#id#.inverter[type[0] + '_isHistorized'] = '1'
                         config#id#.inverter[type[0] + '_id'] = test[0].replaceAll('#', '')
-                        if (config#id#.checkHistoInValue) {
-                          jeedom.cmd.byId({
-                            id: test[0].replaceAll('#', ''),
-                            async: false,
-                            success:  function(cmd) {
-                              config#id#.inverter[type[0] + '_isHistorized'] = cmd.isHistorized
-                            }
-                          })
-                        }
+                        jeedom.cmd.byId({
+                          id: test[0].replaceAll('#', ''),
+                          async: false,
+                          success:  function(cmd) {
+                            config#id#.inverter[type[0] + '_isHistorized'] = cmd.isHistorized
+                          }
+                        })
                       }
                     }
-                    
                     if (type[0] == 'lcd') config#id#.inverter[type[0] + '_state'] = value
                     else config#id#.inverter[type[0] + '_state'] = isNaN(parseFloat(value)) ? 0 : parseFloat(value)
                     config#id#.inverter[type[0] + '_unit'] = cmds[j].unite
-                    log#id#('|    └> value : ' + config#id#.inverter[type[0] + '_state'] + config#id#.inverter[type[0] + '_unit'])
+                    
+                    jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
+                      if (type[0] == 'lcd') config#id#.inverter[type[0] + '_state'] = _options.value
+                      else config#id#.inverter[type[0] + '_state'] = isNaN(parseFloat(_options.value)) ? 0 : parseFloat(_options.value)
+                      if (is_object(cmd = document.getElementById("inverter_" + type[0] + "#id#"))) {
+                        if (type[0] == 'lcd') cmd.innerHTML = config#id#.inverter[type[0] + '_state'] + ' ' + config#id#.inverter[type[0] + '_unit']
+                        else cmd.innerHTML = trunc#id#(config#id#.inverter[type[0] + '_state'], 1) + ' ' + config#id#.inverter[type[0] + '_unit']
+                      }
+                    })
                   }
-                })
-                jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
-                  if (type[0] == 'lcd') config#id#.inverter[type[0] + '_state'] = _options.value
-                  else config#id#.inverter[type[0] + '_state'] = isNaN(parseFloat(_options.value)) ? 0 : parseFloat(_options.value)
-                  if (type[0] == 'lcd') document.getElementById("inverter_" + type[0] + "#id#").innerHTML = config#id#.inverter[type[0] + '_state'] + ' ' + config#id#.inverter[type[0] + '_unit']
-                  else document.getElementById("inverter_" + type[0] + "#id#").innerHTML = trunc#id#(config#id#.inverter[type[0] + '_state'], 1) + ' ' + config#id#.inverter[type[0] + '_unit']
                 })
                 break;
               ///////////////////////////////////////////////////////////////////////
@@ -1067,78 +1000,71 @@
               case 'load power':
               case 'aux power':
               case 'grid power':
-                log#id#('| ' + type[0] + ' ' + type[1])
                 if (type[1] == 'state') type[1] = 'power' // workaround pour ne pas modifier le nom équipements d'origines.
                 config#id#[type[0]]['has_' + type[0] + '_power'] = true
+                config#id#['has_' + type[0]] = true
                 jeedom.cmd.execute({
                   id: id_eql,
                   async: false,
                   success:  function(value) {
                     config#id#[type[0]]['isHistorized'] = cmds[j].isHistorized
                     config#id#[type[0]]['id'] = cmds[j].id
-                    
                     if (config#id#[type[0]]['isHistorized'] == '0') {
                       let test = cmds[j].value.match(/^#{1}(\d+)#{1}$/gm);
                       if (test) {
                         config#id#[type[0]]['isHistorized'] = '1'
                         config#id#[type[0]]['id'] = test[0].replaceAll('#', '')
-                        if (config#id#.checkHistoInValue) {
-                          jeedom.cmd.byId({
-                            id: test[0].replaceAll('#', ''),
-                            async: false,
-                            success:  function(cmd) {
-                              config#id#[type[0]]['isHistorized'] = cmd.isHistorized
-                            }
-                          })
-                        }
+                        jeedom.cmd.byId({
+                          id: test[0].replaceAll('#', ''),
+                          async: false,
+                          success:  function(cmd) {
+                            config#id#[type[0]]['isHistorized'] = cmd.isHistorized
+                          }
+                        })
                       }
                     }
-                    
                     config#id#[type[0]].power_unit = cmds[j].unite
                     config#id#[type[0]].power = isNaN(parseFloat(value)) ? 0 : parseFloat(value)
-                    log#id#('|    └> value : ' + config#id#[type[0]].power + config#id#[type[0]].power_unit)
-                    log#id#('|    └> max_power : '  + config#id#[type[0]].max_power)
-                  }
-                })
-                jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
-                  config#id#[type[0]].power = isNaN(parseFloat(_options.value)) ? 0 : parseFloat(_options.value)
-                  let PowerTrunc = trunc#id#(config#id#[type[0]].power, 1)
-                  let PowerAbs = (PowerTrunc > 0) ? PowerTrunc : (PowerTrunc < 0) ? (PowerTrunc * -1) : PowerTrunc
-                  document.getElementById(type[0] + "_power#id#").innerHTML = PowerAbs + ' ' + config#id#[type[0]].power_unit
-                  if (config#id#[type[0]].max_power && config#id#[type[0]].power >= config#id#[type[0]].max_power) {
-                    document.getElementById(type[0] + "-rect-#id#").setAttribute("stroke", "var(--color_alerte#id#)")
-                    if (config#id#.blink) document.getElementById(type[0] + "-rect-#id#").classList.add("blink#id#")
-                  }
-                  else {
-                    document.getElementById(type[0] + "-rect-#id#").setAttribute("stroke", "var(--" + type[0] + "_colour#id#)")
-                    if (config#id#.blink) document.getElementById(type[0] + "-rect-#id#").classList.remove("blink#id#")
-                  }
-                  if (type[0] == 'load') calculateLoad#id#('load state')
-                  if (type[0] == 'aux') calculateAux#id#('aux power')
-                  if (type[0] == 'grid') {
-                    if(PowerTrunc > 0) {
-                      document.getElementById("grid-dot-buy#id#").setAttribute("fill", "var(--grid_colour#id#)");
-                      document.getElementById("grid-dot1-buy#id#").setAttribute("fill", "var(--grid_colour#id#)");
-                      document.getElementById("grid-dot-sell#id#").setAttribute("fill", "transparent");
-                      document.getElementById("grid-dot1-sell#id#").setAttribute("fill", "transparent");
-                    }
-                    else if(PowerTrunc < 0) {
-                      document.getElementById("grid-dot-buy#id#").setAttribute("fill", "transparent");
-                      document.getElementById("grid-dot1-buy#id#").setAttribute("fill", "transparent");
-                      document.getElementById("grid-dot-sell#id#").setAttribute("fill", "var(--grid_colour#id#)");
-                      document.getElementById("grid-dot1-sell#id#").setAttribute("fill", "var(--grid_colour#id#)");
-                    }
-                    else {
-                      document.getElementById("grid-dot-buy#id#").setAttribute("fill", "transparent");
-                      document.getElementById("grid-dot1-buy#id#").setAttribute("fill", "transparent");
-                      document.getElementById("grid-dot-sell#id#").setAttribute("fill", "transparent");
-                      document.getElementById("grid-dot1-sell#id#").setAttribute("fill", "transparent");
-                    }
-                    calculateGrid#id#('grid power')
+                    
+                    jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
+                      config#id#[type[0]].power = isNaN(parseFloat(_options.value)) ? 0 : parseFloat(_options.value)
+                      let PowerTrunc = trunc#id#(config#id#[type[0]].power, 1)
+                      let PowerAbs = (PowerTrunc > 0) ? PowerTrunc : (PowerTrunc < 0) ? (PowerTrunc * -1) : PowerTrunc
+                      if (is_object(cmd = document.getElementById(type[0] + "_power#id#"))) {
+                        cmd.innerHTML = PowerAbs + ' ' + config#id#[type[0]].power_unit
+                      }
+                      if (config#id#[type[0]].max_power && config#id#[type[0]].power >= config#id#[type[0]].max_power) {
+                        document.getElementById(type[0] + "-rect-#id#")?.setAttribute("stroke", "var(--color_alerte#id#)")
+                        if (config#id#.blink) document.getElementById(type[0] + "-rect-#id#")?.classList.add("blink#id#")
+                      } else {
+                        document.getElementById(type[0] + "-rect-#id#")?.setAttribute("stroke", "var(--" + type[0] + "_colour#id#)")
+                        if (config#id#.blink) document.getElementById(type[0] + "-rect-#id#")?.classList.remove("blink#id#")
+                      }
+                      if (type[0] == 'load' && config#id#.has_load) calculateLoad#id#('load state')
+                      if (type[0] == 'aux' && config#id#.has_aux) calculateAux#id#('aux power')
+                      if (type[0] == 'grid') {
+                        if(PowerTrunc > 0) {
+                          document.getElementById("grid-dot-buy#id#")?.setAttribute("fill", "var(--grid_colour#id#)");
+                          document.getElementById("grid-dot1-buy#id#")?.setAttribute("fill", "var(--grid_colour#id#)");
+                          document.getElementById("grid-dot-sell#id#")?.setAttribute("fill", "transparent");
+                          document.getElementById("grid-dot1-sell#id#")?.setAttribute("fill", "transparent");
+                        } else if(PowerTrunc < 0) {
+                          document.getElementById("grid-dot-buy#id#")?.setAttribute("fill", "transparent");
+                          document.getElementById("grid-dot1-buy#id#")?.setAttribute("fill", "transparent");
+                          document.getElementById("grid-dot-sell#id#")?.setAttribute("fill", "var(--grid_colour#id#)");
+                          document.getElementById("grid-dot1-sell#id#")?.setAttribute("fill", "var(--grid_colour#id#)");
+                        } else {
+                          document.getElementById("grid-dot-buy#id#")?.setAttribute("fill", "transparent");
+                          document.getElementById("grid-dot1-buy#id#")?.setAttribute("fill", "transparent");
+                          document.getElementById("grid-dot-sell#id#")?.setAttribute("fill", "transparent");
+                          document.getElementById("grid-dot1-sell#id#")?.setAttribute("fill", "transparent");
+                        }
+                        calculateGrid#id#('grid power')
+                      }
+                    })
                   }
                 })
                 break;
-              
               /*
               ///////////////////////////////////////////////////////////////////////
               ///////////////////////////  Energy cost //////////////////////////////
@@ -1168,11 +1094,9 @@
           for (solar in config#id#.solars) {
             if (!isset(config#id#.solars[solar].power)) delete config#id#.solars[solar]
           }
-          if (debug#id#) console.table(config#id#.loads)
-          if (debug#id#) console.table(config#id#.solars)
-          if (debug#id#) console.table(config#id#.persos)
         }
       })
+      if (debug#id#) console.table(config#id#)
       log#id#('└──────────────────────────────────────────────────────')
       
       init#id#(true)
@@ -1192,14 +1116,11 @@
             
             let max_load = (482 + 76 + Math.floor(nb_load / 2) * 76)
             if (config#id#.solar.mppts <= 6 && config#id#.load.force4load) max_load = (482 + 76 + Math.trunc(nb_load / 4.1) * 76)
-            if (config#id#.load.has_load_power === false && config#id#.load.additional_loads == 0) max_load = 240
+            if (!config#id#.has_load) max_load = 240 //(config#id#.load.has_load_power === false && config#id#.load.additional_loads == 0)
             
             let max_solar = (406 + Math.floor(nb_solar / 2) * 79) //327
             if (config#id#.solar.mppts == 0) max_solar = 240
             else if (config#id#.solar.mppts <= 6) max_solar = 290
-            
-            log#id#('max_load : ' + max_load)
-            log#id#('max_solar : ' + max_solar)
             
             var html = '<div class="container#id# card#id#">'
             let viewBox_y = -90 // pv >= 7
@@ -1209,7 +1130,7 @@
             // début gauche
             html += '0'
             // début haut
-            if (config#id#.show_solar === false) {
+            if (config#id#.has_solar === false) {
               if (config#id#.load.additional_loads >= 1) viewBox_y = 110
               else viewBox_y = 150
             } else {
@@ -1222,7 +1143,7 @@
             html += ' ' + viewBox_y + ' '
             
             // fin droite
-            if (config#id#.show_solar === false) viewBox_w = Math.max(viewBox_w, 300)
+            if (config#id#.has_solar === false) viewBox_w = Math.max(viewBox_w, 300)
             if (config#id#.aux.has_aux_power !== false && config#id#.has_battery) viewBox_w = Math.max(viewBox_w, 485)
             else if (config#id#.has_battery) viewBox_w = Math.max(viewBox_w, 400) //
             if (config#id#.solar.mppts == 2) viewBox_w = Math.max(viewBox_w, 334)
@@ -1231,7 +1152,7 @@
             html += viewBox_w
             
             // fin bas
-            if (config#id#.show_solar === false) {
+            if (config#id#.has_solar === false) {
               //if (config#id#.load.has_aux_power === false) viewBox_h = 170
               if (config#id#.load.additional_loads == 1) viewBox_h = 310 - viewBox_y
               if (config#id#.load.additional_loads > 1) viewBox_h = 350 - viewBox_y  //240
@@ -1248,14 +1169,14 @@
             }
             
             html += ' ' + viewBox_h
-            html += '" preserveAspectRatio="xMidYMid meet" height="100%" width="100%" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">'
+            html += '" preserveAspectRatio="xMidYMid meet" height="100%" width="100%" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" style="' + ((debug#id#) ? 'border: 1px red dashed;' : '') + '">'
             
             
             ///////////////////////////////////////////////////////
             ///////////////////// solar ///////////////////////////
             ///////////////////////////////////////////////////////
             html += '<!-- PV -->'
-            if (config#id#.show_solar !== false) {
+            if (config#id#.has_solar !== false) {
               html += '<rect x="205" y="128.5" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--solar_colour#id#)" pointer-events="all" class="' + ((config#id#.solar.mppts == 1) ? 'hidden-#id#' : '') + '"/>'
               ///////////////
               ///  POWER  ///
@@ -1279,19 +1200,19 @@
               ///////////////
               ///  ICON   ///
               ///////////////
-              html += '<svg xmlns="http://www.w3.org/2000/svg" id="icon_sun#id#" x="' + ((config#id#.solar.daily.show === false) ? '220' : (config#id#.solar.mppts > 6) ? '205' : '180') + '" y="' + ((config#id#.solar.mppts == 1 || (config#id#.solar.mppts == 0 && config#id#.solar.has_pv_power !== false)) ? '70' : (config#id#.solar.mppts > 6) ? '-13' : '10') + '" width="' + ((config#id#.solar.mppts > 6) ? '70' : '40') + '" height="' + ((config#id#.solar.mppts > 6) ? '70' : '40') + '" viewBox="0 0 24 24"><path class="' + ((config#id#.show_solar === false) ? 'hidden-#id#' : '') + '" fill="var(--solar_colour#id#)" d="M11.45 2v3.55L15 3.77L11.45 2m-1 6L8 10.46l3.75 1.25L10.45 8M2 11.45L3.77 15l1.78-3.55H2M10 2H2v8c.57.17 1.17.25 1.77.25c3.58.01 6.49-2.9 6.5-6.5c-.01-.59-.1-1.18-.27-1.75m7 20v-6h-3l5-9v6h3l-5 9Z"/></svg>'
+              html += '<svg xmlns="http://www.w3.org/2000/svg" id="icon_sun#id#" x="' + ((config#id#.solar.daily.show === false) ? '220' : (config#id#.solar.mppts > 6) ? '205' : '180') + '" y="' + ((config#id#.solar.mppts == 1 || (config#id#.solar.mppts == 0 && config#id#.solar.has_pv_power !== false)) ? '70' : (config#id#.solar.mppts > 6) ? '-13' : '10') + '" width="' + ((config#id#.solar.mppts > 6) ? '70' : '40') + '" height="' + ((config#id#.solar.mppts > 6) ? '70' : '40') + '" viewBox="0 0 24 24"><path class="' + ((config#id#.has_solar === false) ? 'hidden-#id#' : '') + '" fill="var(--solar_colour#id#)" d="M11.45 2v3.55L15 3.77L11.45 2m-1 6L8 10.46l3.75 1.25L10.45 8M2 11.45L3.77 15l1.78-3.55H2M10 2H2v8c.57.17 1.17.25 1.77.25c3.58.01 6.49-2.9 6.5-6.5c-.01-.59-.1-1.18-.27-1.75m7 20v-6h-3l5-9v6h3l-5 9Z"/></svg>'
               ///////////////
               ///  DAILY  ///
               ///////////////
               let dailySolar = autoValueArray#id#(config#id#.solar.daily.state,config#id#.solar.daily.unit)
               html += '<text id="daily_solar_value#id#" x="226" y="' + ((config#id#.solar.mppts == 1 || (config#id#.solar.mppts == 0 && config#id#.solar.has_pv_power !== false)) ? '85' : ((config#id#.solar.mppts > 6) ? '-60' : '26')) + '" class="ft16-#id# left-align#id# ' + ((config#id#.solar.daily.isHistorized && config#id#.solar.daily.isHistorized == 1) ? 'history cursor' : '') + '" display="'
-              html += (config#id#.solar.daily.show !== true || config#id#.show_solar === false) ? 'none' : ''
+              html += (config#id#.solar.daily.show !== true || config#id#.has_solar === false) ? 'none' : ''
               html += '" fill="var(--solar_colour#id#)"'
               html += ((config#id#.solar.daily.isHistorized == 1 && config#id#.solar.daily.id) ? ' data-cmd_id=' + config#id#.solar.daily.id : '')
               html += '>'
               html += trunc#id#(dailySolar.value, 3, 1) + ' ' + dailySolar.unit
               html += '</text>'
-              html += '<text id="daily_solar#id#" x="226" y="' + ((config#id#.solar.mppts == 1 || (config#id#.solar.mppts == 0 && config#id#.solar.has_pv_power !== false)) ? '100' : ((config#id#.solar.mppts > 6) ? '-46' : '40')) + '" class="ft9-#id# left-align#id#" fill="' + ((config#id#.solar.daily.show !== true || config#id#.show_solar === false) ? 'transparent' : 'var(--solar_colour#id#)') + '">' + config#id#.solar.daily.text + '</text>'
+              html += '<text id="daily_solar#id#" x="226" y="' + ((config#id#.solar.mppts == 1 || (config#id#.solar.mppts == 0 && config#id#.solar.has_pv_power !== false)) ? '100' : ((config#id#.solar.mppts > 6) ? '-46' : '40')) + '" class="ft9-#id# left-align#id#" fill="' + ((config#id#.solar.daily.show !== true || config#id#.has_solar === false) ? 'transparent' : 'var(--solar_colour#id#)') + '">' + config#id#.solar.daily.text + '</text>'
             }
             ///////////////////////////////////////////////////////
             ///////////////////// persos //////////////////////////
@@ -1443,249 +1364,235 @@
               ///  NAME   ///
               ///////////////
               if (isset(parameters#id#['pv'+solar+'Name'])) {
-                html += '<text id="pv' + solar + '-name-#id#" x="' + x_name + '" y="' + y_name + '" class="ft9-#id# ftw-#id# center-align#id#" display="' + ((config#id#.show_solar === false) ? 'none' : '') + '" fill="var(--solar_colour#id#)">' + ((isset(parameters#id#['pv' + solar + 'Name'])) ? parameters#id#['pv' + solar + 'Name'] : '') + '</text>'
+                html += '<text id="pv' + solar + '-name-#id#" x="' + x_name + '" y="' + y_name + '" class="ft9-#id# ftw-#id# center-align#id#" display="' + ((config#id#.has_solar === false) ? 'none' : '') + '" fill="var(--solar_colour#id#)">' + ((isset(parameters#id#['pv' + solar + 'Name'])) ? parameters#id#['pv' + solar + 'Name'] : '') + '</text>'
               }
             }
             ///////////////////////////////////////////////////////
             ////////////////////// LOAD ///////////////////////////
             ///////////////////////////////////////////////////////
-            html += '<!-- Load -->'
-            html += '<rect id="load-rect-#id#" x="304" y="213" width="70" height="30" rx="4.5" ry="4.5" class="' + ((config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--load_colour#id#)" pointer-events="all"/>'
-            ///////////////
-            ///  POWER  ///
-            ///////////////
-            html += '<text id="load_power#id#" x="338.1" y="232.2" display="' + ((config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) ? '' : 'none') + '" class="ft12-#id# ftw-#id# center-align#id# ' + ((config#id#.load.has_load_power && config#id#.load.isHistorized == 1 && config#id#.load.id) ? 'history cursor' : '') + '" fill="var(--load_colour#id#)"'
-            html += ((config#id#.load.has_load_power && config#id#.load.isHistorized == 1 && config#id#.load.id) ? ' data-cmd_id=' + config#id#.load.id : '')
-            html += '>' + trunc#id#(config#id#.load.power, 1) + ' ' + config#id#.load.power_unit + '</text>'
-            ///////////////
-            ///  LINE   ///
-            ///////////////
-            html += '<path id="es-line#id#" class="' + ((config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) ? '' : 'hidden-#id#') + '" d="M 304 228 L 264.7 228" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
-            html += '<circle id="es-dot1#id#" cx="0" cy="0" r="3" fill="transparent">'
-            html += '<animateMotion id="anim_load1#id#" dur="' + config#id#.load.animation_speed + 's" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear">'
-            html += '<mpath xlink:href="#es-line#id#"/></animateMotion></circle>'
-            html += '<path id="es-line1#id#" class="' + ((config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) ? '' : 'hidden-#id#') + '" d="M 374 228 L 402.38 228" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
-            html += '<circle id="es-dot#id#" cx="0" cy="0" r="3" fill="transparent"><animateMotion id="anim_load#id#" dur="' + config#id#.load.animation_speed + 's" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#es-line1#id#"/></animateMotion></circle>'
-            // ICON LOAD ESS
-            //html += '<svg xmlns="http://www.w3.org/2000/svg" id="icon_load#id#" x="402" y="177.5" width="79" height="79" viewBox="0 0 24 24"><path fill="var(--load_colour#id#)" d="M15 9h1V7.5h4V9h1c.55 0 1 .45 1 1v11c0 .55-.45 1-1 1h-6c-.55 0-1-.45-1-1V10c0-.55.45-1 1-1m1 2v3h4v-3h-4m-4-5.31l-5 4.5V18h5v2H5v-8H2l10-9l2.78 2.5H14v1.67l-.24.1L12 5.69Z"/></svg>'
-            // ICON LOAD NONESS
-            if (config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) {
-              html += '<svg fill="var(--load_colour7465)" id="icon_load#id#" x="400" y="188.5" width="80" height="80" style="color:var(--load_colour#id#)"><use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-load"></use></svg>'
-            }
-            ///////////////
-            ///  DAILY  ///
-            ///////////////
-            let dailyLoad = autoValueArray#id#(config#id#.load.daily.state,config#id#.load.daily.unit)
-            html += '<text id="daily_load_value#id#" x="' + ((config#id#.load.additional_loads == 1) ? '400.4' : '304') + '" y="' + ((config#id#.load.additional_loads == 1) ? '277.9' : '178') + '" class="ft16-#id# left-align#id# ' + (((config#id#.load.daily.show === true) && (config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power)) ? '' : 'hidden-#id#') + ' ' + ((config#id#.load.daily.isHistorized && config#id#.load.daily.isHistorized == 1) ? 'history cursor' : '') + '" fill="var(--load_colour#id#)"'
-            html += ((config#id#.load.has_load_power && config#id#.load.daily.isHistorized == 1 && config#id#.load.daily.id) ? ' data-cmd_id=' + config#id#.load.daily.id : '')
-            html += '>' + trunc#id#(dailyLoad.value, 3, 1) + ' ' + dailyLoad.unit + '</text>'
-            html += '<text id="daily_load#id#" x="' + ((config#id#.load.additional_loads == 1) ? '400.4' : '304') + '" y="' + ((config#id#.load.additional_loads == 1) ? '292.1' : '192.2') + '" class="ft9-#id# left-align#id# ' + (((config#id#.load.daily.show === true) && (config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power)) ? '' : 'hidden-#id#') + '" fill="var(--load_colour#id#)" >' + config#id#.load.daily.text + '</text>'
-  
-            ///////////////////////////////////////////////////////
-            ///////////////////// LOADS ///////////////////////////
-            ///////////////////////////////////////////////////////
-            var max_width_load = 0
-            for (let load = 1; load <= config#id#.load.additional_loads; load++) {
-                          
-              ////////////////////////////////////
-              //            variables           //
-              ////////////////////////////////////
-              let num_load = parseInt(load)
-              let pas_horizontal = 76
-              let nbre_colonnes = 0
-              let path = ''
-              let x_rect = 482 //406
-              let y_rect = 0
-              let x_path = x_rect + 35
-              let y_path = 0
-              let y2_path = 228
-              let x_power = x_rect + 35
-              let y_power = 0
-              let x_energy = x_rect + 35
-              let y_energy = 0
-              let x_name = x_rect + 35
-              let y_name = 0
-              let x_perso = x_rect + 30
-              let y_perso = 0
-              let x_icon = x_rect + 5 //x_rect + (70 / 2) + 2
-              let y_icon = 0
-              
-              let a_path = x_rect + 35
-              let b_path = 0
-              let r_path = 8 // rayon courbes lines
-              let c_path = 0
-              let d_path = 0
-              let e_path = 0
-              
-              if (config#id#.solar.mppts <= 6 && config#id#.load.force4load) {
-                nbre_colonnes = Math.trunc(num_load / 4.1)
-                if (numIsPair(num_load)) {
-                  if (((nbre_colonnes * 4) + 4) == num_load) {
-                    // D
-                    y_rect = 272 + 92
-                    y_path = y_rect
-                    y2_path = y2_path + 92
-                    y_name = y_rect + 30 + 10
-                    y_perso = y_rect - 35 //5
-                    y_icon = y_rect - 27
-                  }
-                  else 
-                  {
-                    // C
-                    y_rect = 272
-                    y_path = y_rect
-                    y_name = y_rect + 30 + 10
-                    y_perso = y_rect - 34 //5
-                    y_icon = y_rect - 27
-                  }
-                } else {
-                  if (((nbre_colonnes * 4) + 3) == num_load) {
-                    // A
-                    y_rect = 156 - 92
-                    y_path = y_rect + 30
-                    y2_path = y2_path - 92
-                    y_name = y_rect - 4
-                    y_perso = y_rect + 70 //40
-                    y_icon = y_rect + 32
-                  }
-                  else {
-                    // B
-                    y_rect = 156
-                    y_path = y_rect + 30
-                    y_name = y_rect - 4
-                    y_perso = y_rect + 67 //40
-                    y_icon = y_rect + 32
-                  }
-                }
-              } else {
-                nbre_colonnes = Math.trunc(num_load / 2.1)
-                if (numIsPair(num_load)) {
-                  // C
-                  y_rect = 297.5
-                  y_path = y_rect
-                  y_name = y_rect + 30 + 10
-                  y_perso = y_rect - 45 //5
-                  y_icon = y_rect - 27
-                  b_path = 242
-                  c_path = y_rect
-                  d_path = b_path + r_path
-                }
-                else {
-                  // B
-                  y_rect = 156
-                  y_rect = 128.5
-                  y_path = y_rect + 30
-                  y_name = y_rect - 6
-                  y_perso = y_rect + 80 //40
-                  y_icon = y_rect + 32
-                  b_path = 214
-                  c_path = y_rect + 30
-                  d_path = b_path - r_path
-                }
-              }
-              y_power = (!isset(config#id#.loads[load]) || config#id#.loads[load].energy === false) ? y_rect + 20 : y_rect + 20 - 5
-              y_energy = y_rect + 25
-              
-              x_rect = x_rect + nbre_colonnes * pas_horizontal
-              x_path = x_path + nbre_colonnes * pas_horizontal
-              
-              
-              max_width_load = Math.max(max_width_load, x_path)
-              x_power = x_power + nbre_colonnes * pas_horizontal
-              x_energy = x_energy + nbre_colonnes * pas_horizontal
-              x_name = x_name + nbre_colonnes * pas_horizontal
-              x_perso = x_perso + nbre_colonnes * pas_horizontal
-              x_icon = x_icon + nbre_colonnes * pas_horizontal
-              
-              a_path = a_path + nbre_colonnes * pas_horizontal
-              e_path = a_path - r_path
-              
-              if (config#id#.solar.mppts <= 6 && config#id#.load.force4load) path = 'M ' + x_path + ' ' + y_path + ' L ' + x_path + ' ' + y2_path
-              else path = 'M ' + a_path + ' ' + c_path + ' L ' + a_path + ' ' + d_path + ' Q ' + a_path + ' ' + b_path + ' ' + e_path + ' ' + b_path + ' L 475 ' + b_path
-              
-              ////////////////////////////////////
-              /////         DISPLAY          /////
-              ////////////////////////////////////
-              html += '<!-- Load ' + load + '-->'
-              html += '<rect id="load' + load + '-rect-#id#" class="'
-              html += ((config#id#.blink && isset(config#id#.loads[load]) && config#id#.loads[load].max_power && config#id#.loads[load].power >= config#id#.loads[load].max_power) ? 'blink#id#' : '')
-              html += '" x="' + x_rect + '" y="' + y_rect + '" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="'
-              html += ((isset(config#id#.loads[load]) && config#id#.loads[load].max_power && config#id#.loads[load].power >= config#id#.loads[load].max_power) ? 'var(--color_alerte#id#)' : 'var(--load_colour#id#)')
-              html += '" pointer-events="all" />'
+            if (config#id#.has_load) {
+              html += '<!-- Load -->'
+              html += '<rect id="load-rect-#id#" x="304" y="213" width="70" height="30" rx="4.5" ry="4.5" class="' + ((config#id#.has_load) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--load_colour#id#)" pointer-events="all"/>'
               ///////////////
               ///  POWER  ///
               ///////////////
-              html += '<text id="ess_load' + load + '#id#" x="' + x_power + '" y="' + y_power + '" class="ft12-#id# ftw-#id# center-align#id#' + (isset(config#id#.loads[load]) && isset(config#id#.loads[load].power_isHistorized) && config#id#.loads[load].power_isHistorized == 1 ? ' history cursor' : '')
-              html += ((config#id#.font_alert && config#id#.blink && isset(config#id#.loads[load]) && config#id#.loads[load].max_power && config#id#.loads[load].power >= config#id#.loads[load].max_power) ? ' blink#id#' : '')
-              html += '" fill="'
-              html += ((config#id#.font_alert && isset(config#id#.loads[load]) && config#id#.loads[load].max_power && config#id#.loads[load].power >= config#id#.loads[load].max_power) ? 'var(--color_alerte#id#)' : 'var(--load_colour#id#)')
-              html += '"'
-              html += (isset(config#id#.loads[load]) && isset(config#id#.loads[load].power_id) ? ' data-cmd_id=' + config#id#.loads[load].power_id : '')
-              html += '>' + trunc#id#((isset(config#id#.loads[load])) ? config#id#.loads[load].power : 0, 1) + ' ' + ((isset(config#id#.loads[load])) ? config#id#.loads[load].power_unit : '') + '</text>'
+              html += '<text id="load_power#id#" x="338.1" y="232.2" display="' + ((config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) ? '' : 'none') + '" class="ft12-#id# ftw-#id# center-align#id# ' + ((config#id#.load.has_load_power && config#id#.load.isHistorized == 1 && config#id#.load.id) ? 'history cursor' : '') + '" fill="var(--load_colour#id#)"'
+              html += ((config#id#.load.has_load_power && config#id#.load.isHistorized == 1 && config#id#.load.id) ? ' data-cmd_id=' + config#id#.load.id : '')
+              html += '>' + trunc#id#(config#id#.load.power, 1) + ' ' + config#id#.load.power_unit + '</text>'
               ///////////////
               ///  LINE   ///
               ///////////////
-              html += '<path id="es-load' + load + 'path#id#" d="' + path + '" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
-              html += '<circle id="es-dot' + load + '-#id#" cx="0" cy="0" r="3"  class="' + ((config#id#.load.animate_load_enable === true) ? '' : 'hidden-#id#') + '" fill="' + ((!isset(config#id#.loads[load]) || config#id#.loads[load].power == 0) ? 'transparent' : 'var(--load_colour#id#)') + '"><animateMotion id="anim_load' + load + '-#id#" dur="3" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#es-load' + load + 'path#id#"></mpath></animateMotion></circle>'
-              ///////////////
-              ///  ENERGY ///
-              ///////////////
-              if (isset(config#id#.loads[load]) && config#id#.loads[load].energy !== false) {
-                let load_energy = autoValueArray#id#((config#id#.loads[load].energy || 0),(config#id#.loads[load].energy_unit || 'Wh'))
-                html += '<text id="load' + load + '_energy#id#" x="' + x_energy + '" y="' + y_energy + '" class="ft8-#id# center-align#id# ' + ((isset(config#id#.loads[load].energy_isHistorized) && config#id#.loads[load].energy_isHistorized == 1) ? 'history cursor' : '') + '" fill="var(--load_colour#id#)"'
-                html += ((isset(config#id#.loads[load].energy_id) && config#id#.loads[load].energy_id) ? ' data-cmd_id=' + config#id#.loads[load].energy_id : '')
-                html+= '>' + trunc#id#(load_energy.value, 3, 1) + ' ' + load_energy.unit + '</text>'
+              html += '<path id="es-line#id#" class="' + ((config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) ? '' : 'hidden-#id#') + '" d="M 304 228 L 264.7 228" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
+              html += '<circle id="es-dot1#id#" cx="0" cy="0" r="3" fill="transparent">'
+              html += '<animateMotion id="anim_load1#id#" dur="' + config#id#.load.animation_speed + 's" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear">'
+              html += '<mpath xlink:href="#es-line#id#"/></animateMotion></circle>'
+              html += '<path id="es-line1#id#" class="' + ((config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) ? '' : 'hidden-#id#') + '" d="M 374 228 L 402.38 228" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
+              html += '<circle id="es-dot#id#" cx="0" cy="0" r="3" fill="transparent"><animateMotion id="anim_load#id#" dur="' + config#id#.load.animation_speed + 's" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#es-line1#id#"/></animateMotion></circle>'
+              // ICON LOAD ESS
+              //html += '<svg xmlns="http://www.w3.org/2000/svg" id="icon_load#id#" x="402" y="177.5" width="79" height="79" viewBox="0 0 24 24"><path fill="var(--load_colour#id#)" d="M15 9h1V7.5h4V9h1c.55 0 1 .45 1 1v11c0 .55-.45 1-1 1h-6c-.55 0-1-.45-1-1V10c0-.55.45-1 1-1m1 2v3h4v-3h-4m-4-5.31l-5 4.5V18h5v2H5v-8H2l10-9l2.78 2.5H14v1.67l-.24.1L12 5.69Z"/></svg>'
+              // ICON LOAD NONESS
+              if (config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) {
+                html += '<svg fill="var(--load_colour7465)" id="icon_load#id#" x="400" y="188.5" width="80" height="80" style="color:var(--load_colour#id#)"><use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-load"></use></svg>'
               }
               ///////////////
-              ///  NAME   ///
+              ///  DAILY  ///
               ///////////////
-              if (isset(config#id#.loads[load]) && isset(parameters#id#['load'+load+'Name'])) {
-                html += '<text id="es-load' + load + '-name#id#" x="' + x_name + '" y="' + y_name + '" class="ft9-#id# center-align#id#" fill="var(--load_colour#id#)" >' + parameters#id#['load'+load+'Name'] + '</text>'
-              }
-              ///////////////
-              ///  PERSO  ///
-              ///////////////
-              if (isset(config#id#.loads[load]) && config#id#.loads[load].perso !== false) {
-                html += '<text id="load' + load + '_perso#id#" x="' + x_perso + '" y="' + y_perso + '" class="ft8-#id# right-align#id# ' + ((isset(config#id#.loads[load].perso_isHistorized) && config#id#.loads[load].perso_isHistorized == 1) ? 'history cursor' : '') + '" fill="var(--load_colour#id#)"'
-                html += ((isset(config#id#.loads[load].perso_id) && config#id#.loads[load].perso_id) ? ' data-cmd_id=' + config#id#.loads[load].perso_id : '')
-                html += '>' + (config#id#.loads[load].perso || 0) + ' ' + config#id#.loads[load].perso_unit + '</text>'
-              }
-              ///////////////
-              ///   ICON  ///
-              ///////////////
-              if (isset(parameters#id#['load'+load+'Icon'])) {
-                let icon = parameters#id#['load'+load+'Icon'].replace(/  +/g, ' ').split(" ")
-                for(let i = 0; i < icon.length; i++) {
-                  html += '<svg fill="var(--load_colour#id#)" x="' + (x_icon + i * 35) + '" y="' + y_icon + '" width="25" height="25" style="color:var(--load_colour#id#)">'
-                  html += '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-' + icon[i] + '"/>'
-                  html += '</svg>'
-                  if (i == 1) break
+              let dailyLoad = autoValueArray#id#(config#id#.load.daily.state,config#id#.load.daily.unit)
+              html += '<text id="daily_load_value#id#" x="' + ((config#id#.load.additional_loads == 1) ? '400.4' : '304') + '" y="' + ((config#id#.load.additional_loads == 1) ? '277.9' : '178') + '" class="ft16-#id# left-align#id# ' + (((config#id#.load.daily.show === true) && (config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power)) ? '' : 'hidden-#id#') + ' ' + ((config#id#.load.daily.isHistorized && config#id#.load.daily.isHistorized == 1) ? 'history cursor' : '') + '" fill="var(--load_colour#id#)"'
+              html += ((config#id#.load.has_load_power && config#id#.load.daily.isHistorized == 1 && config#id#.load.daily.id) ? ' data-cmd_id=' + config#id#.load.daily.id : '')
+              html += '>' + trunc#id#(dailyLoad.value, 3, 1) + ' ' + dailyLoad.unit + '</text>'
+              html += '<text id="daily_load#id#" x="' + ((config#id#.load.additional_loads == 1) ? '400.4' : '304') + '" y="' + ((config#id#.load.additional_loads == 1) ? '292.1' : '192.2') + '" class="ft9-#id# left-align#id# ' + (((config#id#.load.daily.show === true) && (config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power)) ? '' : 'hidden-#id#') + '" fill="var(--load_colour#id#)" >' + config#id#.load.daily.text + '</text>'
+  
+              ///////////////////////////////////////////////////////
+              ///////////////////// LOADS ///////////////////////////
+              ///////////////////////////////////////////////////////
+              var max_width_load = 0
+              for (let load = 1; load <= config#id#.load.additional_loads; load++) {
+                          
+                ////////////////////////////////////
+                //            variables           //
+                ////////////////////////////////////
+                let num_load = parseInt(load)
+                let pas_horizontal = 76
+                let nbre_colonnes = 0
+                let path = ''
+                let x_rect = 482 //406
+                let y_rect = 0
+                let x_path = x_rect + 35
+                let y_path = 0
+                let y2_path = 228
+                let x_power = x_rect + 35
+                let y_power = 0
+                let x_energy = x_rect + 35
+                let y_energy = 0
+                let x_name = x_rect + 35
+                let y_name = 0
+                let x_perso = x_rect + 30
+                let y_perso = 0
+                let x_icon = x_rect + 5 //x_rect + (70 / 2) + 2
+                let y_icon = 0
+              
+                let a_path = x_rect + 35
+                let b_path = 0
+                let r_path = 8 // rayon courbes lines
+                let c_path = 0
+                let d_path = 0
+                let e_path = 0
+              
+                if (config#id#.solar.mppts <= 6 && config#id#.load.force4load) {
+                  nbre_colonnes = Math.trunc(num_load / 4.1)
+                  if (numIsPair(num_load)) {
+                    if (((nbre_colonnes * 4) + 4) == num_load) {
+                      // D
+                      y_rect = 272 + 92
+                      y_path = y_rect
+                      y2_path = y2_path + 92
+                      y_name = y_rect + 30 + 10
+                      y_perso = y_rect - 35 //5
+                      y_icon = y_rect - 27
+                    } else {
+                      // C
+                      y_rect = 272
+                      y_path = y_rect
+                      y_name = y_rect + 30 + 10
+                      y_perso = y_rect - 34 //5
+                      y_icon = y_rect - 27
+                    }
+                  } else {
+                    if (((nbre_colonnes * 4) + 3) == num_load) {
+                      // A
+                      y_rect = 156 - 92
+                      y_path = y_rect + 30
+                      y2_path = y2_path - 92
+                      y_name = y_rect - 4
+                      y_perso = y_rect + 70 //40
+                      y_icon = y_rect + 32
+                    } else {
+                      // B
+                      y_rect = 156
+                      y_path = y_rect + 30
+                      y_name = y_rect - 4
+                      y_perso = y_rect + 67 //40
+                      y_icon = y_rect + 32
+                    }
+                  }
+                } else {
+                  nbre_colonnes = Math.trunc(num_load / 2.1)
+                  if (numIsPair(num_load)) {
+                    // C
+                    y_rect = 297.5
+                    y_path = y_rect
+                    y_name = y_rect + 30 + 10
+                    y_perso = y_rect - 45 //5
+                    y_icon = y_rect - 27
+                    b_path = 242
+                    c_path = y_rect
+                    d_path = b_path + r_path
+                  } else {
+                    // B
+                    y_rect = 156
+                    y_rect = 128.5
+                    y_path = y_rect + 30
+                    y_name = y_rect - 6
+                    y_perso = y_rect + 80 //40
+                    y_icon = y_rect + 32
+                    b_path = 214
+                    c_path = y_rect + 30
+                    d_path = b_path - r_path
+                  }
                 }
-                //html += '<svg fill="var(--load_colour#id#)" x="' + x_icon + '" y="' + y_icon + '" width="25" height="25" style="color:var(--load_colour#id#)">'
-                //html += '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-' + parameters#id#['load'+load+'Icon'] + '"/>'
-                //html += '</svg>'
-              }
-              else if (isset(parameters#id#['load'+load+'Img'])) {
-                /*
-                let img = parameters#id#['load'+load+'Img'].split(' ')
-                for(let i = 0; i < img.length; i++) {
-                  console.log(img[i])
-                  html += '<svg xmlns="http://www.w3.org/2000/svg" x="' + (x_icon + i * 35) + '" y="' + y_icon + '" width="25" height="25" viewBox="0 0 25 25" opacity="1"><image xlink:href="' + img[i] + '" x="0" y="0" height="25" width="25"/></svg>'
-                  if (i == 1) break
+                y_power = (!isset(config#id#.loads[load]) || config#id#.loads[load].energy === false) ? y_rect + 20 : y_rect + 20 - 5
+                y_energy = y_rect + 25
+              
+                x_rect = x_rect + nbre_colonnes * pas_horizontal
+                x_path = x_path + nbre_colonnes * pas_horizontal
+                
+                max_width_load = Math.max(max_width_load, x_path)
+                x_power = x_power + nbre_colonnes * pas_horizontal
+                x_energy = x_energy + nbre_colonnes * pas_horizontal
+                x_name = x_name + nbre_colonnes * pas_horizontal
+                x_perso = x_perso + nbre_colonnes * pas_horizontal
+                x_icon = x_icon + nbre_colonnes * pas_horizontal
+              
+                a_path = a_path + nbre_colonnes * pas_horizontal
+                e_path = a_path - r_path
+              
+                if (config#id#.solar.mppts <= 6 && config#id#.load.force4load) path = 'M ' + x_path + ' ' + y_path + ' L ' + x_path + ' ' + y2_path
+                else path = 'M ' + a_path + ' ' + c_path + ' L ' + a_path + ' ' + d_path + ' Q ' + a_path + ' ' + b_path + ' ' + e_path + ' ' + b_path + ' L 475 ' + b_path
+              
+                ////////////////////////////////////
+                /////         DISPLAY          /////
+                ////////////////////////////////////
+                html += '<!-- Load ' + load + '-->'
+                html += '<rect id="load' + load + '-rect-#id#" class="'
+                html += ((config#id#.blink && isset(config#id#.loads[load]) && config#id#.loads[load].max_power && config#id#.loads[load].power >= config#id#.loads[load].max_power) ? 'blink#id#' : '')
+                html += '" x="' + x_rect + '" y="' + y_rect + '" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="'
+                html += ((isset(config#id#.loads[load]) && config#id#.loads[load].max_power && config#id#.loads[load].power >= config#id#.loads[load].max_power) ? 'var(--color_alerte#id#)' : 'var(--load_colour#id#)')
+                html += '" pointer-events="all" />'
+                ///////////////
+                ///  POWER  ///
+                ///////////////
+                html += '<text id="ess_load' + load + '#id#" x="' + x_power + '" y="' + y_power + '" class="ft12-#id# ftw-#id# center-align#id#' + (isset(config#id#.loads[load]) && isset(config#id#.loads[load].power_isHistorized) && config#id#.loads[load].power_isHistorized == 1 ? ' history cursor' : '')
+                html += ((config#id#.font_alert && config#id#.blink && isset(config#id#.loads[load]) && config#id#.loads[load].max_power && config#id#.loads[load].power >= config#id#.loads[load].max_power) ? ' blink#id#' : '')
+                html += '" fill="'
+                html += ((config#id#.font_alert && isset(config#id#.loads[load]) && config#id#.loads[load].max_power && config#id#.loads[load].power >= config#id#.loads[load].max_power) ? 'var(--color_alerte#id#)' : 'var(--load_colour#id#)')
+                html += '"'
+                html += (isset(config#id#.loads[load]) && isset(config#id#.loads[load].power_id) ? ' data-cmd_id=' + config#id#.loads[load].power_id : '')
+                html += '>' + trunc#id#((isset(config#id#.loads[load])) ? config#id#.loads[load].power : 0, 1) + ' ' + ((isset(config#id#.loads[load])) ? config#id#.loads[load].power_unit : '') + '</text>'
+                ///////////////
+                ///  LINE   ///
+                ///////////////
+                html += '<path id="es-load' + load + 'path#id#" d="' + path + '" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
+                html += '<circle id="es-dot' + load + '-#id#" cx="0" cy="0" r="3"  class="' + ((config#id#.load.animate_load_enable === true) ? '' : 'hidden-#id#') + '" fill="' + ((!isset(config#id#.loads[load]) || config#id#.loads[load].power == 0) ? 'transparent' : 'var(--load_colour#id#)') + '"><animateMotion id="anim_load' + load + '-#id#" dur="3" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#es-load' + load + 'path#id#"></mpath></animateMotion></circle>'
+                ///////////////
+                ///  ENERGY ///
+                ///////////////
+                if (isset(config#id#.loads[load]) && config#id#.loads[load].energy !== false) {
+                  let load_energy = autoValueArray#id#((config#id#.loads[load].energy || 0),(config#id#.loads[load].energy_unit || 'Wh'))
+                  html += '<text id="load' + load + '_energy#id#" x="' + x_energy + '" y="' + y_energy + '" class="ft8-#id# center-align#id# ' + ((isset(config#id#.loads[load].energy_isHistorized) && config#id#.loads[load].energy_isHistorized == 1) ? 'history cursor' : '') + '" fill="var(--load_colour#id#)"'
+                  html += ((isset(config#id#.loads[load].energy_id) && config#id#.loads[load].energy_id) ? ' data-cmd_id=' + config#id#.loads[load].energy_id : '')
+                  html+= '>' + trunc#id#(load_energy.value, 3, 1) + ' ' + load_energy.unit + '</text>'
                 }
-                */
-                html += '<svg xmlns="http://www.w3.org/2000/svg" x="' + x_icon + '" y="' + y_icon + '" width="25" height="25" viewBox="0 0 25 25" opacity="1"><image xlink:href="' + parameters#id#['load'+load+'Img'] + '" x="0" y="0" height="25" width="25"/></svg>'
+                ///////////////
+                ///  NAME   ///
+                ///////////////
+                if (isset(config#id#.loads[load]) && isset(parameters#id#['load'+load+'Name'])) {
+                  html += '<text id="es-load' + load + '-name#id#" x="' + x_name + '" y="' + y_name + '" class="ft9-#id# center-align#id#" fill="var(--load_colour#id#)" >' + parameters#id#['load'+load+'Name'] + '</text>'
+                }
+                ///////////////
+                ///  PERSO  ///
+                ///////////////
+                if (isset(config#id#.loads[load]) && config#id#.loads[load].perso !== false) {
+                  html += '<text id="load' + load + '_perso#id#" x="' + x_perso + '" y="' + y_perso + '" class="ft8-#id# right-align#id# ' + ((isset(config#id#.loads[load].perso_isHistorized) && config#id#.loads[load].perso_isHistorized == 1) ? 'history cursor' : '') + '" fill="var(--load_colour#id#)"'
+                  html += ((isset(config#id#.loads[load].perso_id) && config#id#.loads[load].perso_id) ? ' data-cmd_id=' + config#id#.loads[load].perso_id : '')
+                  html += '>' + (config#id#.loads[load].perso || 0) + ' ' + config#id#.loads[load].perso_unit + '</text>'
+                }
+                ///////////////
+                ///   ICON  ///
+                ///////////////
+                if (isset(parameters#id#['load'+load+'Icon'])) {
+                  let icon = parameters#id#['load'+load+'Icon'].replace(/  +/g, ' ').split(",")
+                  for(let i = 0; i < icon.length; i++) {
+                    if (icon[i].indexOf(".") !== -1) {
+                      html += '<svg xmlns="http://www.w3.org/2000/svg" x="' + (x_icon + i * 35) + '" y="' + y_icon + '" width="25" height="25" viewBox="0 0 25 25" opacity="1"><image xlink:href="' + icon[i] + '" x="0" y="0" height="25" width="25"/></svg>'
+                    } else {
+                      html += '<svg fill="var(--load_colour#id#)" x="' + (x_icon + i * 35) + '" y="' + y_icon + '" width="25" height="25" style="color:var(--load_colour#id#)">'
+                      html += '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-' + icon[i] + '"/>'
+                      html += '</svg>'
+                    }
+                    if (i == 1) break
+                  }
+                }
+              }
+              ///////////////
+              ///  LINE   ///
+              ///////////////
+              if (config#id#.load.additional_loads >= 1 && (config#id#.solar.mppts <= 6 && config#id#.load.force4load)) {
+                let path = 'M 480 228 L ' + max_width_load + ' 228'
+                html += '<path id="loads-path#id#" d="' + path + '" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
+                html += '<circle id="loads-dot-#id#" cx="0" cy="0" r="3"  class="' + ((config#id#.load.animate_load_enable === true) ? '' : 'hidden-#id#') + '" fill="transparent"><animateMotion id="anim_loads-#id#" dur="3" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#loads-path#id#"></mpath></animateMotion></circle>'
               }
             }
-            ///////////////
-            ///  LINE   ///
-            ///////////////
-            if (config#id#.load.additional_loads >= 1 && (config#id#.solar.mppts <= 6 && config#id#.load.force4load)) {
-              let path = 'M 480 228 L ' + max_width_load + ' 228'
-              html += '<path id="loads-path#id#" d="' + path + '" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
-              html += '<circle id="loads-dot-#id#" cx="0" cy="0" r="3"  class="' + ((config#id#.load.animate_load_enable === true) ? '' : 'hidden-#id#') + '" fill="transparent"><animateMotion id="anim_loads-#id#" dur="3" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#loads-path#id#"></mpath></animateMotion></circle>'
-            }
-            
             ///////////////////////////////////////////////////////
             /////////////////////  Grid ///////////////////////////
             ///////////////////////////////////////////////////////
@@ -1736,16 +1643,16 @@
             ///////////////
             ///  DAILY  ///
             ///////////////
-            html += '<text id="daily_grid_buy#id#" x="5" y="292.1" class="ft9-#id# left-align#id#" fill="' + ((config#id#.grid.daily.show_buy !== true) ? 'transparent' : 'var(--grid_colour#id#)') + '" >' + config#id#.grid.daily.text_buy + '</text>'
-            html += '<text id="daily_grid_sell#id#" x="5" y="189" class="ft9-#id# left-align#id#" fill="' + ((config#id#.grid.daily.show_sell !== true) ? 'transparent' : 'var(--grid_colour#id#)') + '" >' + config#id#.grid.daily.text_sell + '</text>'
+            html += '<text id="daily_grid_buy#id#" x="5" y="292.1" class="ft9-#id# left-align#id#" fill="' + ((config#id#.grid.daily.show_buy !== true) ? 'transparent' : 'var(--grid-buy-colour#id#)') + '" >' + config#id#.grid.daily.text_buy + '</text>'
+            html += '<text id="daily_grid_sell#id#" x="5" y="189" class="ft9-#id# left-align#id#" fill="' + ((config#id#.grid.daily.show_sell !== true) ? 'transparent' : 'var(--grid-sell-colour#id#)') + '" >' + config#id#.grid.daily.text_sell + '</text>'
             let dailyGridBuy = autoValueArray#id#(config#id#.grid.daily.buy_state,config#id#.grid.daily.buy_unit)
             html += '<text id="daily_grid_buy_value#id#" x="5" y="277.9" class="ft16-#id# left-align#id# ' + ((config#id#.grid.daily.buy_isHistorized == 1) ? 'history cursor' : '') + '" display="' + ((config#id#.grid.daily.show_buy !== true) ? 'none' : '')
-            html += '" fill="var(--grid_colour#id#)"'
+            html += '" fill="var(--grid-buy-colour#id#)"'
             html += ((config#id#.grid.daily.buy_isHistorized == 1 && config#id#.grid.daily.buy_id) ? ' data-cmd_id=' + config#id#.grid.daily.buy_id : '')
             html += '>' + trunc#id#(dailyGridBuy.value, 3, 1) + ' ' + dailyGridBuy.unit + '</text>'
             let dailyGridSell = autoValueArray#id#(config#id#.grid.daily.sell_state,config#id#.grid.daily.sell_unit)
             html += '<text id="daily_grid_sell_value#id#" x="5" y="175" class="ft16-#id# left-align#id# ' + ((config#id#.grid.daily.sell_isHistorized == 1) ? 'history cursor' : '') + '" display="' + ((config#id#.grid.daily.show_sell !== true) ? 'none' : '')
-            html += '" fill="var(--grid_colour#id#)"'
+            html += '" fill="var(--grid-sell-colour#id#)"'
             html += ((config#id#.grid.daily.sell_isHistorized == 1 && config#id#.grid.daily.sell_id) ? ' data-cmd_id=' + config#id#.grid.daily.sell_id : '')
             html += '>' + trunc#id#(dailyGridSell.value,3 , 1) + ' ' + dailyGridSell.unit + '</text>'
             ///////////////
@@ -1798,17 +1705,17 @@
               ///////////////
               if (config#id#.battery.daily.show_charge) {
                 let dailyBatteryCharge = autoValueArray#id#(config#id#.battery.daily.charge_state,config#id#.battery.daily.charge_unit)
-                html += '<text id="daily_battery_charge_value#id#" x="' + ((config#id#.aux.has_aux_power) ? '25' : '131') + '" y="343" class= "ft16-#id# left-align#id# ' + ((config#id#.battery.daily.charge_isHistorized == 1) ? 'history cursor' : '') + '" fill="var(--battery_colour#id#)"'
+                html += '<text id="daily_battery_charge_value#id#" x="' + ((config#id#.aux.has_aux_power) ? '25' : '131') + '" y="343" class= "ft16-#id# left-align#id# ' + ((config#id#.battery.daily.charge_isHistorized == 1) ? 'history cursor' : '') + '" fill="var(--battery-charge#id#)"'
                 html += ((config#id#.battery.daily.charge_isHistorized == 1 && config#id#.battery.daily.charge_id) ? ' data-cmd_id=' + config#id#.battery.daily.charge_id : '')
                 html += '>' + trunc#id#(dailyBatteryCharge.value, 3, 1) + ' ' + dailyBatteryCharge.unit + '</text>'
-                html += '<text id="daily_bat_charge#id#" x="' + ((config#id#.aux.has_aux_power) ? '25' : '131') + '" y="357.2" class="ft9-#id# left-align#id#" fill="var(--battery_colour#id#)">' + config#id#.battery.daily.text_charge + '</text>'
+                html += '<text id="daily_bat_charge#id#" x="' + ((config#id#.aux.has_aux_power) ? '25' : '131') + '" y="357.2" class="ft9-#id# left-align#id#" fill="var(--battery-charge#id#)">' + config#id#.battery.daily.text_charge + '</text>'
               }
               if (config#id#.battery.daily.show_discharge) {
                 let dailyBatteryDischarge = autoValueArray#id#(config#id#.battery.daily.discharge_state,config#id#.battery.daily.discharge_unit)
-                html += '<text id="daily_battery_discharge_value#id#" x="' + ((config#id#.aux.has_aux_power) ? '25' : '131') + '" y="380.1" class="ft16-#id# left-align#id# ' + ((config#id#.battery.daily.discharge_isHistorized == 1) ? 'history cursor' : '') + '" fill="var(--battery_colour#id#)"'
+                html += '<text id="daily_battery_discharge_value#id#" x="' + ((config#id#.aux.has_aux_power) ? '25' : '131') + '" y="380.1" class="ft16-#id# left-align#id# ' + ((config#id#.battery.daily.discharge_isHistorized == 1) ? 'history cursor' : '') + '" fill="var(--battery-discharge#id#)"'
                 html += ((config#id#.battery.daily.discharge_isHistorized == 1 && config#id#.battery.daily.discharge_id) ? ' data-cmd_id=' + config#id#.battery.daily.discharge_id : '')
                 html += '>' + trunc#id#(dailyBatteryDischarge.value, 3, 1) + ' ' + dailyBatteryDischarge.unit + '</text>'
-                html += '<text id="daily_bat_discharge#id#" x="' + ((config#id#.aux.has_aux_power) ? '25' : '131') + '" y="393.7" class="ft9-#id# left-align#id#" fill="var(--battery_colour#id#)">' + config#id#.battery.daily.text_discharge + '</text>'
+                html += '<text id="daily_bat_discharge#id#" x="' + ((config#id#.aux.has_aux_power) ? '25' : '131') + '" y="393.7" class="ft9-#id# left-align#id#" fill="var(--battery-discharge#id#)">' + config#id#.battery.daily.text_discharge + '</text>'
               }
               ///////////////
               ///   TIME  ///
@@ -1819,7 +1726,7 @@
               /// STATE % ///
               ///////////////
               if (config#id#.battery.state.show) {
-                html += '<text id="battery_soc#id#" x="' + ((config#id#.aux.has_aux_power) ? '171' : '270') + '" y="360" fill=var(--battery_colour#id#) class="ft18-#id# ftw-#id# left-align#id# ' + (( config#id#.battery.state.isHistorized == 1) ? 'history cursor' : '') + '"'
+                html += '<text id="battery_soc#id#" x="' + ((config#id#.aux.has_aux_power) ? '171' : '270') + '" y="360" fill="var(--battery-state#id#)" class="ft18-#id# ftw-#id# left-align#id# ' + (( config#id#.battery.state.isHistorized == 1) ? 'history cursor' : '') + '"'
                 html += ((config#id#.battery.state.isHistorized == 1 && config#id#.battery.state.id) ? ' data-cmd_id=' + config#id#.battery.state.id : '')
                 html += '></text>'
               }
@@ -1829,13 +1736,14 @@
               let x_icon = (config#id#.aux.has_aux_power) ? 139 - (60 / 2) : 239 - (60 / 2)
               let y_icon = 335
               if (config#id#.battery.icon) {
-                html += '<svg fill="var(--battery_colour#id#)" x="' + x_icon + '" y="' + y_icon + '" width="60" height="60" style="color:var(--battery_colour#id#)">'
-                html += '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-' + parameters#id#['batteryIcon'] + '"/>'
-                html += '</svg>'
-              } else if (config#id#.battery.img) {//config#id#.battery.img
-                html += '<svg xmlns="http://www.w3.org/2000/svg" id="icon_bat#id#" x="' + x_icon + '" y="' + y_icon + '" width="60" height="60" viewBox="0 0 60 60" opacity="1"><image xlink:href="' + parameters#id#['batteryImg'] + '" x="0" y="0" height="60" width="60"/></svg>'
-              }
-              else {
+                if (config#id#.battery.icon.indexOf(".") !== -1) {
+                  html += '<svg xmlns="http://www.w3.org/2000/svg" id="icon_bat#id#" x="' + x_icon + '" y="' + y_icon + '" width="60" height="60" viewBox="0 0 60 60" opacity="1"><image xlink:href="' + config#id#.battery.icon + '" x="0" y="0" height="60" width="60"/></svg>'
+                } else {
+                  html += '<svg fill="var(--battery_colour#id#)" x="' + x_icon + '" y="' + y_icon + '" width="60" height="60" style="color:var(--battery_colour#id#)">'
+                  html += '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-' + config#id#.battery.icon + '"/>'
+                  html += '</svg>'
+                }
+              } else {
                 html += '<svg fill="var(--battery_colour#id#)" id="icon_bat#id#" x="' + x_icon + '" y="' + y_icon + '" width="60" height="60" style="color:var(--battery_colour#id#)">'
                 html += getBatteryIcon#id#(config#id#.battery.state.state, config#id#.battery.full_capacity, config#id#.battery.empty_capacity)
                 html += '</svg>'
@@ -1905,9 +1813,7 @@
               ///////////////
               ///  ICON   ///
               ///////////////
-              //if (config#id#.aux.has_aux_power !== false) {
               html += '<svg fill="var(--aux_colour#id#)" id="aux_generator#id#" x="' + ((config#id#.battery.power.show) ? '299' : '199') + '" y="325" width="80" height="80" style="color:var(--aux_colour#id#)"><use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-aux"></use></svg>'
-              //}
               ///////////////
               ///  DAILY  ///
               ///////////////
@@ -1961,17 +1867,15 @@
             html += ((config#id#.inverter.temp.ac_isHistorized == 1 && config#id#.inverter.temp.ac_id) ? ' data-cmd_id=' + config#id#.inverter.temp.ac_id : '')
             html += '>' + config#id#.inverter.temp.ac_state + ' ' + config#id#.inverter.temp.ac_unit + '</text>'
             //dc
-            html += '<text id="dc_temp#id#" x="243" y="' + ((config#id#.show_solar || (!config#id#.show_solar && !config#id#.battery.power.show)) ? '192' : '272') + '" class="ft9-#id# left-align#id# ' + ((config#id#.inverter.temp.dc_isHistorized == 1) ? 'history cursor' : '') + '" fill="var(--inverter_colour#id#)" display="' + ((config#id#.inverter.temp.dc_state !== false) ? '' : 'none') + '"'
+            html += '<text id="dc_temp#id#" x="243" y="' + ((config#id#.has_solar || (!config#id#.has_solar && !config#id#.battery.power.show)) ? '192' : '272') + '" class="ft9-#id# left-align#id# ' + ((config#id#.inverter.temp.dc_isHistorized == 1) ? 'history cursor' : '') + '" fill="var(--inverter_colour#id#)" display="' + ((config#id#.inverter.temp.dc_state !== false) ? '' : 'none') + '"'
             html += ((config#id#.inverter.temp.dc_isHistorized == 1 && config#id#.inverter.temp.dc_id) ? ' data-cmd_id=' + config#id#.inverter.temp.dc_id : '')
             html += '>' + config#id#.inverter.temp.dc_state + ' ' + config#id#.inverter.temp.dc_unit + '</text>'
            
-            /*
+           /* 
             html += '<!-- Test -->'
-            // entities.energy_cost
-            html += '<text id="energy_cost#id#" x="105" y="195" class="ft9-#id# left-align#id#" fill="var(--grid_colour#id#)"'
-            //html += (config#id#.grid.energy_cost === false) ? ' display="none"' : ''
-            html += ' >' + config#id#.grid.energy_cost + '€</text>'
-            
+            html += '<text id="energy_cost#id#" x="105" y="195" class="ft9-#id# left-align#id#" fill="var(--grid_colour#id#)" >' + config#id#.grid.energy_cost + '€</text>'
+           */
+           /* 
             html += '<text id="autarkye_value#id#" x="130" y="260" display="' + ((config#id#.inverter.autarky === "no") ? 'none' : '') + '" class="' + ((config#id#.inverter.autarky === 'energy') ? 'ft14-#id# ftw-#id# left-align#id#' : 'hidden-#id#') + '" fill="var(--inverter_colour#id#)" >' + config#id#.inverter.autarky_state + '%</text>'
             
             html += '<text id="ratioe_value#id#" x="173" y="260" display="'
@@ -2000,67 +1904,20 @@
             //html += (config#id#.inverter.autarky === "no") ? 'none' : ''
             html += '" class="ft9-#id# left-align#id#" fill="var(--inverter_colour#id#)" >' + config#id#.inverter.ratio_text + '</text>'
             */
-     /*       
-            ////////////////////// PRIORITY /////////////////////
-            // priority_load_243
-            html += '<svg xmlns="http://www.w3.org/2000/svg" id="pbat#id#" x="267.7" y="262.5" width="18" height="18" viewBox="0 0 24 24"><path display="'
-            html += (config#id#.priority.state === 'off' && config#id#.priority.usepriority !== false) ? '' : 'none'
-            html += '" fill="var(--inverter_colour#id#)" d="M15.95 21.175L13.1 18.35l1.425-1.4l1.425 1.4l3.525-3.525l1.425 1.4l-4.95 4.95ZM8 22q-.425 0-.713-.288T7 21V5q0-.425.288-.713T8 4h2V2h4v2h2q.425 0 .713.288T17 5v7q-.525 0-1.025.088T15 12.35V6H9v14h2.35q.2.575.488 1.075t.687.925H8Zm1-2h2.35H11h.35H9Z"/></svg>'
-            html += '<text id="priority_text_batt#id#" x="287" y="273" class="ft9-#id# left-align#id#" display="'
-            html += (config#id#.priority.state === 'off' && config#id#.priority.usepriority !== false) ? '' : 'none'
-            html += '" fill="var(--inverter_colour#id#)">' + config#id#.priority.text_off + '</text>'
-            
-            html += '<svg xmlns="http://www.w3.org/2000/svg" id="pload#id#" x="267.7" y="262.5" width="18" height="18" viewBox="0 0 24 24"><path display="'
-            html += (config#id#.priority.state === 'on' && config#id#.priority.usepriority !== false) ? '' : 'none'
-            html += '" fill="var(--inverter_colour#id#)" d="m15 13l-4 4v-3H2v-2h9V9l4 4M5 20v-4h2v2h10v-7.81l-5-4.5L7.21 10H4.22L12 3l10 9h-3v8H5Z"/></svg>'
-            html += '<text id="priority_text_load#id#" x="287" y="273" class="ft9-#id# left-align#id#" display="'
-            html += (config#id#.priority.state === 'on' && config#id#.priority.usepriority !== false) ? '' : 'none'
-            html += '" fill="var(--inverter_colour#id#)">' + config#id#.priority.text_on + '</text>'
-            ////////////////////// TIMER /////////////////////
-            // entities.use_timer_248
-            html += '<svg xmlns="http://www.w3.org/2000/svg" id="timer#id#" x="267.7" y="243.3" width="18" height="18" viewBox="0 0 24 24"><path display="'
-            html += (config#id#.timer.state == 'on' && config#id#.timer.usetimer !== false) ? '' : 'none'
-            html += '" fill="var(--inverter_colour#id#)" d="M15 1H9v2h6V1zm-4 13h2V8h-2v6zm8.03-6.61l1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42A8.962 8.962 0 0 0 12 4c-4.97 0-9 4.03-9 9s4.02 9 9 9a8.994 8.994 0 0 0 7.03-14.61zM12 20c-3.87 0-7-3.13-7-7s3.13-7 7-7s7 3.13 7 7s-3.13 7-7 7z"/></svg>'
-            html += '<text id="timer_text_on#id#" x="287" y="254.7" class="ft9-#id# left-align#id#" display="'
-            html += (config#id#.timer.state == 'on' && config#id#.timer.usetimer !== false) ? '' : 'none'
-            html += '" fill="var(--inverter_colour#id#)">' + config#id#.timer.text_off + '</text>'
-            
-            html += '<svg xmlns="http://www.w3.org/2000/svg" id="timer_off#id#" x="267.7" y="243.3" width="18" height="18" viewBox="0 0 24 24"><path display="'
-            html += (config#id#.timer.state == 'off' && config#id#.timer.usetimer !== false) ? '' : 'none'
-            html += '" fill="var(--inverter_colour#id#)" d="m19.95 17.15l-1.5-1.5q.275-.675.413-1.337T19 13q0-2.9-2.05-4.95T12 6q-.6 0-1.275.125t-1.4.4l-1.5-1.5q.95-.5 2.012-.763T12 4q1.5 0 2.938.5t2.712 1.45l1.4-1.4l1.4 1.4l-1.4 1.4q.95 1.275 1.45 2.713T21 13q0 1.05-.263 2.087t-.787 2.063ZM13 10.2V8h-2v.2l2 2Zm6.8 12.4l-2.4-2.4q-1.2.875-2.588 1.338T12 22q-1.85 0-3.488-.713T5.65 19.35q-1.225-1.225-1.938-2.863T3 13q0-1.5.463-2.888T4.8 7.6L1.4 4.2l1.4-1.4l18.4 18.4l-1.4 1.4ZM12 20q1.05 0 2.05-.325t1.875-.925L6.2 9.025q-.6.875-.9 1.875T5 13q0 2.9 2.05 4.95T12 20ZM9 3V1h6v2H9Zm2.075 10.875Zm2.825-2.8Z"/></svg>'
-            html += '<text id="timer_text_off#id#" x="287" y="254.7" class="ft9-#id# left-align#id#" display="'
-            html += (config#id#.timer.state == 'off' && config#id#.timer.usetimer !== false) ? '' : 'none'
-            html += '" fill="var(--inverter_colour#id#)">' + config#id#.timer.text_off + '</text>'
-            // ICON PRISE ON
-            // inverter_prog.entityID
-            html += '<svg xmlns="http://www.w3.org/2000/svg" id="prog_grid_on#id#" x="323" y="243" width="20" height="18" viewBox="0 0 24 24"><path display="'
-            html += (config#id#.inverter.prog.show === false || config#id#.inverter.prog.grid === 'none') ? 'none' : ''
-            html += '" class="'
-            html += (config#id#.inverter.prog.charge === 'none') ? 'hidden-#id#' : ''
-            html += '" fill="var(--inverter_colour#id#)" d="M11.5 19h1v-1.85l3.5-3.5V9H8v4.65l3.5 3.5V19Zm-2 2v-3L6 14.5V9q0-.825.588-1.413T8 7h1L8 8V3h2v4h4V3h2v5l-1-1h1q.825 0 1.413.588T18 9v5.5L14.5 18v3h-5Zm2.5-7Z"/></svg>'
-            // ICON PRISE OFF
-            html += '<svg xmlns="http://www.w3.org/2000/svg" id="prog_grid_off#id#" x="323" y="243" width="20" height="18" viewBox="0 0 24 24"><path display="'
-            html += (config#id#.inverter.prog.show === false || config#id#.inverter.prog.grid === 'none') ? 'none' : ''
-            html += '" class="'
-            html += (config#id#.inverter.prog.charge === 'none') ? '' : 'hidden-#id#'
-            html += '" fill="var(--inverter_colour#id#)" d="M10 3H8v1.88l2 2zm6 6v3.88l1.8 1.8l.2-.2V9c0-1.1-.9-2-2-2V3h-2v4h-3.88l2 2H16zM4.12 3.84L2.71 5.25L6 8.54v5.96L9.5 18v3h5v-3l.48-.48l4.47 4.47l1.41-1.41L4.12 3.84zm8.38 13.33V19h-1v-1.83L8 13.65v-3.11l5.57 5.57l-1.07 1.06z"/></svg>'
-            */
-            ///////////////////////////////////////////////////////
-            ///////////////////// Other ////////////////////////
-            ///////////////////////////////////////////////////////
-            html += '<!-- Other -->'
-            // html += '<circle id="standby#id#" cx="220" cy="260" r="3.5" fill="var(--inverterStateColour#id#)"/>' /////////////// Todo
-            //html += '<rect id="es-load5#id#" x="448" y="170" width="70" height="30" rx="4.5" ry="4.5" fill="none" stroke="var(--load_colour#id#)" pointer-events="all" display="'
-            //html += ((config#id#.load.additional_loads >= 5) && config#id#.show_solar !== false) ? '' : 'none'
-            //html += '"/>'
-            //html += '<path id="es-load5path#id#" d="M 483 228.5 L 483 200" class="' + ((config#id#.load.additional_loads >= 5 && config#id#.show_solar !== false) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10" pointer-events="stroke"></path>'
-            html += '</svg></div>'
-            document.getElementById('widget#id#').innerHTML = html
+            if (! jeedom.cmd.disableExecute) document.getElementById('widget#id#').innerHTML = html
+            else {
+              if (document.body.getAttribute('data-page') == 'plan') {
+                document.getElementById("div_error#id#").innerHTML = 'La configuration de l\'équipement a été modifiée.<br>Veuillez actualiser le design.'
+              } else {
+                document.getElementById("div_error#id#").innerHTML = 'La configuration de l\'équipement a été modifiée.<br>Veuillez sortir du mode édition pour réactualiser le widget'
+              }
+              document.getElementById("div_error#id#").classList.remove("hidden-#id#")
+            }
           } // init
         } // ElDomExist
         log#id#('└──────────────────────────────────────────────────────')
-        if (config#id#.show_solar !== false) calculatePv#id#('init');
-        calculateLoad#id#('init');
+        if (config#id#.has_solar !== false) calculatePv#id#('init');
+        if (config#id#.has_load) calculateLoad#id#('init');
         if (config#id#.has_battery) calculateBattery#id#('init')
         calculateGrid#id#('init')
         if (config#id#.aux.has_aux_power !== false) calculateAux#id#('init')
@@ -2069,11 +1926,10 @@
       function calculatePv#id#(el='') {
         log#id#('┌─────────────────── Widget Distribution Onduleur [#id#] en debug [calculatePv()] ───────────────')
         var ElDomExist = !!document.getElementById("widget#id#");
-        //let total_pv = 0;
         log#id#('| ElDomExist ? ' + ElDomExist)
         if (ElDomExist) {  
           if (el != '') log#id#('| launched by ' + el)
-          log#id#('| has_pv_power ? ' + config#id#.solar.has_pv_power);
+          log#id#('| has_pv_power ? ' + config#id#.solar.has_pv_power)
           if (config#id#.solar.has_pv_power === false) {
             var differentUnit = false
             for (solar in config#id#.solars) {
@@ -2086,6 +1942,7 @@
             }
             if (differentUnit === true) {
               log#id#('| /!\\ ------- Attention unité differente entre pv, calcul impossible !!!')
+              document.getElementById("widget#id#")?.classList.add("hidden-#id#")
               document.getElementById("div_error#id#").classList.remove("hidden-#id#")
               document.getElementById("div_error#id#").innerHTML = 'Attention unité differente entre <b>pv</b>, calcul impossible !!!<br>Corrigez les unités et actualiser le widget'
             } else {
@@ -2099,7 +1956,7 @@
           } else {
             config#id#.solar.power = trunc#id#(config#id#.solar.power, 1)
           }
-          document.getElementById("pvtotal_power#id#").innerHTML = config#id#.solar.power + ' ' + config#id#.solar.power_unit
+          if (is_object(cmd = document.getElementById("pvtotal_power#id#"))) cmd.innerHTML = config#id#.solar.power + ' ' + config#id#.solar.power_unit
           log#id#('| total_pv = ' + config#id#.solar.power)
           let solar_animation_speed = config#id#.solar.animation_speed
           log#id#('| animation_speed = ' + config#id#.solar.animation_speed)
@@ -2146,7 +2003,8 @@
             }
             if (differentUnit === true) {
               log#id#('| /!\\ ------- Attention unité differente entre load, calcul impossible !!!')
-              document.getElementById("div_error#id#").classList.remove("hidden-#id#")
+              document.getElementById("widget#id#")?.classList.add("hidden-#id#")
+              document.getElementById("div_error#id#")?.classList.remove("hidden-#id#")
               document.getElementById("div_error#id#").innerHTML = 'Attention unité differente entre <b>load</b>, calcul impossible !!!<br>Corrigez les unités et actualiser le widget'
             } else {
               config#id#.load.power_unit = (differentUnit !== false) ? differentUnit : ''
@@ -2155,27 +2013,27 @@
                  if (isset(config#id#.loads[load].power)) config#id#.load.power = config#id#.load.power + (config#id#.loads[load].power * 1000)
               }
               config#id#.load.power = config#id#.load.power / 1000
-              document.getElementById("load_power#id#").innerHTML = config#id#.load.power + ' ' + config#id#.load.power_unit
+              if (is_object(cmd = document.getElementById("load_power#id#"))) cmd.innerHTML = config#id#.load.power + ' ' + config#id#.load.power_unit
             }
           }
           
           if (config#id#.load.max_power && config#id#.load.power >= config#id#.load.max_power) {
-            document.getElementById("load-rect-#id#").setAttribute("stroke", "var(--color_alerte#id#)")
-            if (config#id#.blink) document.getElementById("load-rect-#id#").classList.add("blink#id#")
+            document.getElementById("load-rect-#id#")?.setAttribute("stroke", "var(--color_alerte#id#)")
+            if (config#id#.blink) document.getElementById("load-rect-#id#")?.classList.add("blink#id#")
           } else {
-            document.getElementById("load-rect-#id#").setAttribute("stroke", "var(--load_colour#id#)")
-            if (config#id#.blink) document.getElementById("load-rect-#id#").classList.remove("blink#id#")
+            document.getElementById("load-rect-#id#")?.setAttribute("stroke", "var(--load_colour#id#)")
+            if (config#id#.blink) document.getElementById("load-rect-#id#")?.classList.remove("blink#id#")
           }
           log#id#('| total_load = ' + config#id#.load.power)
           
           if(config#id#.load.power > 0) {
             //document.getElementById("loads-dot-#id#").setAttribute("fill", "var(--load_colour#id#)")
-            document.getElementById("es-dot1#id#").setAttribute("fill", "var(--load_colour#id#)")
-            document.getElementById("es-dot#id#").setAttribute("fill", "var(--load_colour#id#)")
+            document.getElementById("es-dot1#id#")?.setAttribute("fill", "var(--load_colour#id#)")
+            document.getElementById("es-dot#id#")?.setAttribute("fill", "var(--load_colour#id#)")
           } else {
             //document.getElementById("loads-dot-#id#").setAttribute("fill", "transparent")
-            document.getElementById("es-dot1#id#").setAttribute("fill", "transparent")
-            document.getElementById("es-dot#id#").setAttribute("fill", "transparent")
+            document.getElementById("es-dot1#id#")?.setAttribute("fill", "transparent")
+            document.getElementById("es-dot#id#")?.setAttribute("fill", "transparent")
           }
           log#id#('| animation_speed = ' + config#id#.load.animation_speed)
           log#id#('| max_power = ' + config#id#.load.max_power)
@@ -2201,14 +2059,14 @@
           log#id#('| animation_speed = ' + config#id#.aux.animation_speed)
           log#id#('| new animation_speed = ' + speed)
           if (config#id#.aux.max_power && config#id#.aux.power >= config#id#.aux.max_power) {
-            document.getElementById("aux-rect-#id#").setAttribute("stroke", "var(--color_alerte#id#)")
-            if (config#id#.blink) document.getElementById("aux-rect-#id#").classList.add("blink#id#")
+            document.getElementById("aux-rect-#id#")?.setAttribute("stroke", "var(--color_alerte#id#)")
+            if (config#id#.blink) document.getElementById("aux-rect-#id#")?.classList.add("blink#id#")
           } else {
-            document.getElementById("aux-rect-#id#").setAttribute("stroke", "var(--aux_colour#id#)")
-            if (config#id#.blink) document.getElementById("aux-rect-#id#").classList.remove("blink#id#")
+            document.getElementById("aux-rect-#id#")?.setAttribute("stroke", "var(--aux_colour#id#)")
+            if (config#id#.blink) document.getElementById("aux-rect-#id#")?.classList.remove("blink#id#")
           }
-          if (config#id#.aux.power > 0) document.getElementById("aux-dot-#id#").setAttribute("fill", "var(--aux_colour#id#)")
-          else document.getElementById("aux-dot-#id#").setAttribute("fill", "transparent")
+          if (config#id#.aux.power > 0) document.getElementById("aux-dot-#id#")?.setAttribute("fill", "var(--aux_colour#id#)")
+          else document.getElementById("aux-dot-#id#")?.setAttribute("fill", "transparent")
         } // ElDomExist
         log#id#('└──────────────────────────────────────────────────────')
       }
@@ -2340,11 +2198,11 @@
           document.getElementById("anim_grid_sell1#id#")?.setAttribute("dur",speed)
           log#id#('| animation_speed = ' + speed)
           if (config#id#.grid.max_power && config#id#.grid.power >= config#id#.grid.max_power) {
-            document.getElementById("grid-rect-#id#").setAttribute("stroke", "var(--color_alerte#id#)")
-            if (config#id#.blink) document.getElementById("grid-rect-#id#").classList.add("blink#id#")
+            document.getElementById("grid-rect-#id#")?.setAttribute("stroke", "var(--color_alerte#id#)")
+            if (config#id#.blink) document.getElementById("grid-rect-#id#")?.classList.add("blink#id#")
           } else {
-            document.getElementById("grid-rect-#id#").setAttribute("stroke", "var(--grid_colour#id#)")
-            if (config#id#.blink) document.getElementById("grid-rect-#id#").classList.remove("blink#id#")
+            document.getElementById("grid-rect-#id#")?.setAttribute("stroke", "var(--grid_colour#id#)")
+            if (config#id#.blink) document.getElementById("grid-rect-#id#")?.classList.remove("blink#id#")
           }
         }
         log#id#('└──────────────────────────────────────────────────────')
@@ -2425,8 +2283,8 @@
       */
       /* lancer par addUpdateFunction et toute les minutes */
       function getTime#id# () {
+        log#id#('┌─────────────────── Widget Distribution Onduleur [#id#] en debug [getTime()] ───────────────')
         if (is_object(cmd = document.querySelector('.cmd[data-cmd_uid="#uid#"]'))) {
-          log#id#('┌─────────────────── Widget Distribution Onduleur [#id#] en debug [getTime()] ───────────────')
           let reinitTempo = false
           let dToday = new Date()
           //dToday.setHours(22)
@@ -2434,67 +2292,69 @@
           let hours = dToday.getHours()
           let dnext = new Date(dToday.getTime() + 86400000);
           let dnextText = dnext.toLocaleString(navigator.language,{dateStyle: "full"})
-          if (Object.keys(JsonTempoArray#id#).length > 0 && Array.isArray(JsonTempoArray#id#)) { // si c'est un json valide qui est envoyé dans addUpdateFunction
-            log#id#(JsonTempoArray#id#)
-            log#id#('|┌─────────────────── jsonTempo detecté ───────────────────')
-            log#id#('|| hours : ' + hours)
-            if(JsonTempoArray#id#[dTodayText]) {
-              log#id#('|| Date now ' + dTodayText + ' => ' + JsonTempoArray#id#[dTodayText])
-              document.getElementById("tempo_today_circle#id#").setAttribute("fill", 'var(--' + getLabel(JsonTempoArray#id#[dTodayText]) + ')')
-              document.getElementById("tempo_today_text#id#").setAttribute("fill", "var(--grid_colour#id#)")
-              document.getElementById("tempo_today_text#id#").innerHTML = (hours >= 6 && hours < 22) ? 'HP' : 'HC'
-            }
-            else {
-              document.getElementById("tempo_today_circle#id#").setAttribute("fill", "transparent")
-              document.getElementById("tempo_today_text#id#").setAttribute("fill", "transparent")
-            }
-            if(JsonTempoArray#id#[dnextText]) {
-              log#id#('|| Date tomorrow ' + dnextText + ' => ' + JsonTempoArray#id#[dnextText])
-              document.getElementById("tempo_tomorrow_circle#id#").setAttribute("fill", 'var(--' + getLabel(JsonTempoArray#id#[dnextText]) + ')')
-              document.getElementById("tempo_tomorrow_text#id#").setAttribute("fill", "var(--grid_colour#id#)")
-            }
-            else {
-              document.getElementById("tempo_tomorrow_circle#id#").setAttribute("fill", "transparent")
-              document.getElementById("tempo_tomorrow_text#id#").setAttribute("fill", "transparent")
-            }
-            reinitTempo = true
-            log#id#('|└────────────────────────────────────')
-          } else {
-            document.getElementById("tempo_tomorrow_circle#id#").setAttribute("fill", "transparent")
-            document.getElementById("tempo_tomorrow_text#id#").setAttribute("fill", "transparent")
-            if (JsonTempoArray#id#.includes('red') || JsonTempoArray#id#.includes('rouge')){
-              document.getElementById("tempo_today_circle#id#").setAttribute("fill", 'var(--' + getLabel('RED') + ')')
-              document.getElementById("tempo_today_text#id#").setAttribute("fill", "var(--grid_colour#id#)")
-              document.getElementById("tempo_today_text#id#").innerHTML = (hours >= 6 && hours < 22) ? 'HP' : 'HC'
+          if (is_object(document.getElementById("tempo_today_text#id#"))) {
+            if (Object.keys(JsonTempoArray#id#).length > 0 && Array.isArray(JsonTempoArray#id#)) { // si c'est un json valide qui est envoyé dans addUpdateFunction
+              log#id#(JsonTempoArray#id#)
+              log#id#('|┌─────────────────── jsonTempo detecté ───────────────────')
+              log#id#('|| hours : ' + hours)
+              if(JsonTempoArray#id#[dTodayText]) {
+                log#id#('|| Date now ' + dTodayText + ' => ' + JsonTempoArray#id#[dTodayText])
+                document.getElementById("tempo_today_circle#id#")?.setAttribute("fill", 'var(--' + getLabel(JsonTempoArray#id#[dTodayText]) + ')')
+                document.getElementById("tempo_today_text#id#")?.setAttribute("fill", "var(--grid_colour#id#)")
+                document.getElementById("tempo_today_text#id#").innerHTML = (hours >= 6 && hours < 22) ? 'HP' : 'HC'
+              }
+              else {
+                document.getElementById("tempo_today_circle#id#")?.setAttribute("fill", "transparent")
+                document.getElementById("tempo_today_text#id#")?.setAttribute("fill", "transparent")
+              }
+              if(JsonTempoArray#id#[dnextText]) {
+                log#id#('|| Date tomorrow ' + dnextText + ' => ' + JsonTempoArray#id#[dnextText])
+                document.getElementById("tempo_tomorrow_circle#id#")?.setAttribute("fill", 'var(--' + getLabel(JsonTempoArray#id#[dnextText]) + ')')
+                document.getElementById("tempo_tomorrow_text#id#")?.setAttribute("fill", "var(--grid_colour#id#)")
+              }
+              else {
+                document.getElementById("tempo_tomorrow_circle#id#")?.setAttribute("fill", "transparent")
+                document.getElementById("tempo_tomorrow_text#id#")?.setAttribute("fill", "transparent")
+              }
               reinitTempo = true
-            } else if (JsonTempoArray#id#.includes('blue') || JsonTempoArray#id#.includes('bleu')) {
-              document.getElementById("tempo_today_circle#id#").setAttribute("fill", 'var(--' + getLabel('BLUE') + ')')
-              document.getElementById("tempo_today_text#id#").setAttribute("fill", "var(--grid_colour#id#)")
-              document.getElementById("tempo_today_text#id#").innerHTML = (hours >= 6 && hours < 22) ? 'HP' : 'HC'
-              reinitTempo = true
-            } else if (JsonTempoArray#id#.includes('white') || JsonTempoArray#id#.includes('blanc')) {
-              document.getElementById("tempo_today_circle#id#").setAttribute("fill", 'var(--' + getLabel('WHITE') + ')')
-              document.getElementById("tempo_today_text#id#").setAttribute("fill", "var(--grid_colour#id#)")
-              document.getElementById("tempo_today_text#id#").innerHTML = (hours >= 6 && hours < 22) ? 'HP' : 'HC'
-              reinitTempo = true
+              log#id#('|└────────────────────────────────────')
             } else {
-              document.getElementById("tempo_today_circle#id#").setAttribute("fill", "transparent")
-              document.getElementById("tempo_today_text#id#").setAttribute("fill", "transparent")
+              document.getElementById("tempo_tomorrow_circle#id#")?.setAttribute("fill", "transparent")
+              document.getElementById("tempo_tomorrow_text#id#")?.setAttribute("fill", "transparent")
+              if (JsonTempoArray#id#.includes('red') || JsonTempoArray#id#.includes('rouge')){
+                document.getElementById("tempo_today_circle#id#")?.setAttribute("fill", 'var(--' + getLabel('RED') + ')')
+                document.getElementById("tempo_today_text#id#")?.setAttribute("fill", "var(--grid_colour#id#)")
+                document.getElementById("tempo_today_text#id#").innerHTML = (hours >= 6 && hours < 22) ? 'HP' : 'HC'
+                reinitTempo = true
+              } else if (JsonTempoArray#id#.includes('blue') || JsonTempoArray#id#.includes('bleu')) {
+                document.getElementById("tempo_today_circle#id#")?.setAttribute("fill", 'var(--' + getLabel('BLUE') + ')')
+                document.getElementById("tempo_today_text#id#")?.setAttribute("fill", "var(--grid_colour#id#)")
+                document.getElementById("tempo_today_text#id#").innerHTML = (hours >= 6 && hours < 22) ? 'HP' : 'HC'
+                reinitTempo = true
+              } else if (JsonTempoArray#id#.includes('white') || JsonTempoArray#id#.includes('blanc')) {
+                document.getElementById("tempo_today_circle#id#")?.setAttribute("fill", 'var(--' + getLabel('WHITE') + ')')
+                document.getElementById("tempo_today_text#id#")?.setAttribute("fill", "var(--grid_colour#id#)")
+                document.getElementById("tempo_today_text#id#").innerHTML = (hours >= 6 && hours < 22) ? 'HP' : 'HC'
+                reinitTempo = true
+              } else {
+                document.getElementById("tempo_today_circle#id#")?.setAttribute("fill", "transparent")
+                document.getElementById("tempo_today_text#id#")?.setAttribute("fill", "transparent")
+              }
             }
-          }
           
-          if(timer#id# === false) {
-            if (reinitTempo) { 
-              log#id#('| initialisation de la tempo')
-              timer#id# = setInterval(getTime#id#, 30000, 'timer')
-            }
-          } else {
-            log#id#('| delete de la tempo')
-            clearInterval(timer#id#)
-            timer#id# === false
-            if (reinitTempo) {
-              log#id#('| reinitialisation de la tempo')
-              timer#id# = setInterval(getTime#id#, 30000, 'timer')
+            if(timer#id# === false) {
+              if (reinitTempo) { 
+                log#id#('| initialisation de la tempo')
+                timer#id# = setInterval(getTime#id#, 30000, 'timer')
+              }
+            } else {
+              log#id#('| delete de la tempo')
+              clearInterval(timer#id#)
+              timer#id# === false
+              if (reinitTempo) {
+                log#id#('| reinitialisation de la tempo')
+                timer#id# = setInterval(getTime#id#, 30000, 'timer')
+              }
             }
           }
           log#id#('└────────────────────────────────────')
@@ -2525,8 +2385,8 @@
           else {
             log#id#('| -> no jsonTempo detecté')
             let value = _options.display_value.toLowerCase()
-            document.getElementById("tempo_tomorrow_circle#id#").setAttribute("fill", "transparent")
-            document.getElementById("tempo_tomorrow_text#id#").setAttribute("fill", "transparent")
+            document.getElementById("tempo_tomorrow_circle#id#")?.setAttribute("fill", "transparent")
+            document.getElementById("tempo_tomorrow_text#id#")?.setAttribute("fill", "transparent")
             if (value.includes('red') || value.includes('rouge')) JsonTempoArray#id# = 'red'
             else if (value.includes('blue') || value.includes('bleu')) JsonTempoArray#id# = 'blue'
             else if (value.includes('white') || value.includes('blanc')) JsonTempoArray#id# = 'white'
@@ -2543,6 +2403,7 @@
       <div> ------------ Général -------------</div>
       <div>Background : Couleur d'arrière plan du widget [ Exemple : #fffff, white, linear-gradient... | Défaut : transparent ]</div>
       <div>inverterColor : Couleur des éléments de catégorie "onduleur" [ Exemple : #fffff, white]</div>
+      <div>inverterColorTextIn : Couleur des textes internes a l'onduleur [ Exemple : #fffff, white]</div>
       <div>noGridColor : Couleur du logo "noGridColor" [ Exemple : #fffff, white]</div>
       <div>colorDanger : Couleur des rectangles en cas de dépassement de puissance. (Défaut : red)</div>
       <div>blink : Active le clignotement du rectangle en cas de dépassement de puissance. (Défaut: 0)</div>
@@ -2557,9 +2418,9 @@
       <div> ------------ Load ------------</div>
       <div>load1Name : Personnalisation du nom du Load1. (Ex: C.E, Clim, ...)</div>
       <div>load1Icon : Choix icône intègrée : Voir liste en bas.</div>
-      <div>---- load1Icon accèpte 2 icônes, il suffit d'ajouter un espace entre les 2 icônes. [ex : plug microwave]</div>
-      <div>load1Img : Affiche une image perso. ( mettre le chemin jusqu'au fichier sans oublier l'extension)</div>
-      <div> /!\ Si load1Icon et load1Img sont paramètrés, load1Icon sera prioritaire /!\ </div>
+      <div>&nbsp;&nbsp;↳ accèpte 2 icônes/images, utiliser la virgule comme séparateur entre les 2 icônes/images. [ex : plug,microwave]</div>
+      <div>&nbsp;&nbsp;↳ Si load1Icon est de type image, bien mettre le chemin jusqu'au fichier sans oublier l'extension</div>
+      <div>&nbsp;&nbsp;↳ Exemple : data/img/monImgPerso.png,oven</div>
       <div>load1MaxPower : Puissance Max (Permet de colorer le rectangle lorsque cette puissance est atteinte)</div>
       <div>force4Load : Force a 4 loads par colonne. (désactivé si utilisation de 7 PV ou plus) [défaut : 0]</div>
       <div> ... </div>
@@ -2572,27 +2433,31 @@
       <div>dailyGridBuyText : Personnalisation du texte. (défaut : DAILY GRID BUYL)</div>
       <div>gridMaxPower : Puissance max de consommation. (permet la gestion de vitesse de l'animation)</div>
       <div>gridColor : Couleur des éléments de catégorie "réseau" [ Exemple : #fffff, white]</div>
+      <div>gridSellColor : Couleur texte / valeur daily achat. [ défaut : gridColor | Exemple : #fffff, white ]</div>
+      <div>gridBuyColor : Couleur texte / valeur daily vente. [ défaut : gridColor | Exemple : #fffff, white ]</div>
       <div> ------------ Battery ------------</div>
       <div>dailyBatteryChargeText : Personnalisation du texte. (défaut : DAILY CHARGE)</div>
       <div>dailyBatteryDischargeText : Personnalisation du texte. (défaut : DAILY DISCHARGE)</div>
       <div>batteryMaxPower : Puissance max de la batterie. (permet la gestion de vitesse de l'animation)</div>
       <div>batterySocShutdown : SOC mini. (defaut: 0)</div>
       <div>mpptName : Personnalisation du nom du Chargeur PV.</div>
-      <div>batteryColor : Couleur des éléments de catégorie "batterie" [ Exemple : #fffff, white]</div>
-      <div>batteryIcon : Choix icône intègrée : Voir liste en bas.</div>
-      <div>batteryImg : Affiche une image perso.( mettre le chemin jusqu'au fichier sans oublier l'extension)</div>
-      <div> /!\ si batteryIcon et batteryImg sont paramètrés, batteryIcon sera prioritaire /!\ </div>
+      <div>batteryColor : Couleur des éléments de catégorie "batterie". [ Exemple : #fffff, white]</div>
+      <div>batteryStateColor : Couleur texte de l'état de charge. [ Exemple : #fffff, white]</div>
+      <div>batteryChargeColor : Couleur texte / valeur daily charge. [ défaut : batteryColor | Exemple : #fffff, white ]</div>
+      <div>batteryDischargeColor : Couleur texte / valeur daily discharge. [ défaut : batteryColor | Exemple : #fffff, white ]</div>
+      <div>batteryIcon : Choix icône intègrée (Voir liste en bas) ou image perso : </div>
+      <div>&nbsp;&nbsp;↳ Si batteryIcon est de type image, bien mettre le chemin jusqu'au fichier sans oublier l'extension.</div>
       <div> ------------ Aux ------------</div>
       <div>auxColor :  Couleur des éléments de catégorie "aux" [ Exemple : #fffff, white]</div>
       <div>auxMaxPower : Puissance max des "Aux". (permet la gestion de vitesse de l'animation)</div>
       <div> ------------ Perso ------------</div>
       <div>perso1Param : Paramètre pour afficher une commande perso (il faut obligatoirement avoir créé la commande perso1_state)</div>
       <div>┌─────────────────── INFO </div>
-      <div>&nbsp;| Format du paramètre perso1Param : x y size_value color text size_text (espace entre chaque valeur)</div>
-      <div>&nbsp;| x et y sont les coordonnées pour emplacement de l'info. (exemple pour afficher la commande en dessous de l'onduleur : 213 275)</div>
+      <div>&nbsp;| Format du paramètre perso1Param : x,y,size_value,color,text,size_text (virgule entre chaque valeur)</div>
+      <div>&nbsp;| x et y sont les coordonnées pour emplacement de l'info. (exemple pour afficher la commande en dessous de l'onduleur : 213,275)</div>
       <div>&nbsp;| size_value : Taille du texte de la commande. (entre 7 a 16)</div>
       <div>&nbsp;| color : Couleur de l'info. [ Exemple : #fffff, white] peut aussi s'adapter a la couleur d'une des catégorie en utilisant solar, load, inverter, grid, aux, battery.</div>
-      <div>&nbsp;| text : Ajoute un texte additionnel sous la commande. (ne pas mettre d'espace !, utilisez le caractère _ pour faire un espace)</div>
+      <div>&nbsp;| text : Ajoute un texte additionnel sous la commande. (ne pas mettre de virgule dans le texte !)</div>
       <div>&nbsp;| size_text : Taille du texte additionnel. (entre 7 a 16)</div>
       <div>└───────────────────────────</div>
       <div> ------------ Liste des icônes ------------</div>
