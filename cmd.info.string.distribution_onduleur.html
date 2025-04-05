@@ -4,7 +4,7 @@
     Widget name : cmd.info.string.distribution_onduleur
     Author : Phpvarious
     Inspiration : https://github.com/slipx06/sunsynk-power-flow-card/tree/master
-    Last Update : 2025/04/05 12h20 - Phpvarious
+    Last Update : 2025/04/05 15h20 - Phpvarious
   
     version béta
   -->
@@ -93,7 +93,7 @@
       ////////////////////// VARIABLES ///////////////////////
       ////////////////////////////////////////////////////////
       var debug#id# = ('#debug#' == 1) ? true : false
-      var versionWidget#id# = '2025/04/05 12h20 beta'
+      var versionWidget#id# = '2025/04/05 15h20 beta'
       //var float = false
       var timer_in#id# = false
       var unite_conversion#id# = { 'W' : [1000, 'W', 'kW', 'MW'], 'Wh' : [1000, 'Wh', 'kWh', 'MWh'], 'l' : [1000, 'l', 'm<sup>3</sup>'] }
@@ -1654,7 +1654,7 @@
             /////////////////////  Grid ///////////////////////////
             ///////////////////////////////////////////////////////
             html += '<!-- Grid -->'
-            html += '<rect id="grid-rect-#id#" class="' + ((config#id#.blink && config#id#.grid.max_power && config#id#.grid.power >= config#id#.grid.max_power) ? 'blink#id#' : '') + '" x="103" y="213" width="70" height="29.5" rx="4.42" ry="4.42" fill="none" stroke="var(' + ((config#id#.grid.power < 0) ? '--grid-buy-colour#id#' : '--grid-sell-colour#id#') + ')" pointer-events="all"/>'
+            html += '<rect id="grid-rect-#id#" class="" x="103" y="213" width="70" height="29.5" rx="4.42" ry="4.42" fill="none" stroke="none" pointer-events="all"/>'
             if (config#id#.activateGauge)
               html += '<rect id="grid-rect-gauge-#id#" class="op-#id#" x="103" y="213" width="70" height="29.5" rx="4.42" ry="4.42" fill="var(' + ((config#id#.grid.power < 0) ? '--grid-buy-colour#id#' : '--grid-sell-colour#id#') + ')" stroke="transparent" pointer-events="all"/>'
             ///////////////
@@ -2374,14 +2374,14 @@
               if (config#id#.blink) {
                 document.getElementById("grid-rect-#id#")?.classList.add("blink#id#")
                 document.getElementById("grid-rect-gauge-#id#")?.classList.add("blink#id#")
-                document.getElementById("grid-rect-#id#")?.setAttribute("stroke", "var(--color_alerte#id#)")
               }
+              document.getElementById("grid-rect-#id#")?.setAttribute("stroke", "var(--color_alerte#id#)")
             } else {
               if (config#id#.blink) {
                 document.getElementById("grid-rect-#id#")?.classList.remove("blink#id#")
                 document.getElementById("grid-rect-gauge-#id#")?.classList.remove("blink#id#")
-                document.getElementById("grid-rect-#id#")?.setAttribute("stroke", color)
               }
+              document.getElementById("grid-rect-#id#")?.setAttribute("stroke", color)
             }
             document.getElementById("grid-rect-gauge-#id#")?.setAttribute("fill", color)
             document.getElementById("grid_power#id#")?.setAttribute("fill", color)
@@ -2604,11 +2604,11 @@
       <div> ------------ Solar ------------</div>
       <div>pv1Name : Personnalisation du nom du Pv1. (Ex: Ouest, Nord, PV1 ...)</div>
       <div>pv2Name : Personnalisation du nom du Pv2. (Ex: Ouest, Nord, PV2 ...)</div>
-      <div>pv1MaxPower : Puissance max du Pv1. (permet la gestion de la gauges et des alertes)</div>
-      <div>pv2MaxPower : Puissance max du Pv2. (permet la gestion de la gauges et des alertes)</div>
+      <div>pv1MaxPower : Puissance max du Pv1. (permet la gestion de la gauge et des alertes)</div>
+      <div>pv2MaxPower : Puissance max du Pv2. (permet la gestion de la gauge et des alertes)</div>
       <div> ... </div>
       <div>dailySolarText : Personnalisation du texte. (défaut : DAILY SOLAR)</div>
-      <div>pvMaxPower : Puissance max des PV. (permet la gestion de vitesse de l'animation)</div>
+      <div>pvMaxPower : Puissance max des PV. (permet la gestion, de la vitesse de l'animation, de la gauge et des alertes)</div>
       <div>solarColor : Couleur des éléments de catégorie "solaire" [ Exemple : #fffff, white]</div>
       <div> ------------ Load ------------</div>
       <div>load1Name : Personnalisation du nom du Load1. (Ex: C.E, Clim, ...)</div>
@@ -2620,7 +2620,7 @@
       <div> ... </div>
       <div>force4Load : Force a 4 loads par colonne. (désactivé si utilisation de 7 PV ou plus !) [défaut : 0]</div>
       <div>dailyLoadText : Personnalisation du texte. (défaut : DAILY LOAD)</div>
-      <div>loadMaxPower : Puissance max des équipements "Load". (Permet la gestion de vitesse de l'animation et des alertes)</div>
+      <div>loadMaxPower : Puissance max des équipements "Load". (permet la gestion, de la vitesse de l'animation, de la gauge et des alertes)</div>
       <div>loadColor : Couleur des éléments de catégorie "load" [ Exemple : #fffff, white]</div>
       <div>loadAnimate: Pour désactiver l'animation des Load passer ce paramètre a 0</div>
       <div> ------------ Grid ------------</div>
@@ -2633,7 +2633,7 @@
       <div> ------------ Battery ------------</div>
       <div>dailyBatteryChargeText : Personnalisation du texte. (défaut : DAILY CHARGE)</div>
       <div>dailyBatteryDischargeText : Personnalisation du texte. (défaut : DAILY DISCHARGE)</div>
-      <div>batteryMaxPower : Puissance max de la batterie. (permet la gestion de vitesse de l'animation, la gestion de la gauge et des alertes)</div>
+      <div>batteryMaxPower : Puissance max de la batterie. (permet la gestion, de la vitesse de l'animation, de la gauge et des alertes)</div>
       <div>batterySocShutdown : SOC mini. (defaut: 0)</div>
       <div>mpptName : Personnalisation du nom du Chargeur PV.</div>
       <div>batteryColor : Couleur par défaut des éléments de catégorie "batterie". [ Exemple : #fffff, white | Défaut : pink]</div>
@@ -2652,7 +2652,7 @@
       <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ batteryState100Color : Couleur lorsque % = 100</div>
       <div> ------------ Aux ------------</div>
       <div>auxColor :  Couleur des éléments de catégorie "aux" [ Exemple : #fffff, white]</div>
-      <div>auxMaxPower : Puissance max des "Aux". (permet la gestion de vitesse de l'animation)</div>
+      <div>auxMaxPower : Puissance max des "Aux". (permet la gestion, de la vitesse de l'animation, de la gauge et des alertes)</div>
       <div> ------------ Perso ------------</div>
       <div>perso1Param : Paramètre pour afficher une commande perso (il faut obligatoirement avoir créé la commande perso1_state)</div>
       <div>┌─────────────────── INFO </div>
