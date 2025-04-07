@@ -4,7 +4,7 @@
     Widget name : cmd.info.string.distribution_onduleur
     Author : Phpvarious
     Inspiration : https://github.com/slipx06/sunsynk-power-flow-card/tree/master
-    Last Update : 2025/04/07 18h40 - Phpvarious
+    Last Update : 2025/04/07 22h10 - Phpvarious
   
     version béta
   -->
@@ -100,7 +100,7 @@
       ////////////////////// VARIABLES ///////////////////////
       ////////////////////////////////////////////////////////
       var debug#id# = ('#debug#' == 1) ? true : false
-      var versionWidget#id# = '2025/04/07 18h40 beta'
+      var versionWidget#id# = '2025/04/07 22h10 beta'
       //var float = false
       var timer_in#id# = false
       var unite_conversion#id# = { 'W' : [1000, 'W', 'kW', 'MW'], 'Wh' : [1000, 'Wh', 'kWh', 'MWh'], 'l' : [1000, 'l', 'm<sup>3</sup>'] }
@@ -1179,7 +1179,8 @@
             
             let max_load = (482 + 76 + Math.floor(nb_load / 2) * 76)
             if (config#id#.solar.mppts <= 6 && config#id#.load.force4load) max_load = (482 + 76 + Math.trunc(nb_load / 4.1) * 76)
-            if (!config#id#.has_load) max_load = 240 //(config#id#.load.has_load_power === false && config#id#.load.additional_loads == 0)
+            if (!config#id#.has_load) max_load = 280 //240 //(config#id#.load.has_load_power === false && config#id#.load.additional_loads == 0)
+            if (config#id#.has_load && config#id#.load.additional_loads == 0) max_load = 482
             
             let max_solar = (406 + Math.floor(nb_solar / 2) * 79) //327
             if (config#id#.solar.mppts == 0) max_solar = 240
@@ -1199,8 +1200,7 @@
             } else {
               if (config#id#.solar.mppts > 6) viewBox_y = -90
               else if (config#id#.load.force4load == true && config#id#.load.additional_loads > 2) viewBox_y = 0
-              else if (config#id#.solar.mppts == 0) viewBox_y = 60
-              else if (config#id#.solar.mppts == 1) viewBox_y = 60
+              else if (config#id#.solar.mppts == 0 || config#id#.solar.mppts == 1) viewBox_y = 0
               else if (config#id#.solar.mppts > 1 && config#id#.solar.mppts <= 6) viewBox_y = 0
             }
             html += ' ' + viewBox_y + ' '
@@ -1216,6 +1216,7 @@
             
             // fin bas
             if (config#id#.has_solar === false) {
+              if (config#id#.load.additional_loads == 0) viewBox_h = 300 - viewBox_y
               if (config#id#.load.additional_loads == 1) viewBox_h = 310 - viewBox_y
               if (config#id#.load.additional_loads > 1) viewBox_h = 350 - viewBox_y  //240
               if (config#id#.has_aux || config#id#.has_battery) viewBox_h = 400 - viewBox_y
@@ -2108,20 +2109,22 @@
                 document.getElementById("pv" + solar + "-rect-#id#")?.setAttribute("stroke", "var(--solar_colour#id#)")
                 document.getElementById("pv" + solar + "_power#id#")?.setAttribute("fill", "var(--solar_colour#id#)")
                 document.getElementById("pv" + solar + "-line#id#")?.setAttribute("stroke", "var(--solar_colour#id#)")
-                document.getElementById("pv" + solar + "-line#id#").style.opacity = 1
+                if (is_object(document.getElementById("pv" + solar + "-line#id#"))) document.getElementById("pv" + solar + "-line#id#").style.opacity = 1
                 document.getElementById("pv" + solar + "_voltage#id#")?.setAttribute("fill", "var(--solar_colour#id#)")
                 document.getElementById("pv" + solar + "_current#id#")?.setAttribute("fill", "var(--solar_colour#id#)")
                 document.getElementById("pv" + solar + "_energy#id#")?.setAttribute("fill", "var(--solar_colour#id#)")
+                document.getElementById("pv" + solar + "-name-#id#")?.setAttribute("fill", "var(--solar_colour#id#)")
               }
               else {
                 document.getElementById("pv" + solar + "-dot#id#")?.setAttribute("fill", "transparent")
                 document.getElementById("pv" + solar + "-rect-#id#")?.setAttribute("stroke", "var(--solar_colour-0-#id#)")
                 document.getElementById("pv" + solar + "_power#id#")?.setAttribute("fill", "var(--solar_colour-0-#id#)")
                 document.getElementById("pv" + solar + "-line#id#")?.setAttribute("stroke", "var(--solar_colour-0-#id#)")
-                document.getElementById("pv" + solar + "-line#id#").style.opacity = 0.2
+                if (is_object(document.getElementById("pv" + solar + "-line#id#"))) document.getElementById("pv" + solar + "-line#id#").style.opacity = 0.2
                 document.getElementById("pv" + solar + "_voltage#id#")?.setAttribute("fill", "var(--solar_colour-0-#id#)")
                 document.getElementById("pv" + solar + "_current#id#")?.setAttribute("fill", "var(--solar_colour-0-#id#)")
                 document.getElementById("pv" + solar + "_energy#id#")?.setAttribute("fill", "var(--solar_colour-0-#id#)")
+                document.getElementById("pv" + solar + "-name-#id#")?.setAttribute("fill", "var(--solar_colour-0-#id#)")
               }
             }
           }
