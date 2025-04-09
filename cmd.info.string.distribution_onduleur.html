@@ -1,11 +1,9 @@
 <div class="cmd #history# cmd-widget" data-type="info" data-subtype="string" data-cmd_id="#id#" data-cmd_uid="#uid#" data-version="#version#" data-eqLogic_id="#eqLogic_id#" style="width: 100%;">
-
   <!-- ################ Distribution onduleur ################
     Widget name : cmd.info.string.distribution_onduleur
     Author : Phpvarious
     Inspiration : https://github.com/slipx06/sunsynk-power-flow-card/tree/master
     Last Update : 2025/04/07 22h10 - Phpvarious
-
     version béta
   -->
     <div class="hidden-#id#" id="div_error#id#"></div>
@@ -73,7 +71,6 @@
       .ft22-#id#{font-size:22px;}
       .ftw-#id#{font-weight:500}
       .hidden-#id#{display:none;}
-
       @keyframes blinking#id# {
         0% { opacity: 0.8; }
         100% { opacity: 0.4; }
@@ -2416,8 +2413,8 @@
                 document.getElementById("duration_text_etat#id#").innerHTML = ''
               } else {
                 document.getElementById("duration#id#").innerHTML = duration
-              if (config#id#.battery.power.state <= 0) document.getElementById("duration_text_etat#id#").innerHTML = 'Chargé à ' + battery_capacity + '% à ' + formattedResultTime
-              if (config#id#.battery.power.state >= 0) document.getElementById("duration_text_etat#id#").innerHTML = 'Décharge à ' + battery_capacity+ '% à ' + formattedResultTime
+                if (config#id#.battery.power.state <= 0) document.getElementById("duration_text_etat#id#").innerHTML = 'Chargé à ' + battery_capacity + '% à ' + formattedResultTime
+                if (config#id#.battery.power.state >= 0) document.getElementById("duration_text_etat#id#").innerHTML = 'Décharge à ' + battery_capacity+ '% à ' + formattedResultTime
               }
             }
             if(timer_in#id# === false) {
