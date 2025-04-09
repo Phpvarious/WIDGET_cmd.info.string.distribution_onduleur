@@ -1944,7 +1944,7 @@
             }
             else if(isset(config#id#.inverter.images[config#id#.inverter.model])) {
               html += '<image x="213.5" y="196" width="54" height="72" href="' + config#id#.inverter.images[config#id#.inverter.model].image + '" preserveAspectRatio="none"/>'
-			}
+            }
             else html += '<rect x="214" y="196" width="50" height="64" rx="4.5" ry="4.5" fill="none" stroke="var(--inverter_colour#id#)" pointer-events="all"></rect>'
             ///////////////
             ///   LCD   ///
@@ -1974,11 +1974,11 @@
             ///   TEMP  ///
             ///////////////
             if (config#id#.inverter.temp.ac_state !== false) {
-            //ac
+              //ac
               html += '<text id="ac_temp#id#" x="' + ((config#id#.has_aux || config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) ? '270' : '185') + '" y="242" class="ft9-#id# left-align#id# ' + ((config#id#.inverter.temp.ac_isHistorized == 1) ? 'history cursor' : '') + '" fill="var(--inverter_colour#id#)"' + ((config#id#.inverter.temp.ac_isHistorized == 1 && config#id#.inverter.temp.ac_id) ? ' data-cmd_id=' + config#id#.inverter.temp.ac_id : '') + '>' + config#id#.inverter.temp.ac_state + ' ' + config#id#.inverter.temp.ac_unit + '</text>'
             }
             if (config#id#.inverter.temp.dc_state !== false) {
-            //dc
+              //dc
               html += '<text id="dc_temp#id#" x="243" y="' + ((config#id#.has_solar || (!config#id#.has_solar && !config#id#.battery.power.show)) ? '192' : '272') + '" class="ft9-#id# left-align#id# ' + ((config#id#.inverter.temp.dc_isHistorized == 1) ? 'history cursor' : '') + '" fill="var(--inverter_colour#id#)"' + ((config#id#.inverter.temp.dc_isHistorized == 1 && config#id#.inverter.temp.dc_id) ? ' data-cmd_id=' + config#id#.inverter.temp.dc_id : '') + '>' + config#id#.inverter.temp.dc_state + ' ' + config#id#.inverter.temp.dc_unit + '</text>'
             }
 
@@ -2015,7 +2015,7 @@
             //html += (config#id#.inverter.autarky === "no") ? 'none' : ''
             html += '" class="ft9-#id# left-align#id#" fill="var(--inverter_colour#id#)" >' + config#id#.inverter.ratio_text + '</text>'
             */
-            if (! jeedom.cmd.disableExecute) document.getElementById('widget#id#').innerHTML = html
+            if (!jeedom.cmd.disableExecute) document.getElementById('widget#id#').innerHTML = html
             else {
               if (document.body.getAttribute('data-page') == 'plan') {
                 document.getElementById("div_error#id#").innerHTML = 'La configuration de l\'équipement a été modifiée.<br>Veuillez actualiser le design.'
@@ -2068,6 +2068,7 @@
           } else {
             config#id#.solar.power = trunc#id#(config#id#.solar.power, 1)
           }
+
           ///  Gauge  \\\
           if (config#id#.solar.max_power) {
             if (config#id#.activateGauge) {
@@ -2076,6 +2077,7 @@
               document.getElementById("pv-rect-gauge-#id#")?.setAttribute('width', width_rect_gauge)
             } else document.getElementById("pv-rect-gauge-#id#")?.setAttribute('width', 0)
           }
+
           /// Alert  \\\
           if (config#id#.solar.max_power && config#id#.solar.power >= config#id#.solar.max_power) {
             document.getElementById("pv-rect-#id#")?.setAttribute("stroke", "var(--color_alerte#id#)")
@@ -2090,6 +2092,7 @@
               document.getElementById("pv-rect-gauge-#id#")?.classList.remove("blink#id#")
             }
           }
+
 
           if (is_object(cmd = document.getElementById("pvtotal_power#id#"))) cmd.innerHTML = config#id#.solar.power + ' ' + config#id#.solar.power_unit
           log#id#('| total_pv = ' + config#id#.solar.power)
@@ -2249,6 +2252,7 @@
             } else document.getElementById("aux-rect-gauge-#id#")?.setAttribute('width', 0)
           }
           /// Colors  \\\
+
           if (config#id#.aux.max_power && config#id#.aux.power >= config#id#.aux.max_power) {
             document.getElementById("aux-rect-#id#")?.setAttribute("stroke", "var(--color_alerte#id#)")
             if (config#id#.blink) {
@@ -2370,7 +2374,6 @@
           let totalSeconds = 0
           let formattedResultTime = ""
           let duration = ""
-
           if (config#id#.battery.energy !== false && config#id#.battery.energy > 0) {
             if (config#id#.battery.power.state == 0) {
               log#id#('| power.state == 0')
@@ -2449,7 +2452,7 @@
           log#id#('| animation_speed = ' + speed)
           ///  Colors  \\\
 
-            let color = 'var(--grid_colour#id#)'
+          let color = 'var(--grid_colour#id#)'
           if (config#id#.grid.power > 0) {
             color = 'var(--grid-buy-colour#id#)'
           }
@@ -2478,8 +2481,8 @@
                 document.getElementById("grid-rect-#id#")?.classList.add("blink#id#")
                 document.getElementById("grid-rect-gauge-#id#")?.classList.add("blink#id#")
               }
-            document.getElementById("grid-rect-#id#")?.setAttribute("stroke", "var(--color_alerte#id#)")
-          } else {
+              document.getElementById("grid-rect-#id#")?.setAttribute("stroke", "var(--color_alerte#id#)")
+            } else {
               if (config#id#.blink) {
                 document.getElementById("grid-rect-#id#")?.classList.remove("blink#id#")
                 document.getElementById("grid-rect-gauge-#id#")?.classList.remove("blink#id#")
@@ -2497,7 +2500,7 @@
           if (config#id#.has_load && config#id#.activateGaugeRatio) calculateGaugeRatio#id#('calculateGrid')
         } // ElDomExist
         log#id#('└──────────────────────────────────────────────────────')
-        }
+      }
 
       function calculateGaugeRatio#id#(el='') {
         log#id#('┌─────────────────── Widget Distribution Onduleur [#id#] en debug [calculateGaugeRatio()] ───────────────')
@@ -2767,9 +2770,9 @@
       <div> ------------ Load ------------</div>
       <div>load1Name : Personnalisation du nom du Load1. (Ex: C.E, Clim, ...)</div>
       <div>load1Icon : Choix icône intègrée : Voir liste en bas.</div>
-      <div>&nbsp;&nbsp;↳ accèpte 2 icônes/images, utiliser la virgule comme séparateur entre les 2 icônes/images. [ex : plug,microwave]</div>
+      <div>&nbsp;&nbsp;↳ accèpte 2 icônes/images, utiliser la virgule comme séparateur entre les 2 icônes/images. [ex : plug , microwave]</div>
       <div>&nbsp;&nbsp;↳ Si load1Icon est de type image, bien mettre le chemin jusqu'au fichier sans oublier l'extension</div>
-      <div>&nbsp;&nbsp;↳ Exemple : data/img/monImgPerso.png,oven</div>
+      <div>&nbsp;&nbsp;↳ Exemple : data/img/monImgPerso.png , oven</div>
       <div>load1MaxPower : Puissance Max (permet la gestion de la gauge et des alertes)</div>
       <div> ... </div>
       <div>force4Load : Force a 4 loads par colonne. (désactivé si utilisation de 7 PV ou plus !) [défaut : 0]</div>
