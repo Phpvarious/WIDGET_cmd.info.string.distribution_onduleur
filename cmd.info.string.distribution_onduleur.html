@@ -742,7 +742,7 @@
                       
                       jeedom.cmd.addUpdateFunction(cmds[j].id, function(_options) {
                         if (is_object(cmd = document.getElementById("perso" + iPerso + "-value-#id#"))) {
-                          cmd.innerHTML = _options.value + ' ' + config#id#.persos[iPerso]['unit']
+                          cmd.innerHTML = (is_numeric(_options.value) ? formatMillier(_options.value, config#id#.formatMillier) : _options.value) + ' ' + config#id#.persos[iPerso]['unit']
                         }
                       })
                     }
@@ -1307,7 +1307,7 @@
             for (perso in config#id#.persos) {
               html += '<text id="perso' + perso + '-value-#id#" x="' + config#id#.persos[perso].x_value + '" y="' + config#id#.persos[perso].y_value + '" class="ft' + config#id#.persos[perso].size_value + '-#id# left-align#id# ' + ((config#id#.persos[perso].isHistorized == 1) ? 'history cursor' : '') + '" fill="' + config#id#.persos[perso].color + ' "'
               html += ((config#id#.persos[perso].isHistorized == 1 && config#id#.persos[perso].id) ? ' data-cmd_id=' + config#id#.persos[perso].id : '')
-              html += '>'+ config#id#.persos[perso].value
+              html += '>' + (is_numeric(config#id#.persos[perso].value) ? formatMillier(config#id#.persos[perso].value, config#id#.formatMillier) : config#id#.persos[perso].value)
               if (config#id#.persos[perso].unit != '') html += ' ' + config#id#.persos[perso].unit
               html += '</text>'
               if (config#id#.persos[perso].text) {
