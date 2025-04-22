@@ -172,11 +172,11 @@
         log#id#('| getBatteryIcon() -> ' + value + ' | ' + full_capacity + ' | ' + empty_capacity + ' | ' + icon_perso)
         let available = full_capacity - empty_capacity
         let value_pourcent = Math.trunc(value * available / 100)
-        if (value_pourcent <= 0) return '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-battery-0"/>';
-        else if (value_pourcent < 50) return '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-battery-25"/>';
-        else if (value_pourcent < 75) return '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-battery-50"/>';
-        else if (value_pourcent < 100) return '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-battery-75"/>';
-        else return '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-battery-100"/>';
+        if (value_pourcent <= 0) return '<use xlink:href="plugins/APSystemsSunspec/core/template/dashboard/cmd.info.string.distribution_onduleur_APSystemsSunspec/icon.svg#icon-battery-0"/>';
+        else if (value_pourcent < 50) return '<use xlink:href="plugins/APSystemsSunspec/core/template/dashboard/cmd.info.string.distribution_onduleur_APSystemsSunspec/icon.svg#icon-battery-25"/>';
+        else if (value_pourcent < 75) return '<use xlink:href="plugins/APSystemsSunspec/core/template/dashboard/cmd.info.string.distribution_onduleur_APSystemsSunspec/icon.svg#icon-battery-50"/>';
+        else if (value_pourcent < 100) return '<use xlink:href="plugins/APSystemsSunspec/core/template/dashboard/cmd.info.string.distribution_onduleur_APSystemsSunspec/icon.svg#icon-battery-75"/>';
+        else return '<use xlink:href="plugins/APSystemsSunspec/core/template/dashboard/cmd.info.string.distribution_onduleur_APSystemsSunspec/icon.svg#icon-battery-100"/>';
       }
       
       function numIsPair(n) {
@@ -511,20 +511,20 @@
           //console.table(cmds)
           for (j in cmds) {
             //console.table(cmds[j])
-            cmds[j].name = cmds[j].name.toLowerCase();
-            cmds[j].name = cmds[j].name.replace(/é/g, 'e');
-            cmds[j].name = cmds[j].name.replace(/_/g, ' ');
+            cmds[j].configuration['widget'] = cmds[j].configuration['widget'].toLowerCase();
+            cmds[j].configuration['widget'] = cmds[j].configuration['widget'].replace(/é/g, 'e');
+            cmds[j].configuration['widget'] = cmds[j].configuration['widget'].replace(/_/g, ' ');
             let id_eql = cmds[j].id
-            let name = cmds[j].name
-            let iPv = cmds[j].name[2]
-            let iLoad = cmds[j].name[4]
-            let iPerso = cmds[j].name[5]
-            let type = cmds[j].name.split(' ')
+            let name = cmds[j].configuration['widget']
+            let iPv = cmds[j].configuration['widget'][2]
+            let iLoad = cmds[j].configuration['widget'][4]
+            let iPerso = cmds[j].configuration['widget'][5]
+            let type = cmds[j].configuration['widget'].split(' ')
             /////////////////////////////////////////////////////////////////////////
             //////////////////////////// LOADS //////////////////////////////////////
             /////////////////////////////////////////////////////////////////////////
             if (type[0].substring(0, 4) == 'load' && iLoad >= 1) {
-              if (cmds[j].name[5] != ' ' && cmds[j].name[5] >= 0) iLoad = iLoad * 10 + parseInt(cmds[j].name[5])
+              if (cmds[j].configuration['widget'][5] != ' ' && cmds[j].configuration['widget'][5] >= 0) iLoad = iLoad * 10 + parseInt(cmds[j].configuration['widget'][5])
               if (type[1] == 'state') type[1] = 'power' // workaround pour ne pas modifier le nom équipements d'origines.
               jeedom.cmd.execute({
                 id: id_eql,
@@ -614,7 +614,7 @@
             ////////////////////////////// PVs //////////////////////////////////////
             /////////////////////////////////////////////////////////////////////////          
             if (type[0].substring(0, 2) == 'pv' && iPv >= 1) {
-              if (cmds[j].name[3] != ' ' && cmds[j].name[3] >= 0) iPv = iPv * 10 + parseInt(cmds[j].name[3])
+              if (cmds[j].configuration['widget'][3] != ' ' && cmds[j].configuration['widget'][3] >= 0) iPv = iPv * 10 + parseInt(cmds[j].configuration['widget'][3])
               if (type[1] == 'state') type[1] = 'power' // workaround pour ne pas modifier le nom équipements d'origines.
               jeedom.cmd.execute({
                 id: id_eql,
@@ -701,7 +701,7 @@
             //////////////////////////// PERSO //////////////////////////////////////
             /////////////////////////////////////////////////////////////////////////
             if (type[0].substring(0, 5) == 'perso' && iPerso >= 1) {
-              if (cmds[j].name[6] != ' ' && cmds[j].name[6] >= 0) iPerso = iPerso * 10 + parseInt(cmds[j].name[6])
+              if (cmds[j].configuration['widget'][6] != ' ' && cmds[j].configuration['widget'][6] >= 0) iPerso = iPerso * 10 + parseInt(cmds[j].configuration['widget'][6])
               if (isset(parameters#id#['perso'+iPerso+'Param']) && type[1] == 'state') {
                 let param = parameters#id#['perso'+iPerso+'Param'].split(",")
                 if (param.length >= 2) {
@@ -753,7 +753,7 @@
                 }
               }
             }
-            switch (cmds[j].name) {
+            switch (cmds[j].configuration['widget']) {
               ///////////////////////////////////////////////////////////////////////
               ////////////////////////////////  pv power ////////////////////////////
               ///////////////////////////////////////////////////////////////////////
@@ -1503,7 +1503,7 @@
               //html += '<svg xmlns="http://www.w3.org/2000/svg" id="icon_load#id#" x="402" y="177.5" width="79" height="79" viewBox="0 0 24 24"><path fill="var(--load_colour#id#)" d="M15 9h1V7.5h4V9h1c.55 0 1 .45 1 1v11c0 .55-.45 1-1 1h-6c-.55 0-1-.45-1-1V10c0-.55.45-1 1-1m1 2v3h4v-3h-4m-4-5.31l-5 4.5V18h5v2H5v-8H2l10-9l2.78 2.5H14v1.67l-.24.1L12 5.69Z"/></svg>'
               // ICON LOAD NONESS
               if (config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) {
-                html += '<svg fill="var(--load_colour#id#)" id="icon_load#id#" x="400" y="185" width="80" height="80" style="color:var(--load_colour#id#)"><use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-load"></use></svg>'
+                html += '<svg fill="var(--load_colour#id#)" id="icon_load#id#" x="400" y="185" width="80" height="80" style="color:var(--load_colour#id#)"><use xlink:href="plugins/APSystemsSunspec/core/template/dashboard/cmd.info.string.distribution_onduleur_APSystemsSunspec/icon.svg#icon-load"></use></svg>'
                 /*
                 html += '<svg x="400" y="188">'
                 html += '<circle id="solar_circle" class="circle#id#" stroke="var(--solar_colour#id#)" fill="none" cx="40" cy="40" r="35" stroke-dasharray="0 1" shape-rendering="geometricPrecision" stroke-dashoffset=""/>'
@@ -1704,7 +1704,7 @@
                       html += '<svg xmlns="http://www.w3.org/2000/svg" x="' + (x_icon + i * 35) + '" y="' + y_icon + '" width="25" height="25" viewBox="0 0 25 25" opacity="1"><image xlink:href="' + icon[i].trim() + '" x="0" y="0" height="25" width="25"/></svg>'
                     } else {
                       html += '<svg fill="var(--load_colour#id#)" x="' + (x_icon + i * 35) + '" y="' + y_icon + '" width="25" height="25" style="color:var(--load_colour#id#)">'
-                      html += '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-' + icon[i].trim() + '"/>'
+                      html += '<use xlink:href="plugins/APSystemsSunspec/core/template/dashboard/cmd.info.string.distribution_onduleur_APSystemsSunspec/icon.svg#icon-' + icon[i].trim() + '"/>'
                       html += '</svg>'
                     }
                     if (i == 1) break
@@ -1760,11 +1760,11 @@
               ///////////////
               // OFF
               html += '<svg id="transmission_off#id#" fill="var(--grid_colour#id#)" x="0" y="197.5" width="62" height="62" style="color:var(--no_grid_colour#id#)" class="' + (config#id#.grid.status === 1 ? 'hidden-#id#' : '') + '">'
-              html += '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-transmission-off"/>'
+              html += '<use xlink:href="plugins/APSystemsSunspec/core/template/dashboard/cmd.info.string.distribution_onduleur_APSystemsSunspec/icon.svg#icon-transmission-off"/>'
               html += '</svg>'
               // ON
               html += '<svg id="transmission_on#id#" fill="var(--grid_colour#id#)" x="0" y="197.5" width="62" height="62" style="color:var(--grid_colour#id#)" class="' + (config#id#.grid.status === 0 ? 'hidden-#id#' : '') + '">'
-              html += '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-transmission-on"/>'
+              html += '<use xlink:href="plugins/APSystemsSunspec/core/template/dashboard/cmd.info.string.distribution_onduleur_APSystemsSunspec/icon.svg#icon-transmission-on"/>'
               html += '</svg>'
               ///////////////
               ///  DAILY  ///
@@ -1868,7 +1868,7 @@
                   html += '<svg xmlns="http://www.w3.org/2000/svg" id="icon_bat#id#" x="' + x_icon + '" y="' + y_icon + '" width="60" height="60" viewBox="0 0 60 60" opacity="1"><image xlink:href="' + config#id#.battery.icon + '" x="0" y="0" height="60" width="60"/></svg>'
                 } else {
                   html += '<svg fill="var(--battery-state#id#)" x="' + x_icon + '" y="' + y_icon + '" width="60" height="60" style="color:var(--battery_colour#id#)">'
-                  html += '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-' + config#id#.battery.icon + '"/>'
+                  html += '<use xlink:href="plugins/APSystemsSunspec/core/template/dashboard/cmd.info.string.distribution_onduleur_APSystemsSunspec/icon.svg#icon-' + config#id#.battery.icon + '"/>'
                   html += '</svg>'
                 }
               } else {
@@ -1943,7 +1943,7 @@
               ///////////////
               ///  ICON   ///
               ///////////////
-              html += '<svg fill="var(--aux_colour#id#)" id="aux_generator#id#" x="' + ((config#id#.battery.power.show) ? '299' : '199') + '" y="325" width="80" height="80" style="color:var(--aux_colour#id#)"><use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-aux"></use></svg>'
+              html += '<svg fill="var(--aux_colour#id#)" id="aux_generator#id#" x="' + ((config#id#.battery.power.show) ? '299' : '199') + '" y="325" width="80" height="80" style="color:var(--aux_colour#id#)"><use xlink:href="plugins/APSystemsSunspec/core/template/dashboard/cmd.info.string.distribution_onduleur_APSystemsSunspec/icon.svg#icon-aux"></use></svg>'
               ///////////////
               ///  DAILY  ///
               ///////////////
