@@ -385,6 +385,7 @@
         },
         loads: {},
         grid: {
+          display_grid: true,
           animation_speed: 5,
           max_power: false,
           isHistorized:0,
@@ -457,6 +458,8 @@
       if ("#colorDanger#" != '#'+'colorDanger#') document.documentElement.style.setProperty('--color_alerte#id#', '#colorDanger#')
       if ("#force4Load#" == '1') config#id#.load.force4load = true
       ////////////////////////// GRID ////////////////////////
+      if ("#displayGrid" != '#' + 'displayGrid#' && "#displayGrid#" == '1') config#id#.grid.display_grid = true 
+      else config#id#.grid.display_grid = false
       if ("#dailyGridSellText#" != '#'+'dailyGridSellText#') config#id#.grid.daily.text_sell = "#dailyGridSellText#"
       if ("#dailyGridBuyText#" != '#'+'dailyGridBuyText#') config#id#.grid.daily.text_buy = "#dailyGridBuyText#"
       if (is_numeric('#gridMaxPower#')) config#id#.grid.max_power = '#gridMaxPower#'
@@ -1374,24 +1377,24 @@
                 y_voltage = (config#id#.solar.mppts == 1) ? ((config#id#.solars[solar].current === false) ? '172' : '184') : ((config#id#.solars[solar].current === false) ? '106' : '118')
                 y_current = (config#id#.solar.mppts == 1) ? 172 : 106
                 if (config#id#.solars[solar].energy === false) y_power + 5
-                if (solar == 1) {
+                if ((config#id#.solar.mppts <= 2 && solar == 1) || ((config#id#.solar.mppts == 3 || config#id#.solar.mppts == 4) && solar ==2) || ((config#id#.solar.mppts == 5 || config#id#.solar.mppts == 6) && solar ==3)) {
                   x_rect = (config#id#.solar.mppts == 1) ? 205 : 156 //154
                   path_solar = 'M 191 95 L 191 135 Q 191 143 199 144 L 205 144'
                   //path_solar = 'M ' + (x_rect + 35) + ' 95 L ' + (x_rect + 35) + ' 132 Q ' + (x_rect + 35) + ' 143 195 144 L 205 143'
-                } else if (solar == 2) {
+                } else if ((config#id#.solar.mppts == 2 && solar ==2) || ((config#id#.solar.mppts == 3 || config#id#.solar.mppts == 4) && solar ==3) || ((config#id#.solar.mppts == 5 || config#id#.solar.mppts == 6) && solar ==4)) {
                   x_rect = 254
                   x_voltage = x_current = x_rect + 30
                   path_solar = 'M 289 95 L 289 135 Q 289 143 281 144 L 275 144'
-                } else if (solar == 3) {
+                } else if (((config#id#.solar.mppts == 3 || config#id#.solar.mppts == 4) && solar ==1) || ((config#id#.solar.mppts == 5 || config#id#.solar.mppts == 6) && solar ==2)) {
                   x_rect = 80
                   path_solar = 'M 115 95 L 115 135 Q 115 143 123 144 L 205 144'
-                } else if (solar == 4) {
+                } else if ((config#id#.solar.mppts == 4 && solar == 4) || ((config#id#.solar.mppts == 5 || config#id#.solar.mppts == 6) && solar ==5)) {
                   x_rect = 330
                   path_solar = 'M 365 95 L 365 135 Q 365 143 357 144 L 275 144'
-                } else if (solar == 5) {
+                } else if (((config#id#.solar.mppts == 5 || config#id#.solar.mppts == 6) && solar ==1)) {
                   x_rect = 2
                   path_solar = 'M 37 95 L 37 135 Q 37 143 45 144 L 205 144'
-                } else if (solar == 6) {
+                } else if (config#id#.solar.mppts == 6 && solar == 6) {
                   x_rect = 406
                   path_solar = 'M 441 95 L 441 135 Q 441 143 433 144 L 275 144'
                 }
@@ -1720,70 +1723,72 @@
             ///////////////////////////////////////////////////////
             /////////////////////  Grid ///////////////////////////
             ///////////////////////////////////////////////////////
-            html += '<!-- Grid -->'
-            html += '<rect id="grid-rect-#id#" class="" x="103" y="213" width="70" height="29.5" rx="4.42" ry="4.42" fill="none" stroke="none" pointer-events="all"/>'
-            //html += '<rect id="grid-rect-#id#" class="' + ((config#id#.blink && config#id#.grid.max_power && config#id#.grid.power >= config#id#.grid.max_power) ? 'blink#id#' : '') + '" x="103" y="213" width="70" height="29.5" rx="4.42" ry="4.42" fill="none" stroke="var(' + ((config#id#.grid.power < 0) ? '--grid-sell-colour#id#' : '--grid-buy-colour#id#') + ')" pointer-events="all"/>'
-            if (config#id#.activateGauge)
-              html += '<rect id="grid-rect-gauge-#id#" class="op-#id#" x="103" y="213" width="70" height="29.5" rx="4.42" ry="4.42" fill="var(' + ((config#id#.grid.power < 0) ? '--grid-buy-colour#id#' : '--grid-sell-colour#id#') + ')" stroke="transparent" pointer-events="all"/>'
-            ///////////////
-            ///  POWER  ///
-            ///////////////
-            html += '<text id="grid_power#id#" x="138.1" y="232.2" display="'
-            html += '" class="ft12-#id# ftw-#id# center-align#id# sh-#id# ' + ((config#id#.grid.has_grid_power && config#id#.grid.isHistorized == 1 && config#id#.grid.id) ? 'history cursor' : '') + '" fill="var(--grid_colour#id#)"'
-            html += ((config#id#.grid.has_grid_power && config#id#.grid.isHistorized == 1 && config#id#.grid.id) ? ' data-cmd_id=' + config#id#.grid.id : '')
-            html += '>'
-            html += formatMillier(Math.abs(config#id#.grid.power), config#id#.formatMillier) + ' ' + config#id#.grid.power_unit + '</text>'
-            ///////////////
-            ///  LINE   ///
-            ///////////////
-            html += '<path id="grid-line#id#" d="M 173 228 L 214 228" fill="none" stroke="var(--grid_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
-            html += '<circle id="grid-dot-buy#id#" cx="0" cy="0" r="3" fill="' + ((config#id#.grid.power < 0 || config#id#.grid.power === 0) ? 'transparent' : 'var(--grid-buy-colour#id#)') + '">'
-            html += '<animateMotion id="anim_grid_buy#id#" dur="' + config#id#.grid.animation_speed + 's" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear">'
-            html += '<mpath xlink:href="#grid-line#id#"/></animateMotion></circle>'
-            html += '<circle id="grid-dot-sell#id#" cx="0" cy="0" r="3" fill="' + ((config#id#.grid.power > 0 || config#id#.grid.power === 0) ? 'transparent' : 'var(--grid-sell-colour#id#)') + '">'
-            html += '<animateMotion id="anim_grid_sell#id#" dur="' + config#id#.grid.animation_speed + 's" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear">'
-            html += '<mpath xlink:href="#grid-line#id#"/></animateMotion></circle>'
-            // LINE GRID 1
-            html += '<path id="grid-line1#id#" d="M 103 228 L 64.5 228" fill="none" stroke="var(--grid_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
-            html += '<circle id="grid-dot1-buy#id#" cx="0" cy="0" r="3" fill="' + ((config#id#.grid.power < 0 || config#id#.grid.power === 0) ? 'transparent' : 'var(--grid-buy-colour#id#)') + '">'
-            html += '<animateMotion id="anim_grid_buy1#id#" dur="' + config#id#.grid.animation_speed + 's" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear">'
-            html += '<mpath xlink:href="#grid-line1#id#"/></animateMotion></circle>'
-            html += '<circle id="grid-dot1-sell#id#" cx="0" cy="0" r="3" fill="' + ((config#id#.grid.power > 0 || config#id#.grid.power === 0) ? 'transparent' : 'var(--grid-sell-colour#id#)') + '">'
-            html += '<animateMotion id="anim_grid_sell1#id#" dur="' + config#id#.grid.animation_speed + 's" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear">'
-            html += '<mpath xlink:href="#grid-line1#id#"/></animateMotion></circle>'
-            ///////////////
-            ///  ICON   ///
-            ///////////////
-            // OFF
-            html += '<svg id="transmission_off#id#" fill="var(--grid_colour#id#)" x="0" y="197.5" width="62" height="62" style="color:var(--no_grid_colour#id#)" class="' + (config#id#.grid.status === 1 ? 'hidden-#id#' : '') + '">'
-            html += '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-transmission-off"/>'
-            html += '</svg>'
-            // ON
-            html += '<svg id="transmission_on#id#" fill="var(--grid_colour#id#)" x="0" y="197.5" width="62" height="62" style="color:var(--grid_colour#id#)" class="' + (config#id#.grid.status === 0 ? 'hidden-#id#' : '') + '">'
-            html += '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-transmission-on"/>'
-            html += '</svg>'
-            ///////////////
-            ///  DAILY  ///
-            ///////////////
-            html += '<text id="daily_grid_buy#id#" x="5" y="292.1" class="ft9-#id# left-align#id#" fill="' + ((config#id#.grid.daily.show_buy !== true) ? 'transparent' : 'var(--grid-buy-colour#id#)') + '" >' + config#id#.grid.daily.text_buy + '</text>'
-            html += '<text id="daily_grid_sell#id#" x="5" y="189" class="ft9-#id# left-align#id#" fill="' + ((config#id#.grid.daily.show_sell !== true) ? 'transparent' : 'var(--grid-sell-colour#id#)') + '" >' + config#id#.grid.daily.text_sell + '</text>'
-            let dailyGridBuy = autoValueArray#id#(config#id#.grid.daily.buy_state,config#id#.grid.daily.buy_unit)
-            html += '<text id="daily_grid_buy_value#id#" x="5" y="277.9" class="ft16-#id# left-align#id# ' + ((config#id#.grid.daily.buy_isHistorized == 1) ? 'history cursor' : '') + '" display="' + ((config#id#.grid.daily.show_buy !== true) ? 'none' : '')
-            html += '" fill="var(--grid-buy-colour#id#)"'
-            html += ((config#id#.grid.daily.buy_isHistorized == 1 && config#id#.grid.daily.buy_id) ? ' data-cmd_id=' + config#id#.grid.daily.buy_id : '')
-            html += '>' + formatMillier(trunc#id#(dailyGridBuy.value, 3, 1), config#id#.formatMillier) + ' ' + dailyGridBuy.unit + '</text>'
-            let dailyGridSell = autoValueArray#id#(config#id#.grid.daily.sell_state,config#id#.grid.daily.sell_unit)
-            html += '<text id="daily_grid_sell_value#id#" x="5" y="175" class="ft16-#id# left-align#id# ' + ((config#id#.grid.daily.sell_isHistorized == 1) ? 'history cursor' : '') + '" display="' + ((config#id#.grid.daily.show_sell !== true) ? 'none' : '')
-            html += '" fill="var(--grid-sell-colour#id#)"'
-            html += ((config#id#.grid.daily.sell_isHistorized == 1 && config#id#.grid.daily.sell_id) ? ' data-cmd_id=' + config#id#.grid.daily.sell_id : '')
-            html += '>' + formatMillier(trunc#id#(dailyGridSell.value,3 , 1), config#id#.formatMillier) + ' ' + dailyGridSell.unit + '</text>'
-            ///////////////
-            ///  TEMPO  ///
-            ///////////////
-            html += '<text id="tempo_today_text#id#" x="78" y="221" class="ft12-#id# left-align#id#" fill="transparent" display=""></text>'
-            html += '<circle id="tempo_today_circle#id#" cx="66" cy="217" r="6" fill="transparent"></circle>'
-            html += '<text  id="tempo_tomorrow_text#id#" x="75" y="241" class="ft7-#id# left-align#id#" fill="transparent" display="">Demain</text>'
-            html += '<circle id="tempo_tomorrow_circle#id#" cx="66" cy="238" r="6" fill="transparent"></circle>'          
+            if (config#id#.grid.display_grid){
+              html += '<!-- Grid -->'
+              html += '<rect id="grid-rect-#id#" class="" x="103" y="213" width="70" height="29.5" rx="4.42" ry="4.42" fill="none" stroke="none" pointer-events="all"/>'
+              //html += '<rect id="grid-rect-#id#" class="' + ((config#id#.blink && config#id#.grid.max_power && config#id#.grid.power >= config#id#.grid.max_power) ? 'blink#id#' : '') + '" x="103" y="213" width="70" height="29.5" rx="4.42" ry="4.42" fill="none" stroke="var(' + ((config#id#.grid.power < 0) ? '--grid-sell-colour#id#' : '--grid-buy-colour#id#') + ')" pointer-events="all"/>'
+              if (config#id#.activateGauge)
+                html += '<rect id="grid-rect-gauge-#id#" class="op-#id#" x="103" y="213" width="70" height="29.5" rx="4.42" ry="4.42" fill="var(' + ((config#id#.grid.power < 0) ? '--grid-buy-colour#id#' : '--grid-sell-colour#id#') + ')" stroke="transparent" pointer-events="all"/>'
+              ///////////////
+              ///  POWER  ///
+              ///////////////
+              html += '<text id="grid_power#id#" x="138.1" y="232.2" display="'
+              html += '" class="ft12-#id# ftw-#id# center-align#id# sh-#id# ' + ((config#id#.grid.has_grid_power && config#id#.grid.isHistorized == 1 && config#id#.grid.id) ? 'history cursor' : '') + '" fill="var(--grid_colour#id#)"'
+              html += ((config#id#.grid.has_grid_power && config#id#.grid.isHistorized == 1 && config#id#.grid.id) ? ' data-cmd_id=' + config#id#.grid.id : '')
+              html += '>'
+              html += formatMillier(Math.abs(config#id#.grid.power), config#id#.formatMillier) + ' ' + config#id#.grid.power_unit + '</text>'
+              ///////////////
+              ///  LINE   ///
+              ///////////////
+              html += '<path id="grid-line#id#" d="M 173 228 L 214 228" fill="none" stroke="var(--grid_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
+              html += '<circle id="grid-dot-buy#id#" cx="0" cy="0" r="3" fill="' + ((config#id#.grid.power < 0 || config#id#.grid.power === 0) ? 'transparent' : 'var(--grid-buy-colour#id#)') + '">'
+              html += '<animateMotion id="anim_grid_buy#id#" dur="' + config#id#.grid.animation_speed + 's" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear">'
+              html += '<mpath xlink:href="#grid-line#id#"/></animateMotion></circle>'
+              html += '<circle id="grid-dot-sell#id#" cx="0" cy="0" r="3" fill="' + ((config#id#.grid.power > 0 || config#id#.grid.power === 0) ? 'transparent' : 'var(--grid-sell-colour#id#)') + '">'
+              html += '<animateMotion id="anim_grid_sell#id#" dur="' + config#id#.grid.animation_speed + 's" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear">'
+              html += '<mpath xlink:href="#grid-line#id#"/></animateMotion></circle>'
+              // LINE GRID 1
+              html += '<path id="grid-line1#id#" d="M 103 228 L 64.5 228" fill="none" stroke="var(--grid_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
+              html += '<circle id="grid-dot1-buy#id#" cx="0" cy="0" r="3" fill="' + ((config#id#.grid.power < 0 || config#id#.grid.power === 0) ? 'transparent' : 'var(--grid-buy-colour#id#)') + '">'
+              html += '<animateMotion id="anim_grid_buy1#id#" dur="' + config#id#.grid.animation_speed + 's" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear">'
+              html += '<mpath xlink:href="#grid-line1#id#"/></animateMotion></circle>'
+              html += '<circle id="grid-dot1-sell#id#" cx="0" cy="0" r="3" fill="' + ((config#id#.grid.power > 0 || config#id#.grid.power === 0) ? 'transparent' : 'var(--grid-sell-colour#id#)') + '">'
+              html += '<animateMotion id="anim_grid_sell1#id#" dur="' + config#id#.grid.animation_speed + 's" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear">'
+              html += '<mpath xlink:href="#grid-line1#id#"/></animateMotion></circle>'
+              ///////////////
+              ///  ICON   ///
+              ///////////////
+              // OFF
+              html += '<svg id="transmission_off#id#" fill="var(--grid_colour#id#)" x="0" y="197.5" width="62" height="62" style="color:var(--no_grid_colour#id#)" class="' + (config#id#.grid.status === 1 ? 'hidden-#id#' : '') + '">'
+              html += '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-transmission-off"/>'
+              html += '</svg>'
+              // ON
+              html += '<svg id="transmission_on#id#" fill="var(--grid_colour#id#)" x="0" y="197.5" width="62" height="62" style="color:var(--grid_colour#id#)" class="' + (config#id#.grid.status === 0 ? 'hidden-#id#' : '') + '">'
+              html += '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-transmission-on"/>'
+              html += '</svg>'
+              ///////////////
+              ///  DAILY  ///
+              ///////////////
+              html += '<text id="daily_grid_buy#id#" x="5" y="292.1" class="ft9-#id# left-align#id#" fill="' + ((config#id#.grid.daily.show_buy !== true) ? 'transparent' : 'var(--grid-buy-colour#id#)') + '" >' + config#id#.grid.daily.text_buy + '</text>'
+              html += '<text id="daily_grid_sell#id#" x="5" y="189" class="ft9-#id# left-align#id#" fill="' + ((config#id#.grid.daily.show_sell !== true) ? 'transparent' : 'var(--grid-sell-colour#id#)') + '" >' + config#id#.grid.daily.text_sell + '</text>'
+              let dailyGridBuy = autoValueArray#id#(config#id#.grid.daily.buy_state,config#id#.grid.daily.buy_unit)
+              html += '<text id="daily_grid_buy_value#id#" x="5" y="277.9" class="ft16-#id# left-align#id# ' + ((config#id#.grid.daily.buy_isHistorized == 1) ? 'history cursor' : '') + '" display="' + ((config#id#.grid.daily.show_buy !== true) ? 'none' : '')
+              html += '" fill="var(--grid-buy-colour#id#)"'
+              html += ((config#id#.grid.daily.buy_isHistorized == 1 && config#id#.grid.daily.buy_id) ? ' data-cmd_id=' + config#id#.grid.daily.buy_id : '')
+              html += '>' + formatMillier(trunc#id#(dailyGridBuy.value, 3, 1), config#id#.formatMillier) + ' ' + dailyGridBuy.unit + '</text>'
+              let dailyGridSell = autoValueArray#id#(config#id#.grid.daily.sell_state,config#id#.grid.daily.sell_unit)
+              html += '<text id="daily_grid_sell_value#id#" x="5" y="175" class="ft16-#id# left-align#id# ' + ((config#id#.grid.daily.sell_isHistorized == 1) ? 'history cursor' : '') + '" display="' + ((config#id#.grid.daily.show_sell !== true) ? 'none' : '')
+              html += '" fill="var(--grid-sell-colour#id#)"'
+              html += ((config#id#.grid.daily.sell_isHistorized == 1 && config#id#.grid.daily.sell_id) ? ' data-cmd_id=' + config#id#.grid.daily.sell_id : '')
+              html += '>' + formatMillier(trunc#id#(dailyGridSell.value,3 , 1), config#id#.formatMillier) + ' ' + dailyGridSell.unit + '</text>'
+              ///////////////
+              ///  TEMPO  ///
+              ///////////////
+              html += '<text id="tempo_today_text#id#" x="78" y="221" class="ft12-#id# left-align#id#" fill="transparent" display=""></text>'
+              html += '<circle id="tempo_today_circle#id#" cx="66" cy="217" r="6" fill="transparent"></circle>'
+              html += '<text  id="tempo_tomorrow_text#id#" x="75" y="241" class="ft7-#id# left-align#id#" fill="transparent" display="">Demain</text>'
+              html += '<circle id="tempo_tomorrow_circle#id#" cx="66" cy="238" r="6" fill="transparent"></circle>'  
+            }        
             ///////////////////////////////////////////////////////
             ////////////////////// Battery ////////////////////////
             ///////////////////////////////////////////////////////
@@ -2832,6 +2837,7 @@
       <div>activateGaugeRatio : Passer ce paramètre a 0 pour désactiver la gauge ratio.</div>
       <div>sizeGaugeRatio : Taille de la gauge ratio. [ 1 a 10 | défaut : 4]</div>
       <div> ------------ Grid ------------</div>
+      <div>displayGrid : Affiche ou fait disparaitre tous les éléments concernant le réseau électrique. (0 ou 1, défaut : 1)</div>
       <div>dailyGridSellText : Personnalisation du texte. (défaut : DAILY GRID SELL)</div>
       <div>dailyGridBuyText : Personnalisation du texte. (défaut : DAILY GRID BUYL)</div>
       <div>gridMaxPower : Puissance max de consommation. (permet la gestion, de la vitesse de l'animation, de la gauge et des alertes)</div>
