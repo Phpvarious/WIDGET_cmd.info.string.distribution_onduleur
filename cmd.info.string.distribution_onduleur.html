@@ -172,11 +172,11 @@
         log#id#('| getBatteryIcon() -> ' + value + ' | ' + full_capacity + ' | ' + empty_capacity + ' | ' + icon_perso)
         let available = full_capacity - empty_capacity
         let value_pourcent = Math.trunc(value * available / 100)
-        if (value_pourcent <= 0) return '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-battery-0"/>';
-        else if (value_pourcent < 50) return '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-battery-25"/>';
-        else if (value_pourcent < 75) return '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-battery-50"/>';
-        else if (value_pourcent < 100) return '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-battery-75"/>';
-        else return '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-battery-100"/>';
+        if (value_pourcent <= 0) return '<use xlink:href="plugins/APSystemsSunspec/core/template/dashboard/cmd.info.string.distribution_onduleur_APSystemsSunspec/icon.svg#icon-battery-0"/>';
+        else if (value_pourcent < 50) return '<use xlink:href="plugins/APSystemsSunspec/core/template/dashboard/cmd.info.string.distribution_onduleur_APSystemsSunspec/icon.svg#icon-battery-25"/>';
+        else if (value_pourcent < 75) return '<use xlink:href="plugins/APSystemsSunspec/core/template/dashboard/cmd.info.string.distribution_onduleur_APSystemsSunspec/icon.svg#icon-battery-50"/>';
+        else if (value_pourcent < 100) return '<use xlink:href="plugins/APSystemsSunspec/core/template/dashboard/cmd.info.string.distribution_onduleur_APSystemsSunspec/icon.svg#icon-battery-75"/>';
+        else return '<use xlink:href="plugins/APSystemsSunspec/core/template/dashboard/cmd.info.string.distribution_onduleur_APSystemsSunspec/icon.svg#icon-battery-100"/>';
       }
       
       function numIsPair(n) {
@@ -385,6 +385,7 @@
         },
         loads: {},
         grid: {
+          display_grid: true,
           animation_speed: 5,
           max_power: false,
           isHistorized:0,
@@ -457,6 +458,8 @@
       if ("#colorDanger#" != '#'+'colorDanger#') document.documentElement.style.setProperty('--color_alerte#id#', '#colorDanger#')
       if ("#force4Load#" == '1') config#id#.load.force4load = true
       ////////////////////////// GRID ////////////////////////
+      if ("#displayGrid" != '#' + 'displayGrid#' && "#displayGrid#" == '1') config#id#.grid.display_grid = true 
+      else config#id#.grid.display_grid = false
       if ("#dailyGridSellText#" != '#'+'dailyGridSellText#') config#id#.grid.daily.text_sell = "#dailyGridSellText#"
       if ("#dailyGridBuyText#" != '#'+'dailyGridBuyText#') config#id#.grid.daily.text_buy = "#dailyGridBuyText#"
       if (is_numeric('#gridMaxPower#')) config#id#.grid.max_power = '#gridMaxPower#'
@@ -508,20 +511,20 @@
           //console.table(cmds)
           for (j in cmds) {
             //console.table(cmds[j])
-            cmds[j].name = cmds[j].name.toLowerCase();
-            cmds[j].name = cmds[j].name.replace(/é/g, 'e');
-            cmds[j].name = cmds[j].name.replace(/_/g, ' ');
+            cmds[j].configuration['widget'] = cmds[j].configuration['widget'].toLowerCase();
+            cmds[j].configuration['widget'] = cmds[j].configuration['widget'].replace(/é/g, 'e');
+            cmds[j].configuration['widget'] = cmds[j].configuration['widget'].replace(/_/g, ' ');
             let id_eql = cmds[j].id
-            let name = cmds[j].name
-            let iPv = cmds[j].name[2]
-            let iLoad = cmds[j].name[4]
-            let iPerso = cmds[j].name[5]
-            let type = cmds[j].name.split(' ')
+            let name = cmds[j].configuration['widget']
+            let iPv = cmds[j].configuration['widget'][2]
+            let iLoad = cmds[j].configuration['widget'][4]
+            let iPerso = cmds[j].configuration['widget'][5]
+            let type = cmds[j].configuration['widget'].split(' ')
             /////////////////////////////////////////////////////////////////////////
             //////////////////////////// LOADS //////////////////////////////////////
             /////////////////////////////////////////////////////////////////////////
             if (type[0].substring(0, 4) == 'load' && iLoad >= 1) {
-              if (cmds[j].name[5] != ' ' && cmds[j].name[5] >= 0) iLoad = iLoad * 10 + parseInt(cmds[j].name[5])
+              if (cmds[j].configuration['widget'][5] != ' ' && cmds[j].configuration['widget'][5] >= 0) iLoad = iLoad * 10 + parseInt(cmds[j].configuration['widget'][5])
               if (type[1] == 'state') type[1] = 'power' // workaround pour ne pas modifier le nom équipements d'origines.
               jeedom.cmd.execute({
                 id: id_eql,
@@ -611,7 +614,7 @@
             ////////////////////////////// PVs //////////////////////////////////////
             /////////////////////////////////////////////////////////////////////////          
             if (type[0].substring(0, 2) == 'pv' && iPv >= 1) {
-              if (cmds[j].name[3] != ' ' && cmds[j].name[3] >= 0) iPv = iPv * 10 + parseInt(cmds[j].name[3])
+              if (cmds[j].configuration['widget'][3] != ' ' && cmds[j].configuration['widget'][3] >= 0) iPv = iPv * 10 + parseInt(cmds[j].configuration['widget'][3])
               if (type[1] == 'state') type[1] = 'power' // workaround pour ne pas modifier le nom équipements d'origines.
               jeedom.cmd.execute({
                 id: id_eql,
@@ -698,7 +701,7 @@
             //////////////////////////// PERSO //////////////////////////////////////
             /////////////////////////////////////////////////////////////////////////
             if (type[0].substring(0, 5) == 'perso' && iPerso >= 1) {
-              if (cmds[j].name[6] != ' ' && cmds[j].name[6] >= 0) iPerso = iPerso * 10 + parseInt(cmds[j].name[6])
+              if (cmds[j].configuration['widget'][6] != ' ' && cmds[j].configuration['widget'][6] >= 0) iPerso = iPerso * 10 + parseInt(cmds[j].configuration['widget'][6])
               if (isset(parameters#id#['perso'+iPerso+'Param']) && type[1] == 'state') {
                 let param = parameters#id#['perso'+iPerso+'Param'].split(",")
                 if (param.length >= 2) {
@@ -750,7 +753,7 @@
                 }
               }
             }
-            switch (cmds[j].name) {
+            switch (cmds[j].configuration['widget']) {
               ///////////////////////////////////////////////////////////////////////
               ////////////////////////////////  pv power ////////////////////////////
               ///////////////////////////////////////////////////////////////////////
@@ -1374,24 +1377,24 @@
                 y_voltage = (config#id#.solar.mppts == 1) ? ((config#id#.solars[solar].current === false) ? '172' : '184') : ((config#id#.solars[solar].current === false) ? '106' : '118')
                 y_current = (config#id#.solar.mppts == 1) ? 172 : 106
                 if (config#id#.solars[solar].energy === false) y_power + 5
-                if (solar == 1) {
+                if ((config#id#.solar.mppts <= 2 && solar == 1) || ((config#id#.solar.mppts == 3 || config#id#.solar.mppts == 4) && solar ==2) || ((config#id#.solar.mppts == 5 || config#id#.solar.mppts == 6) && solar ==3)) {
                   x_rect = (config#id#.solar.mppts == 1) ? 205 : 156 //154
                   path_solar = 'M 191 95 L 191 135 Q 191 143 199 144 L 205 144'
                   //path_solar = 'M ' + (x_rect + 35) + ' 95 L ' + (x_rect + 35) + ' 132 Q ' + (x_rect + 35) + ' 143 195 144 L 205 143'
-                } else if (solar == 2) {
+                } else if ((config#id#.solar.mppts == 2 && solar ==2) || ((config#id#.solar.mppts == 3 || config#id#.solar.mppts == 4) && solar ==3) || ((config#id#.solar.mppts == 5 || config#id#.solar.mppts == 6) && solar ==4)) {
                   x_rect = 254
                   x_voltage = x_current = x_rect + 30
                   path_solar = 'M 289 95 L 289 135 Q 289 143 281 144 L 275 144'
-                } else if (solar == 3) {
+                } else if (((config#id#.solar.mppts == 3 || config#id#.solar.mppts == 4) && solar ==1) || ((config#id#.solar.mppts == 5 || config#id#.solar.mppts == 6) && solar ==2)) {
                   x_rect = 80
                   path_solar = 'M 115 95 L 115 135 Q 115 143 123 144 L 205 144'
-                } else if (solar == 4) {
+                } else if ((config#id#.solar.mppts == 4 && solar == 4) || ((config#id#.solar.mppts == 5 || config#id#.solar.mppts == 6) && solar ==5)) {
                   x_rect = 330
                   path_solar = 'M 365 95 L 365 135 Q 365 143 357 144 L 275 144'
-                } else if (solar == 5) {
+                } else if (((config#id#.solar.mppts == 5 || config#id#.solar.mppts == 6) && solar ==1)) {
                   x_rect = 2
                   path_solar = 'M 37 95 L 37 135 Q 37 143 45 144 L 205 144'
-                } else if (solar == 6) {
+                } else if (config#id#.solar.mppts == 6 && solar == 6) {
                   x_rect = 406
                   path_solar = 'M 441 95 L 441 135 Q 441 143 433 144 L 275 144'
                 }
@@ -1500,7 +1503,7 @@
               //html += '<svg xmlns="http://www.w3.org/2000/svg" id="icon_load#id#" x="402" y="177.5" width="79" height="79" viewBox="0 0 24 24"><path fill="var(--load_colour#id#)" d="M15 9h1V7.5h4V9h1c.55 0 1 .45 1 1v11c0 .55-.45 1-1 1h-6c-.55 0-1-.45-1-1V10c0-.55.45-1 1-1m1 2v3h4v-3h-4m-4-5.31l-5 4.5V18h5v2H5v-8H2l10-9l2.78 2.5H14v1.67l-.24.1L12 5.69Z"/></svg>'
               // ICON LOAD NONESS
               if (config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) {
-                html += '<svg fill="var(--load_colour#id#)" id="icon_load#id#" x="400" y="185" width="80" height="80" style="color:var(--load_colour#id#)"><use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-load"></use></svg>'
+                html += '<svg fill="var(--load_colour#id#)" id="icon_load#id#" x="400" y="185" width="80" height="80" style="color:var(--load_colour#id#)"><use xlink:href="plugins/APSystemsSunspec/core/template/dashboard/cmd.info.string.distribution_onduleur_APSystemsSunspec/icon.svg#icon-load"></use></svg>'
                 /*
                 html += '<svg x="400" y="188">'
                 html += '<circle id="solar_circle" class="circle#id#" stroke="var(--solar_colour#id#)" fill="none" cx="40" cy="40" r="35" stroke-dasharray="0 1" shape-rendering="geometricPrecision" stroke-dashoffset=""/>'
@@ -1701,7 +1704,7 @@
                       html += '<svg xmlns="http://www.w3.org/2000/svg" x="' + (x_icon + i * 35) + '" y="' + y_icon + '" width="25" height="25" viewBox="0 0 25 25" opacity="1"><image xlink:href="' + icon[i].trim() + '" x="0" y="0" height="25" width="25"/></svg>'
                     } else {
                       html += '<svg fill="var(--load_colour#id#)" x="' + (x_icon + i * 35) + '" y="' + y_icon + '" width="25" height="25" style="color:var(--load_colour#id#)">'
-                      html += '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-' + icon[i].trim() + '"/>'
+                      html += '<use xlink:href="plugins/APSystemsSunspec/core/template/dashboard/cmd.info.string.distribution_onduleur_APSystemsSunspec/icon.svg#icon-' + icon[i].trim() + '"/>'
                       html += '</svg>'
                     }
                     if (i == 1) break
@@ -1720,70 +1723,72 @@
             ///////////////////////////////////////////////////////
             /////////////////////  Grid ///////////////////////////
             ///////////////////////////////////////////////////////
-            html += '<!-- Grid -->'
-            html += '<rect id="grid-rect-#id#" class="" x="103" y="213" width="70" height="29.5" rx="4.42" ry="4.42" fill="none" stroke="none" pointer-events="all"/>'
-            //html += '<rect id="grid-rect-#id#" class="' + ((config#id#.blink && config#id#.grid.max_power && config#id#.grid.power >= config#id#.grid.max_power) ? 'blink#id#' : '') + '" x="103" y="213" width="70" height="29.5" rx="4.42" ry="4.42" fill="none" stroke="var(' + ((config#id#.grid.power < 0) ? '--grid-sell-colour#id#' : '--grid-buy-colour#id#') + ')" pointer-events="all"/>'
-            if (config#id#.activateGauge)
-              html += '<rect id="grid-rect-gauge-#id#" class="op-#id#" x="103" y="213" width="70" height="29.5" rx="4.42" ry="4.42" fill="var(' + ((config#id#.grid.power < 0) ? '--grid-buy-colour#id#' : '--grid-sell-colour#id#') + ')" stroke="transparent" pointer-events="all"/>'
-            ///////////////
-            ///  POWER  ///
-            ///////////////
-            html += '<text id="grid_power#id#" x="138.1" y="232.2" display="'
-            html += '" class="ft12-#id# ftw-#id# center-align#id# sh-#id# ' + ((config#id#.grid.has_grid_power && config#id#.grid.isHistorized == 1 && config#id#.grid.id) ? 'history cursor' : '') + '" fill="var(--grid_colour#id#)"'
-            html += ((config#id#.grid.has_grid_power && config#id#.grid.isHistorized == 1 && config#id#.grid.id) ? ' data-cmd_id=' + config#id#.grid.id : '')
-            html += '>'
-            html += formatMillier(Math.abs(config#id#.grid.power), config#id#.formatMillier) + ' ' + config#id#.grid.power_unit + '</text>'
-            ///////////////
-            ///  LINE   ///
-            ///////////////
-            html += '<path id="grid-line#id#" d="M 173 228 L 214 228" fill="none" stroke="var(--grid_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
-            html += '<circle id="grid-dot-buy#id#" cx="0" cy="0" r="3" fill="' + ((config#id#.grid.power < 0 || config#id#.grid.power === 0) ? 'transparent' : 'var(--grid-buy-colour#id#)') + '">'
-            html += '<animateMotion id="anim_grid_buy#id#" dur="' + config#id#.grid.animation_speed + 's" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear">'
-            html += '<mpath xlink:href="#grid-line#id#"/></animateMotion></circle>'
-            html += '<circle id="grid-dot-sell#id#" cx="0" cy="0" r="3" fill="' + ((config#id#.grid.power > 0 || config#id#.grid.power === 0) ? 'transparent' : 'var(--grid-sell-colour#id#)') + '">'
-            html += '<animateMotion id="anim_grid_sell#id#" dur="' + config#id#.grid.animation_speed + 's" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear">'
-            html += '<mpath xlink:href="#grid-line#id#"/></animateMotion></circle>'
-            // LINE GRID 1
-            html += '<path id="grid-line1#id#" d="M 103 228 L 64.5 228" fill="none" stroke="var(--grid_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
-            html += '<circle id="grid-dot1-buy#id#" cx="0" cy="0" r="3" fill="' + ((config#id#.grid.power < 0 || config#id#.grid.power === 0) ? 'transparent' : 'var(--grid-buy-colour#id#)') + '">'
-            html += '<animateMotion id="anim_grid_buy1#id#" dur="' + config#id#.grid.animation_speed + 's" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear">'
-            html += '<mpath xlink:href="#grid-line1#id#"/></animateMotion></circle>'
-            html += '<circle id="grid-dot1-sell#id#" cx="0" cy="0" r="3" fill="' + ((config#id#.grid.power > 0 || config#id#.grid.power === 0) ? 'transparent' : 'var(--grid-sell-colour#id#)') + '">'
-            html += '<animateMotion id="anim_grid_sell1#id#" dur="' + config#id#.grid.animation_speed + 's" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear">'
-            html += '<mpath xlink:href="#grid-line1#id#"/></animateMotion></circle>'
-            ///////////////
-            ///  ICON   ///
-            ///////////////
-            // OFF
-            html += '<svg id="transmission_off#id#" fill="var(--grid_colour#id#)" x="0" y="197.5" width="62" height="62" style="color:var(--no_grid_colour#id#)" class="' + (config#id#.grid.status === 1 ? 'hidden-#id#' : '') + '">'
-            html += '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-transmission-off"/>'
-            html += '</svg>'
-            // ON
-            html += '<svg id="transmission_on#id#" fill="var(--grid_colour#id#)" x="0" y="197.5" width="62" height="62" style="color:var(--grid_colour#id#)" class="' + (config#id#.grid.status === 0 ? 'hidden-#id#' : '') + '">'
-            html += '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-transmission-on"/>'
-            html += '</svg>'
-            ///////////////
-            ///  DAILY  ///
-            ///////////////
-            html += '<text id="daily_grid_buy#id#" x="5" y="292.1" class="ft9-#id# left-align#id#" fill="' + ((config#id#.grid.daily.show_buy !== true) ? 'transparent' : 'var(--grid-buy-colour#id#)') + '" >' + config#id#.grid.daily.text_buy + '</text>'
-            html += '<text id="daily_grid_sell#id#" x="5" y="189" class="ft9-#id# left-align#id#" fill="' + ((config#id#.grid.daily.show_sell !== true) ? 'transparent' : 'var(--grid-sell-colour#id#)') + '" >' + config#id#.grid.daily.text_sell + '</text>'
-            let dailyGridBuy = autoValueArray#id#(config#id#.grid.daily.buy_state,config#id#.grid.daily.buy_unit)
-            html += '<text id="daily_grid_buy_value#id#" x="5" y="277.9" class="ft16-#id# left-align#id# ' + ((config#id#.grid.daily.buy_isHistorized == 1) ? 'history cursor' : '') + '" display="' + ((config#id#.grid.daily.show_buy !== true) ? 'none' : '')
-            html += '" fill="var(--grid-buy-colour#id#)"'
-            html += ((config#id#.grid.daily.buy_isHistorized == 1 && config#id#.grid.daily.buy_id) ? ' data-cmd_id=' + config#id#.grid.daily.buy_id : '')
-            html += '>' + formatMillier(trunc#id#(dailyGridBuy.value, 3, 1), config#id#.formatMillier) + ' ' + dailyGridBuy.unit + '</text>'
-            let dailyGridSell = autoValueArray#id#(config#id#.grid.daily.sell_state,config#id#.grid.daily.sell_unit)
-            html += '<text id="daily_grid_sell_value#id#" x="5" y="175" class="ft16-#id# left-align#id# ' + ((config#id#.grid.daily.sell_isHistorized == 1) ? 'history cursor' : '') + '" display="' + ((config#id#.grid.daily.show_sell !== true) ? 'none' : '')
-            html += '" fill="var(--grid-sell-colour#id#)"'
-            html += ((config#id#.grid.daily.sell_isHistorized == 1 && config#id#.grid.daily.sell_id) ? ' data-cmd_id=' + config#id#.grid.daily.sell_id : '')
-            html += '>' + formatMillier(trunc#id#(dailyGridSell.value,3 , 1), config#id#.formatMillier) + ' ' + dailyGridSell.unit + '</text>'
-            ///////////////
-            ///  TEMPO  ///
-            ///////////////
-            html += '<text id="tempo_today_text#id#" x="78" y="221" class="ft12-#id# left-align#id#" fill="transparent" display=""></text>'
-            html += '<circle id="tempo_today_circle#id#" cx="66" cy="217" r="6" fill="transparent"></circle>'
-            html += '<text  id="tempo_tomorrow_text#id#" x="75" y="241" class="ft7-#id# left-align#id#" fill="transparent" display="">Demain</text>'
-            html += '<circle id="tempo_tomorrow_circle#id#" cx="66" cy="238" r="6" fill="transparent"></circle>'          
+            if (config#id#.grid.display_grid){
+              html += '<!-- Grid -->'
+              html += '<rect id="grid-rect-#id#" class="" x="103" y="213" width="70" height="29.5" rx="4.42" ry="4.42" fill="none" stroke="none" pointer-events="all"/>'
+              //html += '<rect id="grid-rect-#id#" class="' + ((config#id#.blink && config#id#.grid.max_power && config#id#.grid.power >= config#id#.grid.max_power) ? 'blink#id#' : '') + '" x="103" y="213" width="70" height="29.5" rx="4.42" ry="4.42" fill="none" stroke="var(' + ((config#id#.grid.power < 0) ? '--grid-sell-colour#id#' : '--grid-buy-colour#id#') + ')" pointer-events="all"/>'
+              if (config#id#.activateGauge)
+                html += '<rect id="grid-rect-gauge-#id#" class="op-#id#" x="103" y="213" width="70" height="29.5" rx="4.42" ry="4.42" fill="var(' + ((config#id#.grid.power < 0) ? '--grid-buy-colour#id#' : '--grid-sell-colour#id#') + ')" stroke="transparent" pointer-events="all"/>'
+              ///////////////
+              ///  POWER  ///
+              ///////////////
+              html += '<text id="grid_power#id#" x="138.1" y="232.2" display="'
+              html += '" class="ft12-#id# ftw-#id# center-align#id# sh-#id# ' + ((config#id#.grid.has_grid_power && config#id#.grid.isHistorized == 1 && config#id#.grid.id) ? 'history cursor' : '') + '" fill="var(--grid_colour#id#)"'
+              html += ((config#id#.grid.has_grid_power && config#id#.grid.isHistorized == 1 && config#id#.grid.id) ? ' data-cmd_id=' + config#id#.grid.id : '')
+              html += '>'
+              html += formatMillier(Math.abs(config#id#.grid.power), config#id#.formatMillier) + ' ' + config#id#.grid.power_unit + '</text>'
+              ///////////////
+              ///  LINE   ///
+              ///////////////
+              html += '<path id="grid-line#id#" d="M 173 228 L 214 228" fill="none" stroke="var(--grid_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
+              html += '<circle id="grid-dot-buy#id#" cx="0" cy="0" r="3" fill="' + ((config#id#.grid.power < 0 || config#id#.grid.power === 0) ? 'transparent' : 'var(--grid-buy-colour#id#)') + '">'
+              html += '<animateMotion id="anim_grid_buy#id#" dur="' + config#id#.grid.animation_speed + 's" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear">'
+              html += '<mpath xlink:href="#grid-line#id#"/></animateMotion></circle>'
+              html += '<circle id="grid-dot-sell#id#" cx="0" cy="0" r="3" fill="' + ((config#id#.grid.power > 0 || config#id#.grid.power === 0) ? 'transparent' : 'var(--grid-sell-colour#id#)') + '">'
+              html += '<animateMotion id="anim_grid_sell#id#" dur="' + config#id#.grid.animation_speed + 's" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear">'
+              html += '<mpath xlink:href="#grid-line#id#"/></animateMotion></circle>'
+              // LINE GRID 1
+              html += '<path id="grid-line1#id#" d="M 103 228 L 64.5 228" fill="none" stroke="var(--grid_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
+              html += '<circle id="grid-dot1-buy#id#" cx="0" cy="0" r="3" fill="' + ((config#id#.grid.power < 0 || config#id#.grid.power === 0) ? 'transparent' : 'var(--grid-buy-colour#id#)') + '">'
+              html += '<animateMotion id="anim_grid_buy1#id#" dur="' + config#id#.grid.animation_speed + 's" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear">'
+              html += '<mpath xlink:href="#grid-line1#id#"/></animateMotion></circle>'
+              html += '<circle id="grid-dot1-sell#id#" cx="0" cy="0" r="3" fill="' + ((config#id#.grid.power > 0 || config#id#.grid.power === 0) ? 'transparent' : 'var(--grid-sell-colour#id#)') + '">'
+              html += '<animateMotion id="anim_grid_sell1#id#" dur="' + config#id#.grid.animation_speed + 's" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear">'
+              html += '<mpath xlink:href="#grid-line1#id#"/></animateMotion></circle>'
+              ///////////////
+              ///  ICON   ///
+              ///////////////
+              // OFF
+              html += '<svg id="transmission_off#id#" fill="var(--grid_colour#id#)" x="0" y="197.5" width="62" height="62" style="color:var(--no_grid_colour#id#)" class="' + (config#id#.grid.status === 1 ? 'hidden-#id#' : '') + '">'
+              html += '<use xlink:href="plugins/APSystemsSunspec/core/template/dashboard/cmd.info.string.distribution_onduleur_APSystemsSunspec/icon.svg#icon-transmission-off"/>'
+              html += '</svg>'
+              // ON
+              html += '<svg id="transmission_on#id#" fill="var(--grid_colour#id#)" x="0" y="197.5" width="62" height="62" style="color:var(--grid_colour#id#)" class="' + (config#id#.grid.status === 0 ? 'hidden-#id#' : '') + '">'
+              html += '<use xlink:href="plugins/APSystemsSunspec/core/template/dashboard/cmd.info.string.distribution_onduleur_APSystemsSunspec/icon.svg#icon-transmission-on"/>'
+              html += '</svg>'
+              ///////////////
+              ///  DAILY  ///
+              ///////////////
+              html += '<text id="daily_grid_buy#id#" x="5" y="292.1" class="ft9-#id# left-align#id#" fill="' + ((config#id#.grid.daily.show_buy !== true) ? 'transparent' : 'var(--grid-buy-colour#id#)') + '" >' + config#id#.grid.daily.text_buy + '</text>'
+              html += '<text id="daily_grid_sell#id#" x="5" y="189" class="ft9-#id# left-align#id#" fill="' + ((config#id#.grid.daily.show_sell !== true) ? 'transparent' : 'var(--grid-sell-colour#id#)') + '" >' + config#id#.grid.daily.text_sell + '</text>'
+              let dailyGridBuy = autoValueArray#id#(config#id#.grid.daily.buy_state,config#id#.grid.daily.buy_unit)
+              html += '<text id="daily_grid_buy_value#id#" x="5" y="277.9" class="ft16-#id# left-align#id# ' + ((config#id#.grid.daily.buy_isHistorized == 1) ? 'history cursor' : '') + '" display="' + ((config#id#.grid.daily.show_buy !== true) ? 'none' : '')
+              html += '" fill="var(--grid-buy-colour#id#)"'
+              html += ((config#id#.grid.daily.buy_isHistorized == 1 && config#id#.grid.daily.buy_id) ? ' data-cmd_id=' + config#id#.grid.daily.buy_id : '')
+              html += '>' + formatMillier(trunc#id#(dailyGridBuy.value, 3, 1), config#id#.formatMillier) + ' ' + dailyGridBuy.unit + '</text>'
+              let dailyGridSell = autoValueArray#id#(config#id#.grid.daily.sell_state,config#id#.grid.daily.sell_unit)
+              html += '<text id="daily_grid_sell_value#id#" x="5" y="175" class="ft16-#id# left-align#id# ' + ((config#id#.grid.daily.sell_isHistorized == 1) ? 'history cursor' : '') + '" display="' + ((config#id#.grid.daily.show_sell !== true) ? 'none' : '')
+              html += '" fill="var(--grid-sell-colour#id#)"'
+              html += ((config#id#.grid.daily.sell_isHistorized == 1 && config#id#.grid.daily.sell_id) ? ' data-cmd_id=' + config#id#.grid.daily.sell_id : '')
+              html += '>' + formatMillier(trunc#id#(dailyGridSell.value,3 , 1), config#id#.formatMillier) + ' ' + dailyGridSell.unit + '</text>'
+              ///////////////
+              ///  TEMPO  ///
+              ///////////////
+              html += '<text id="tempo_today_text#id#" x="78" y="221" class="ft12-#id# left-align#id#" fill="transparent" display=""></text>'
+              html += '<circle id="tempo_today_circle#id#" cx="66" cy="217" r="6" fill="transparent"></circle>'
+              html += '<text  id="tempo_tomorrow_text#id#" x="75" y="241" class="ft7-#id# left-align#id#" fill="transparent" display="">Demain</text>'
+              html += '<circle id="tempo_tomorrow_circle#id#" cx="66" cy="238" r="6" fill="transparent"></circle>'  
+            }        
             ///////////////////////////////////////////////////////
             ////////////////////// Battery ////////////////////////
             ///////////////////////////////////////////////////////
@@ -1863,7 +1868,7 @@
                   html += '<svg xmlns="http://www.w3.org/2000/svg" id="icon_bat#id#" x="' + x_icon + '" y="' + y_icon + '" width="60" height="60" viewBox="0 0 60 60" opacity="1"><image xlink:href="' + config#id#.battery.icon + '" x="0" y="0" height="60" width="60"/></svg>'
                 } else {
                   html += '<svg fill="var(--battery-state#id#)" x="' + x_icon + '" y="' + y_icon + '" width="60" height="60" style="color:var(--battery_colour#id#)">'
-                  html += '<use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-' + config#id#.battery.icon + '"/>'
+                  html += '<use xlink:href="plugins/APSystemsSunspec/core/template/dashboard/cmd.info.string.distribution_onduleur_APSystemsSunspec/icon.svg#icon-' + config#id#.battery.icon + '"/>'
                   html += '</svg>'
                 }
               } else {
@@ -1938,7 +1943,7 @@
               ///////////////
               ///  ICON   ///
               ///////////////
-              html += '<svg fill="var(--aux_colour#id#)" id="aux_generator#id#" x="' + ((config#id#.battery.power.show) ? '299' : '199') + '" y="325" width="80" height="80" style="color:var(--aux_colour#id#)"><use xlink:href="data/customTemplates/dashboard/cmd.info.string.distribution_onduleur/icon.svg#icon-aux"></use></svg>'
+              html += '<svg fill="var(--aux_colour#id#)" id="aux_generator#id#" x="' + ((config#id#.battery.power.show) ? '299' : '199') + '" y="325" width="80" height="80" style="color:var(--aux_colour#id#)"><use xlink:href="plugins/APSystemsSunspec/core/template/dashboard/cmd.info.string.distribution_onduleur_APSystemsSunspec/icon.svg#icon-aux"></use></svg>'
               ///////////////
               ///  DAILY  ///
               ///////////////
@@ -2832,6 +2837,7 @@
       <div>activateGaugeRatio : Passer ce paramètre a 0 pour désactiver la gauge ratio.</div>
       <div>sizeGaugeRatio : Taille de la gauge ratio. [ 1 a 10 | défaut : 4]</div>
       <div> ------------ Grid ------------</div>
+      <div>displayGrid : Affiche ou fait disparaitre tous les éléments concernant le réseau électrique. (0 ou 1, défaut : 1)</div>
       <div>dailyGridSellText : Personnalisation du texte. (défaut : DAILY GRID SELL)</div>
       <div>dailyGridBuyText : Personnalisation du texte. (défaut : DAILY GRID BUYL)</div>
       <div>gridMaxPower : Puissance max de consommation. (permet la gestion, de la vitesse de l'animation, de la gauge et des alertes)</div>
