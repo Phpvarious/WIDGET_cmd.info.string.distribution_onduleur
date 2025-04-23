@@ -2513,7 +2513,7 @@
           document.getElementById("grid-line#id#")?.setAttribute("stroke", color)
           document.getElementById("grid-line1#id#")?.setAttribute("stroke", color)
           
-          if (config#id#.grid.status === 1) {
+          if (config#id#.grid.status === 1 && config#id#.grid.display_grid) {
             document.getElementById("transmission_on#id#").style.color = color
             document.getElementById("transmission_off#id#").style.color = color
             if (config#id#.grid.power == 0) {
