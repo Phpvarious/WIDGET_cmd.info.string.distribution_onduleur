@@ -4,7 +4,7 @@
   Widget name : cmd.info.string.distribution_onduleur
   Author : Phpvarious
   Inspiration : https://github.com/slipx06/sunsynk-power-flow-card/tree/master
-  Last Update : 2025/05/09 19h20 - Phpvarious
+  Last Update : 2025/05/13 18h30 - Phpvarious
 
   version béta
 -->
@@ -35,7 +35,7 @@
       --background#id#: transparent;
       --no_grid_colour#id#: #db041c;
       --color_alerte#id#: red;
-      --strokeGaugeRatio-#id#: 4;
+      --strokeGaugeRatio-#id#: 5;
       --label-tempo-red#id#: #E85130;
       --label-tempo-blue#id#: #1057c8;
       --label-tempo-white#id#: #F4F4F4;
@@ -100,7 +100,7 @@
     ////////////////////// VARIABLES ///////////////////////
     ////////////////////////////////////////////////////////
     var debug#id# = ('#debug#' == 1) ? true : false
-    var versionWidget#id# = '2025/05/09 19h20'
+    var versionWidget#id# = '2025/05/13 18h30'
     //var float = false
     var timer_in#id# = false
     var unite_conversion#id# = { 'W' : [1000, 'W', 'kW', 'MW'], 'Wh' : [1000, 'Wh', 'kWh', 'MWh'], 'l' : [1000, 'l', 'm<sup>3</sup>'] }
@@ -193,6 +193,7 @@
         nombre = nombre.replace( reg, '$1' +sep +'$2');
       }
       return nombre;
+      
     }
     ////////////////////////////////////////////////////////
     //////////////////////// CONFIG ////////////////////////
@@ -442,7 +443,7 @@
     if ("#activateShadow#" != '#'+'activateShadow#' && "#activateShadow#" == '1') document.getElementById("widget#id#")?.classList.add("shadow#id#")
     if ("#shadowStyle#" != '#'+'shadowStyle#') document.documentElement.style.setProperty('--shadow-#id#', '#shadowStyle#')
     if ("#activateGaugeRatio#" != '#'+'activateGaugeRatio#' && "#activateGaugeRatio#" == '0') config#id#.activateGaugeRatio = false
-    if (is_numeric('#sizeGaugeRatio#')) document.documentElement.style.setProperty('--strokeGaugeRatio-#id#', Math.min(Math.max(1, '#sizeGaugeRatio#'), 10))
+    if (is_numeric('#sizeGaugeRatio#')) document.documentElement.style.setProperty('--strokeGaugeRatio-#id#', Math.min(Math.max(5, '#sizeGaugeRatio#'), 10))
     if ('#formatMillier#' == '1') config#id#.formatMillier = true
     ////////////////////////// Solar ///////////////////////
     if (is_numeric('#pvMaxPower#')) config#id#.solar.max_power = '#pvMaxPower#'
@@ -1475,13 +1476,6 @@
             html += '<rect id="load-rect-#id#" x="304" y="213" width="70" height="30" rx="4.5" ry="4.5" class="' + ((config#id#.has_load) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--load_colour#id#)" pointer-events="all"/>'
             if (config#id#.activateGauge)
               html += '<rect id="load-rect-gauge-#id#" class="op-#id#" x="304" y="213" width="0" height="30" rx="4.5" ry="4.5" fill="var(--load_colour#id#)" stroke="none" pointer-events="all"/>'
-            if (config#id#.activateGaugeRatio) {
-              html += '<rect id="rate-solar-#id#" x="304" y="213" width="70" height="30" rx="4.5" ry="4.5" class="circle#id# ' + ((config#id#.has_load) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--solar_colour#id#)" pointer-events="all" shape-rendering="geometricPrecision"/>'
-              html += '<rect id="rate-battery-#id#" x="304" y="213" width="70" height="30" rx="4.5" ry="4.5" class="circle#id# ' + ((config#id#.has_load) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--battery-discharge#id#)" pointer-events="all" shape-rendering="geometricPrecision"/>'
-              html += '<rect id="rate-aux-#id#" x="304" y="213" width="70" height="30" rx="4.5" ry="4.5" class="circle#id# ' + ((config#id#.has_load) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--aux_colour#id#)" pointer-events="all" shape-rendering="geometricPrecision"/>'
-              html += '<rect id="rate-grid-#id#" x="304" y="213" width="70" height="30" rx="4.5" ry="4.5" class="circle#id# ' + ((config#id#.has_load) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--grid-buy-colour#id#)" pointer-events="all" shape-rendering="geometricPrecision"/>'
-              html += '<rect id="rate-unknown-#id#" x="304" y="213" width="70" height="30" rx="4.5" ry="4.5" class="circle#id# ' + ((config#id#.has_load) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--color_alerte#id#)" pointer-events="all" shape-rendering="geometricPrecision"/>'
-            }
             
             ///////////////
             ///  POWER  ///
@@ -1498,6 +1492,13 @@
             html += '<mpath xlink:href="#es-line#id#"/></animateMotion></circle>'
             html += '<path id="es-line1#id#" class="' + ((config#id#.load.additional_loads >= 1 || config#id#.load.has_load_power) ? '' : 'hidden-#id#') + '" d="M 374 228 L 402.38 228" fill="none" stroke="var(--load_colour#id#)" stroke-width="1" stroke-miterlimit="10"  pointer-events="stroke"/>'
             html += '<circle id="es-dot#id#" cx="0" cy="0" r="3" fill="transparent"><animateMotion id="anim_load#id#" dur="' + config#id#.load.animation_speed + 's" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" calcMode="linear"><mpath xlink:href="#es-line1#id#"/></animateMotion></circle>'
+            if (config#id#.activateGaugeRatio) {
+              html += '<rect id="rate-solar-#id#" x="304" y="213" width="70" height="30" rx="4.5" ry="4.5" class="circle#id# ' + ((config#id#.has_load) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--solar_colour#id#)" pointer-events="all" shape-rendering="geometricPrecision"/>'
+              html += '<rect id="rate-battery-#id#" x="304" y="213" width="70" height="30" rx="4.5" ry="4.5" class="circle#id# ' + ((config#id#.has_load) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--battery-discharge#id#)" pointer-events="all" shape-rendering="geometricPrecision"/>'
+              html += '<rect id="rate-aux-#id#" x="304" y="213" width="70" height="30" rx="4.5" ry="4.5" class="circle#id# ' + ((config#id#.has_load) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--aux_colour#id#)" pointer-events="all" shape-rendering="geometricPrecision"/>'
+              html += '<rect id="rate-grid-#id#" x="304" y="213" width="70" height="30" rx="4.5" ry="4.5" class="circle#id# ' + ((config#id#.has_load) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--grid-buy-colour#id#)" pointer-events="all" shape-rendering="geometricPrecision"/>'
+              html += '<rect id="rate-unknown-#id#" x="304" y="213" width="70" height="30" rx="4.5" ry="4.5" class="circle#id# ' + ((config#id#.has_load) ? '' : 'hidden-#id#') + '" fill="none" stroke="var(--color_alerte#id#)" pointer-events="all" shape-rendering="geometricPrecision"/>'
+            }
             // ICON LOAD ESS
             //html += '<svg xmlns="http://www.w3.org/2000/svg" id="icon_load#id#" x="402" y="177.5" width="79" height="79" viewBox="0 0 24 24"><path fill="var(--load_colour#id#)" d="M15 9h1V7.5h4V9h1c.55 0 1 .45 1 1v11c0 .55-.45 1-1 1h-6c-.55 0-1-.45-1-1V10c0-.55.45-1 1-1m1 2v3h4v-3h-4m-4-5.31l-5 4.5V18h5v2H5v-8H2l10-9l2.78 2.5H14v1.67l-.24.1L12 5.69Z"/></svg>'
             // ICON LOAD NONESS
@@ -1957,9 +1958,9 @@
           ///////////////
           ///  ICON   ///
           ///////////////
-          let defautInverter = 'data:image/png;base64,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/GMzLdsAAAAgY0hSTQAAeiUAAICDAAD5/wAAgOkAAHUwAADqYAAAOpgAABdvkl/FRgAAAg1JREFUeNrs27FqUwEAhtHPtAg+gOAkCE6CUtBRKDiIU8FJ8A3cxNKhU5tNLIKTj+AqdBIFQXBUKBScBFfBBxCEgoO3EkIKgjUJcj7IkJub5T8kuXfImd3d3U5oo7pfXa6uVOfS3/S9+lR9rl5U+7NOWp1x7Fb1tFqz4al2rro+PO5VB9Vm9XbypNHUm7aq1zDm0tqw9dZJII+qJ9WKrebWyrD5o2mQ9eEFLaYng8FvkGc+GQv/pDw7BrnjN2NpflPujIbLWy1HG6vVzRkvfLTNXLpYnZ94vr5aXZg+a2dn54at/n3j8fh59WDi0KXRlJAWfPM4ssFyBQSIgAARECACAkRAgAiIgAARECACAkRAgAiIgAARECA63Wb9pa3xePzBNHPp4h+B9Ot/cPKVJSBABASIgAARECACAkRABASIgAARECACAkRABASIgAARECACAkRABASIgAARECACAkRABASIgAARECACAkRABASIgAARECACAkRABASIgAARECACAkRABASIgAARECACAkRABASIgAARkP8M5JsZlqbvo+qrHZamL6PqvR2Wpnejat8OS9P+qHpVHdhi4R1Ur46vsh5WRzZZWEfV5uRl77tq2y4La7t6O30fsgdlYRh7J90YPq5uV4d2+ucdDls/njy4OuPEN9W1aqO6W10dHmdt+Ff9GBAOq5cnXd3+HAAfUTcaCkLyEAAAAABJRU5ErkJggg=='
           if (config#id#.inverter.model == 'defaut') {
-            html += '<image x="214" y="196" width="50" height="64" href="' + defautInverter + '" preserveAspectRatio="none"/>'
+            html += '<svg version="1.0" xmlns="http://www.w3.org/2000/svg" x="213.5" y="189" width="54" height="79" viewBox="0 0 74 91"  preserveAspectRatio="xMidYMid meet"> '
+            html += '<g transform="translate(0.000000,91.000000) scale(0.100000,-0.100000)" fill="var(--inverter_colour#id#)" stroke="none"> <path d="M35 887 l-27 -23 0 -404 0 -404 27 -23 c26 -23 28 -23 329 -23 284 0 305 1 327 19 l24 19 0 412 0 412 -24 19 c-22 18 -43 19 -327 19 -301 0 -303 0 -329 -23z m585 -157 l0 -80 -255 0 -255 0 0 80 0 80 255 0 255 0 0 -80z m-242 -229"/> </g> </svg>'
           } else if (config#id#.inverter.model == 'none') {
             html += '<rect x="214" y="196" width="50" height="64" rx="4.5" ry="4.5" fill="none" stroke="var(--inverter_colour#id#)" pointer-events="all"></rect>'
           } else {
@@ -1970,7 +1971,7 @@
           ///////////////
           if (config#id#.inverter.lcd_state !== false) {
             html += '<text id="inverter_lcd#id#" '
-            html += 'x="' + ((config#id#.inverter.model == 'defaut' || config#id#.inverter.model == 'none') ? 239 : 269) + '" '
+            html += 'x="' + ((config#id#.inverter.model == 'defaut' || config#id#.inverter.model == 'none') ? 240 : 269) + '" '
             html += 'y="' + ((config#id#.inverter.model == 'defaut' || config#id#.inverter.model == 'none') ? 211 : 205) + '" '
             html += 'class="ft8-#id# ' + ((config#id#.inverter.model == 'defaut' || config#id#.inverter.model == 'none') ? 'center-align#id#' : 'left-align#id#') + ' ' + ((config#id#.inverter.lcd_isHistorized == 1) ? 'history cursor' : '') + '" '
             html += 'fill="var(--inverter_colour#id#)"'
@@ -2560,6 +2561,12 @@
         // grid -> négatif = injection
         //let loadFromSolar = Math.max((config#id#.solar.power - Math.abs(Math.min(config#id#.battery.power.state, 0)) - Math.abs(Math.min(config#id#.grid.power, 0))), 0)
         let loadFromSolar = Math.max((config#id#.solar.power - Math.abs(Math.min(config#id#.battery.power.state, 0)) + Math.abs(config#id#.battery.mppt.power.state) - Math.abs(Math.min(config#id#.grid.power, 0))), 0)
+        log#id#('| config#id#.battery.power.state = ' + Math.abs(Math.min(config#id#.battery.power.state, 0)))
+        log#id#('| config#id#.battery.mppt.power.state = ' + config#id#.battery.mppt.power.state)
+        log#id#('| calcul = ' + (Math.abs(Math.min(config#id#.battery.power.state, 0)) - config#id#.battery.mppt.power.state))
+        log#id#('| loadFromSolar = ' + loadFromSolar)
+        log#id#('| config#id#.solar.power = ' + config#id#.solar.power)
+        
         let loadFromBattery = Math.max(config#id#.battery.power.state, 0)
         log#id#('| loadFromBattery = ' + loadFromBattery)
         let loadFromAux = config#id#.aux.power
@@ -2592,11 +2599,12 @@
         let homeAuxCircumferenceRect = RECT_CIRCUMFERENCE#id# * loadFromAux / config#id#.load.power
         let homeGridCircumferenceRect = RECT_CIRCUMFERENCE#id# * loadFromGrid / config#id#.load.power
         let homeUnknownCircumferenceRect = RECT_CIRCUMFERENCE#id# * loadFromUnknown / config#id#.load.power
+        console.log('| RECT_CIRCUMFERENCE#id# = ' + RECT_CIRCUMFERENCE#id#)
         log#id#('| homeBatteryCircumferenceRect = ' + loadFromBattery / config#id#.load.power * 100)
-        log#id#('| homeSolarCircumferenceRect = ' + loadFromSolar / config#id#.load.power * 100)
-        log#id#('| homeAuxCircumferenceRect = ' + homeAuxCircumferenceRect)
-        log#id#('| homeGridCircumferenceRect = ' + homeGridCircumferenceRect)
-        log#id#('| homeUnknownCircumferenceRect = ' + homeUnknownCircumferenceRect)
+        console.log('| homeSolarCircumferenceRect = ' + loadFromSolar / config#id#.load.power * 100)
+        console.log('| homeAuxCircumferenceRect = ' + homeAuxCircumferenceRect)
+        console.log('| homeGridCircumferenceRect = ' + homeGridCircumferenceRect)
+        console.log('| homeUnknownCircumferenceRect = ' + homeUnknownCircumferenceRect)
         document.getElementById("rate-solar-#id#")?.setAttribute("stroke-dasharray", homeSolarCircumferenceRect + ' ' + (RECT_CIRCUMFERENCE#id# - homeSolarCircumferenceRect))
         document.getElementById("rate-solar-#id#")?.setAttribute("stroke-dashoffset", -(CIRCLE_CIRCUMFERENCE#id# - homeSolarCircumferenceRect))
         document.getElementById("rate-battery-#id#")?.setAttribute("stroke-dasharray", homeBatteryCircumferenceRect + ' ' + (RECT_CIRCUMFERENCE#id# - homeBatteryCircumferenceRect))
@@ -2797,6 +2805,9 @@
         }
       }
       log#id#('└────────────────────────────────────')
+    })
+    document.body.addEventListener('changeThemeEvent', function() {
+      
     })
     jeedom.cmd.refreshValue([{ cmd_id: '#id#', value: '#value#', display_value: '#state#', valueDate: '#valueDate#', collectDate: '#collectDate#', alertLevel: '#alertLevel#', unit: '#unite#' }])
     
